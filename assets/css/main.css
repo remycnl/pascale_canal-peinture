@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: "ApercuPro-Bold";
+	src: url("/assets/fonts/ApercuPro-Bold.ttf") format("truetype");
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "ApercuPro-Medium";
+	src: url("/assets/fonts/ApercuPro-Medium.ttf") format("truetype");
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "ApercuPro-Regular";
+	src: url("/assets/fonts/ApercuPro-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "ApercuPro-Light";
+	src: url("/assets/fonts/ApercuPro-Light.ttf") format("truetype");
+	font-weight: 300;
+	font-style: normal;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+:root {
+	--black: #222222;
+	--white: #f8f8f8;
+	--gold: #D0B285;
+	--yellow: #FFF083;
+	--cream: #FEF9E1;
+}
+
+::selection {
+	background-color: var(--black);
+	color: var(--white);
+}
+
+body {
+	background-color: var(--white);
+	color: var(--black);
+	font-family: "ApercuPro-Regular", sans-serif;
+}
+
+.text-line-animation {
+	line-height: 0.7;
+	position: relative;
+}
+
+.text-line-animation::before {
+	content: "";
+	width: 0;
+	height: 2px;
+	border-radius: 2px;
+	background-color: var(--white);
+	position: absolute;
+	bottom: -0.25rem;
+	right: 0;
+	transition: right 0.4s, width 0.4s, left 0.4s;
+}
+
+.text-line-animation:hover::before {
+	width: 100%;
+	left: 0;
+}
