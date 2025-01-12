@@ -1,4 +1,3 @@
-// plugins/smooth-scroll.client.js
 export class SmoothScroll {
 	constructor(options = {}) {
 		this.options = {

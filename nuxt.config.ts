@@ -5,11 +5,14 @@ export default defineNuxtConfig({
 	css: ["@/assets/css/main.css", "@/assets/css/scrollBar.css"],
 	modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@prisma/nuxt"],
 
-	plugins: [{ src: "@/plugins/smooth-scroll.client.js", mode: "client" }],
+	plugins: [
+		{ src: "@/plugins/smooth-scroll.client.js", mode: "client" },
+		{ src: "@/plugins/fluid-cursor-webgl.client.js", mode: "client" },
+	],
 
 	runtimeConfig: {
 		public: {
-		  NUXT_SECRET_KEY: process.env.NUXT_SECRET_KEY
-		}
-	  }
+			NUXT_SECRET_KEY: process.env.NUXT_SECRET_KEY,
+		},
+	},
 });

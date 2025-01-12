@@ -37,9 +37,9 @@ html {
 :root {
 	--black: #222222;
 	--white: #f8f8f8;
-	--gold: #D0B285;
-	--yellow: #FFF083;
-	--cream: #FEF9E1;
+	--gold: #d0b285;
+	--yellow: #fff083;
+	--cream: #fef9e1;
 }
 
 ::selection {
@@ -73,4 +73,12 @@ body {
 .text-line-animation:hover::before {
 	width: 100%;
 	left: 0;
+}
+
+#fluid {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100dvw;
+	height: 100dvh;
 }
