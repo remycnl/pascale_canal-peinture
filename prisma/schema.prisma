@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Painting {
+  id          Int       @id @default(autoincrement())
+  name        String    // Nom de la peinture
+  date        DateTime  @default(now()) // Date de création ou d'exposition
+  price       Decimal   // Prix de la peinture
+  image       String    // URL ou chemin d'image
+  type        String    // Type ou style artistique (ex : portrait, paysage, vaches, etc)
+  state       PaintingState @default(FOR_SALE) // État : "vendue" ou "à vendre"
+  slug        String    @unique // Identifiant unique (slug)
+}
+
+enum PaintingState {
+  FOR_SALE   // À vendre
+  SOLD       // Vendue
+}
