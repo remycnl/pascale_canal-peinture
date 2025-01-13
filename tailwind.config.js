@@ -16,16 +16,22 @@ export default {
 				grayDark: "#4D4D4D",
 				gold: "#D0B285",
 				yellow: "#FFF083",
-				cream:"#FEF9E1"
+				cream: "#FEF9E1",
 			},
 			fontFamily: {
-				apercuBold: ['ApercuPro-Bold', 'sans-serif'],
-				apercuLight: ['ApercuPro-Light', 'sans-serif'],
-				apercuRegular: ['ApercuPro-Regular', 'sans-serif'],
-				apercuMedium: ['ApercuPro-Medium', 'sans-serif'],
+				apercuBold: ["ApercuPro-Bold", "sans-serif"],
+				apercuLight: ["ApercuPro-Light", "sans-serif"],
+				apercuRegular: ["ApercuPro-Regular", "sans-serif"],
+				apercuMedium: ["ApercuPro-Medium", "sans-serif"],
 			},
 			borderRadius: {
-				'2sm': '0.25rem', // 4px
+				"2sm": "0.25rem", // 4px
+			},
+			scale: {
+				101: "1.01",
+			},
+			boxShadow: {
+				custom: "4px 4px 10px rgba(0, 0, 0, 0.25)",
 			},
 		},
 	},

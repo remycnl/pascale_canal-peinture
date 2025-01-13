@@ -30,6 +30,8 @@ if (error.value) {
 						:src="painting.image"
 						:alt="painting.name"
 						fit="cover"
+						format="webp"
+						loading="lazy"
 						class="w-full h-full rounded-2sm group-hover:rounded-none transition-all duration-500" />
 				</div>
 				<div
@@ -48,10 +50,6 @@ if (error.value) {
 					</div>
 					<span class="text-lg">{{ painting.price + " €" }}</span>
 				</div>
-				<!-- <p
-						class="pointer-events-none text-xl text-black font-apercuBold opacity-0 translate-y-8 group-hover:translate-y-0 group-hover:opacity-100 origin-bottom-left transition-all duration-500 absolute -rotate-90 -left-3 bottom-0">
-						Clique pour plus d'informations
-					</p> -->
 			</NuxtLink>
 		</div>
 	</div>

@@ -1,4 +1,3 @@
-// server/api/secret/painting.post.js
 import { PrismaClient } from "@prisma/client";
 import { writeFile } from "fs/promises";
 import { join } from "path";
@@ -41,14 +40,17 @@ export default defineEventHandler(async (event) => {
 		const painting = await prisma.painting.create({
 			data: {
 				name: getFieldValue("name"),
+				description: getFieldValue("description"),
+				date: getFieldValue("date") ? new Date(getFieldValue("date")) : new Date(),
 				price: parseFloat(getFieldValue("price")),
 				image: relativePath,
-				type: getFieldValue("type"),
+				artist: getFieldValue("artist"),
+				width: parseFloat(getFieldValue("width")),
+				height: parseFloat(getFieldValue("height")),
+				paintingType: getFieldValue("paintingType"),
+				tag: getFieldValue("tag"),
 				slug: getFieldValue("slug"),
 				state: getFieldValue("state"),
-				date: getFieldValue("date")
-					? new Date(getFieldValue("date"))
-					: new Date(),
 			},
 		});
 

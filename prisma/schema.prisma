@@ -13,12 +13,17 @@ datasource db {
 model Painting {
   id          Int       @id @default(autoincrement())
   name        String    // Nom de la peinture
+  description String?   // Description détaillée de l'œuvre
   date        DateTime  @default(now()) // Date de création ou d'exposition
   price       Decimal   // Prix de la peinture
   image       String    // URL ou chemin d'image
-  type        String    // Type ou style artistique (ex : portrait, paysage, vaches, etc)
+  tag        String    // Type ou style artistique (ex : portrait, paysage, vaches, etc)
   state       PaintingState @default(FOR_SALE) // État : "vendue" ou "à vendre"
   slug        String    @unique // Identifiant unique (slug)
+  artist      String    // Nom de l'artiste
+  width       Decimal   // Largeur en cm
+  height      Decimal   // Hauteur en cm
+  paintingType String   // Type de peinture (ex : huile, aquarelle, acrylique, etc)
 }
 
 enum PaintingState {

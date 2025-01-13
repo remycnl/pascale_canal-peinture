@@ -10,9 +10,13 @@
 			</div>
 			<div class="prose max-w-none">
 				<div class="mt-4 space-y-2">
+					<p><strong>Description:</strong> {{ painting.description }}</p>
 					<p><strong>Date:</strong> {{ formatDate(painting.date) }}</p>
 					<p><strong>Prix:</strong> {{ formatPrice(painting.price) }} €</p>
-					<p><strong>Type:</strong> {{ painting.type }}</p>
+					<p><strong>Tag:</strong> {{ painting.tag }}</p>
+					<p><strong>Artiste:</strong> {{ painting.artist }}</p>
+					<p><strong>Dimensions:</strong> {{ painting.width }} cm x {{ painting.height }} cm</p>
+					<p><strong>Type de peinture:</strong> {{ painting.paintingType }}</p>
 					<p><strong>État:</strong> {{ formatState(painting.state) }}</p>
 				</div>
 			</div>
