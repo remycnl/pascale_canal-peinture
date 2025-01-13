@@ -32,6 +32,7 @@ if (error.value) {
 						fit="cover"
 						format="webp"
 						loading="lazy"
+						quality="80"
 						class="w-full h-full rounded-2sm group-hover:rounded-none transition-all duration-500" />
 				</div>
 				<div

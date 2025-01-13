@@ -252,15 +252,27 @@ const resetForm = () => {
 						@submit.prevent="submitPainting"
 						class="max-w-2xl bg-black p-8 rounded-2xl shadow-lg">
 						<div class="grid gap-6">
-							<!-- Nom -->
-							<div class="form-group">
-								<label for="name" class="label">Nom</label>
-								<input
-									v-model="name"
-									@input="generateSlug"
-									id="name"
-									class="input"
-									required />
+							<div class="flex gap-8">
+								<!-- Nom -->
+								<div class="form-group w-1/2">
+									<label for="name" class="label">Nom</label>
+									<input
+										v-model="name"
+										@input="generateSlug"
+										id="name"
+										class="input"
+										required />
+								</div>
+
+								<!-- Slug (en lecture seule) -->
+								<div class="form-group w-1/2">
+									<label for="slug" class="label">Slug</label>
+									<input
+										v-model="slug"
+										id="slug"
+										class="input bg-gray-100"
+										readonly />
+								</div>
 							</div>
 
 							<!-- Description -->
@@ -271,19 +283,6 @@ const resetForm = () => {
 									id="description"
 									class="input"
 									required></textarea>
-							</div>
-
-							<!-- Prix -->
-							<div class="form-group">
-								<label for="price" class="label">Prix</label>
-								<div class="relative">
-									<input
-										v-model="price"
-										id="price"
-										type="number"
-										class="input pl-8"
-										required />
-								</div>
 							</div>
 
 							<!-- Image Upload Personnalisé -->
@@ -330,16 +329,31 @@ const resetForm = () => {
 								</p>
 							</div>
 
-							<!-- Artiste -->
-							<div class="form-group">
-								<label for="artist" class="label">Artiste</label>
-								<input v-model="artist" id="artist" class="input" required />
+							<div class="flex gap-8">
+								<!-- Prix -->
+								<div class="form-group w-1/2">
+									<label for="price" class="label">Prix (€)</label>
+									<div class="relative">
+										<input
+											v-model="price"
+											id="price"
+											type="number"
+											class="input pl-8"
+											required />
+									</div>
+								</div>
+	
+								<!-- Artiste -->
+								<div class="form-group w-1/2">
+									<label for="artist" class="label">Artiste</label>
+									<input v-model="artist" id="artist" class="input" required />
+								</div>
 							</div>
 
 							<!-- Dimensions -->
 							<div class="flex gap-8">
 								<div class="form-group w-1/2">
-									<label for="width" class="label">Largeur</label>
+									<label for="width" class="label">Largeur (cm)</label>
 									<input
 										v-model="width"
 										id="width"
@@ -348,7 +362,7 @@ const resetForm = () => {
 										required />
 								</div>
 								<div class="form-group w-1/2">
-									<label for="height" class="label">Hauteur</label>
+									<label for="height" class="label">Hauteur (cm)</label>
 									<input
 										v-model="height"
 										id="height"
@@ -374,34 +388,26 @@ const resetForm = () => {
 								<input v-model="tag" id="tag" class="input" required />
 							</div>
 
-							<!-- Slug (en lecture seule) -->
-							<div class="form-group">
-								<label for="slug" class="label">Slug</label>
-								<input
-									v-model="slug"
-									id="slug"
-									class="input bg-gray-100"
-									readonly />
-							</div>
-
-							<!-- État -->
-							<div class="form-group">
-								<label for="state" class="label">État</label>
-								<select v-model="state" class="input">
-									<option value="FOR_SALE">À vendre</option>
-									<option value="SOLD">Vendue</option>
-								</select>
-							</div>
-
-							<!-- Date -->
-							<div class="form-group">
-								<label for="date" class="label">Date de création</label>
-								<input
-									v-model="date"
-									id="date"
-									type="date"
-									class="input"
-									required />
+							<div class="flex gap-8">
+								<!-- État -->
+								<div class="form-group w-1/2">
+									<label for="state" class="label">État</label>
+									<select v-model="state" class="input h-full">
+										<option value="FOR_SALE">À vendre</option>
+										<option value="SOLD">Vendue</option>
+									</select>
+								</div>
+	
+								<!-- Date -->
+								<div class="form-group w-1/2">
+									<label for="date" class="label">Date de création</label>
+									<input
+										v-model="date"
+										id="date"
+										type="date"
+										class="input"
+										required />
+								</div>
 							</div>
 						</div>
 
