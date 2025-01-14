@@ -1,9 +1,52 @@
 <script setup>
-const { data: paintings, error } = await useFetch("/api/paintings");
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
-if (error.value) {
-	console.error("Erreur lors de la récupération des peintures :", error.value);
-}
+const paintings = ref([]);
+const page = ref(1);
+const limit = 9;
+const isLoading = ref(false);
+const hasMore = ref(true);
+
+const loadPaintings = async () => {
+	if (isLoading.value || !hasMore.value) return;
+	isLoading.value = true;
+
+	try {
+		const data = await $fetch(
+			`/api/paintings?page=${page.value}&limit=${limit}`
+		);
+		if (Array.isArray(data)) {
+			if (data.length < limit) {
+				hasMore.value = false;
+			}
+			paintings.value = [...paintings.value, ...data];
+		} else {
+			console.error("Réponse inattendue de l'API :", data);
+		}
+	} catch (err) {
+		console.error("Erreur lors du chargement des peintures :", err);
+	} finally {
+		isLoading.value = false;
+		page.value++;
+	}
+};
+
+const handleScroll = () => {
+	const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+
+	if (scrollTop + clientHeight >= scrollHeight - 200) {
+		loadPaintings();
+	}
+};
+
+onMounted(async () => {
+	await loadPaintings();
+	window.addEventListener("scroll", handleScroll);
+});
+
+onBeforeUnmount(() => {
+	window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <template>
@@ -14,7 +57,6 @@ if (error.value) {
 				Pascale Canal
 			</span>
 			<span>Artiste peintre française.</span>
-			<!-- <span>Adoptez votre Aubrac !</span> -->
 		</h1>
 
 		<div
@@ -23,7 +65,7 @@ if (error.value) {
 				v-for="painting in paintings"
 				:to="`/${painting.slug}`"
 				:key="painting.id"
-				class="group bg-gradient-to-tr active:scale-95 from-black via-black to-grayDark rounded-2xl w-[450px] flex flex-col hover:rounded-none transition-all duration-500">
+				class="group bg-gradient-to-tr active:scale-95 from-black via-black to-grayDark rounded-2xl w-[450px] flex flex-col hover:rounded-none will-change-auto transition-all duration-500">
 				<div
 					class="relative w-full h-[450px] p-3 group-hover:p-0 transition-all duration-500">
 					<NuxtImg
@@ -32,26 +74,32 @@ if (error.value) {
 						fit="cover"
 						format="webp"
 						loading="lazy"
-						quality="80"
-						class="w-full h-full rounded-2sm group-hover:rounded-none transition-all duration-500" />
+						quality="1"
+						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 				</div>
 				<div
-					class="relative flex justify-between items-end py-3 px-6 group-hover:px-3 w-full text-white transition-all duration-500">
+					class="relative flex justify-between items-end py-3 px-6 group-hover:px-3 w-full text-white will-change-auto transition-all duration-500">
 					<div
-						class="absolute top-0 left-0 w-0 group-hover:w-full h-0.5 bg-white transition-all duration-500"></div>
+						class="absolute top-0 left-0 w-0 group-hover:w-full will-change-auto h-0.5 bg-white transition-all duration-500"></div>
 					<div class="flex items-start space-x-2">
 						<NuxtImg
 							src="/svg/arrow.svg"
 							alt="right arrow"
-							class="w-6 h-6 translate-x-1 origin-left group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+							class="w-6 h-6 translate-x-1 origin-left will-change-auto group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-300" />
 						<span
-							class="text-xl font-apercuBold -translate-x-8 group-hover:translate-x-0 transition-all duration-500"
+							class="text-xl font-apercuBold -translate-x-8 will-change-auto group-hover:translate-x-0 transition-all duration-500"
 							>{{ painting.name }}</span
 						>
 					</div>
 					<span class="text-lg">{{ painting.price + " €" }}</span>
 				</div>
 			</NuxtLink>
+		</div>
+
+		<div v-if="isLoading" class="text-center text-[180rem] mt-10">Chargement...</div>
+
+		<div v-if="!hasMore" class="text-center mt-10">
+			Toutes les peintures ont été chargées.
 		</div>
 	</div>
 </template>
