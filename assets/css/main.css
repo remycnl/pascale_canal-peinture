@@ -35,11 +35,11 @@ html {
 }
 
 :root {
-	--black: #222222;
-	--white: #f8f8f8;
-	--gold: #d0b285;
-	--yellow: #fff083;
-	--cream: #fef9e1;
+	--black: theme('colors.black');
+	--white: theme('colors.white');
+	--gold: theme('colors.gold');
+	--yellow: theme('colors.yellow');
+	--cream: theme('colors.cream');
 }
 
 ::selection {
