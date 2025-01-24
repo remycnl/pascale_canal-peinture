@@ -5,7 +5,10 @@
 				<h1 class="text-[18rem] -mr-7 font-apercuBold tracking-wide text-black">
 					{{ painting.name }}
 				</h1>
-				<p class="text-grayDark text-4xl -mt-20">{{ painting.artist }}</p>
+				<p class="text-grayDark text-4xl -mt-20">
+					<span class="text-lg">peint par</span>
+					{{ painting.artist }}
+				</p>
 			</div>
 
 			<div class="grid grid-cols-1 md:grid-cols-2 items-end gap-20">
