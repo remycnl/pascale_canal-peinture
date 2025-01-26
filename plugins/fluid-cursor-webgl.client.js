@@ -14,11 +14,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 			// Configuration modifiée
 			const config = {
-				SIM_RESOLUTION: 128,
-				DYE_RESOLUTION: 512, // Réduit pour un effet plus léger
+				SIM_RESOLUTION: 120,
+				DYE_RESOLUTION: 520, // Réduit pour un effet plus léger
 				DENSITY_DISSIPATION: 4, // Augmenté pour que l'effet disparaisse plus vite
-				VELOCITY_DISSIPATION: 2, // Augmenté pour des mouvements plus courts
-				PRESSURE: 0.08, // Réduit pour moins de turbulence
+				VELOCITY_DISSIPATION: 4, // Augmenté pour des mouvements plus courts
+				PRESSURE: 0.1, // Réduit pour moins de turbulence
 				PRESSURE_ITERATIONS: 25, // Réduit pour un calcul plus léger
 				CURL: 2, // Réduit pour moins de tourbillons
 				SPLAT_RADIUS: 0.1, // Réduit pour des traces plus fines
@@ -30,7 +30,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 			function generateGrayColor() {
 				// Modifié pour des tons plus sombres
-				const value = 0.1 + Math.random() * 0.15; // Valeurs plus proches de 0 pour du noir
+				const value = 0.1 + Math.random() * 0.1; // Valeurs plus proches de 0 pour du noir
 				return {
 					r: value,
 					g: value,
