@@ -1,14 +1,18 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
 	compatibilityDate: "2024-11-01",
 	devtools: { enabled: true },
 	css: ["@/assets/css/main.css", "@/assets/css/scrollBar.css"],
-	modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@prisma/nuxt"],
+	modules: ["@nuxt/image", "@prisma/nuxt"],
 
 	plugins: [
 		{ src: "@/plugins/smooth-scroll.client.js", mode: "client" },
 		{ src: "@/plugins/fluid-cursor-webgl.client.js", mode: "client" },
 	],
+	vite: {
+		plugins: [tailwindcss()],
+	},
 
 	runtimeConfig: {
 		public: {

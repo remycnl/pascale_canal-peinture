@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @font-face {
 	font-family: "ApercuPro-Bold";
@@ -34,23 +32,31 @@ html {
 	scroll-behavior: smooth;
 }
 
-:root {
-	--black: theme('colors.black');
-	--white: theme('colors.white');
-	--gold: theme('colors.gold');
-	--yellow: theme('colors.yellow');
-	--cream: theme('colors.cream');
+@theme {
+	--color-black: #222222;
+	--color-white: #F8F8F8;
+	--color-grayDark: #4D4D4D;
+	--color-gold: #D0B285;
+	--color-yellow: #FFF083;
+	--color-cream: #FEF9E1;
+	--font-apercuBold: "ApercuPro-Bold", sans-serif;
+	--font-apercuLight: "ApercuPro-Light", sans-serif;
+	--font-apercuRegular: "ApercuPro-Regular", sans-serif;
+	--font-apercuMedium: "ApercuPro-Medium", sans-serif;
+	--radius-2sm: 0.25rem; /* 4px */
+	--scale-101: 1.01;
+	--shadow-custom: 4px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 ::selection {
-	background-color: var(--black);
-	color: var(--white);
+	background-color: var(--color-black);
+	color: var(--color-white);
 }
 
 body {
-	background-color: var(--white);
+	background-color: var(--color-white);
 	color: var(--black);
-	font-family: "ApercuPro-Regular", sans-serif;
+	font-family: var(--font-apercuRegular);
 }
 
 .text-line-animation {
@@ -63,7 +69,7 @@ body {
 	width: 0;
 	height: 2px;
 	border-radius: 2px;
-	background-color: var(--white);
+	background-color: var(--color-white);
 	position: absolute;
 	bottom: -0.25rem;
 	right: 0;
@@ -73,6 +79,22 @@ body {
 .text-line-animation:hover::before {
 	width: 100%;
 	left: 0;
+}
+
+.form-group {
+	@apply flex flex-col gap-2;
+}
+
+.label {
+	@apply text-sm font-medium text-white/80;
+}
+
+.input {
+	@apply w-full px-4 py-2 border bg-white border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow focus:border-yellow outline-none transition-all;
+}
+
+button {
+	cursor: pointer;
 }
 
 #fluid {

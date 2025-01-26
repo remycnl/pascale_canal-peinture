@@ -414,14 +414,14 @@ const resetForm = () => {
 						<div class="flex gap-4 mt-8">
 							<button
 								type="submit"
-								class="flex-1 bg-yellow text-black py-3 px-6 rounded-lg hover:bg-opacity-70 transition-all duration-300">
+								class="flex-1 bg-yellow text-black py-3 px-6 rounded-lg hover:bg-yellow/70 transition-all duration-300">
 								{{ isEditMode ? "Mettre à jour" : "Ajouter" }}
 							</button>
 							<button
 								v-if="isEditMode"
 								type="button"
 								@click="resetForm"
-								class="bg-grayDark text-white py-3 px-6 rounded-lg hover:bg-opacity-70 transition-all duration-300">
+								class="bg-grayDark text-white py-3 px-6 rounded-lg hover:bg-grayDark/70 transition-all duration-300">
 								Annuler
 							</button>
 						</div>
@@ -464,7 +464,7 @@ const resetForm = () => {
 							<div class="flex flex-row gap-2">
 								<button
 									@click="selectPaintingForEdit(painting)"
-									class="p-2 w-fit bg-yellow focus:scale-95 text-white text-sm rounded-lg hover:bg-opacity-80 border border-yellow hover:border-black transition-all duration-300">
+									class="p-2 w-fit bg-yellow focus:scale-95 text-white text-sm rounded-lg hover:bg-yellow/80 border border-yellow hover:border-black transition-all duration-300">
 									<NuxtImg
 										src="/svg/edit.svg"
 										alt="edit icon for editing painting"
@@ -472,7 +472,7 @@ const resetForm = () => {
 								</button>
 								<button
 									@click="deletePainting(painting)"
-									class="p-2 w-fit bg-red-400 focus:scale-95 text-white text-sm rounded-lg hover:bg-opacity-80 border border-red-400 hover:border-black transition-all duration-300">
+									class="p-2 w-fit bg-red-400 focus:scale-95 text-white text-sm rounded-lg hover:bg-red-400/80 border border-red-400 hover:border-black transition-all duration-300">
 									<NuxtImg
 										src="/svg/trash.svg"
 										alt="trash icon for deleting painting"
@@ -486,8 +486,8 @@ const resetForm = () => {
 		</div>
 
 		<!-- Modal d'authentification -->
-		<div v-else class="modal">
-			<div class="modal-content">
+		<div v-else class="w-full flex items-center justify-center">
+			<div class="bg-black text-white p-8 rounded-2xl shadow-xl max-w-md w-full">
 				<h2 class="text-2xl font-apercuBold mb-4">
 					Entrez le mot de passe pour accéder à cette page
 				</h2>
@@ -505,7 +505,7 @@ const resetForm = () => {
 					</div>
 					<button
 						type="submit"
-						class="w-full bg-yellow text-black py-2 px-4 rounded-lg hover:bg-opacity-70 transition-all duration-300">
+						class="w-full bg-yellow text-black py-2 px-4 rounded-lg hover:bg-yellow/70 transition-all duration-300">
 						Valider
 					</button>
 				</form>
@@ -513,25 +513,3 @@ const resetForm = () => {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.form-group {
-	@apply flex flex-col gap-2;
-}
-
-.label {
-	@apply text-sm font-medium text-white text-opacity-80;
-}
-
-.input {
-	@apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow focus:border-yellow outline-none transition-all;
-}
-
-.modal {
-	@apply w-full flex items-center justify-center;
-}
-
-.modal-content {
-	@apply bg-black text-white p-8 rounded-2xl shadow-xl max-w-md w-full;
-}
-</style>
