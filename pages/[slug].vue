@@ -2,25 +2,59 @@
 	<div class="relative min-h-screen">
 		<div v-if="painting">
 			<div class="text-end mb-10">
-				<h1 class="text-[18rem] -mr-7 font-apercuBold tracking-wide text-black">
+				<h1
+					class="text-[18rem] leading-[19rem] -mr-7 font-apercuBold tracking-wide text-black">
 					{{ painting.name }}
 				</h1>
-				<p class="text-grayDark text-4xl -mt-20">
+				<p class="text-grayDark text-4xl">
 					<span class="text-lg">peint par</span>
 					{{ painting.artist }}
 				</p>
 			</div>
-
-			<div class="grid grid-cols-1 md:grid-cols-2 items-end gap-20">
-				<div class="relative">
+			<div class="-mt-20 grid grid-cols-1 md:grid-cols-2 items-end gap-20">
+				<div
+					class="relative overflow-hidden rounded-2xl"
+					@mousemove="handleMouseMove"
+					@mouseleave="handleMouseLeave"
+					@click="handleClick"
+					:style="{ cursor: isZoomed ? 'zoom-out' : 'zoom-in' }">
 					<img
 						:src="painting.image"
 						:alt="painting.name"
-						class="rounded-2xl w-auto max-h-[80vh] object-cover object-center" />
+						ref="imageRef"
+						:style="{
+							transform: transform,
+							transformOrigin: transformOrigin,
+							transition: isZoomed ? 'none' : 'all 0.3s ease',
+						}"
+						class="rounded-2xl w-auto max-h-[80vh] object-cover object-center will-change-transform" />
 				</div>
-				<div class="prose max-w-none text-grayDark">
+				<div class="relative prose max-w-none text-grayDark">
+					<div class="absolute -top-20 right-0 text-end will-change-scroll">
+						<button
+							v-if="painting.state === 'SOLD'"
+							class="bg-black text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-300">
+							Demander une réédition
+						</button>
+						<button
+							v-else
+							class="bg-black text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-300">
+							Acheter maintenant
+						</button>
+						<button
+							class="ml-4 border border-black text-black py-2 px-6 rounded-lg text-sm font-bold hover:bg-black hover:text-white transition duration-300">
+							Partager
+						</button>
+					</div>
 					<h2 class="text-3xl font-bold text-black">Détails</h2>
 					<ul class="mt-4 text-xl space-y-2">
+						<li v-if="painting.state === 'SOLD'">
+							<span class="font-apercuLight text-base text-[#B60071]">
+								Ce tableau a été vendu. Il est possible de demander une réédition,
+								mais chaque création étant unique, la nouvelle version ne sera pas
+								exactement identique.
+							</span>
+						</li>
 						<li>
 							<span class="font-apercuBold">Prix:</span>
 							{{ formatPrice(painting.price) }} €
@@ -48,17 +82,6 @@
 					</p>
 				</div>
 			</div>
-
-			<div class="mt-40 text-end">
-				<button
-					class="bg-black text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-300">
-					Acheter maintenant
-				</button>
-				<button
-					class="ml-4 border border-black text-black py-2 px-6 rounded-lg text-sm font-bold hover:bg-black hover:text-white transition duration-300">
-					Partager
-				</button>
-			</div>
 		</div>
 
 		<div v-else class="text-center py-12">
@@ -69,6 +92,12 @@
 
 <script setup>
 const route = useRoute();
+
+const imageRef = ref(null);
+const isZoomed = ref(false);
+const mousePosition = ref({ x: 0, y: 0 });
+const transformOrigin = ref("center");
+const zoomLevel = 2.5;
 
 const { data: painting, error } = await useFetch(
 	`/api/paintings/${route.params.slug}`
@@ -93,16 +122,36 @@ const formatPrice = (price) => {
 	return new Intl.NumberFormat("fr-FR").format(price);
 };
 
-// Formater l'état
-const formatState = (state) => {
-	const states = {
-		FOR_SALE: "En attente",
-		SOLD: "Vendu",
-	};
-	return states[state] || state;
+const transform = computed(() => {
+	return isZoomed.value ? `scale(${zoomLevel})` : "scale(1)";
+});
+
+const calculatePosition = (e) => {
+	const rect = e.currentTarget.getBoundingClientRect();
+	const x = ((e.clientX - rect.left) / rect.width) * 100;
+	const y = ((e.clientY - rect.top) / rect.height) * 100;
+	return { x, y };
 };
 
-// Gestion des métadonnées
+const handleClick = (e) => {
+	const pos = calculatePosition(e);
+	transformOrigin.value = `${pos.x}% ${pos.y}%`;
+	isZoomed.value = !isZoomed.value;
+};
+
+const handleMouseMove = (e) => {
+	if (!isZoomed.value) return;
+	const pos = calculatePosition(e);
+	mousePosition.value = pos;
+	transformOrigin.value = `${pos.x}% ${pos.y}%`;
+};
+
+const handleMouseLeave = () => {
+	if (isZoomed.value) {
+		isZoomed.value = false;
+	}
+};
+
 useHead(() => ({
 	title: painting.value
 		? `${painting.value.name} | Galerie`

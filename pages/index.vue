@@ -76,6 +76,11 @@ onBeforeUnmount(() => {
 						loading="lazy"
 						quality="1"
 						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
+					<div
+						v-if="painting.state === 'SOLD'"
+						class="absolute top-1/4 left-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400 uppercase font-apercuBold text-[9rem] text-white/50 origin-center -rotate-45">
+						Vendu
+					</div>
 				</div>
 				<div
 					class="relative flex justify-between items-end py-3 px-6 group-hover:px-3 w-full text-white will-change-auto transition-all duration-500">
@@ -91,12 +96,23 @@ onBeforeUnmount(() => {
 							>{{ painting.name }}</span
 						>
 					</div>
-					<span class="text-lg">{{ painting.price + " €" }}</span>
+					<div
+						class="text-lg decoration-white"
+						>
+						<span :class="painting.state === 'SOLD' ? 'line-through' : 'no-underline'">
+							{{ painting.price + " €" }}
+						</span>
+						<span v-if="painting.state === 'SOLD'" class="ml-2">
+							Vendu
+						</span>
+					</div>
 				</div>
 			</NuxtLink>
 		</div>
 
-		<div v-if="isLoading" class="text-center text-[180rem] mt-10">Chargement...</div>
+		<div v-if="isLoading" class="text-center text-[180rem] mt-10">
+			Chargement...
+		</div>
 
 		<div v-if="!hasMore" class="text-center mt-10">
 			Toutes les peintures ont été chargées.

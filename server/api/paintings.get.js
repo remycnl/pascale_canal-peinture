@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     const skip = (page - 1) * limit
 
     const paintings = await prisma.painting.findMany({
-      where: { state: 'FOR_SALE' },
+      // where: { state: 'FOR_SALE' },
       skip,
       take: limit,
       orderBy: {

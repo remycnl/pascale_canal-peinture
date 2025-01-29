@@ -17,7 +17,7 @@ model Painting {
   date        DateTime  @default(now()) // Date de création ou d'exposition
   price       Decimal   // Prix de la peinture
   image       String    // URL ou chemin d'image
-  tag        String    // Type ou style artistique (ex : portrait, paysage, vaches, etc)
+  tag         String    // Type ou style artistique (ex : portrait, paysage, vaches, etc)
   state       PaintingState @default(FOR_SALE) // État : "vendue" ou "à vendre"
   slug        String    @unique // Identifiant unique (slug)
   artist      String    // Nom de l'artiste
