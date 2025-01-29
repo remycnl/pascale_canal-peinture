@@ -6,6 +6,7 @@ const page = ref(1);
 const limit = 9;
 const isLoading = ref(false);
 const hasMore = ref(true);
+const rotateAngle = ref(0);
 
 const loadPaintings = async () => {
 	if (isLoading.value || !hasMore.value) return;
@@ -29,6 +30,10 @@ const loadPaintings = async () => {
 		isLoading.value = false;
 		page.value++;
 	}
+};
+
+const uniqueRotate = (angle) => {
+	rotateAngle.value += angle;
 };
 
 const handleScroll = () => {
@@ -61,13 +66,19 @@ onBeforeUnmount(() => {
 
 		<div
 			class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-20">
+			<NuxtImg
+				@mouseenter="uniqueRotate(180)"
+				src="/svg/shape.svg"
+				alt="shape"
+				class="z-0 w-50 h-50 absolute -top-24 -right-15 transition-transform duration-1000"
+				:style="{ transform: `rotate(${rotateAngle}deg)` }" />
 			<NuxtLink
 				v-for="painting in paintings"
 				:to="`/${painting.slug}`"
 				:key="painting.id"
-				class="group bg-gradient-to-tr active:scale-95 from-black via-black to-grayDark rounded-2xl w-[450px] flex flex-col hover:rounded-none will-change-auto transition-all duration-500">
+				class="z-10 group bg-gradient-to-tr active:scale-95 from-black via-black to-grayDark rounded-2xl w-[450px] flex flex-col hover:rounded-none will-change-auto transition-all duration-500">
 				<div
-					class="relative w-full h-[450px] p-3 group-hover:p-0 transition-all duration-500">
+					class="overflow-hidden relative w-full h-[450px] p-3 group-hover:p-0 transition-all duration-500">
 					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
@@ -96,15 +107,14 @@ onBeforeUnmount(() => {
 							>{{ painting.name }}</span
 						>
 					</div>
-					<div
-						class="text-lg decoration-white"
-						>
-						<span :class="painting.state === 'SOLD' ? 'line-through' : 'no-underline'">
+					<div class="text-lg decoration-white">
+						<span
+							:class="
+								painting.state === 'SOLD' ? 'line-through' : 'no-underline'
+							">
 							{{ painting.price + " €" }}
 						</span>
-						<span v-if="painting.state === 'SOLD'" class="ml-2">
-							Vendu
-						</span>
+						<span v-if="painting.state === 'SOLD'" class="ml-2"> Vendu </span>
 					</div>
 				</div>
 			</NuxtLink>

@@ -9,6 +9,7 @@ const secretKey = config.public.NUXT_SECRET_KEY;
 
 // Refs pour les champs du formulaire
 const secretKeyInput = ref("");
+const showPassword = ref(false);
 const isSecretPage = ref(false);
 const name = ref("");
 const description = ref("");
@@ -342,7 +343,7 @@ const resetForm = () => {
 											required />
 									</div>
 								</div>
-	
+
 								<!-- Artiste -->
 								<div class="form-group w-1/2">
 									<label for="artist" class="label">Artiste</label>
@@ -394,10 +395,10 @@ const resetForm = () => {
 									<label for="state" class="label">État</label>
 									<select v-model="state" class="input h-full">
 										<option value="FOR_SALE">À vendre</option>
-										<option value="SOLD">Vendue</option>
+										<option value="SOLD">Vendu</option>
 									</select>
 								</div>
-	
+
 								<!-- Date -->
 								<div class="form-group w-1/2">
 									<label for="date" class="label">Date de création</label>
@@ -456,7 +457,7 @@ const resetForm = () => {
 									</h3>
 									<p class="text-sm text-gray-600">
 										{{ painting.price }}€ -
-										{{ painting.state === "FOR_SALE" ? "À vendre" : "Vendue" }}
+										{{ painting.state === "FOR_SALE" ? "À vendre" : "Vendu" }}
 									</p>
 									<p class="text-xs text-gray-500">{{ painting.type }}</p>
 								</div>
@@ -486,22 +487,38 @@ const resetForm = () => {
 		</div>
 
 		<!-- Modal d'authentification -->
-		<div v-else class="w-full flex items-center justify-center">
-			<div class="bg-black text-white p-8 rounded-2xl shadow-xl max-w-md w-full">
+		<div v-else class="w-full flex items-center justify-center mt-40">
+			<div
+				class="bg-black text-white p-8 rounded-2xl shadow-xl max-w-md w-full">
 				<h2 class="text-2xl font-apercuBold mb-4">
 					Entrez le mot de passe pour accéder à cette page
 				</h2>
 				<form @submit.prevent="checkSecretKey">
-					<div class="mb-4">
+					<div class="mb-4 relative">
 						<label for="secretKey" class="sr-only">Mot de passe</label>
 						<input
 							v-model="secretKeyInput"
 							id="secretKey"
-							type="password"
+							:type="showPassword ? 'text' : 'password'"
 							autocomplete="new-password"
 							placeholder="Saisir la clé"
-							class="input mb-4 text-black"
+							class="input mb-4 text-black pr-10"
 							required />
+						<button
+							type="button"
+							@mousedown="showPassword = true"
+							@mouseup="showPassword = false"
+							@mouseleave="showPassword = false"
+							class="absolute right-4 top-1/2 -translate-y-[90%] text-gray-500 hover:text-gray-700 focus:outline-none">
+							<NuxtImg
+								v-if="!showPassword"
+								src="/svg/eye-open.svg"
+								class="w-5 h-5" />
+							<NuxtImg
+								v-else
+								src="/svg/eye-closed.svg"
+								class="w-5 h-5" />
+						</button>
 					</div>
 					<button
 						type="submit"

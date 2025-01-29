@@ -18,7 +18,7 @@ model Painting {
   price       Decimal   // Prix de la peinture
   image       String    // URL ou chemin d'image
   tag         String    // Type ou style artistique (ex : portrait, paysage, vaches, etc)
-  state       PaintingState @default(FOR_SALE) // État : "vendue" ou "à vendre"
+  state       PaintingState @default(FOR_SALE) // État : "vendu" ou "à vendre"
   slug        String    @unique // Identifiant unique (slug)
   artist      String    // Nom de l'artiste
   width       Decimal   // Largeur en cm
@@ -28,5 +28,5 @@ model Painting {
 
 enum PaintingState {
   FOR_SALE   // À vendre
-  SOLD       // Vendue
+  SOLD       // Vendu
 }

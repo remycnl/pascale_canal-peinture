@@ -11,23 +11,25 @@
 					{{ painting.artist }}
 				</p>
 			</div>
-			<div class="-mt-20 grid grid-cols-1 md:grid-cols-2 items-end gap-20">
+			<div class="grid grid-cols-1 md:grid-cols-2 items-end gap-20">
 				<div
 					class="relative overflow-hidden rounded-2xl"
 					@mousemove="handleMouseMove"
 					@mouseleave="handleMouseLeave"
 					@click="handleClick"
 					:style="{ cursor: isZoomed ? 'zoom-out' : 'zoom-in' }">
-					<img
+					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
+						fit="cover"
+						format="webp"
 						ref="imageRef"
 						:style="{
 							transform: transform,
 							transformOrigin: transformOrigin,
 							transition: isZoomed ? 'none' : 'all 0.3s ease',
 						}"
-						class="rounded-2xl w-auto max-h-[80vh] object-cover object-center will-change-transform" />
+						class="rounded-2xl w-auto max-h-[80vh] object-center will-change-transform" />
 				</div>
 				<div class="relative prose max-w-none text-grayDark">
 					<div class="absolute -top-20 right-0 text-end will-change-scroll">
