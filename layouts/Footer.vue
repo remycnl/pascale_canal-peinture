@@ -54,6 +54,12 @@
 				</a>
 			</div>
 		</div>
-		<span class="uppercase pointer-events-none font-apercuBold text-center block text-[550px] leading-[0px] mt-60">Canal</span>
+		<div class="flex justify-between gap-x-1 items-start uppercase pointer-events-none font-apercuBold text-center text-[600px] leading-[0px] mt-70">
+			<span>C</span>
+			<span>a</span>
+			<span>n</span>
+			<span>a</span>
+			<span>l</span>
+		</div>
 	</div>
 </template>
