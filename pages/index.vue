@@ -6,7 +6,7 @@ const page = ref(1);
 const limit = 9;
 const isLoading = ref(false);
 const hasMore = ref(true);
-const rotateAngle = ref(0);
+const isImageLoaded = ref({});
 
 const loadPaintings = async () => {
 	if (isLoading.value || !hasMore.value) return;
@@ -32,8 +32,12 @@ const loadPaintings = async () => {
 	}
 };
 
-const uniqueRotate = (angle) => {
-	rotateAngle.value += angle;
+const handleImageLoad = (paintingId) => {
+	isImageLoaded.value[paintingId] = true;
+};
+
+const getImageClass = (paintingId) => {
+	return isImageLoaded.value[paintingId] ? "opacity-100" : "opacity-0";
 };
 
 const handleScroll = () => {
@@ -56,27 +60,35 @@ onBeforeUnmount(() => {
 
 <template>
 	<div class="relative min-h-screen">
-		<h1 class="flex flex-col text-[80px] leading-[90px] text-left w-2/3">
+		<div
+			class="select-none pointer-events-none absolute -top-180 -right-180 w-full h-auto opacity-90 blur-2xl">
+			<NuxtImg src="/svg/blob-right.svg" alt="Blob right" />
+		</div>
+		<div
+			class="select-none pointer-events-none absolute top-[20vh] -left-200 w-full h-auto opacity-90 blur-2xl">
+			<NuxtImg src="/svg/blob-left.svg" alt="Blob left" />
+		</div>
+		<h1
+			class="flex flex-col text-[80px] leading-[90px] text-left w-2/3 pb-40 pt-20">
 			<span
-				class="text-[180px] leading-[180px] whitespace-nowrap font-apercuBold">
+				class="z-20 group relative text-[180px] leading-[180px] whitespace-nowrap font-apercuBold">
 				Pascale Canal
+				<span
+					class="z-10 uppercase font-apercuMedium absolute bottom-0 -rotate-10 -right-60 text-2xl py-3 px-10 bg-yellow rounded-lg border border-black">
+					Artiste peintre française
+				</span>
 			</span>
-			<span>Artiste peintre française.</span>
+			<span class="z-20">Découvrez ma E-gallerie</span>
 		</h1>
 
 		<div
 			class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-20">
-			<NuxtImg
-				@mouseenter="uniqueRotate(180)"
-				src="/svg/shape.svg"
-				alt="shape"
-				class="z-0 w-50 h-50 absolute -top-24 -right-15 transition-transform duration-1000"
-				:style="{ transform: `rotate(${rotateAngle}deg)` }" />
 			<NuxtLink
 				v-for="painting in paintings"
 				:to="`/${painting.slug}`"
 				:key="painting.id"
-				class="z-10 group bg-gradient-to-tr active:scale-95 from-black via-black to-grayDark rounded-2xl w-[450px] flex flex-col hover:rounded-none will-change-auto transition-all duration-500">
+				:class="getImageClass(painting.id)"
+				class="z-10 group bg-gradient-to-tr active:scale-95 from-black via-black to-white rounded-2xl w-[450px] flex flex-col hover:rounded-none will-change-auto transition-all duration-500">
 				<div
 					class="overflow-hidden relative w-full h-[450px] p-3 group-hover:p-0 transition-all duration-500">
 					<NuxtImg
@@ -86,6 +98,7 @@ onBeforeUnmount(() => {
 						format="webp"
 						loading="lazy"
 						quality="1"
+						@load="handleImageLoad(painting.id)"
 						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 					<div
 						v-if="painting.state === 'SOLD'"
@@ -99,7 +112,7 @@ onBeforeUnmount(() => {
 						class="absolute top-0 left-0 w-0 group-hover:w-full will-change-auto h-0.5 bg-white transition-all duration-500"></div>
 					<div class="flex items-start space-x-2">
 						<NuxtImg
-							src="/svg/arrow.svg"
+							src="/svg/arrow-white.svg"
 							alt="right arrow"
 							class="w-6 h-6 translate-x-1 origin-left will-change-auto group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-300" />
 						<span
