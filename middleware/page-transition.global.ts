@@ -1,3 +1,5 @@
+import { useDarkMode } from "@/composables/useDarkMode";
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
 	if (import.meta.client) {
 		document.documentElement.style.overflow = "hidden";
@@ -8,6 +10,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		const scrollHeight = 1000;
 		const startPosition = window.scrollY;
 		const startTime = performance.now();
+		const { isDarkMode } = useDarkMode();
 
 		const scrollAnimation = (currentTime: number) => {
 			const elapsed = currentTime - startTime;
@@ -45,7 +48,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 				width * 0.75
 			},${height * 0.15} ${width * 0.25},${height * 0.15} 0,0 Z`
 		);
-		path.setAttribute("fill", "var(--color-black)");
+		if (isDarkMode.value) {
+            path.setAttribute("fill", "var(--color-white)");
+        } else {
+            path.setAttribute("fill", "var(--color-black)");
+        }
 
 		svg.appendChild(path);
 		container.appendChild(svg);
@@ -67,11 +74,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		container.classList.add("wave-leave");
 
 		setTimeout(() => {
+			document.documentElement.style.overflow = "";
+			document.body.style.overflow = "";
+		}, midPoint);
+		setTimeout(() => {
 			container.remove();
 			document.body.classList.remove("page-transitioning");
 			document.documentElement.classList.remove("page-transition-leave-to");
-			document.documentElement.style.overflow = "";
-			document.body.style.overflow = "";
 		}, animationDuration + 100);
 	}
 });

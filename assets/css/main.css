@@ -54,8 +54,6 @@ html {
 }
 
 body {
-	background-color: var(--color-white);
-	color: var(--black);
 	font-family: var(--font-apercuRegular);
 }
 
