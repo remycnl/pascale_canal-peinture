@@ -22,14 +22,7 @@ export default defineNuxtPlugin(() => {
         () => route.path,
         (newPath) => {
             isDarkMode.value = newPath === "/about";
-        },
-        { immediate: true }
-    );
-
-    watch(
-        isDarkMode,
-        (newValue) => {
-            updateBodyStyles(newValue);
+            updateBodyStyles(isDarkMode.value);
         },
         { immediate: true }
     );

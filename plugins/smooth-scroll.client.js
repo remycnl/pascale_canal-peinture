@@ -4,34 +4,28 @@ export class SmoothScroll {
 			wrapperSelector: ".smooth-scroll-wrapper",
 			contentSelector: "section",
 			scrollSpeed: 0.05,
-			skewSpeed: 0.5,
-			skewReducer: 3,
 			ease: 0.075,
 			...options,
 		};
 
-		// Références DOM
+		// DOM References
 		this.wrapper = null;
 		this.content = null;
 
-		// État
+		// State
 		this.scrollPosition = 0;
 		this.targetScrollPosition = 0;
-		this.lastScrollTop = 0;
-		this.currentSkew = 0;
-		this.targetSkew = 0;
 		this.resizeObserver = null;
 		this.rafId = null;
-		this.isScrolling = false;
 
-		// Bind des méthodes
+		// Bind methods
 		this.animate = this.animate.bind(this);
 		this.handleResize = this.handleResize.bind(this);
 		this.init = this.init.bind(this);
 	}
 
 	init() {
-		// Réinitialiser les éléments DOM
+		// Reset DOM elements
 		this.wrapper = document.querySelector(this.options.wrapperSelector);
 		this.content = document.querySelector(this.options.contentSelector);
 
@@ -40,7 +34,7 @@ export class SmoothScroll {
 			return false;
 		}
 
-		// Nettoyer l'ancien observer si existe
+		// Clean up old observer if exists
 		if (this.resizeObserver) {
 			this.resizeObserver.disconnect();
 		}
@@ -48,20 +42,17 @@ export class SmoothScroll {
 		this.resizeObserver = new ResizeObserver(this.handleResize);
 		this.resizeObserver.observe(this.wrapper);
 
-		// Réinitialiser les positions
+		// Reset positions
 		this.targetScrollPosition = window.scrollY;
 		this.scrollPosition = this.targetScrollPosition;
-		this.lastScrollTop = this.targetScrollPosition;
-		this.currentSkew = 0;
-		this.targetSkew = 0;
 
-		// Démarrer l'animation
+		// Start animation
 		if (this.rafId) {
 			cancelAnimationFrame(this.rafId);
 		}
 		this.rafId = requestAnimationFrame(this.animate);
 
-		// S'assurer que le scroll est en haut de la page
+		// Ensure scroll is at top of page
 		window.scrollTo(0, 0);
 
 		return true;
@@ -82,35 +73,16 @@ export class SmoothScroll {
 
 		this.targetScrollPosition = window.scrollY;
 
-		const scrollDelta = this.targetScrollPosition - this.lastScrollTop;
-		this.targetSkew =
-			(scrollDelta / this.options.skewReducer) * this.options.skewSpeed;
-
 		this.scrollPosition = this.lerp(
 			this.scrollPosition,
 			this.targetScrollPosition,
 			this.options.scrollSpeed
 		);
 
-		this.currentSkew = this.lerp(
-			this.currentSkew,
-			this.targetSkew,
-			this.options.ease
-		);
-
-		if (Math.abs(scrollDelta) < 0.1) {
-			this.currentSkew = this.lerp(this.currentSkew, 0, 0.1);
-		}
-
 		this.wrapper.style.transform = `translate3d(0, ${-this
 			.scrollPosition}px, 0)`;
-		this.content.style.transform = `
-		perspective(1000px)
-		translate3d(0, 0, 0)
-		skewY(${this.currentSkew}deg)
-	  `;
+		this.content.style.transform = `translate3d(0, 0, 0)`;
 
-		this.lastScrollTop = this.targetScrollPosition;
 		this.rafId = requestAnimationFrame(this.animate);
 	}
 
@@ -142,17 +114,16 @@ export default defineNuxtPlugin((nuxtApp) => {
 		const router = useRouter();
 		let smoothScroll = null;
 
-		// Fonction pour initialiser le smooth scroll
+		// Function to initialize smooth scroll
 		const initializeSmoothScroll = () => {
 			if (!smoothScroll) {
 				smoothScroll = new SmoothScroll();
 			}
-			// On attend un petit moment que le DOM soit complètement mis à jour
 			setTimeout(() => {
-				smoothScroll.destroy(); // On nettoie d'abord
-				const initialized = smoothScroll.init(); // On réinitialise
+				smoothScroll.destroy(); // Clean up first
+				const initialized = smoothScroll.init(); // Reinitialize
 				if (!initialized) {
-					// Si l'initialisation échoue, on réessaie une fois
+					// Retry once if initialization fails
 					setTimeout(() => {
 						smoothScroll.init();
 					}, 100);
@@ -160,19 +131,19 @@ export default defineNuxtPlugin((nuxtApp) => {
 			}, 50);
 		};
 
-		// Initialisation initiale
+		// Initial initialization
 		nuxtApp.hook("app:mounted", () => {
 			initializeSmoothScroll();
 		});
 
-		// Gestion des changements de route
+		// Handle route changes
 		router.afterEach((to, from) => {
 			if (to.path !== from.path) {
 				initializeSmoothScroll();
 			}
 		});
 
-		// Nettoyage à la fermeture
+		// Cleanup on close
 		nuxtApp.hook("app:beforeDestroy", () => {
 			if (smoothScroll) {
 				smoothScroll.destroy();
@@ -180,6 +151,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 			}
 		});
 
-		nuxtApp.provide('initializeSmoothScroll', initializeSmoothScroll);
+		nuxtApp.provide("initializeSmoothScroll", initializeSmoothScroll);
 	}
 });

@@ -27,10 +27,13 @@ useSeoMeta({
 </script>
 
 <template>
-	<div class="overflow-hidden">
+	<div class="overflow-hidden app-wrapper">
+		<SplashScreen />
 		<Header />
-		<div class="smooth-scroll-wrapper will-change-transform transform-gpu fixed top-0 left-0 right-0">
-			<section class="container mx-auto mt-40 mb-60 transform-gpu will-change-transform duration-75">
+		<div
+			class="smooth-scroll-wrapper will-change-transform transform-gpu fixed top-0 left-0 right-0">
+			<section
+				class="container mx-auto mt-40 mb-60 transform-gpu will-change-transform duration-75">
 				<slot />
 			</section>
 			<Footer />
@@ -38,3 +41,23 @@ useSeoMeta({
 		<Bubble />
 	</div>
 </template>
+
+<style>
+.app-wrapper {
+	min-height: 100vh;
+	/* Cache le contenu initial jusqu'à ce que le SplashScreen soit prêt */
+	opacity: 0;
+	animation: showContent 0.1s forwards 0.1s;
+}
+
+@keyframes showContent {
+	to {
+		opacity: 1;
+	}
+}
+
+/* Style global pour éviter le flash initial */
+html {
+	background-color: var(--color-white);
+}
+</style>
