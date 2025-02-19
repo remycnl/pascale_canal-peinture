@@ -27,7 +27,7 @@ useSeoMeta({
 </script>
 
 <template>
-	<div class="overflow-hidden app-wrapper">
+	<div class="overflow-hidden">
 		<SplashScreen />
 		<Header />
 		<div
@@ -43,19 +43,6 @@ useSeoMeta({
 </template>
 
 <style>
-.app-wrapper {
-	min-height: 100vh;
-	/* Cache le contenu initial jusqu'à ce que le SplashScreen soit prêt */
-	opacity: 0;
-	animation: showContent 0.1s forwards 0.1s;
-}
-
-@keyframes showContent {
-	to {
-		opacity: 1;
-	}
-}
-
 /* Style global pour éviter le flash initial */
 html {
 	background-color: var(--color-white);
