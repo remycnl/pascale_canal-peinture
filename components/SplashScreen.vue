@@ -19,8 +19,8 @@ const loading = useLoading();
 const isVisible = ref(true);
 
 onMounted(() => {
-		isVisible.value = false;
-		loading.value = false;
+	isVisible.value = false;
+	loading.value = false;
 });
 </script>
 

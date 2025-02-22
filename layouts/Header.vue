@@ -12,9 +12,14 @@
 					>Tableaux</NuxtLink
 				>
 				<NuxtLink
-					to="/about"
+					to="/comment-ca-marche"
 					class="text-line-animation pointer-events-auto"
-					>À propos</NuxtLink
+					>Comment ça marche ?</NuxtLink
+				>
+				<NuxtLink
+					to="/qui-suis-je"
+					class="text-line-animation pointer-events-auto"
+					>Qui suis-je ?</NuxtLink
 				>
 				<NuxtLink
 					to="/contact"

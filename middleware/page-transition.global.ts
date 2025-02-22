@@ -2,16 +2,14 @@ import { useDarkMode } from "@/composables/useDarkMode";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
 	if (import.meta.client) {
-		document.documentElement.style.overflow = "hidden";
-		document.body.style.overflow = "hidden";
 		document.body.classList.add("page-transitioning");
-
+		
 		const scrollDuration = 100;
 		const scrollHeight = 1000;
 		const startPosition = window.scrollY;
 		const startTime = performance.now();
 		const { isDarkMode } = useDarkMode();
-
+		
 		const scrollAnimation = (currentTime: number) => {
 			const elapsed = currentTime - startTime;
 			const progress = Math.min(elapsed / scrollDuration, 1);
@@ -73,10 +71,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		container.classList.remove("wave-enter");
 		container.classList.add("wave-leave");
 
-		setTimeout(() => {
-			document.documentElement.style.overflow = "";
-			document.body.style.overflow = "";
-		}, midPoint);
 		setTimeout(() => {
 			container.remove();
 			document.body.classList.remove("page-transitioning");

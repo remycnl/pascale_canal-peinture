@@ -1,5 +1,5 @@
 <template>
-	<div class="relative min-h-screen">
+	<div class="relative min-h-screen pt-10">
 		<div v-if="painting">
 			<!-- <div class="absolute -top-180 -left-180 w-full h-auto opacity-90 blur-2xl">
 				<NuxtImg src="/svg/blob-left.svg" alt="Blob left" />

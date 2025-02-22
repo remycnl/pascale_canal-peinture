@@ -82,7 +82,7 @@ onBeforeUnmount(() => {
 		</h1>
 
 		<div
-			class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-20">
+			class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-28 mt-20">
 			<NuxtLink
 				v-for="painting in paintings"
 				:to="`/${painting.slug}`"
@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
 						fit="cover"
 						format="webp"
 						loading="lazy"
-						quality="1"
+						quality="50"
 						@load="handleImageLoad(painting.id)"
 						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 					<div
@@ -133,11 +133,11 @@ onBeforeUnmount(() => {
 			</NuxtLink>
 		</div>
 
-		<div v-if="isLoading" class="text-center text-[180rem] mt-10">
+		<div v-if="isLoading" class="text-center text-[180rem] mt-28">
 			Chargement...
 		</div>
 
-		<div v-if="!hasMore" class="text-center mt-10">
+		<div v-if="!hasMore" class="text-center mt-28">
 			Toutes les peintures ont été chargées.
 		</div>
 	</div>
