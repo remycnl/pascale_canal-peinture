@@ -78,7 +78,7 @@ onBeforeUnmount(() => {
 					Artiste peintre française
 				</span>
 			</span>
-			<span class="z-20">Découvrez ma E-gallerie</span>
+			<span class="z-20">Découvrez ma e-gallerie</span>
 		</h1>
 
 		<div

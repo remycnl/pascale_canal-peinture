@@ -25,6 +25,7 @@ const state = ref("FOR_SALE");
 const paintings = ref([]);
 const selectedPainting = ref(null);
 const isEditMode = ref(false);
+const isSelectOpen = ref(false);
 
 // Fonction pour formater la date
 const formatDate = (date) => date.toISOString().split("T")[0];
@@ -117,6 +118,7 @@ const selectPaintingForEdit = (painting) => {
 	selectedPainting.value = painting;
 	name.value = painting.name;
 	description.value = painting.description;
+	selectedImage.value = null;
 	artist.value = painting.artist;
 	width.value = painting.width;
 	height.value = painting.height;
@@ -127,6 +129,7 @@ const selectPaintingForEdit = (painting) => {
 	state.value = painting.state;
 	date.value = formatDate(new Date(painting.date));
 	isEditMode.value = true;
+	isSelectOpen.value = false;
 };
 
 // Suppression d'une peinture
@@ -271,7 +274,7 @@ const resetForm = () => {
 									<input
 										v-model="slug"
 										id="slug"
-										class="input bg-gray-100"
+										class="input cursor-not-allowed"
 										readonly />
 								</div>
 							</div>
@@ -391,12 +394,32 @@ const resetForm = () => {
 
 							<div class="flex gap-8">
 								<!-- État -->
-								<div class="form-group w-1/2">
+								<div class="relative form-group w-1/2">
 									<label for="state" class="label">État</label>
-									<select v-model="state" class="input h-full">
-										<option value="FOR_SALE">À vendre</option>
-										<option value="SOLD">Vendu</option>
+									<select
+										v-model="state"
+										@focus="isSelectOpen = true"
+										@blur="isSelectOpen = false"
+										class="cursor-pointer input h-full appearance-none">
+										<option class="bg-white text-black" value="FOR_SALE">
+											À vendre
+										</option>
+										<option class="bg-white text-black" value="SOLD">
+											Vendu
+										</option>
 									</select>
+									<svg
+										class="absolute top-10 right-4 w-4 h-4 text-black transform transition-transform origin-center duration-300"
+										:class="{ 'rotate-180': isSelectOpen }"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24">
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M19 9l-7 7-7-7" />
+									</svg>
 								</div>
 
 								<!-- Date -->
@@ -514,10 +537,7 @@ const resetForm = () => {
 								v-if="!showPassword"
 								src="/svg/eye-open.svg"
 								class="w-5 h-5" />
-							<NuxtImg
-								v-else
-								src="/svg/eye-closed.svg"
-								class="w-5 h-5" />
+							<NuxtImg v-else src="/svg/eye-closed.svg" class="w-5 h-5" />
 						</button>
 					</div>
 					<button

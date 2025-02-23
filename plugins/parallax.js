@@ -31,10 +31,10 @@ export default defineNuxtPlugin((nuxtApp) => {
         const parallaxStrongElements = document.querySelectorAll(".parallax-strong");
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
-        const valueX = (centerX - e.pageX) / 50;
-        const valueY = (centerY - e.pageY) / 30;
-        const strongValueX = (centerX - e.pageX) / 40;
-        const strongValueY = (centerY - e.pageY) / 20;
+        const valueX = (centerX - e.clientX) / 30;
+        const valueY = (centerY - e.clientY) / 10;
+        const strongValueX = (centerX - e.clientX) / 20;
+        const strongValueY = (centerY - e.clientY) / 10;
 
         parallaxElements.forEach(parallax => {
             parallax.style.transform = `translate3d(${valueX}px, ${valueY}px, 0)`;
