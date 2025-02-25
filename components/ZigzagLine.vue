@@ -30,14 +30,14 @@ const props = defineProps({
 	controlPoints: {
 		type: Array,
 		default: () => [
-			[120, -5],
+			[150, -10],
 			[70, 10],
 			[85, 20],
 			[15, 40],
 			[70, 60],
 			[10, 80],
-			[15, 85],
-			[-20, 100],
+			[16, 85],
+			[-50, 100],
 		],
 	},
 	lineColor: {
