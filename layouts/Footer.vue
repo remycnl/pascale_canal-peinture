@@ -5,53 +5,61 @@
 				<p class="text-sm">© 2025 Pascale Canal. Tous droits réservés.</p>
 				<p class="text-sm">
 					Site web par
-					<a href="https://www.remycanal.me" class="underline">Rémy Canal</a>
+					<NuxtLink
+						to="https://www.remycanal.me"
+						target="_blank"
+						class="underline">
+						Rémy Canal
+					</NuxtLink>
 				</p>
 			</div>
 			<div>
-				<a
-					href="https://www.facebook.com/pascalecanalpeintre"
-					class="text-black hover:text-gold transition-colors">
+				<NuxtLink
+					to="https://www.facebook.com/pascalecanalpeintre"
+					target="_blank"
+					class="hover:text-gold transition-colors">
 					Facebook
-				</a>
-				<a
-					href="https://www.instagram.com/pascalecanalpeintre"
-					class="text-black hover:text-gold transition-colors ml-5">
+				</NuxtLink>
+				<NuxtLink
+					to="https://www.instagram.com/pascalecanalpeintre"
+					target="_blank"
+					class="hover:text-gold transition-colors ml-5">
 					Instagram
-				</a>
-				<a
-					href="https://www.twitter.com/pascalecanalpeintre"
-					class="text-black hover:text-gold transition-colors ml-5">
-					Twitter
-				</a>
+				</NuxtLink>
+				<NuxtLink
+					to="https://www.linkedin.com/pascalecanalpeintre"
+					target="_blank"
+					class="hover:text-gold transition-colors ml-5">
+					LinkedIn
+				</NuxtLink>
 			</div>
 			<div>
-				<a
-					href="mentions-legales"
-					class="text-black hover:text-gold transition-colors">
+				<NuxtLink
+					to="mentions-legales"
+					class="hover:text-gold transition-colors">
 					Mentions légales
-				</a>
+				</NuxtLink>
 
-				<a
-					href="politique-de-confidentialite"
-					class="text-black hover:text-gold transition-colors ml-5">
+				<NuxtLink
+					to="politique-de-confidentialite"
+					class="hover:text-gold transition-colors ml-5">
 					Politique de confidentialité
-				</a>
+				</NuxtLink>
 
-				<a
-					href="cookies"
-					class="text-black hover:text-gold transition-colors ml-5">
+				<NuxtLink
+					to="cookies"
+					class="hover:text-gold transition-colors ml-5">
 					Cookies
-				</a>
-				<a
-					href="conditions-utilisation"
-					class="text-black hover:text-gold transition-colors ml-5">
+				</NuxtLink>
+				<NuxtLink
+					to="conditions-utilisation"
+					class="hover:text-gold transition-colors ml-5">
 					Conditions d'utilisation
-				</a>
+				</NuxtLink>
 
-				<a href="cgu" class="text-black hover:text-gold transition-colors ml-5">
+				<NuxtLink to="cgu" class="hover:text-gold transition-colors ml-5">
 					CGU
-				</a>
+				</NuxtLink>
 			</div>
 		</div>
 		<div class="flex justify-between gap-x-1 items-start uppercase pointer-events-none font-apercuBold text-center text-[600px] leading-[0px] mt-70">

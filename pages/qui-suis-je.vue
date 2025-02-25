@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
 	<div class="relative min-h-screen text-white pt-20">
 		<h1 class="flex flex-col text-[80px] leading-[90px] text-left w-2/3">
@@ -8,7 +10,7 @@
 		</h1>
 		<div class="mt-50 flex justify-end gap-50">
 			<div class="w-2/3"></div>
-			<div class="parallax relative w-2/5 h-auto">
+			<div class="z-20 parallax relative w-2/5 h-auto">
 				<div
 					class="parallax-strong absolute inset-0 w-full h-full bg-yellow rounded-2xl"></div>
 				<NuxtImg
@@ -19,8 +21,8 @@
 					class="grayscale brightness-70 contrast-110 shadow-custom w-full h-full rounded-2xl" />
 			</div>
 		</div>
-		<div class="relative -mt-30 flex flex-col gap-70">
-			<h2 class="text-7xl  w-3/5 font-apercuBold uppercase text-left">
+		<ZigzagLine>
+			<h2 class="text-7xl w-3/5 font-apercuBold uppercase text-left">
 				Pascale Canal
 			</h2>
 			<p class="text-4xl w-3/5">
@@ -32,19 +34,20 @@
 			</p>
 			<p class="text-4xl flex justify-end">
 				<span class="w-3/5">
-					Je peins à l’huile, privilégiant des dominantes de noir, blanc, gris et
-					doré. Ces teintes, entre ombre et éclat, traduisent l’essence même de
-					l’Aubrac : le noir pour sa profondeur, sa pierre volcanique et son
+					Je peins à l’huile, privilégiant des dominantes de noir, blanc, gris
+					et doré. Ces teintes, entre ombre et éclat, traduisent l’essence même
+					de l’Aubrac : le noir pour sa profondeur, sa pierre volcanique et son
 					ancrage, le blanc pour la neige mais aussi pour la lumière qui sculpte
-					les formes et révèle les contrastes, le gris pour le temps qui passe et
-					la brume des matins, et l’or enfin, qui évoque l’éclat du soleil
+					les formes et révèle les contrastes, le gris pour le temps qui passe
+					et la brume des matins, et l’or enfin, qui évoque l’éclat du soleil
 					couchant sur les robes fauves des troupeaux.
 				</span>
 			</p>
 			<p class="text-4xl w-3/5">
-				À travers leurs yeux doux et maquillés, je cherche à capturer la présence de ces animaux, ce lien
-				ancestral qui les unit à leur territoire et aux hommes et femmes
-				passionnés qui veillent sur eux avec exigence et respect.
+				À travers leurs yeux doux et maquillés, je cherche à capturer la
+				présence de ces animaux, ce lien ancestral qui les unit à leur
+				territoire et aux hommes et femmes passionnés qui veillent sur eux avec
+				exigence et respect.
 			</p>
 			<p class="text-4xl flex justify-end">
 				<span class="w-3/5">
@@ -55,15 +58,21 @@
 				</span>
 			</p>
 			<p class="text-4xl flex justify-end">
-				<span class="w-3/5">
-					C’est de là que ma peinture s’inspire.
-				</span>
+				<span class="w-3/5"> C’est de là que ma peinture s’inspire. </span>
 			</p>
 			<div class="flex items-center justify-end gap-5">
-				<NuxtLink to="/contact" class="bg-white text-black py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:opacity-80 transition duration-300">Me contacter</NuxtLink>
-				<NuxtLink to="/" class="border border-white text-white py-2 px-6 rounded-lg text-sm font-bold hover:bg-white hover:text-black transition duration-300">Voir mes tableaux</NuxtLink>
+				<NuxtLink
+					to="/contact"
+					class="bg-white text-black py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:opacity-80 transition duration-300"
+					>Me contacter</NuxtLink
+				>
+				<NuxtLink
+					to="/"
+					class="border border-white text-white py-2 px-6 rounded-lg text-sm font-bold hover:bg-white hover:text-black transition duration-300"
+					>Voir mes tableaux</NuxtLink
+				>
 			</div>
-		</div>
+		</ZigzagLine>
 	</div>
 </template>
 
