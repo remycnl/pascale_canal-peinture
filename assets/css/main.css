@@ -34,11 +34,11 @@ html {
 
 @theme {
 	--color-black: #222222;
-	--color-white: #F8F8F8;
-	--color-grayDark: #4D4D4D;
-	--color-gold: #D0B285;
-	--color-yellow: #FFF083;
-	--color-cream: #FEF9E1;
+	--color-white: #f8f8f8;
+	--color-grayDark: #4d4d4d;
+	--color-gold: #d0b285;
+	--color-yellow: #fff083;
+	--color-cream: #fef9e1;
 	--font-apercuBold: "ApercuPro-Bold", sans-serif;
 	--font-apercuLight: "ApercuPro-Light", sans-serif;
 	--font-apercuRegular: "ApercuPro-Regular", sans-serif;
@@ -55,6 +55,10 @@ html {
 
 body {
 	font-family: var(--font-apercuRegular);
+}
+
+.text-shadow {
+	text-shadow: 0 2px 4px rgba(34, 34, 34, 0.2);
 }
 
 .text-line-animation {
