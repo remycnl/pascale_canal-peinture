@@ -148,7 +148,7 @@ const handleDimensionsChange = () => {
 const updateDimensions = () => {
 	if (zigzagContainer.value) {
 		const rect = zigzagContainer.value.getBoundingClientRect();
-		containerTop.value = rect.top + window.pageYOffset;
+		containerTop.value = rect.top + window.scrollY;
 		containerHeight.value = rect.height;
 
 		svgWidth.value = Math.max(100, rect.width);
@@ -166,7 +166,7 @@ const handleScroll = () => {
 		cancelAnimationFrame(animationId.value);
 	}
 
-	const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+	const scrollY = window.scrollY || document.documentElement.scrollTop;
 
 	const windowCenter = windowHeight.value / 2;
 	const componentTop =

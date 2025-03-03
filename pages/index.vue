@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
 						fit="cover"
 						format="webp"
 						loading="lazy"
-						quality="50"
+						quality="10"
 						@load="handleImageLoad(painting.id)"
 						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 					<div
@@ -114,7 +114,7 @@ onBeforeUnmount(() => {
 						<NuxtImg
 							src="/svg/arrow-white.svg"
 							alt="right arrow"
-							class="w-6 h-6 translate-x-1 origin-left will-change-auto group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+							class="w-6 h-6 translate-x-1 origin-left will-change-auto group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400" />
 						<span
 							class="text-xl font-apercuBold -translate-x-8 will-change-auto group-hover:translate-x-0 transition-all duration-500"
 							>{{ painting.name }}</span

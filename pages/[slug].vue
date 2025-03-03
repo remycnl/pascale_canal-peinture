@@ -46,7 +46,7 @@
 						class="rounded-2xl w-full h-full max-h-[80vh] object-center will-change-transform" />
 				</div>
 				<div class="relative prose max-w-none text-grayDark">
-					<div class="absolute -top-20 right-0 text-end will-change-scroll">
+					<div class="absolute -top-20 right-0 text-end will-change-scroll flex flex-row gap-x-4">
 						<button
 							v-if="painting.state === 'SOLD'"
 							class="bg-black text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-300">
@@ -57,10 +57,10 @@
 							class="bg-black text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-300">
 							Acheter maintenant
 						</button>
-						<button
-							class="ml-4 border border-black text-black py-2 px-6 rounded-lg text-sm font-bold hover:bg-black hover:text-white transition duration-300">
-							Partager
-						</button>
+						<ShareButton
+							:title="`Découvre '${painting.name}' peint par ${painting.artist}`"
+							:description="painting.description"
+							position="bottom-right" />
 					</div>
 					<h2 class="text-3xl font-bold text-black">Détails</h2>
 					<ul class="mt-4 text-xl space-y-2">
