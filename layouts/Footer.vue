@@ -34,9 +34,13 @@
 				</NuxtLink>
 			</div>
 			<div>
+				<NuxtLink to="faq" class="hover:text-gold transition-colors">
+					FAQ
+				</NuxtLink>
+
 				<NuxtLink
 					to="mentions-legales"
-					class="hover:text-gold transition-colors">
+					class="hover:text-gold transition-colors ml-5">
 					Mentions légales
 				</NuxtLink>
 
@@ -46,23 +50,13 @@
 					Politique de confidentialité
 				</NuxtLink>
 
-				<NuxtLink
-					to="cookies"
-					class="hover:text-gold transition-colors ml-5">
-					Cookies
-				</NuxtLink>
-				<NuxtLink
-					to="conditions-utilisation"
-					class="hover:text-gold transition-colors ml-5">
-					Conditions d'utilisation
-				</NuxtLink>
-
 				<NuxtLink to="cgu" class="hover:text-gold transition-colors ml-5">
 					CGU
 				</NuxtLink>
 			</div>
 		</div>
-		<div class="flex justify-between gap-x-1 items-start uppercase pointer-events-none font-apercuBold text-center text-[600px] leading-[0px] mt-70">
+		<div
+			class="flex justify-between gap-x-1 items-start uppercase pointer-events-none font-apercuBold text-center text-[600px] leading-[0px] mt-70">
 			<span>C</span>
 			<span>a</span>
 			<span>n</span>

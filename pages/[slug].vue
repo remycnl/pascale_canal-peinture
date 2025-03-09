@@ -55,7 +55,7 @@
 						<button
 							v-else
 							class="bg-black text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-300">
-							Acheter maintenant
+							Acheter
 						</button>
 						<ShareButton
 							:title="`Découvre '${painting.name}' peint par ${painting.artist}`"
