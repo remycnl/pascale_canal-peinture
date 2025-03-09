@@ -1,4 +1,5 @@
 <script setup>
+import { Analytics } from '@vercel/analytics/nuxt'
 import Header from "@/layouts/Header.vue";
 import Footer from "@/layouts/Footer.vue";
 
@@ -28,6 +29,7 @@ useSeoMeta({
 
 <template>
 	<div class="overflow-hidden">
+		<Analytics/>
 		<SplashScreen />
 		<Header />
 		<div
