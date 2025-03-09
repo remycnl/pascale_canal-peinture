@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { writeFile, unlink } from "fs/promises";
 import { join } from "path";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export default defineEventHandler(async (event) => {
 	try {
