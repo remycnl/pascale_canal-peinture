@@ -34,23 +34,23 @@
 				</NuxtLink>
 			</div>
 			<div>
-				<NuxtLink to="faq" class="hover:text-gold transition-colors">
+				<NuxtLink to="/faq" class="hover:text-gold transition-colors">
 					FAQ
 				</NuxtLink>
 
 				<NuxtLink
-					to="mentions-legales"
+					to="/mentions-legales"
 					class="hover:text-gold transition-colors ml-5">
 					Mentions légales
 				</NuxtLink>
 
 				<NuxtLink
-					to="politique-de-confidentialite"
+					to="/politique-de-confidentialite"
 					class="hover:text-gold transition-colors ml-5">
 					Politique de confidentialité
 				</NuxtLink>
 
-				<NuxtLink to="cgu" class="hover:text-gold transition-colors ml-5">
+				<NuxtLink to="/cgu" class="hover:text-gold transition-colors ml-5">
 					CGU
 				</NuxtLink>
 			</div>
