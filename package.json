@@ -7,7 +7,7 @@
 		"dev": "nuxt dev",
 		"generate": "npx prisma generate && nuxt generate",
 		"preview": "nuxt preview",
-		"postinstall": "npx prisma generate && nuxt prepare"
+		"postinstall": "npx prisma generate && prisma migrate deploy && nuxt prepare"
 	},
 	"dependencies": {
 		"@nuxt/image": "^1.9.0",
