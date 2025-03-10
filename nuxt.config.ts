@@ -15,9 +15,6 @@ export default defineNuxtConfig({
 	],
 	vite: {
 		plugins: [tailwindcss()],
-		optimizeDeps: {
-			exclude: ["@prisma/client"],
-		},
 		resolve: {
 			alias: {
 				".prisma/client/index-browser":

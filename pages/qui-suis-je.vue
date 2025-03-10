@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
 	<div class="relative min-h-screen text-white pt-20">
 		<h1 class="flex flex-col text-[80px] leading-[90px] text-left w-2/3">
