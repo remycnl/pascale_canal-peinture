@@ -17,14 +17,16 @@ export default defineNuxtConfig({
 		plugins: [tailwindcss()],
 	},
 	nitro: {
-		externals: {
-			inline: ["@prisma/client"],
-		},
-	},
-	// Make sure Prisma is properly transpiled
-	build: {
-		transpile: ["@prisma/client"],
-	},
+		esbuild: {
+		  options: {
+			tsconfigRaw: {
+			  compilerOptions: {
+				experimentalDecorators: true
+			  }
+			}
+		  }
+		}
+	  },
 	runtimeConfig: {
 		public: {
 			NUXT_SECRET_KEY: process.env.NUXT_SECRET_KEY,
