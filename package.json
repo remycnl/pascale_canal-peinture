@@ -3,11 +3,11 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "npx prisma generate && nuxt build",
+		"build": "nuxt build",
 		"dev": "nuxt dev",
-		"generate": "npx prisma generate && nuxt generate",
+		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"postinstall": "npx prisma generate && nuxt prepare"
+		"postinstall": "prisma generate && nuxt prepare"
 	},
 	"dependencies": {
 		"@nuxt/image": "^1.9.0",
