@@ -15,18 +15,15 @@ export default defineNuxtConfig({
 	],
 	vite: {
 		plugins: [tailwindcss()],
+		optimizeDeps: {
+			exclude: ["@prisma/client"],
+		},
 	},
 	nitro: {
-		esbuild: {
-		  options: {
-			tsconfigRaw: {
-			  compilerOptions: {
-				experimentalDecorators: true
-			  }
-			}
-		  }
-		}
-	  },
+		preset: "vercel",
+		// Important part to handle Prisma properly
+		moduleSideEffects: ["@prisma/client"],
+	},
 	runtimeConfig: {
 		public: {
 			NUXT_SECRET_KEY: process.env.NUXT_SECRET_KEY,
