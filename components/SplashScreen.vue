@@ -1,16 +1,3 @@
-<template>
-	<div
-		v-if="isVisible"
-		class="splash-screen"
-		:class="{ 'fade-out': !isVisible }">
-		<NuxtImg
-			src="/img/logo.png"
-			alt="Logo"
-			class="w-40 h-auto logo-animation"
-			:class="{ 'scale-active': isVisible }" />
-	</div>
-</template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { useLoading } from "@/composables/useLoading";
@@ -23,6 +10,19 @@ onMounted(() => {
 	loading.value = false;
 });
 </script>
+
+<template>
+	<div
+		v-if="isVisible"
+		class="splash-screen"
+		:class="{ 'fade-out': !isVisible }">
+		<NuxtImg
+			src="/img/logo.png"
+			alt="Logo"
+			class="w-40 h-auto logo-animation"
+			:class="{ 'scale-active': isVisible }" />
+	</div>
+</template>
 
 <style scoped>
 .splash-screen {

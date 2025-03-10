@@ -1,49 +1,3 @@
-<template>
-	<div class="relative min-h-screen pt-20">
-		<h1 class="flex flex-col text-[80px] leading-[90px] text-left w-2/3">
-			<span class="text-[180px] leading-[180px] font-apercuBold">
-				Comment ça marche ?
-			</span>
-		</h1>
-
-		<div class="my-50 flex flex-col items-center gap-y-50">
-			<div
-				v-for="(section, index) in sections"
-				:key="section.number"
-				:class="`flex ${
-					isEven(index) ? 'flex-row-reverse' : 'flex-row'
-				} justify-between w-full h-80 rounded-2xl bg-black text-white`">
-				<span
-					:class="`text-[550px] leading-[400px] tracking-tighter ${
-						isEven(index) ? '-mr-10' : '-ml-30'
-					} font-apercuBold select-none`">
-					{{ section.number }}
-				</span>
-				<div class="flex flex-col justify-center gap-y-5 w-1/2 p-10">
-					<h2 class="text-6xl font-apercuBold">
-						{{ section.title }}
-					</h2>
-					<p class="text-2xl text-gray-500">
-						<template
-							v-for="(part, i) in renderDescription(section.description)">
-							<NuxtLink
-								v-if="part.isLink"
-								:to="part.to"
-								:key="i"
-								class="underline">
-								{{ part.text }}
-							</NuxtLink>
-							<template v-else>
-								{{ part.text }}
-							</template>
-						</template>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
-
 <script setup>
 const sections = [
 	{
@@ -143,3 +97,49 @@ function renderDescription(description) {
 	return parts;
 }
 </script>
+
+<template>
+	<div class="relative min-h-screen pt-20">
+		<h1 class="flex flex-col text-[80px] leading-[90px] text-left w-2/3">
+			<span class="text-[180px] leading-[180px] font-apercuBold">
+				Comment ça marche ?
+			</span>
+		</h1>
+
+		<div class="my-50 flex flex-col items-center gap-y-50">
+			<div
+				v-for="(section, index) in sections"
+				:key="section.number"
+				:class="`flex ${
+					isEven(index) ? 'flex-row-reverse' : 'flex-row'
+				} justify-between w-full h-80 rounded-2xl bg-black text-white`">
+				<span
+					:class="`text-[550px] leading-[400px] tracking-tighter ${
+						isEven(index) ? '-mr-10' : '-ml-30'
+					} font-apercuBold select-none`">
+					{{ section.number }}
+				</span>
+				<div class="flex flex-col justify-center gap-y-5 w-1/2 p-10">
+					<h2 class="text-6xl font-apercuBold">
+						{{ section.title }}
+					</h2>
+					<p class="text-2xl text-gray-500">
+						<template
+							v-for="(part, i) in renderDescription(section.description)">
+							<NuxtLink
+								v-if="part.isLink"
+								:to="part.to"
+								:key="i"
+								class="underline">
+								{{ part.text }}
+							</NuxtLink>
+							<template v-else>
+								{{ part.text }}
+							</template>
+						</template>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

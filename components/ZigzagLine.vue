@@ -1,27 +1,3 @@
-<template>
-	<div ref="zigzagContainer" class="z-10 relative w-full overflow-visible">
-		<svg
-			class="absolute top-0 left-0 pointer-events-none w-full h-full overflow-visible"
-			:viewBox="`0 0 ${svgWidth} ${totalHeight}`"
-			xmlns="http://www.w3.org/2000/svg"
-			preserveAspectRatio="none">
-			<path
-				ref="path"
-				:d="pathData"
-				:stroke="lineColor"
-				:stroke-width="lineWidth"
-				fill="none"
-				:stroke-dasharray="dashLength"
-				:stroke-dashoffset="dashOffset"
-				:stroke-linecap="'round'"
-				:stroke-linejoin="'round'" />
-		</svg>
-		<div class="relative -mt-30 flex flex-col gap-70">
-			<slot></slot>
-		</div>
-	</div>
-</template>
-
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
 
@@ -229,3 +205,27 @@ onBeforeUnmount(() => {
 	}
 });
 </script>
+
+<template>
+	<div ref="zigzagContainer" class="z-10 relative w-full overflow-visible">
+		<svg
+			class="absolute top-0 left-0 pointer-events-none w-full h-full overflow-visible"
+			:viewBox="`0 0 ${svgWidth} ${totalHeight}`"
+			xmlns="http://www.w3.org/2000/svg"
+			preserveAspectRatio="none">
+			<path
+				ref="path"
+				:d="pathData"
+				:stroke="lineColor"
+				:stroke-width="lineWidth"
+				fill="none"
+				:stroke-dasharray="dashLength"
+				:stroke-dashoffset="dashOffset"
+				:stroke-linecap="'round'"
+				:stroke-linejoin="'round'" />
+		</svg>
+		<div class="relative -mt-30 flex flex-col gap-70">
+			<slot></slot>
+		</div>
+	</div>
+</template>

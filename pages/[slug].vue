@@ -1,3 +1,88 @@
+<script setup>
+const route = useRoute();
+
+const imageRef = ref(null);
+const isZoomed = ref(false);
+const mousePosition = ref({ x: 0, y: 0 });
+const transformOrigin = ref("center");
+const zoomLevel = 2.5;
+const imageLoaded = ref(false);
+const imageAspectRatio = ref("1/1");
+
+const { data: painting, error } = await useFetch(
+	`/api/paintings/${route.params.slug}`
+);
+
+if (error.value) {
+	console.error("Erreur lors de la récupération de la peinture :", error.value);
+}
+
+const handleImageLoad = (event) => {
+	const img = event.target;
+	imageAspectRatio.value = "1/1";
+	imageLoaded.value = true;
+};
+
+//formater la date
+const formatDate = (date) => {
+	const options = {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	};
+	return new Date(date).toLocaleDateString("fr-FR", options);
+};
+
+// Formater le prix
+const formatPrice = (price) => {
+	return new Intl.NumberFormat("fr-FR").format(price);
+};
+
+const transform = computed(() => {
+	return isZoomed.value ? `scale(${zoomLevel})` : "scale(1)";
+});
+
+const calculatePosition = (e) => {
+	const rect = e.currentTarget.getBoundingClientRect();
+	const x = ((e.clientX - rect.left) / rect.width) * 100;
+	const y = ((e.clientY - rect.top) / rect.height) * 100;
+	return { x, y };
+};
+
+const handleClick = (e) => {
+	const pos = calculatePosition(e);
+	transformOrigin.value = `${pos.x}% ${pos.y}%`;
+	isZoomed.value = !isZoomed.value;
+};
+
+const handleMouseMove = (e) => {
+	if (!isZoomed.value) return;
+	const pos = calculatePosition(e);
+	mousePosition.value = pos;
+	transformOrigin.value = `${pos.x}% ${pos.y}%`;
+};
+
+const handleMouseLeave = () => {
+	if (isZoomed.value) {
+		isZoomed.value = false;
+	}
+};
+
+useHead(() => ({
+	title: painting.value
+		? `${painting.value.name} | Galerie`
+		: "Page non trouvée",
+	meta: [
+		{
+			name: "description",
+			content: painting.value
+				? `${painting.value.name} - ${formatPrice(painting.value.price)}€`
+				: "Page de peinture non trouvée",
+		},
+	],
+}));
+</script>
+
 <template>
 	<div class="relative min-h-screen pt-10">
 		<div v-if="painting">
@@ -105,88 +190,3 @@
 		</div>
 	</div>
 </template>
-
-<script setup>
-const route = useRoute();
-
-const imageRef = ref(null);
-const isZoomed = ref(false);
-const mousePosition = ref({ x: 0, y: 0 });
-const transformOrigin = ref("center");
-const zoomLevel = 2.5;
-const imageLoaded = ref(false);
-const imageAspectRatio = ref("1/1");
-
-const { data: painting, error } = await useFetch(
-	`/api/paintings/${route.params.slug}`
-);
-
-if (error.value) {
-	console.error("Erreur lors de la récupération de la peinture :", error.value);
-}
-
-const handleImageLoad = (event) => {
-	const img = event.target;
-	imageAspectRatio.value = "1/1";
-	imageLoaded.value = true;
-};
-
-//formater la date
-const formatDate = (date) => {
-	const options = {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	};
-	return new Date(date).toLocaleDateString("fr-FR", options);
-};
-
-// Formater le prix
-const formatPrice = (price) => {
-	return new Intl.NumberFormat("fr-FR").format(price);
-};
-
-const transform = computed(() => {
-	return isZoomed.value ? `scale(${zoomLevel})` : "scale(1)";
-});
-
-const calculatePosition = (e) => {
-	const rect = e.currentTarget.getBoundingClientRect();
-	const x = ((e.clientX - rect.left) / rect.width) * 100;
-	const y = ((e.clientY - rect.top) / rect.height) * 100;
-	return { x, y };
-};
-
-const handleClick = (e) => {
-	const pos = calculatePosition(e);
-	transformOrigin.value = `${pos.x}% ${pos.y}%`;
-	isZoomed.value = !isZoomed.value;
-};
-
-const handleMouseMove = (e) => {
-	if (!isZoomed.value) return;
-	const pos = calculatePosition(e);
-	mousePosition.value = pos;
-	transformOrigin.value = `${pos.x}% ${pos.y}%`;
-};
-
-const handleMouseLeave = () => {
-	if (isZoomed.value) {
-		isZoomed.value = false;
-	}
-};
-
-useHead(() => ({
-	title: painting.value
-		? `${painting.value.name} | Galerie`
-		: "Page non trouvée",
-	meta: [
-		{
-			name: "description",
-			content: painting.value
-				? `${painting.value.name} - ${formatPrice(painting.value.price)}€`
-				: "Page de peinture non trouvée",
-		},
-	],
-}));
-</script>

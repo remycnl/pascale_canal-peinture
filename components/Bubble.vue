@@ -1,49 +1,3 @@
-<template>
-	<div class="flex justify-center w-full">
-		<div
-			:class="{
-				'w-150 pl-8 hover:scale-100': isInputFocused,
-				'w-120 pl-4 hover:scale-105': !isInputFocused,
-			}"
-			class="z-50 h-fit origin-center bg-[#000000] rounded-full fixed bottom-5 py-2 pr-2 transition-all duration-500">
-			<div class="flex justify-between items-center space-x-2">
-				<NuxtImg src="/img/logo-reversed.png" alt="Logo" class="w-auto h-7" />
-
-				<div class="relative ml-10 flex-grow">
-					<input
-						v-model="searchQuery"
-						@keyup.enter="navigateToTable"
-						@input="searchTables"
-						@focus="isInputFocused = true"
-						@blur="handleBlur"
-						placeholder="Rechercher un tableau..."
-						class="w-full px-3 py-2 text-sm text-gray-200 bg-black rounded-full focus:outline-none" />
-					<div
-						v-if="suggestions.length > 0"
-						class="absolute w-full bottom-full p-2 mb-3 bg-[#000000] rounded-2xl z-10">
-						<ul>
-							<li
-								v-for="suggestion in suggestions"
-								:key="suggestion.id"
-								@click="selectSuggestion(suggestion)"
-								@mousedown="preventBlur"
-								class="px-3 py-2 text-sm text-white hover:bg-black rounded-lg cursor-pointer">
-								{{ suggestion.name }}
-							</li>
-						</ul>
-					</div>
-				</div>
-
-				<div
-					class="text-black text-sm px-5 py-2 bg-yellow hover:bg-yellow/85 active:scale-95 rounded-full cursor-pointer transition-all duration-300"
-					@click="scrollToTop">
-					Retour en haut
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -132,3 +86,49 @@ onMounted(async () => {
 	}
 });
 </script>
+
+<template>
+	<div class="flex justify-center w-full">
+		<div
+			:class="{
+				'w-150 pl-8 hover:scale-100': isInputFocused,
+				'w-120 pl-4 hover:scale-105': !isInputFocused,
+			}"
+			class="z-50 h-fit origin-center bg-[#000000] rounded-full fixed bottom-5 py-2 pr-2 transition-all duration-500">
+			<div class="flex justify-between items-center space-x-2">
+				<NuxtImg src="/img/logo-reversed.png" alt="Logo" class="w-auto h-7" />
+
+				<div class="relative ml-10 flex-grow">
+					<input
+						v-model="searchQuery"
+						@keyup.enter="navigateToTable"
+						@input="searchTables"
+						@focus="isInputFocused = true"
+						@blur="handleBlur"
+						placeholder="Rechercher un tableau..."
+						class="w-full px-3 py-2 text-sm text-gray-200 bg-black rounded-full focus:outline-none" />
+					<div
+						v-if="suggestions.length > 0"
+						class="absolute w-full bottom-full p-2 mb-3 bg-[#000000] rounded-2xl z-10">
+						<ul>
+							<li
+								v-for="suggestion in suggestions"
+								:key="suggestion.id"
+								@click="selectSuggestion(suggestion)"
+								@mousedown="preventBlur"
+								class="px-3 py-2 text-sm text-white hover:bg-black rounded-lg cursor-pointer">
+								{{ suggestion.name }}
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div
+					class="text-black text-sm px-5 py-2 bg-yellow hover:bg-yellow/85 active:scale-95 rounded-full cursor-pointer transition-all duration-300"
+					@click="scrollToTop">
+					Retour en haut
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
