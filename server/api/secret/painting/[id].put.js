@@ -1,4 +1,4 @@
-import prisma from '@/server/utils/prisma'
+import prisma from '~/lib/prisma'
 import { writeFile, unlink } from "fs/promises";
 import { join } from "path";
 

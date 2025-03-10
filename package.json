@@ -3,15 +3,16 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "npx prisma generate && prisma migrate deploy && nuxt build",
+		"build": "npx prisma generate && nuxt build",
 		"dev": "nuxt dev",
 		"generate": "npx prisma generate && nuxt generate",
 		"preview": "nuxt preview",
-		"postinstall": "npx prisma generate && prisma migrate deploy && nuxt prepare"
+		"postinstall": "npx prisma generate && nuxt prepare"
 	},
 	"dependencies": {
 		"@nuxt/image": "^1.9.0",
 		"@prisma/client": "^6.4.1",
+		"@prisma/extension-accelerate": "^1.2.2",
 		"@prisma/nuxt": "^0.3.0",
 		"@tailwindcss/vite": "^4.0.12",
 		"@vercel/analytics": "^1.5.0",

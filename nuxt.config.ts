@@ -20,13 +20,13 @@ export default defineNuxtConfig({
 		},
 		resolve: {
 			alias: {
-				".prisma/client": "/node_modules/.prisma/client",
+				".prisma/client/index-browser":
+					"./node_modules/.prisma/client/index-browser.js",
 			},
 		},
 	},
 	nitro: {
 		preset: "vercel",
-		// Important part to handle Prisma properly
 		moduleSideEffects: ["@prisma/client"],
 	},
 	runtimeConfig: {
