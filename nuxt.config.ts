@@ -16,6 +16,15 @@ export default defineNuxtConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
+	nitro: {
+		externals: {
+			inline: ["@prisma/client"],
+		},
+	},
+	// Make sure Prisma is properly transpiled
+	build: {
+		transpile: ["@prisma/client"],
+	},
 	runtimeConfig: {
 		public: {
 			NUXT_SECRET_KEY: process.env.NUXT_SECRET_KEY,
