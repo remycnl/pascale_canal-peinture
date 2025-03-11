@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -30,3 +30,6 @@ enum PaintingState {
   FOR_SALE   // À vendre
   SOLD       // Vendu
 }
+
+// npx prisma migrate dev --name update-schema
+// npx prisma migrate deploy
