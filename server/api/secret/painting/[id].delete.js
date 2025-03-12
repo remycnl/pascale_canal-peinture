@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
-import { unlink } from "fs/promises";
-import { join } from "path";
+import cloudinary from "@/server/utils/cloudinary";
 
 export default defineEventHandler(async (event) => {
 	try {
@@ -18,12 +17,23 @@ export default defineEventHandler(async (event) => {
 			});
 		}
 
-		// Delete image file
-		const imagePath = join(process.cwd(), "public", painting.image);
-		try {
-			await unlink(imagePath);
-		} catch (error) {
-			console.error("Error deleting image file:", error);
+		// Extract public_id from Cloudinary URL
+		if (painting.image && painting.image.includes("cloudinary.com")) {
+			try {
+				const urlParts = painting.image.split("/");
+				const filenameWithExtension = urlParts[urlParts.length - 1];
+				const filename = filenameWithExtension.split(".")[0];
+				const folderName = urlParts[urlParts.length - 2];
+				const publicId = `${folderName}/${filename}`;
+
+				// Suppression de l'image sur Cloudinary
+				await cloudinary.uploader.destroy(publicId);
+			} catch (error) {
+				console.error(
+					"Erreur lors de la suppression de l'image sur Cloudinary:",
+					error
+				);
+			}
 		}
 
 		// Delete painting from database

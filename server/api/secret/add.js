@@ -1,10 +1,9 @@
 import prisma from "@/lib/prisma";
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import cloudinary from "@/server/utils/cloudinary";
+import { Readable } from "stream";
 
 export default defineEventHandler(async (event) => {
 	try {
-		// Récupération des données multipart
 		const formData = await readMultipartFormData(event);
 		if (!formData) throw new Error("No form data");
 
@@ -18,33 +17,39 @@ export default defineEventHandler(async (event) => {
 		const imageFile = formData.find((field) => field.name === "image");
 		if (!imageFile) throw new Error("No image file");
 
-		// Création du nom de fichier unique
-		const fileExtension = imageFile.filename.split(".").pop();
-		const uniqueFileName = `${Date.now()}-${Math.random()
-			.toString(36)
-			.substring(7)}.${fileExtension}`;
-		const relativePath = `/paintings/${uniqueFileName}`;
-		const absolutePath = join(
-			process.cwd(),
-			"public",
-			"paintings",
-			uniqueFileName
-		);
+		// Upload de l'image vers Cloudinary
+		const uploadResult = await new Promise((resolve, reject) => {
+			const uploadStream = cloudinary.uploader.upload_stream(
+				{ folder: "paintings" },
+				(error, result) => {
+					if (error) {
+						console.error("Erreur d'upload Cloudinary:", error);
+						return reject(error);
+					}
+					resolve(result);
+				}
+			);
 
-		// Écriture du fichier
-		await writeFile(absolutePath, imageFile.data);
+			const readableStream = new Readable();
+			readableStream.push(imageFile.data);
+			readableStream.push(null);
+
+			readableStream.pipe(uploadStream);
+		});
 
 		// Création de la peinture dans la base de données
 		const painting = await prisma.painting.create({
 			data: {
 				name: getFieldValue("name"),
 				description: getFieldValue("description"),
-				date: getFieldValue("date") ? new Date(getFieldValue("date")) : new Date(),
-				price: parseFloat(getFieldValue("price")),
-				image: relativePath,
+				date: getFieldValue("date")
+					? new Date(getFieldValue("date"))
+					: new Date(),
+				price: parseFloat(getFieldValue("price") || "0"),
+				image: uploadResult.secure_url,
 				artist: getFieldValue("artist"),
-				width: parseFloat(getFieldValue("width")),
-				height: parseFloat(getFieldValue("height")),
+				width: parseFloat(getFieldValue("width") || "0"),
+				height: parseFloat(getFieldValue("height") || "0"),
 				paintingType: getFieldValue("paintingType"),
 				tag: getFieldValue("tag"),
 				slug: getFieldValue("slug"),
@@ -54,11 +59,11 @@ export default defineEventHandler(async (event) => {
 
 		return { painting };
 	} catch (error) {
-		console.error("Erreur lors de l'ajout de la peinture:", error);
+		console.error("Erreur détaillée lors de l'ajout de la peinture:", error);
 
 		throw createError({
 			statusCode: 500,
-			message: "Erreur lors de l'ajout de la peinture",
+			message: `Erreur lors de l'ajout de la peinture: ${error.message}`,
 		});
 	}
 });
