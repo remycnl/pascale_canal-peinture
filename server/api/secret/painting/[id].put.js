@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
-import { writeFile, unlink } from "fs/promises";
-import { join } from "path";
+import cloudinary from "@/server/utils/cloudinary";
 
 export default defineEventHandler(async (event) => {
 	try {
@@ -31,31 +30,45 @@ export default defineEventHandler(async (event) => {
 		const imageFile = formData.find((field) => field.name === "image");
 
 		if (imageFile) {
-			// Delete old image
-			const oldImagePath = join(
-				process.cwd(),
-				"public",
-				existingPainting.image
-			);
-			try {
-				await unlink(oldImagePath);
-			} catch (error) {
-				console.error("Error deleting old image:", error);
+			// Delete old image from Cloudinary if it exists
+			if (
+				existingPainting.image &&
+				existingPainting.image.includes("cloudinary.com")
+			) {
+				try {
+					const urlParts = existingPainting.image.split("/");
+					const filenameWithExtension = urlParts[urlParts.length - 1];
+					const filename = filenameWithExtension.split(".")[0];
+					const folderName = urlParts[urlParts.length - 2];
+					const publicId = `${folderName}/${filename}`;
+
+					await cloudinary.uploader.destroy(publicId);
+				} catch (error) {
+					console.error(
+						"Erreur lors de la suppression de l'ancienne image sur Cloudinary:",
+						error
+					);
+				}
 			}
 
-			// Save new image
-			const fileExtension = imageFile.filename.split(".").pop();
-			const uniqueFileName = `${Date.now()}-${Math.random()
-				.toString(36)
-				.substring(7)}.${fileExtension}`;
-			imagePath = `/paintings/${uniqueFileName}`;
-			const absolutePath = join(
-				process.cwd(),
-				"public",
-				"paintings",
-				uniqueFileName
-			);
-			await writeFile(absolutePath, imageFile.data);
+			// Upload new image to Cloudinary
+			try {
+				const base64Image = `data:${imageFile.type};base64,${Buffer.from(
+					imageFile.data
+				).toString("base64")}`;
+
+				const uploadResult = await cloudinary.uploader.upload(base64Image, {
+					folder: "paintings",
+				});
+
+				imagePath = uploadResult.secure_url;
+			} catch (uploadError) {
+				console.error(
+					"Erreur lors de l'upload de la nouvelle image:",
+					uploadError
+				);
+				throw new Error(`Erreur d'upload: ${uploadError.message}`);
+			}
 		}
 
 		// Update painting in database
@@ -63,7 +76,8 @@ export default defineEventHandler(async (event) => {
 			where: { id: parseInt(id) },
 			data: {
 				name: getFieldValue("name") || existingPainting.name,
-				description: getFieldValue("description") || existingPainting.description,
+				description:
+					getFieldValue("description") || existingPainting.description,
 				price: getFieldValue("price")
 					? parseFloat(getFieldValue("price"))
 					: existingPainting.price,
@@ -75,7 +89,8 @@ export default defineEventHandler(async (event) => {
 				height: getFieldValue("height")
 					? parseFloat(getFieldValue("height"))
 					: existingPainting.height,
-				paintingType: getFieldValue("paintingType") || existingPainting.paintingType,
+				paintingType:
+					getFieldValue("paintingType") || existingPainting.paintingType,
 				tag: getFieldValue("tag") || existingPainting.tag,
 				slug: getFieldValue("slug") || existingPainting.slug,
 				state: getFieldValue("state") || existingPainting.state,
@@ -87,10 +102,13 @@ export default defineEventHandler(async (event) => {
 
 		return { painting };
 	} catch (error) {
-		console.error("Erreur lors de la modification de la peinture:", error);
+		console.error(
+			"Erreur détaillée lors de la modification de la peinture:",
+			error
+		);
 		throw createError({
 			statusCode: 500,
-			message: "Erreur lors de la modification de la peinture",
+			message: `Erreur lors de la modification de la peinture: ${error.message}`,
 		});
 	}
 });
