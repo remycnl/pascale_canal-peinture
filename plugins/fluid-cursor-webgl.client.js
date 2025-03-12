@@ -1,5 +1,5 @@
 export default defineNuxtPlugin((nuxtApp) => {
-	if (import.meta.client) {
+	if (import.meta.client && window.innerWidth > 1024) {
 		nuxtApp.hook("app:mounted", () => {
 			const canvas = document.createElement("canvas");
 			canvas.style.position = "fixed";

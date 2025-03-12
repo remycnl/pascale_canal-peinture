@@ -110,7 +110,7 @@ export class SmoothScroll {
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
-	if (import.meta.client) {
+	if (import.meta.client && window.innerWidth > 1024) {
 		const router = useRouter();
 		let smoothScroll = null;
 
