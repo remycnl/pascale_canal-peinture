@@ -1,5 +1,15 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
+import {
+	ref,
+	computed,
+	onMounted,
+	onBeforeUnmount,
+	nextTick,
+	watch,
+} from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 const props = defineProps({
 	// (en %)
@@ -49,6 +59,7 @@ const windowHeight = ref(0);
 const windowWidth = ref(0);
 const calculatedPoints = ref([]);
 const isInitialized = ref(false);
+const isVisible = ref(false);
 
 const pathData = computed(() => {
 	if (!calculatedPoints.value || calculatedPoints.value.length < 2) {
@@ -85,9 +96,9 @@ const initializeAnimation = () => {
 
 				isInitialized.value = true;
 
-				handleScroll();
+				setTimeout(checkVisibility, 100);
 			}
-		}, 50);
+		}, 100);
 	});
 };
 
@@ -116,7 +127,7 @@ const handleDimensionsChange = () => {
 			dashLength.value = newPathLength;
 			dashOffset.value = newPathLength - progress * newPathLength;
 
-			handleScroll();
+			checkVisibility();
 		}
 	}, 50);
 };
@@ -133,6 +144,26 @@ const updateDimensions = () => {
 
 	windowHeight.value = window.innerHeight;
 	windowWidth.value = window.innerWidth;
+};
+
+const checkVisibility = () => {
+	if (!isInitialized.value || !zigzagContainer.value) return;
+
+	updateDimensions();
+
+	const scrollY = window.scrollY || document.documentElement.scrollTop;
+	const windowCenter = windowHeight.value / 2;
+	const componentTop =
+		containerTop.value - scrollY - props.offset * windowHeight.value;
+	const componentBottom = componentTop + containerHeight.value;
+
+	isVisible.value = !(componentBottom < 0 || componentTop > windowHeight.value);
+
+	if (isVisible.value) {
+		handleScroll();
+	} else {
+		dashOffset.value = pathLength.value;
+	}
 };
 
 const handleScroll = () => {
@@ -185,20 +216,74 @@ const animateOffset = () => {
 	animationId.value = requestAnimationFrame(animateOffset);
 };
 
+const resetAnimation = () => {
+	isInitialized.value = false;
+	isVisible.value = false;
+	dashOffset.value = pathLength.value;
+
+	setTimeout(() => {
+		updateDimensions();
+		initializeAnimation();
+	}, 300);
+};
+
+watch(
+	() => route.path,
+	(newPath, oldPath) => {
+		if (newPath !== oldPath) {
+			resetAnimation();
+		}
+	},
+	{ immediate: false }
+);
+
+const setupIntersectionObserver = () => {
+	if (!zigzagContainer.value || typeof IntersectionObserver === "undefined")
+		return;
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					if (isInitialized.value) {
+						isVisible.value = true;
+						handleScroll();
+					}
+				} else {
+					isVisible.value = false;
+				}
+			});
+		},
+		{ threshold: 0.1 }
+	);
+
+	observer.observe(zigzagContainer.value);
+
+	onBeforeUnmount(() => {
+		observer.disconnect();
+	});
+};
+
 onMounted(() => {
 	updateDimensions();
 
-	initializeAnimation();
+	setTimeout(() => {
+		initializeAnimation();
+		setupIntersectionObserver();
+	}, 200);
 
 	window.addEventListener("scroll", handleScroll);
 	window.addEventListener("resize", handleDimensionsChange);
 
-	handleScroll();
+	window.addEventListener("nuxt:page:finish", () => {
+		setTimeout(resetAnimation, 100);
+	});
 });
 
 onBeforeUnmount(() => {
 	window.removeEventListener("scroll", handleScroll);
 	window.removeEventListener("resize", handleDimensionsChange);
+	window.removeEventListener("nuxt:page:finish", resetAnimation);
 
 	if (animationId.value) {
 		cancelAnimationFrame(animationId.value);
