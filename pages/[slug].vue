@@ -17,8 +17,7 @@ if (error.value) {
 	console.error("Erreur lors de la récupération de la peinture :", error.value);
 }
 
-const handleImageLoad = (event) => {
-	const img = event.target;
+const handleImageLoad = () => {
 	imageAspectRatio.value = "1/1";
 	imageLoaded.value = true;
 };
@@ -107,7 +106,8 @@ useHead(() => ({
 			</div>
 			<div class="grid grid-cols-1 md:grid-cols-2 items-end gap-20">
 				<div
-					class="relative overflow-hidden rounded-2xl"
+					class="relative overflow-hidden rounded-2xl bg-gray-200"
+					:class="{ 'animate-pulse': !imageLoaded }"
 					@mousemove="handleMouseMove"
 					@mouseleave="handleMouseLeave"
 					@click="handleClick"
