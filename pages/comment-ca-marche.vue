@@ -104,21 +104,21 @@ function renderDescription(description) {
 				Comment ça marche ?
 		</h1>
 
-		<div class="my-20 md:my-30 lg:my-50 flex flex-col items-center gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50">
+		<div class="my-20 md:my-30 lg:my-50 flex flex-col items-center gap-y-10 sm:gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50">
 			<div
 				v-for="(section, index) in sections"
 				:key="section.number"
 				:class="`flex ${
-					isEven(index) ? 'flex-row-reverse' : 'flex-row'
-				} justify-between w-full h-80 rounded-2xl bg-black text-white`">
+					isEven(index) ? 'lg:flex-row-reverse' : 'lg:flex-row'
+				} flex-col justify-between w-full h-fit lg:h-80 rounded-2xl bg-black text-white`">
 				<span
-					:class="`text-[550px] leading-[400px] tracking-tighter ${
-						isEven(index) ? '-mr-10' : '-ml-30'
+					:class="`text-[100px] sm:text-[200px] md:text-[300px] lg:text-[550px] leading-[70px] sm:leading-[150px] md:leading-[220px] lg:leading-[400px] tracking-tighter ${
+						isEven(index) ? 'text-end -mr-2 sm:-mr-4 md:-mr-6 lg:-mr-10' : 'text-start -ml-3 sm:-ml-6 md:-ml-9 lg:-ml-30'
 					} font-apercuBold select-none`">
 					{{ section.number }}
 				</span>
-				<div class="flex flex-col justify-center gap-y-5 w-1/2 p-10">
-					<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-apercuBold">
+				<div class="flex flex-col justify-center gap-y-5 w-full lg:w-1/2 p-5 sm:p-10">
+					<h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-apercuBold">
 						{{ section.title }}
 					</h2>
 					<p class="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-500">
