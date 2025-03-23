@@ -63,21 +63,18 @@ const calculateCardSize = () => {
 	}
 
 	let padding;
-	if (screenWidth < 640) {
-		// Base
-		padding = 2 * 8; // px-2
-	} else if (screenWidth < 768) {
+	if (screenWidth < 768) {
 		// sm
-		padding = 2 * 12; // px-3
+		padding = 2 * 12;
 	} else if (screenWidth < 1024) {
 		// md
-		padding = 2 * 20; // px-5
+		padding = 2 * 20;
 	} else if (screenWidth < 1280) {
 		// lg
-		padding = 2 * 28; // px-7
+		padding = 2 * 28;
 	} else {
 		// xl+
-		padding = 2 * 60; // px-15
+		padding = 2 * 60;
 	}
 
 	let gap;
@@ -108,8 +105,6 @@ onBeforeUnmount(() => {
 	window.removeEventListener("resize", calculateCardSize);
 	window.removeEventListener("scroll", handleScroll);
 });
-
-// fait une fonction qui défini dynamiquement la taille d une card cardSize (carré)en px en fonction de la taille de l'écran et en prenant en compte le nombre de card par ligne possible et la taille des gap (120px)
 </script>
 
 <template>
@@ -123,16 +118,22 @@ onBeforeUnmount(() => {
 			<NuxtImg src="/svg/blob-left.svg" alt="Blob left" />
 		</div>
 		<h1
-			class="flex flex-col text-[80px] leading-[90px] text-left w-2/3 pb-40 pt-20">
+			class="flex flex-col gap-y-1 text-2xl sm:text-3xl md:text-5xl lg:text-[80px] leading-tight lg:leading-[90px] text-left lg:w-2/3 lg:pb-40 lg:pt-20">
 			<span
-				class="z-20 group relative text-[180px] leading-[180px] whitespace-nowrap font-apercuBold">
+				class="z-20 group w-fit relative text-5xl sm:text-7xl md:text-8xl lg:text-[180px] leading-tight lg:leading-[180px] whitespace-nowrap font-apercuBold">
 				Pascale Canal
 				<span
-					class="z-10 uppercase font-apercuMedium absolute bottom-0 -rotate-10 -right-60 text-2xl py-3 px-10 bg-yellow rounded-lg border border-black">
+					class="z-10 hidden md:block uppercase font-apercuMedium absolute bottom-2 lg:bottom-1 md:-rotate-10 lg:-rotate-12 -right-30 lg:-right-20 2xl:-right-35 text-base lg:text-xl md:py-1 lg:py-3 md:px-6 lg:px-10 bg-yellow rounded-md md:rounded-lg border border-black">
 					Artiste peintre française
 				</span>
 			</span>
-			<span class="z-20">Découvrez ma e-gallerie</span>
+			<span
+				class="z-10 uppercase -mt-2 font-apercuMedium w-fit text-xs sm:text-sm md:hidden py-1 sm:py-2 px-4 sm:px-6 bg-yellow rounded-md md:rounded-lg border border-black">
+				Artiste peintre francaise
+			</span>
+			<span class="z-20 mt-5 md:mt-0"
+				>Découvrez ma <span class="whitespace-nowrap">e-gallerie</span></span
+			>
 		</h1>
 
 		<div
@@ -158,34 +159,47 @@ onBeforeUnmount(() => {
 						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 					<div
 						v-if="painting.state === 'SOLD'"
-						class="absolute top-1/4 left-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400 uppercase font-apercuBold text-[9rem] text-white/50 origin-center -rotate-45">
-						Vendu
+						class="absolute inset-0 flex items-center justify-center scale:100 lg:scale-50 group-hover:scale-100 lg:opacity-0 group-hover:opacity-100 transition-all duration-400">
+						<div
+							:style="{
+								fontSize: `${cardSize * 0.3}px`,
+							}"
+							class="-rotate-45 mt-5 ml-5 flex items-center justify-center uppercase font-apercuBold text-white/50 origin-center">
+							Vendu
+						</div>
 					</div>
 				</div>
 				<div
-					class="relative flex justify-between items-end gap-x-2 py-3 px-6 group-hover:px-3 w-full text-white will-change-auto transition-all duration-500">
+					class="relative flex justify-between items-end gap-x-4 py-3 px-6 group-hover:px-3 w-full text-white will-change-auto transition-all duration-500">
 					<div
 						class="absolute top-0 left-1/2 w-0 group-hover:w-1/2 will-change-auto h-0.5 bg-white transition-all duration-500"></div>
 					<div
 						class="absolute top-0 right-1/2 w-0 group-hover:w-1/2 will-change-auto h-0.5 bg-white transition-all duration-500"></div>
-					<div class="flex items-start space-x-2">
-						<NuxtImg
-							src="/svg/arrow-white.svg"
-							alt="right arrow"
-							class="w-6 h-6 translate-x-1 origin-left will-change-auto group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400" />
-						<span
-							class="text-xl font-apercuBold truncate -translate-x-8 will-change-auto group-hover:translate-x-0 transition-all duration-500"
-							>{{ painting.name }}</span
-						>
-					</div>
-					<div class="text-lg whitespace-nowrap decoration-white">
-						<span
-							:class="
-								painting.state === 'SOLD' ? 'line-through' : 'no-underline'
-							">
-							{{ painting.price + " €" }}
-						</span>
-						<span v-if="painting.state === 'SOLD'" class="ml-2"> Vendu </span>
+					<div class="flex justify-between gap-x-2 items-end w-full">
+						<div class="flex items-start space-x-2 min-w-0 flex-1 mr-2">
+							<NuxtImg
+								src="/svg/arrow-white.svg"
+								alt="right arrow"
+								class="w-6 h-6 translate-x-1 origin-left will-change-auto group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400 flex-shrink-0" />
+							<span
+								class="text-base md:text-lg lg:text-xl font-apercuBold truncate -translate-x-8 will-change-auto group-hover:translate-x-0 transition-all duration-500 overflow-hidden text-ellipsis"
+								>{{ painting.name }}</span
+							>
+						</div>
+						<div
+							class="text-sm md:text-base lg:text-lg whitespace-nowrap decoration-white flex-shrink-0">
+							<span
+								:class="
+									painting.state === 'SOLD' ? 'line-through' : 'no-underline'
+								">
+								{{ painting.price + " €" }}
+							</span>
+							<span
+								v-if="painting.state === 'SOLD'"
+								class="ml-1 2xl:ml-2 hidden lg:inline">
+								Vendu
+							</span>
+						</div>
 					</div>
 				</div>
 			</NuxtLink>

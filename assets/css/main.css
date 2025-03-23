@@ -49,7 +49,7 @@ html {
 }
 
 .container-custom {
-	@apply w-full mx-auto px-2 sm:px-3 md:px-5 lg:px-7 xl:px-15 max-w-[2560px];
+	@apply w-full mx-auto px-3 md:px-5 lg:px-7 xl:px-15 max-w-[2560px];
 }
 
 ::selection {
