@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container mx-auto flex justify-between items-center">
+		<div class="container-custom flex justify-between items-center">
 			<div>
 				<p class="text-sm">© 2025 Pascale Canal. Tous droits réservés.</p>
 				<p class="text-sm">

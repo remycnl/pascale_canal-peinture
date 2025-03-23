@@ -240,7 +240,7 @@ const resetForm = () => {
 		class="relative min-h-screen"
 		:class="{ 'overflow-hidden': !isSecretPage }">
 		<!-- Page principale du formulaire -->
-		<div v-if="isSecretPage" class="container mx-auto px-4 py-8">
+		<div v-if="isSecretPage" class="container-custom px-4 py-8">
 			<span
 				class="text-[200px] leading-[200px] whitespace-nowrap font-apercuBold">
 				Editeur

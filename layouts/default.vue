@@ -35,7 +35,7 @@ useSeoMeta({
 		<div
 			class="smooth-scroll-wrapper will-change-transform transform-gpu lg:fixed top-0 left-0 right-0">
 			<section
-				class="container mx-auto mt-40 mb-60 transform-gpu will-change-transform duration-75">
+				class="container-custom mt-40 mb-60 transform-gpu will-change-transform duration-75">
 				<slot />
 			</section>
 			<Footer />
