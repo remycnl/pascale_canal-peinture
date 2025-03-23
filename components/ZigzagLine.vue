@@ -19,11 +19,11 @@ const props = defineProps({
 			[150, -10],
 			[70, 10],
 			[85, 20],
-			[15, 40],
-			[70, 60],
+			[15, 37],
+			[70, 57],
 			[10, 80],
-			[16, 85],
-			[-50, 100],
+			[20, 88],
+			[-50, 107],
 		],
 	},
 	lineColor: {
@@ -36,11 +36,15 @@ const props = defineProps({
 	},
 	sensitivity: {
 		type: Number,
-		default: 1.3,
+		default: 1.1,
 	},
 	offset: {
 		type: Number,
 		default: 0,
+	},
+	desktopMinWidth: {
+		type: Number,
+		default: 1024,
 	},
 });
 
@@ -60,6 +64,7 @@ const windowWidth = ref(0);
 const calculatedPoints = ref([]);
 const isInitialized = ref(false);
 const isVisible = ref(false);
+const isDesktop = ref(false);
 
 const pathData = computed(() => {
 	if (!calculatedPoints.value || calculatedPoints.value.length < 2) {
@@ -84,7 +89,17 @@ const pathData = computed(() => {
 	return path;
 });
 
+const checkIfDesktop = () => {
+	isDesktop.value = window.innerWidth >= props.desktopMinWidth;
+};
+
 const initializeAnimation = () => {
+	checkIfDesktop();
+
+	if (!isDesktop.value) {
+		return;
+	}
+
 	nextTick(() => {
 		calculatePointsFromPercentage();
 
@@ -113,8 +128,25 @@ const calculatePointsFromPercentage = () => {
 };
 
 const handleDimensionsChange = () => {
-	updateDimensions();
+	const wasDesktop = isDesktop.value;
+	checkIfDesktop();
 
+	if (!wasDesktop && isDesktop.value) {
+		resetAnimation();
+		return;
+	}
+
+	if (wasDesktop && !isDesktop.value) {
+		isInitialized.value = false;
+		isVisible.value = false;
+		return;
+	}
+
+	if (!isDesktop.value) {
+		return;
+	}
+
+	updateDimensions();
 	calculatePointsFromPercentage();
 
 	setTimeout(() => {
@@ -147,12 +179,12 @@ const updateDimensions = () => {
 };
 
 const checkVisibility = () => {
-	if (!isInitialized.value || !zigzagContainer.value) return;
+	if (!isDesktop.value || !isInitialized.value || !zigzagContainer.value)
+		return;
 
 	updateDimensions();
 
 	const scrollY = window.scrollY || document.documentElement.scrollTop;
-	const windowCenter = windowHeight.value / 2;
 	const componentTop =
 		containerTop.value - scrollY - props.offset * windowHeight.value;
 	const componentBottom = componentTop + containerHeight.value;
@@ -167,7 +199,7 @@ const checkVisibility = () => {
 };
 
 const handleScroll = () => {
-	if (!isInitialized.value) return;
+	if (!isDesktop.value || !isInitialized.value) return;
 
 	if (animationId.value) {
 		cancelAnimationFrame(animationId.value);
@@ -222,8 +254,12 @@ const resetAnimation = () => {
 	dashOffset.value = pathLength.value;
 
 	setTimeout(() => {
-		updateDimensions();
-		initializeAnimation();
+		checkIfDesktop();
+
+		if (isDesktop.value) {
+			updateDimensions();
+			initializeAnimation();
+		}
 	}, 300);
 };
 
@@ -238,7 +274,11 @@ watch(
 );
 
 const setupIntersectionObserver = () => {
-	if (!zigzagContainer.value || typeof IntersectionObserver === "undefined")
+	if (
+		!zigzagContainer.value ||
+		typeof IntersectionObserver === "undefined" ||
+		!isDesktop.value
+	)
 		return;
 
 	const observer = new IntersectionObserver(
@@ -265,12 +305,15 @@ const setupIntersectionObserver = () => {
 };
 
 onMounted(() => {
+	checkIfDesktop();
 	updateDimensions();
 
-	setTimeout(() => {
-		initializeAnimation();
-		setupIntersectionObserver();
-	}, 200);
+	if (isDesktop.value) {
+		setTimeout(() => {
+			initializeAnimation();
+			setupIntersectionObserver();
+		}, 200);
+	}
 
 	window.addEventListener("scroll", handleScroll);
 	window.addEventListener("resize", handleDimensionsChange);
@@ -294,6 +337,7 @@ onBeforeUnmount(() => {
 <template>
 	<div ref="zigzagContainer" class="z-10 relative w-full overflow-visible">
 		<svg
+			v-if="isDesktop"
 			class="absolute top-0 left-0 pointer-events-none w-full h-full overflow-visible"
 			:viewBox="`0 0 ${svgWidth} ${totalHeight}`"
 			xmlns="http://www.w3.org/2000/svg"
@@ -309,7 +353,7 @@ onBeforeUnmount(() => {
 				:stroke-linecap="'round'"
 				:stroke-linejoin="'round'" />
 		</svg>
-		<div class="relative -mt-30 flex flex-col gap-70">
+		<div class="relative mt-20 lg:-mt-30 flex flex-col gap-20 md:gap-50 lg:gap-140">
 			<slot></slot>
 		</div>
 	</div>

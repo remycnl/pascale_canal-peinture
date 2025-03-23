@@ -118,12 +118,12 @@ onBeforeUnmount(() => {
 			<NuxtImg src="/svg/blob-left.svg" alt="Blob left" />
 		</div>
 		<h1
-			class="flex flex-col gap-y-1 text-2xl sm:text-3xl md:text-5xl lg:text-[80px] leading-tight lg:leading-[90px] text-left lg:w-2/3 lg:pb-40 lg:pt-20">
+			class="flex flex-col gap-y-1 text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-[80px] leading-tight 2xl:leading-[90px] text-left lg:w-2/3 lg:pb-40 pt-15 lg:pt-20">
 			<span
-				class="z-20 group w-fit relative text-5xl sm:text-7xl md:text-8xl lg:text-[180px] leading-tight lg:leading-[180px] whitespace-nowrap font-apercuBold">
+				class="z-20 group w-fit relative text-5xl sm:text-7xl md:text-8x lg:text-9xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] whitespace-nowrap font-apercuBold">
 				Pascale Canal
 				<span
-					class="z-10 hidden md:block uppercase font-apercuMedium absolute bottom-2 lg:bottom-1 md:-rotate-10 lg:-rotate-12 -right-30 lg:-right-20 2xl:-right-35 text-base lg:text-xl md:py-1 lg:py-3 md:px-6 lg:px-10 bg-yellow rounded-md md:rounded-lg border border-black">
+					class="z-10 hidden md:block uppercase font-apercuMedium absolute bottom-2 2xl:bottom-1 -rotate-10 2xl:-rotate-12 -right-40 lg:-right-40 2xl:-right-35 text-base lg:text-xl md:py-1 lg:py-2 2xl:py-3 md:px-6 lg:px-8 2xl:px-10 bg-yellow rounded-md md:rounded-lg border border-black">
 					Artiste peintre française
 				</span>
 			</span>

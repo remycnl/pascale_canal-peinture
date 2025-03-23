@@ -120,6 +120,7 @@ useHead(() => ({
 						:alt="painting.name"
 						fit="cover"
 						format="webp"
+						quality="100"
 						ref="imageRef"
 						@load="handleImageLoad"
 						:style="{
@@ -131,7 +132,8 @@ useHead(() => ({
 						class="rounded-2xl w-full h-full max-h-[80vh] object-center will-change-transform" />
 				</div>
 				<div class="relative prose max-w-none text-grayDark">
-					<div class="absolute -top-20 right-0 text-end will-change-scroll flex flex-row gap-x-4">
+					<div
+						class="absolute -top-20 right-0 text-end will-change-scroll flex flex-row gap-x-4">
 						<button
 							v-if="painting.state === 'SOLD'"
 							class="bg-black text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-300">

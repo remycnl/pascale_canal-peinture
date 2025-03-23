@@ -100,10 +100,8 @@ function renderDescription(description) {
 
 <template>
 	<div class="relative min-h-screen pt-20">
-		<h1 class="flex flex-col text-[80px] leading-[90px] text-left w-2/3">
-			<span class="text-[180px] leading-[180px] font-apercuBold">
+		<h1 class="flex flex-col text-5xl sm:text-7xl md:text-8xl lg:text-9xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
 				Comment ça marche ?
-			</span>
 		</h1>
 
 		<div class="my-50 flex flex-col items-center gap-y-50">

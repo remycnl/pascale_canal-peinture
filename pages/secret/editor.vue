@@ -240,23 +240,23 @@ const resetForm = () => {
 		class="relative min-h-screen"
 		:class="{ 'overflow-hidden': !isSecretPage }">
 		<!-- Page principale du formulaire -->
-		<div v-if="isSecretPage" class="container-custom px-4 py-8">
-			<span
-				class="text-[200px] leading-[200px] whitespace-nowrap font-apercuBold">
+		<div v-if="isSecretPage" class="px-4 py-8">
+			<h1
+				class="flex flex-col text-5xl sm:text-7xl md:text-8xl lg:text-9xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-center w-full mb-16">
 				Editeur
-			</span>
-			<div class="flex flex-col lg:flex-row justify-between mt-20 gap-8">
+			</h1>
+			<div class="flex flex-col lg:flex-row justify-center items-start gap-20 max-w-7xl mt-20 md:mt-40 mx-auto">
 				<!-- Formulaire (côté gauche) -->
-				<div class="lg:w-1/2">
-					<h1 class="text-3xl font-apercuBold mb-8 text-gray-800">
+				<div class="lg:w-1/2 w-full">
+					<h1 class="text-lg md:text-xl lg:text-3xl font-apercuBold mb-8 text-gray-800 text-center">
 						{{ isEditMode ? "Modifier la peinture" : "Ajouter une peinture" }}
 					</h1>
 
 					<form
 						@submit.prevent="submitPainting"
-						class="max-w-2xl bg-black p-8 rounded-2xl shadow-lg">
-						<div class="grid gap-6">
-							<div class="flex gap-8">
+						class="bg-black p-3 md:p-8 rounded-2xl shadow-lg mx-auto">
+						<div class="grid gap-3 md:gap-6">
+							<div class="flex gap-3 md:gap-8">
 								<!-- Nom -->
 								<div class="form-group w-1/2">
 									<label for="name" class="label">Nom</label>
@@ -333,7 +333,7 @@ const resetForm = () => {
 								</p>
 							</div>
 
-							<div class="flex gap-8">
+							<div class="flex gap-3 md:gap-8">
 								<!-- Prix -->
 								<div class="form-group w-1/2">
 									<label for="price" class="label">Prix (€)</label>
@@ -355,7 +355,7 @@ const resetForm = () => {
 							</div>
 
 							<!-- Dimensions -->
-							<div class="flex gap-8">
+							<div class="flex gap-3 md:gap-8">
 								<div class="form-group w-1/2">
 									<label for="width" class="label">Largeur (cm)</label>
 									<input
@@ -392,7 +392,7 @@ const resetForm = () => {
 								<input v-model="tag" id="tag" class="input" required />
 							</div>
 
-							<div class="flex gap-8">
+							<div class="flex gap-3 md:gap-8">
 								<!-- État -->
 								<div class="relative form-group w-1/2">
 									<label for="state" class="label">État</label>
@@ -453,8 +453,8 @@ const resetForm = () => {
 				</div>
 
 				<!-- Liste des peintures (côté droit) -->
-				<div class="lg:w-1/2">
-					<h2 class="text-3xl font-apercuBold mb-8 text-gray-800">
+				<div class="lg:w-1/2 w-full">
+					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold mb-8 text-gray-800 text-center">
 						Liste des peintures
 					</h2>
 					<div
@@ -464,31 +464,30 @@ const resetForm = () => {
 							Aucune peinture n'est disponible pour le moment.
 						</p>
 					</div>
-					<div v-else class="space-y-4 bg-white p-6 rounded-2xl shadow-custom">
+					<div v-else class="space-y-4 bg-white p-2 md:p-6 rounded-2xl shadow-custom">
 						<div
 							v-for="painting in paintings"
 							:key="painting.id"
-							class="bg-gray-50 p-4 rounded-lg hover:scale-101 flex items-center justify-between gap-4 hover:bg-gray-100 transition-all duration-300">
-							<div class="flex items-center gap-4">
+							class="bg-gray-50 p-2 md:p-4 rounded-lg hover:scale-101 flex items-center justify-between gap-2 md:gap-4 hover:bg-gray-100 transition-all duration-300">
+							<div class="flex items-center gap-2 md:gap-4 overflow-hidden flex-1">
 								<img
 									:src="painting.image"
 									:alt="painting.name"
-									class="w-16 h-16 object-cover rounded-lg" />
-								<div>
-									<h3 class="font-semibold text-gray-800">
+									class="w-16 h-16 min-w-[64px] object-cover rounded-lg" />
+								<div class="overflow-hidden">
+									<h3 class="font-semibold truncate text-gray-800 max-w-full">
 										{{ painting.name }}
 									</h3>
-									<p class="text-sm text-gray-600">
-										{{ painting.price }}€ -
-										{{ painting.state === "FOR_SALE" ? "À vendre" : "Vendu" }}
+									<p class="text-sm text-gray-600 whitespace-nowrap">
+										{{ painting.price }}€
+										<span class="hidden md:inline">{{ painting.state === "FOR_SALE" ? " - À vendre" : " - Vendu" }}</span>
 									</p>
-									<p class="text-xs text-gray-500">{{ painting.type }}</p>
 								</div>
 							</div>
-							<div class="flex flex-row gap-2">
+							<div class="flex flex-row gap-2 shrink-0">
 								<button
 									@click="selectPaintingForEdit(painting)"
-									class="p-2 w-fit bg-yellow focus:scale-95 text-white text-sm rounded-lg hover:bg-yellow/80 border border-yellow hover:border-black transition-all duration-300">
+									class="p-2 w-11 bg-yellow focus:scale-95 text-white text-sm rounded-lg hover:bg-yellow/80 border border-yellow hover:border-black transition-all duration-300">
 									<NuxtImg
 										src="/svg/edit.svg"
 										alt="edit icon for editing painting"
@@ -496,7 +495,7 @@ const resetForm = () => {
 								</button>
 								<button
 									@click="deletePainting(painting)"
-									class="p-2 w-fit bg-red-400 focus:scale-95 text-white text-sm rounded-lg hover:bg-red-400/80 border border-red-400 hover:border-black transition-all duration-300">
+									class="p-2 w-11 bg-red-400 focus:scale-95 text-white text-sm rounded-lg hover:bg-red-400/80 border border-red-400 hover:border-black transition-all duration-300">
 									<NuxtImg
 										src="/svg/trash.svg"
 										alt="trash icon for deleting painting"
