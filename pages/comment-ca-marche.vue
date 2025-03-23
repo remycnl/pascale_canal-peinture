@@ -99,12 +99,12 @@ function renderDescription(description) {
 </script>
 
 <template>
-	<div class="relative min-h-screen pt-20">
-		<h1 class="flex flex-col text-5xl sm:text-7xl md:text-8xl lg:text-9xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
+	<div class="relative min-h-screen pt-10 md:pt-20">
+		<h1 class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
 				Comment ça marche ?
 		</h1>
 
-		<div class="my-50 flex flex-col items-center gap-y-50">
+		<div class="my-20 md:my-30 lg:my-50 flex flex-col items-center gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50">
 			<div
 				v-for="(section, index) in sections"
 				:key="section.number"
@@ -118,10 +118,10 @@ function renderDescription(description) {
 					{{ section.number }}
 				</span>
 				<div class="flex flex-col justify-center gap-y-5 w-1/2 p-10">
-					<h2 class="text-6xl font-apercuBold">
+					<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-apercuBold">
 						{{ section.title }}
 					</h2>
-					<p class="text-2xl text-gray-500">
+					<p class="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-500">
 						<template
 							v-for="(part, i) in renderDescription(section.description)">
 							<NuxtLink

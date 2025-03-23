@@ -79,13 +79,16 @@ const calculateCardSize = () => {
 
 	let gap;
 	if (screenWidth < 768) {
-		// mobile
+		// mobile (gap-5)
 		gap = 20;
 	} else if (screenWidth < 1024) {
-		// md
+		// md (gap-10)
+		gap = 40;
+	} else if (screenWidth < 1536) {
+		// lg (gap-20)
 		gap = 80;
 	} else {
-		// lg and above
+		// 2xl (gap-30)
 		gap = 120;
 	}
 
@@ -137,7 +140,7 @@ onBeforeUnmount(() => {
 		</h1>
 
 		<div
-			class="relative flex flex-wrap justify-between items-center gap-5 md:gap-20 lg:gap-30 mt-20">
+			class="relative flex flex-wrap justify-between items-center gap-5 md:gap-10 lg:gap-20 2xl:gap-30 mt-20">
 			<NuxtLink
 				v-for="painting in paintings"
 				:to="`/${painting.slug}`"
