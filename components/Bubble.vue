@@ -151,7 +151,7 @@ onMounted(async () => {
 					</div>
 
 					<div
-						class="hidden md:block text-black md:text-sm px-3 md:px-5 py-2 bg-yellow hover:bg-yellow/85 active:scale-95 rounded-full cursor-pointer transition-all duration-300 whitespace-nowrap"
+						class="hidden md:block text-black md:text-sm px-3 md:px-5 py-2 bg-yellow hover:bg-yellow/85 active:scale-95 rounded-full cursor-pointer transition-all duration-200 whitespace-nowrap"
 						:class="{ hidden: isMobile && isInputFocused }"
 						@click="scrollToTop">
 						Retour en haut
