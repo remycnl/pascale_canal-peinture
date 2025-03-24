@@ -90,8 +90,8 @@ watch(isOpen, (newValue) => {
 					@click="toggleMenu"
 					class="pointer-events-auto z-150 md:hidden active:scale-90 transition-transform duration-200">
 					<div
-						class="hamburger p-2 rounded-xl transition-colors duration-400"
-						:class="isOpen ? 'active bg-white' : 'bg-white'">
+						class="hamburger p-2 rounded-xl bg-white transition-colors duration-400"
+						:class="{ active: isOpen }">
 						<span class="sr-only">Toggle navigation</span>
 						<svg class="h-7" viewBox="0 0 32 32">
 							<path
@@ -112,7 +112,7 @@ watch(isOpen, (newValue) => {
 							: 'opacity-0 scale-95 translate-y-2 pointer-events-none'
 					">
 					<div class="flex flex-col items-center gap-y-12">
-						<div class="flex flex-col text-center items-center gap-y-10 uppercase font-apercuBold">
+						<div class="flex flex-col text-center items-center gap-y-10 uppercase font-apercuBold text-xl">
 							<NuxtLink
 								@click="isOpen = false"
 								to="/"
@@ -159,10 +159,6 @@ watch(isOpen, (newValue) => {
 	transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
 		stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1),
 		stroke 500ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hamburger.active .line {
-	stroke: #000000;
 }
 
 .line-top-bottom {

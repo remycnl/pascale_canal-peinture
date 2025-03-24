@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
 
 const paintings = ref([]);
 const page = ref(1);
@@ -8,6 +8,8 @@ const isLoading = ref(false);
 const hasMore = ref(true);
 const isImageLoaded = ref({});
 const cardSize = ref(0);
+const displayedCount = ref(0);
+const displayInterval = ref(null);
 
 const loadPaintings = async () => {
 	if (isLoading.value || !hasMore.value) return;
@@ -37,14 +39,35 @@ const handleImageLoad = (paintingId) => {
 	isImageLoaded.value[paintingId] = true;
 };
 
-const getImageClass = (paintingId) => {
-	return isImageLoaded.value[paintingId] ? "opacity-100" : "opacity-0";
+const startSequentialDisplay = () => {
+	if (displayInterval.value) clearInterval(displayInterval.value);
+
+	displayInterval.value = setInterval(() => {
+		if (displayedCount.value < paintings.value.length) {
+			displayedCount.value++;
+		} else {
+			clearInterval(displayInterval.value);
+		}
+	}, 150);
+};
+
+const shouldDisplayImage = (paintingId, index) => {
+	return isImageLoaded.value[paintingId] && index < displayedCount.value;
+};
+
+const getImageClass = (paintingId, index) => {
+	return shouldDisplayImage(paintingId, index)
+		? "opacity-100 translate-y-0"
+		: "opacity-0 translate-y-8";
 };
 
 const handleScroll = () => {
 	const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+	const screenWidth = window.innerWidth;
+	
+	const threshold = screenWidth < 768 ? 800 : 600;
 
-	if (scrollTop + clientHeight >= scrollHeight - 200) {
+	if (scrollTop + clientHeight >= scrollHeight - threshold) {
 		loadPaintings();
 	}
 };
@@ -97,6 +120,24 @@ const calculateCardSize = () => {
 	);
 };
 
+watch(
+	() => Object.keys(isImageLoaded.value).length,
+	(newVal) => {
+		if (newVal >= Math.min(3, paintings.value.length)) {
+			startSequentialDisplay();
+		}
+	}
+);
+
+watch(
+	() => paintings.value.length,
+	(newVal, oldVal) => {
+		if (newVal > oldVal && displayedCount.value >= oldVal) {
+			startSequentialDisplay();
+		}
+	}
+);
+
 onMounted(async () => {
 	calculateCardSize();
 	window.addEventListener("resize", calculateCardSize);
@@ -107,6 +148,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
 	window.removeEventListener("resize", calculateCardSize);
 	window.removeEventListener("scroll", handleScroll);
+	if (displayInterval.value) clearInterval(displayInterval.value);
 });
 </script>
 
@@ -142,10 +184,10 @@ onBeforeUnmount(() => {
 		<div
 			class="relative flex flex-wrap justify-between items-center gap-5 md:gap-10 lg:gap-20 2xl:gap-30 mt-20">
 			<NuxtLink
-				v-for="painting in paintings"
+				v-for="(painting, index) in paintings"
 				:to="`/${painting.slug}`"
 				:key="painting.id"
-				:class="[getImageClass(painting.id)]"
+				:class="[getImageClass(painting.id, index)]"
 				:style="`width: ${cardSize}px`"
 				class="z-10 group bg-gradient-to-tr active:scale-95 from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none will-change-auto transition-all duration-500">
 				<div
@@ -208,31 +250,60 @@ onBeforeUnmount(() => {
 			</NuxtLink>
 		</div>
 
-		<div v-if="isLoading" class="text-center text-[180rem] mt-28">
-			Chargement...
+		<div v-if="isLoading" class="flex justify-center mt-28">
+			<div class="relative flex items-center space-x-4">
+				<div
+					class="w-3 h-3 md:w-5 md:h-5 bg-black rounded-full"
+					:style="{
+						animation: 'bounce-smooth 1.5s infinite ease-in-out',
+						animationDelay: '0s',
+					}"></div>
+				<div
+					class="w-3 h-3 md:w-5 md:h-5 bg-black rounded-full"
+					:style="{
+						animation: 'bounce-smooth 1.5s infinite ease-in-out',
+						animationDelay: '0.3s',
+					}"></div>
+				<div
+					class="w-3 h-3 md:w-5 md:h-5 bg-black rounded-full"
+					:style="{
+						animation: 'bounce-smooth 1.5s infinite ease-in-out',
+						animationDelay: '0.6s',
+					}"></div>
+			</div>
 		</div>
 
-		<div v-if="!hasMore" class="text-center mt-28">
-			Toutes les peintures ont été chargées.
+		<div v-if="hasMore && !isLoading && paintings.length > 0" class="text-center mt-28 mb-16">
+			<div class="inline-flex flex-col items-center opacity-75 animate-pulse">
+				<span class="font-apercuMedium text-sm mb-2">Continuez à explorer</span>
+				<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M7 13L12 18L17 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M7 7L12 12L17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</div>
+		</div>
+
+		<div v-if="!hasMore && !isLoading" class="text-center mt-28 mb-16">
+			<div
+				class="inline-block relative overflow-hidden px-8 py-4 border border-black rounded-xl bg-white/80 shadow-sm animate-float">
+				<div
+					class="absolute -top-10 -left-10 w-16 h-16 bg-yellow rounded-full blur-md animate-pulse"></div>
+				<div
+					class="absolute -bottom-10 -right-10 w-16 h-16 bg-yellow rounded-full blur-md animate-pulse"
+					style="animation-delay: 0.5s"></div>
+				<span class="font-apercuMedium relative z-10">
+					Vous avez exploré toute la collection
+				</span>
+				<div
+					class="mt-3 w-full h-0.5 bg-gradient-to-r from-transparent via-black/70 to-transparent"></div>
+				<div class="mt-2 flex justify-center">
+					<NuxtLink
+						to="/contact"
+						class="text-sm active:scale-95 hover:text-yellow transition-all duration-200 hover:scale-105">
+						Contactez l'artiste
+					</NuxtLink>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.bubble-enter-active,
-.bubble-leave-active {
-	transition: all 0.3s ease;
-}
-
-.bubble-enter-from,
-.bubble-leave-to {
-	opacity: 0;
-	transform: translate(-50%, 1rem);
-}
-
-.bubble-enter-to,
-.bubble-leave-from {
-	opacity: 1;
-	transform: translate(-50%, 0);
-}
-</style>

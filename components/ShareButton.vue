@@ -212,7 +212,7 @@ const share = (platform) => {
 		<!-- Bouton principal de partage -->
 		<button
 			@click="toggleShareMenu"
-			class="border border-black text-black py-2 px-6 rounded-lg text-sm font-bold hover:bg-black hover:text-white transition duration-300">
+			class="border border-black text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-bold hover:bg-black hover:text-white transition duration-200">
 			{{ isOpen ? "Fermer" : "Partager" }}
 		</button>
 

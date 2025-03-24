@@ -44,10 +44,6 @@ html {
 	--color-white: #f8f8f8;
 	--color-grayDark: #4d4d4d;
 	--color-yellow: #fff083;
-	--color-bgFooter: #222222;
-	--color-textFooter: #f8f8f8;
-	--color-grayFooter: #D1D5DC;
-	--color-grayDarkFooter: #99A1AF;
 	--font-apercuBold: "ApercuPro-Bold", sans-serif;
 	--font-apercuLight: "ApercuPro-Light", sans-serif;
 	--font-apercuRegular: "ApercuPro-Regular", sans-serif;
@@ -111,4 +107,14 @@ body {
 
 button {
 	cursor: pointer;
+}
+
+@keyframes bounce-smooth {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
 }

@@ -95,12 +95,12 @@
 				class="z-50 flex flex-col md:flex-row items-end md:items-center justify-end gap-5 lg:-mt-80 2xl:-mt-50">
 				<NuxtLink
 					to="/contact"
-					class="bg-white text-black py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:opacity-80 transition duration-300"
+					class="bg-white text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:opacity-80 transition duration-200"
 					>Me contacter</NuxtLink
 				>
 				<NuxtLink
 					to="/"
-					class="border border-white text-white py-2 px-6 rounded-lg text-sm font-bold hover:bg-white hover:text-black transition duration-300"
+					class="border border-white active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-bold hover:bg-white hover:text-black transition duration-200"
 					>Voir mes tableaux</NuxtLink
 				>
 			</div>
