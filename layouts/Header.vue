@@ -54,7 +54,9 @@ watch(isOpen, (newValue) => {
 			<div
 				class="container-custom flex justify-between items-center py-3 lg:py-7">
 				<!-- Logo -->
-				<NuxtLink to="/" class="pointer-events-auto active:scale-95 transition-transform duration-200">
+				<NuxtLink
+					to="/"
+					class="pointer-events-auto active:scale-95 transition-transform duration-200">
 					<NuxtImg
 						src="/img/logo-reversed.png"
 						alt="Logo"
@@ -64,7 +66,9 @@ watch(isOpen, (newValue) => {
 				<!-- Desktop Menu -->
 				<div
 					class="hidden md:flex flex-row text-white justify-end space-x-10 uppercase font-apercuBold">
-					<NuxtLink to="/" class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+					<NuxtLink
+						to="/"
+						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
 						>Tableaux</NuxtLink
 					>
 					<NuxtLink
@@ -111,8 +115,17 @@ watch(isOpen, (newValue) => {
 							? 'opacity-100 translate-y-0 scale-100'
 							: 'opacity-0 scale-95 translate-y-2 pointer-events-none'
 					">
-					<div class="flex flex-col items-center gap-y-12">
-						<div class="flex flex-col text-center items-center gap-y-10 uppercase font-apercuBold text-xl">
+					<div
+						class="absolute inset-0 flex items-center justify-center z-0 overflow-hidden">
+						<span
+							class="text-[15rem] mt-5 leading-none pointer-events-none select-none sm:text-[20rem] font-weirdWords text-white opacity-5 text-center whitespace-nowrap absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
+							PC
+						</span>
+					</div>
+
+					<div class="flex flex-col items-center gap-y-12 relative z-10">
+						<div
+							class="flex flex-col text-center items-center gap-y-10 uppercase font-apercuBold text-xl">
 							<NuxtLink
 								@click="isOpen = false"
 								to="/"
