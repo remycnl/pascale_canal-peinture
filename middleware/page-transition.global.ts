@@ -9,14 +9,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		const container = document.createElement("div");
 		container.className = "wave-container";
 		container.style.width = "100vw";
-		container.style.height = "200vh"; // Deux fois la hauteur de la fenêtre
+		container.style.height = "200vh";
 		container.style.position = "fixed";
 		container.style.top = "0";
 		container.style.left = "0";
 		container.style.zIndex = "9999";
 		container.style.overflow = "hidden";
 
-		// Créons un SVG qui couvre deux fois la hauteur
 		const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		svg.setAttribute("viewBox", "0 0 100 400"); // Doublé la hauteur du viewBox
 		svg.setAttribute("preserveAspectRatio", "none");
@@ -24,11 +23,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		svg.style.width = "100%";
 		svg.style.height = "100%";
 
-		// Détection du mobile
 		const isMobile = window.innerWidth < 768;
 
-		// Ajuster la courbure en fonction de la taille de l'écran
-		const curveStrength = isMobile ? 15 : 30; // Courbure moins prononcée sur mobile
+		const curveStrength = isMobile ? 15 : 30;
 
 		const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
 		path.setAttribute(
