@@ -65,7 +65,7 @@ const handleScroll = () => {
 	const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
 	const screenWidth = window.innerWidth;
 	
-	const threshold = screenWidth < 768 ? 800 : 600;
+	const threshold = screenWidth < 768 ? 1000 : 600;
 
 	if (scrollTop + clientHeight >= scrollHeight - threshold) {
 		loadPaintings();
