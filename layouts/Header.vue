@@ -118,7 +118,7 @@ watch(isOpen, (newValue) => {
 					<div
 						class="absolute inset-0 flex items-center justify-center z-0 overflow-hidden">
 						<span
-							class="text-[15rem] mt-5 leading-none pointer-events-none select-none sm:text-[20rem] font-weirdWords text-white opacity-5 text-center whitespace-nowrap absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
+							class="text-[14rem] mt-5 leading-none pointer-events-none select-none sm:text-[20rem] font-weirdWords text-white opacity-10 text-center whitespace-nowrap absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
 							PC
 						</span>
 					</div>
