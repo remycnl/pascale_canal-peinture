@@ -28,6 +28,13 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: "WeirdWords";
+	src: url("/assets/fonts/WeirdWords.otf") format("opentype");
+	font-weight: normal;
+	font-style: normal;
+}
+
 html {
 	scroll-behavior: smooth;
 }
@@ -36,13 +43,16 @@ html {
 	--color-black: #222222;
 	--color-white: #f8f8f8;
 	--color-grayDark: #4d4d4d;
-	--color-gold: #d0b285;
 	--color-yellow: #fff083;
-	--color-cream: #fef9e1;
+	--color-bgFooter: #222222;
+	--color-textFooter: #f8f8f8;
+	--color-grayFooter: #D1D5DC;
+	--color-grayDarkFooter: #99A1AF;
 	--font-apercuBold: "ApercuPro-Bold", sans-serif;
 	--font-apercuLight: "ApercuPro-Light", sans-serif;
 	--font-apercuRegular: "ApercuPro-Regular", sans-serif;
 	--font-apercuMedium: "ApercuPro-Medium", sans-serif;
+	--font-weirdWords: "WeirdWords", sans-serif;
 	--radius-2sm: 0.25rem; /* 4px */
 	--scale-101: 1.01;
 	--shadow-custom: 4px 4px 10px rgba(0, 0, 0, 0.25);
