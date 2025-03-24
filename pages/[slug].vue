@@ -1,13 +1,12 @@
 <script setup>
 const route = useRoute();
+
 const imageRef = ref(null);
 const isZoomed = ref(false);
-const mousePosition = ref({ x: 50, y: 50 });
+const mousePosition = ref({ x: 0, y: 0 });
 const transformOrigin = ref("center");
 const zoomLevel = 2.5;
 const imageLoaded = ref(false);
-const touchStart = ref({ x: 0, y: 0 });
-const touchMove = ref({ x: 0, y: 0 });
 
 const { data: painting, error } = await useFetch(
 	`/api/paintings/${route.params.slug}`
@@ -22,11 +21,12 @@ const handleImageLoad = () => {
 };
 
 const formatDate = (date) => {
-	return new Date(date).toLocaleDateString("fr-FR", {
+	const options = {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
-	});
+	};
+	return new Date(date).toLocaleDateString("fr-FR", options);
 };
 
 const formatPrice = (price) => {
@@ -37,51 +37,30 @@ const transform = computed(() => {
 	return isZoomed.value ? `scale(${zoomLevel})` : "scale(1)";
 });
 
-const calculatePosition = (x, y, rect) => {
-	const posX = ((x - rect.left) / rect.width) * 100;
-	const posY = ((y - rect.top) / rect.height) * 100;
-	return { x: posX, y: posY };
+const calculatePosition = (e) => {
+	const rect = e.currentTarget.getBoundingClientRect();
+	const x = ((e.clientX - rect.left) / rect.width) * 100;
+	const y = ((e.clientY - rect.top) / rect.height) * 100;
+	return { x, y };
 };
 
 const handleClick = (e) => {
-	const rect = e.currentTarget.getBoundingClientRect();
-	const pos = calculatePosition(e.clientX, e.clientY, rect);
+	const pos = calculatePosition(e);
 	transformOrigin.value = `${pos.x}% ${pos.y}%`;
 	isZoomed.value = !isZoomed.value;
 };
 
 const handleMouseMove = (e) => {
 	if (!isZoomed.value) return;
-	const rect = e.currentTarget.getBoundingClientRect();
-	const pos = calculatePosition(e.clientX, e.clientY, rect);
+	const pos = calculatePosition(e);
 	mousePosition.value = pos;
 	transformOrigin.value = `${pos.x}% ${pos.y}%`;
 };
 
-const handleTouchStart = (e) => {
-	if (!isZoomed.value || e.touches.length !== 1) return;
-	const touch = e.touches[0];
-	const rect = imageRef.value.getBoundingClientRect();
-	touchStart.value = calculatePosition(touch.clientX, touch.clientY, rect);
-	touchMove.value = { ...touchStart.value };
-};
-
-const handleTouchMove = (e) => {
-	if (!isZoomed.value || e.touches.length !== 1) return;
-	e.preventDefault(); // Empêche le scroll de la page pendant le zoom
-	const touch = e.touches[0];
-	const rect = imageRef.value.getBoundingClientRect();
-	touchMove.value = calculatePosition(touch.clientX, touch.clientY, rect);
-
-	const deltaX = touchMove.value.x - touchStart.value.x;
-	const deltaY = touchMove.value.y - touchStart.value.y;
-
-	transformOrigin.value = `${50 - deltaX}% ${50 - deltaY}%`;
-};
-
-const handleTouchEnd = () => {
-	touchStart.value = { x: 50, y: 50 };
-	touchMove.value = { x: 50, y: 50 };
+const handleMouseLeave = () => {
+	if (isZoomed.value) {
+		isZoomed.value = false;
+	}
 };
 
 useHead(() => ({
@@ -98,7 +77,6 @@ useHead(() => ({
 	],
 }));
 </script>
-
 
 <template>
 	<div class="relative min-h-screen pt-10">
