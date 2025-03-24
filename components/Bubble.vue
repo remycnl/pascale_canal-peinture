@@ -30,7 +30,6 @@ const bubblePaddingClass = computed(() => {
 	}
 });
 
-// Fonction pour remonter en haut de la page
 const scrollToTop = () => {
 	window.scrollTo({
 		top: 0,
@@ -38,15 +37,13 @@ const scrollToTop = () => {
 	});
 };
 
-// Normalisation de texte pour ignorer la casse et les accents
 const normalizeText = (text) => {
 	return text
 		.toLowerCase()
 		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, ""); // Supprime les accents
+		.replace(/[\u0300-\u036f]/g, "");
 };
 
-// Fonction pour rechercher dans les tableaux
 const searchTables = () => {
 	if (searchQuery.value.length < 1) {
 		suggestions.value = [];
@@ -59,12 +56,10 @@ const searchTables = () => {
 		.slice(0, 5); // Limiter à 5 suggestions
 };
 
-// Empêcher l'événement de blur lors du clic sur une suggestion
 const preventBlur = () => {
 	preventBlurEvent.value = true;
 };
 
-// Gestion du blur avec délai pour permettre le clic sur les suggestions
 const handleBlur = () => {
 	setTimeout(() => {
 		if (!preventBlurEvent.value) {
@@ -75,7 +70,6 @@ const handleBlur = () => {
 	}, 150);
 };
 
-// Fonction pour sélectionner une suggestion
 const selectSuggestion = (suggestion) => {
 	searchQuery.value = suggestion.name;
 	navigateToTable();
@@ -83,7 +77,6 @@ const selectSuggestion = (suggestion) => {
 	suggestions.value = [];
 };
 
-// Fonction pour naviguer vers la page du tableau
 const navigateToTable = () => {
 	const normalizedQuery = normalizeText(searchQuery.value);
 
@@ -106,7 +99,6 @@ onMounted(async () => {
 		console.error("Erreur lors de la récupération des tableaux:", error);
 	}
 
-	// Initialiser et surveiller les changements de taille d'écran
 	checkScreenSize();
 	window.addEventListener("resize", checkScreenSize);
 });
