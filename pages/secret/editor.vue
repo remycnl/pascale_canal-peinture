@@ -246,10 +246,12 @@ const resetForm = () => {
 				class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-center w-full mb-16">
 				Editeur
 			</h1>
-			<div class="flex flex-col lg:flex-row justify-center items-start gap-20 max-w-7xl mt-20 md:mt-40 mx-auto">
+			<div
+				class="flex flex-col lg:flex-row justify-center items-start gap-20 max-w-7xl mt-20 md:mt-40 mx-auto">
 				<!-- Formulaire (côté gauche) -->
 				<div class="lg:w-1/2 w-full">
-					<h1 class="text-lg md:text-xl lg:text-3xl font-apercuBold mb-8 text-gray-800 text-center">
+					<h1
+						class="text-lg md:text-xl lg:text-3xl font-apercuBold mb-8 text-gray-800 text-center">
 						{{ isEditMode ? "Modifier la peinture" : "Ajouter une peinture" }}
 					</h1>
 
@@ -455,7 +457,8 @@ const resetForm = () => {
 
 				<!-- Liste des peintures (côté droit) -->
 				<div class="lg:w-1/2 w-full">
-					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold mb-8 text-gray-800 text-center">
+					<h2
+						class="text-lg md:text-xl lg:text-3xl font-apercuBold mb-8 text-gray-800 text-center">
 						Liste des peintures
 					</h2>
 					<div
@@ -465,12 +468,15 @@ const resetForm = () => {
 							Aucune peinture n'est disponible pour le moment.
 						</p>
 					</div>
-					<div v-else class="space-y-4 bg-white p-2 md:p-6 rounded-2xl shadow-custom">
+					<div
+						v-else
+						class="space-y-4 bg-white p-2 md:p-6 rounded-2xl shadow-custom">
 						<div
 							v-for="painting in paintings"
 							:key="painting.id"
 							class="bg-gray-50 p-2 md:p-4 rounded-lg hover:scale-101 flex items-center justify-between gap-2 md:gap-4 hover:bg-gray-100 transition-all duration-300">
-							<div class="flex items-center gap-2 md:gap-4 overflow-hidden flex-1">
+							<div
+								class="flex items-center gap-2 md:gap-4 overflow-hidden flex-1">
 								<img
 									:src="painting.image"
 									:alt="painting.name"
@@ -481,7 +487,9 @@ const resetForm = () => {
 									</h3>
 									<p class="text-sm text-gray-600 whitespace-nowrap">
 										{{ painting.price }}€
-										<span class="hidden md:inline">{{ painting.state === "FOR_SALE" ? " - À vendre" : " - Vendu" }}</span>
+										<span class="hidden md:inline">{{
+											painting.state === "FOR_SALE" ? " - À vendre" : " - Vendu"
+										}}</span>
 									</p>
 								</div>
 							</div>
@@ -530,9 +538,10 @@ const resetForm = () => {
 							required />
 						<button
 							type="button"
-							@mousedown="showPassword = true"
-							@mouseup="showPassword = false"
+							@mousedown.prevent="showPassword = true"
+							@mouseup.prevent="showPassword = false"
 							@mouseleave="showPassword = false"
+							@touchstart.prevent="showPassword = !showPassword"
 							class="absolute right-4 top-1/2 -translate-y-[90%] text-gray-500 hover:text-gray-700 focus:outline-none">
 							<NuxtImg
 								v-if="!showPassword"
