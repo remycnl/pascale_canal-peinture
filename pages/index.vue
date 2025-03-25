@@ -276,7 +276,7 @@ onBeforeUnmount(() => {
 		<div v-if="hasMore && !isLoading && paintings.length > 0" class="text-center mt-28 mb-16">
 			<div class="inline-flex flex-col items-center opacity-75 animate-pulse">
 				<span class="font-apercuMedium text-sm mb-2">Continuez à explorer</span>
-				<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<svg class="w-6 h-6 animate-bounce" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M7 13L12 18L17 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 					<path d="M7 7L12 12L17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
