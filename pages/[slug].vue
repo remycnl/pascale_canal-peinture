@@ -97,7 +97,8 @@ useHead(() => ({
 					{{ painting.artist }}
 				</p>
 			</div>
-			<div class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
 				<div
 					class="relative overflow-hidden rounded-2xl aspect-square"
 					:class="{ 'animate-pulse bg-gray-200': !imageLoaded }"
@@ -174,7 +175,8 @@ useHead(() => ({
 				</div>
 				<div class="hidden lg:block"></div>
 
-				<div class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
+				<div
+					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
 					<h2 class="text-lg md:text-xl lg:text-3xl font-bold text-black">
 						Son histoire
 					</h2>
@@ -188,5 +190,6 @@ useHead(() => ({
 		<div v-else class="text-center py-12">
 			<p class="text-xl">Peinture non trouvée</p>
 		</div>
+		<SuggestionsPaintings :current-painting-id="painting.id" />
 	</div>
 </template>
