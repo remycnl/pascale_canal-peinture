@@ -8,7 +8,14 @@ const { fetchFAQs } = useFAQs();
 onMounted(async () => {
 	faqs.value = await fetchFAQs().then((data) =>
 		data
-			.filter((faq) => faq.isActive === true)
+			.filter(
+				(faq) =>
+					faq.isActive === true &&
+					faq.question &&
+					faq.question.trim() !== "" &&
+					faq.answer &&
+					faq.answer.trim() !== ""
+			)
 			.map((faq) => ({ ...faq, isOpen: false }))
 	);
 });

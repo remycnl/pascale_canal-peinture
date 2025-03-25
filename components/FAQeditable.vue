@@ -11,6 +11,7 @@ const sortedFaqs = computed(() => {
 
 onMounted(async () => {
 	faqs.value = await fetchFAQs();
+	initializeTextareas();
 });
 
 const addFAQ = async () => {
@@ -77,6 +78,19 @@ const formatDate = (dateString) => {
 		month: "short",
 		day: "numeric",
 	});
+};
+
+const autoResize = (element) => {
+	element.style.height = "auto";
+	element.style.height = element.scrollHeight + "px";
+};
+
+const initializeTextareas = () => {
+	setTimeout(() => {
+		document.querySelectorAll("textarea").forEach((textarea) => {
+			autoResize(textarea);
+		});
+	}, 0);
 };
 </script>
 
@@ -224,7 +238,8 @@ const formatDate = (dateString) => {
 						<textarea
 							v-model="faq.answer"
 							@change="updateFAQ(faq)"
-							class="w-full px-3 py-2 rounded-2xl text-gray-700 resize-none min-h-[80px]"
+							@input="autoResize($event.target)"
+							class="w-full px-3 py-2 rounded-2xl text-gray-700 min-h-[80px] overflow-hidden resize-none"
 							placeholder="Saisissez votre réponse"></textarea>
 					</div>
 
