@@ -26,6 +26,16 @@ model Painting {
   paintingType String   // Type de peinture (ex : huile, aquarelle, acrylique, etc)
 }
 
+model FAQ {
+  id          Int       @id @default(autoincrement())
+  question    String    // La question
+  answer      String    // La réponse
+  order       Int       @default(0) // Ordre d'affichage
+  isActive    Boolean   @default(true) // Pour activer/désactiver une entrée sans la supprimer
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 enum PaintingState {
   FOR_SALE   // À vendre
   SOLD       // Vendu

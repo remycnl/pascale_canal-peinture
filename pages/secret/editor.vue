@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRuntimeConfig } from "nuxt/app";
+
 const { $initializeSmoothScroll } = useNuxtApp();
 
 // Configuration et variables d'état
@@ -506,6 +507,7 @@ const resetForm = () => {
 					</div>
 				</div>
 			</div>
+			<FAQeditable />
 		</div>
 
 		<!-- Modal d'authentification -->
