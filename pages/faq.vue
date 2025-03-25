@@ -67,7 +67,7 @@ const toggleFAQ = (faq) => {
 
 				<div
 					v-if="faq.isOpen"
-					class="p-5 sm:p-6 md:p-7 lg:p-8 bg-white text-xs sm:text-sm md:text-lg lg:text-2xl text-gray-700">
+					class="p-3 sm:p-4 md:p-6 lg:p-8 bg-white text-sm sm:text-base md:text-lg lg:text-2xl text-gray-700">
 					{{ faq.answer }}
 				</div>
 			</div>
