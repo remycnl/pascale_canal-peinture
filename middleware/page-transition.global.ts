@@ -17,7 +17,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		container.style.overflow = "hidden";
 
 		const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-		svg.setAttribute("viewBox", "0 0 100 400"); // Doublé la hauteur du viewBox
+		svg.setAttribute("viewBox", "0 0 100 400");
 		svg.setAttribute("preserveAspectRatio", "none");
 		svg.classList.add("wave-shape");
 		svg.style.width = "100%";
@@ -45,7 +45,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		container.appendChild(svg);
 		document.body.appendChild(container);
 
-		const animationDuration = 2500;
+		const animationDuration = 2000;
 		const midPoint = animationDuration / 2;
 
 		requestAnimationFrame(() => {
@@ -55,10 +55,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		document.documentElement.classList.add("page-transition-leave-to");
 
 		await new Promise((resolve) => setTimeout(resolve, midPoint));
+
+		container.classList.add("wave-paused");
+
 		await navigateTo(to.fullPath);
 
-		container.classList.remove("wave-enter");
-		container.classList.add("wave-leave");
+		requestAnimationFrame(() => {
+			container.classList.remove("wave-paused");
+			container.classList.remove("wave-enter");
+			container.classList.add("wave-leave");
+		});
 
 		setTimeout(() => {
 			container.remove();
