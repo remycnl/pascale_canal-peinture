@@ -100,8 +100,11 @@ useHead(() => ({
 			<div
 				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
 				<div
-					class="relative overflow-hidden rounded-2xl aspect-square"
-					:class="{ 'animate-pulse bg-gray-200': !imageLoaded }"
+					class="relative overflow-hidden rounded-2xl"
+					:class="{ 
+						'animate-pulse bg-gray-200': !imageLoaded,
+						'aspect-square': painting.width === painting.height 
+					}"
 					@mousemove="handleMouseMove"
 					@mouseleave="handleMouseLeave"
 					@click="handleClick"
@@ -122,7 +125,7 @@ useHead(() => ({
 							transition: isZoomed ? 'none' : 'all 0.3s ease',
 							opacity: imageLoaded ? 1 : 0,
 						}"
-						class="rounded-2xl w-full h-full object-center will-change-transform" />
+						class="rounded-2xl w-full h-full object-center" />
 				</div>
 				<div class="relative prose max-w-none text-grayDark">
 					<div

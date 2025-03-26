@@ -39,8 +39,10 @@ const updateFAQ = async (faq) => {
 };
 
 const removeFAQ = async (id) => {
-	await deleteFAQ(id);
-	faqs.value = faqs.value.filter((faq) => faq.id !== id);
+	if (confirm("Êtes-vous sûr de vouloir supprimer cette FAQ ?")) {
+		await deleteFAQ(id);
+		faqs.value = faqs.value.filter((faq) => faq.id !== id);
+	}
 };
 
 const moveUp = async (faq) => {
