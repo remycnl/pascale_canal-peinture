@@ -24,7 +24,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		svg.style.height = "100%";
 
 		const isMobile = window.innerWidth < 768;
-
 		const curveStrength = isMobile ? 15 : 30;
 
 		const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -35,30 +34,22 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			} 100,340 L100,0 C75,${0 + curveStrength} 25,${0 + curveStrength} 0,0 Z`
 		);
 
-		if (isDarkMode.value) {
-			path.setAttribute("fill", "var(--color-white)");
-		} else {
-			path.setAttribute("fill", "var(--color-black)");
-		}
+		path.setAttribute(
+			"fill",
+			isDarkMode.value ? "var(--color-white)" : "var(--color-black)"
+		);
 
 		svg.appendChild(path);
 		container.appendChild(svg);
 		document.body.appendChild(container);
 
-		const animationDuration = 2000;
-		const midPoint = animationDuration / 2;
+		const animationDuration = 1500;
 
 		requestAnimationFrame(() => {
 			container.classList.add("wave-enter");
 		});
 
-		setTimeout(() => {
-			container.classList.add("wave-paused");
-		}, midPoint - 50);
-
-		document.documentElement.classList.add("page-transition-leave-to");
-
-		await new Promise((resolve) => setTimeout(resolve, midPoint));
+		await new Promise((resolve) => setTimeout(resolve, animationDuration));
 
 		try {
 			await navigateTo(to.fullPath);
@@ -66,18 +57,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			console.error("Navigation error:", error);
 		}
 
-		await new Promise((resolve) => setTimeout(resolve, 200));
-
 		requestAnimationFrame(() => {
-			container.classList.remove("wave-paused");
-			container.classList.remove("wave-enter");
 			container.classList.add("wave-leave");
 		});
 
 		setTimeout(() => {
 			container.remove();
 			document.body.classList.remove("page-transitioning");
-			document.documentElement.classList.remove("page-transition-leave-to");
-		}, animationDuration + 100);
+		}, animationDuration);
 	}
 });

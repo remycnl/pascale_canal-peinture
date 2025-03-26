@@ -1,39 +1,43 @@
 .wave-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 200vh;
-    z-index: 9999;
-    pointer-events: none;
-    transform: translateY(-100%);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 200vh;
+	z-index: 9999;
+	pointer-events: none;
+	transform: translateY(-100%);
 }
 
 .wave-shape {
-    opacity: 100;
-    width: 100%;
-    height: 100%;
-    transform-origin: top;
+	opacity: 1;
+	width: 100%;
+	height: 100%;
+	transform-origin: top;
 }
 
 .wave-enter {
-    animation: waveEnter 2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+	animation: waveEnter 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .wave-leave {
-    animation: waveLeave 2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-}
-
-.wave-pause {
-    animation-play-state: paused;
+	animation: waveLeave 1.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
 @keyframes waveEnter {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(-20%); }
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(-20%);
+	}
 }
 
 @keyframes waveLeave {
-    0% { transform: translateY(-20%); }
-    100% { transform: translateY(100%); }
+	0% {
+		transform: translateY(-20%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
 }
