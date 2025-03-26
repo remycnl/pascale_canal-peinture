@@ -183,7 +183,7 @@ onBeforeUnmount(() => {
 				Artiste peintre francaise
 			</span>
 			<span class="z-20 mt-5 md:mt-0"
-				>Découvrez ma <span class="whitespace-nowrap">e-gallerie</span></span
+				>Visitez ma <span class="whitespace-nowrap">e-galerie</span></span
 			>
 		</h1>
 
