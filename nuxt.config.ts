@@ -43,6 +43,55 @@ export default defineNuxtConfig({
 	robots: {
 		disallow: ["/secret"],
 	},
+	sitemap: {
+		defaults: {
+			priority: 0.5,
+			changefreq: "weekly",
+		},
+		urls: [
+			{
+				loc: "/",
+				priority: 1.0,
+				changefreq: "daily",
+				lastmod: new Date().toISOString(),
+			},
+			{
+				loc: "/comment-ca-marche",
+				priority: 0.9,
+				changefreq: "weekly",
+			},
+			{
+				loc: "/qui-suis-je",
+				priority: 0.8,
+				changefreq: "monthly",
+			},
+			{
+				loc: "/contact",
+				priority: 0.7,
+				changefreq: "monthly",
+			},
+			{
+				loc: "/faq",
+				priority: 0.6,
+				changefreq: "weekly",
+			},
+			{
+				loc: "/cgu",
+				priority: 0.4,
+				changefreq: "yearly",
+			},
+			{
+				loc: "/mentions-legales",
+				priority: 0.3,
+				changefreq: "yearly",
+			},
+			{
+				loc: "/politique-de-confidentialite",
+				priority: 0.3,
+				changefreq: "yearly",
+			},
+		],
+	},
 	routeRules: {
 		"/secret/**": { robots: false },
 	},

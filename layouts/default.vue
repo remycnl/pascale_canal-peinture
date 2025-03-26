@@ -1,7 +1,10 @@
 <script setup>
-import { Analytics } from '@vercel/analytics/nuxt'
+import { Analytics } from "@vercel/analytics/nuxt";
 import Header from "@/layouts/Header.vue";
 import Footer from "@/layouts/Footer.vue";
+
+const activeTitle = ref("Pascale Canal | Artiste Peintre • Exposition en ligne");
+const inactiveTitle = ref("I miss you... 🥺");
 
 useSeoMeta({
 	title: "Pascale Canal | Artiste Peintre • Exposition en ligne",
@@ -25,11 +28,81 @@ useSeoMeta({
 	twitterImage: "https://www.pascalecanal.com/img/metaImg.png",
 	twitterUrl: "https://www.pascalecanal.com",
 });
+
+useHead({
+	htmlAttrs: {
+		lang: "fr",
+	},
+	meta: [
+		{
+			name: "viewport",
+			content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
+		},
+	],
+	link: [
+		{
+			rel: "icon",
+			type: "image/x-icon",
+			href: "https://pascale-canal-peinture.vercel.app/favicon.ico",
+			id: "favicon",
+		},
+		{
+			rel: "apple-touch-icon",
+			sizes: "180x180",
+			href: "https://pascale-canal-peinture.vercel.app/img/logo.png",
+		},
+		{
+			rel: "canonical",
+			href: "https://pascale-canal-peinture.vercel.app/",
+		},
+	],
+});
+
+const setSEO = () => {
+	if (import.meta.client) {
+		document.addEventListener("visibilitychange", function () {
+			if (document.visibilityState === "hidden") {
+				document.title = inactiveTitle.value;
+			} else {
+				document.title = activeTitle.value;
+			}
+		});
+	}
+};
+
+onMounted(() => {
+	const favicons = [
+		"https://pascale-canal-peinture.vercel.app/favicon.ico",
+		"https://pascale-canal-peinture.vercel.app/favicon-reversed.ico",
+	];
+	let currentFaviconIndex = 0;
+
+	setSEO();
+
+	if (import.meta.client) {
+		console.log(`
+    ******************************************
+    *                                        *
+    *    Appreciate scrolling through my     *
+    *            portfolio! :)               *
+    *                                        *
+    ******************************************
+    `);
+	}
+
+	setInterval(() => {
+		currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
+		const faviconElement = document.querySelector('link[rel="icon"]');
+		if (faviconElement) {
+			faviconElement.href = favicons[currentFaviconIndex];
+		}
+	}, 1000);
+});
 </script>
 
 <template>
 	<div class="overflow-hidden">
-		<Analytics/>
+		<Analytics />
 		<SplashScreen />
 		<Header />
 		<div
