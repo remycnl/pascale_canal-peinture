@@ -52,11 +52,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			container.classList.add("wave-enter");
 		});
 
+		setTimeout(() => {
+			container.classList.add("wave-paused");
+		}, midPoint - 50);
+
 		document.documentElement.classList.add("page-transition-leave-to");
 
 		await new Promise((resolve) => setTimeout(resolve, midPoint));
-
-		container.classList.add("wave-paused");
 
 		try {
 			await navigateTo(to.fullPath);
