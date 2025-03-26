@@ -7,6 +7,8 @@ const { $initializeSmoothScroll } = useNuxtApp();
 // Configuration et variables d'état
 const config = useRuntimeConfig();
 const secretKey = config.public.NUXT_SECRET_KEY;
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
 
 // Refs pour les champs du formulaire
 const secretKeyInput = ref("");
@@ -213,7 +215,11 @@ const submitPainting = async () => {
 		}
 	} catch (error) {
 		console.error(error);
-		alert("Erreur lors de l'opération");
+		alert(
+			`Erreur lors de ${
+				isEditMode.value ? "la mise à jour" : "l'ajout"
+			} de la peinture`
+		);
 	}
 };
 
@@ -234,6 +240,20 @@ const resetForm = () => {
 	selectedPainting.value = null;
 	isEditMode.value = false;
 };
+
+useSeoMeta({
+	title: () => `Éditeur | ${siteName}`,
+	description:
+		"Panneau d'administration pour gérer les peintures et les FAQs du site de Pascale Canal.",
+	ogTitle: () => `Éditeur | ${siteName}`,
+	ogDescription:
+		"Panneau d'administration pour gérer les peintures et les FAQs du site de Pascale Canal.",
+	ogUrl: () => `${baseUrl}/secret/editor`,
+	twitterTitle: () => `Éditeur | ${siteName}`,
+	twitterDescription:
+		"Panneau d'administration pour gérer les peintures et les FAQs du site de Pascale Canal.",
+	twitterUrl: () => `${baseUrl}/secret/editor`,
+});
 </script>
 
 <template>

@@ -1,3 +1,24 @@
+<script setup>
+const config = useRuntimeConfig();
+
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
+
+useSeoMeta({
+	title: () => `Contact | ${siteName}`,
+	description:
+		"Contactez Pascale Canal, artiste peintre. N'hésitez pas à me faire part de vos questions, demandes de commission ou simplement pour échanger sur l'art.",
+	ogTitle: () => `Contact | ${siteName}`,
+	ogDescription:
+		"Contactez Pascale Canal, artiste peintre. N'hésitez pas à me faire part de vos questions, demandes de commission ou simplement pour échanger sur l'art.",
+	ogUrl: () => `${baseUrl}/contact`,
+	twitterTitle: () => `Contact | ${siteName}`,
+	twitterDescription:
+		"Contactez Pascale Canal, artiste peintre. N'hésitez pas à me faire part de vos questions, demandes de commission ou simplement pour échanger sur l'art.",
+	twitterUrl: () => `${baseUrl}/contact`,
+});
+</script>
+
 <template>
 	<div class="relative min-h-screen text-white pt-10 md:pt-20">
 		<h1

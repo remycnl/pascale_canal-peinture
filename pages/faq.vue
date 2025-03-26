@@ -1,32 +1,40 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { computed } from "vue";
 import { useFAQs } from "@/composables/useFAQs";
 
-const faqs = ref([]);
-
-const { fetchFAQs } = useFAQs();
-onMounted(async () => {
-	faqs.value = await fetchFAQs().then((data) =>
-		data
-			.filter(
-				(faq) =>
-					faq.isActive === true &&
-					faq.question &&
-					faq.question.trim() !== "" &&
-					faq.answer &&
-					faq.answer.trim() !== ""
-			)
-			.map((faq) => ({ ...faq, isOpen: false }))
-	);
-});
+const { faqs, pending, error, refresh } = useFAQs();
 
 const sortedFAQs = computed(() =>
-	[...faqs.value].sort((a, b) => (a.order || 0) - (b.order || 0))
+	(faqs.value || [])
+		.filter(
+			(faq) =>
+				faq.isActive === true && faq.question?.trim() && faq.answer?.trim()
+		)
+		.sort((a, b) => (a.order || 0) - (b.order || 0))
 );
 
 const toggleFAQ = (faq) => {
 	faq.isOpen = !faq.isOpen;
 };
+
+const config = useRuntimeConfig();
+
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
+
+useSeoMeta({
+	title: () => `Foire aux questions | ${siteName}`,
+	description:
+		"Découvrez les réponses aux questions fréquemment posées sur l'œuvre de Pascale Canal, artiste peintre. Informations sur ses techniques, inspirations et processus créatif.",
+	ogTitle: () => `Foire aux questions | ${siteName}`,
+	ogDescription:
+		"Découvrez les réponses aux questions fréquemment posées sur l'œuvre de Pascale Canal, artiste peintre. Informations sur ses techniques, inspirations et processus créatif.",
+	ogUrl: () => `${baseUrl}/faq`,
+	twitterTitle: () => `Foire aux questions | ${siteName}`,
+	twitterDescription:
+		"Découvrez les réponses aux questions fréquemment posées sur l'œuvre de Pascale Canal, artiste peintre. Informations sur ses techniques, inspirations et processus créatif.",
+	twitterUrl: () => `${baseUrl}/faq`,
+});
 </script>
 
 <template>
@@ -40,9 +48,10 @@ const toggleFAQ = (faq) => {
 
 		<div class="mt-10 md:mt-20 lg:mt-30 space-y-5 md:space-y-10">
 			<div
-				v-for="faq in sortedFAQs"
+				v-for="(faq, index) in sortedFAQs"
 				:key="faq.id"
-				class="bg-black active:scale-99 transition-transform border-4 md:border-5 border-black text-white rounded-2xl overflow-hidden">
+				class="bg-black active:scale-99 transition-transform border-4 md:border-5 border-black text-white rounded-2xl overflow-hidden opacity-0 animate-fade-in"
+				:class="`delay-[${index * 150}ms]`">
 				<div
 					@click="toggleFAQ(faq)"
 					class="flex justify-between items-center gap-x-5 p-3 sm:p-4 md:p-6 lg:p-8 cursor-pointer transition-colors">
@@ -74,3 +83,20 @@ const toggleFAQ = (faq) => {
 		</div>
 	</div>
 </template>
+
+<style>
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-in {
+	animation: fadeIn 0.6s ease-out forwards;
+}
+</style>

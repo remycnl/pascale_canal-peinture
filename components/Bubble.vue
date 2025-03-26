@@ -5,7 +5,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const searchQuery = ref("");
 const suggestions = ref([]);
-const allTables = ref([]);
 const isInputFocused = ref(false);
 const preventBlurEvent = ref(false);
 const isMobile = ref(false);
@@ -13,6 +12,8 @@ const isMobile = ref(false);
 const checkScreenSize = () => {
 	isMobile.value = window.innerWidth < 768;
 };
+
+const { data: allTables, error } = await useFetch("/api/allPaintings");
 
 const bubbleWidthClass = computed(() => {
 	if (isMobile.value) {
@@ -91,14 +92,7 @@ const navigateToTable = () => {
 	}
 };
 
-onMounted(async () => {
-	try {
-		const response = await fetch("/api/allPaintings");
-		allTables.value = await response.json();
-	} catch (error) {
-		console.error("Erreur lors de la récupération des tableaux:", error);
-	}
-
+onMounted(() => {
 	checkScreenSize();
 	window.addEventListener("resize", checkScreenSize);
 });

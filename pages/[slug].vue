@@ -1,4 +1,9 @@
 <script setup>
+const config = useRuntimeConfig();
+
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
+
 const route = useRoute();
 
 const imageRef = ref(null);
@@ -63,19 +68,53 @@ const handleMouseLeave = () => {
 	}
 };
 
-useHead(() => ({
-	title: painting.value
-		? `${painting.value.name} | Galerie`
-		: "Page non trouvée",
-	meta: [
-		{
-			name: "description",
-			content: painting.value
-				? `${painting.value.name} - ${formatPrice(painting.value.price)}€`
-				: "Page de peinture non trouvée",
-		},
-	],
-}));
+useSeoMeta({
+	title: () =>
+		painting.value
+			? `${painting.value.name} | ${siteName}`
+			: "Page non trouvée",
+	description: () =>
+		painting.value
+			? `Découvrez "${painting.value.name}", une œuvre unique de ${
+					painting.value.artist
+			  }. ${painting.value.paintingType}, ${painting.value.width}x${
+					painting.value.height
+			  }cm - ${formatPrice(painting.value.price)}€`
+			: "Page de peinture non trouvée",
+	ogTitle: () =>
+		painting.value
+			? `${painting.value.name} | ${siteName}`
+			: "Page non trouvée",
+	ogDescription: () =>
+		painting.value
+			? `${
+					painting.value.description
+						? painting.value.description.substring(0, 150) + "..."
+						: `Une création artistique de ${painting.value.artist}. ${painting.value.paintingType}, dimensions ${painting.value.width}x${painting.value.height}cm.`
+			  }`
+			: "Page de peinture non trouvée",
+	ogUrl: () => `${baseUrl}/${route.params.slug}`,
+	ogImage: () => (painting.value?.image ? `${painting.value.image}` : null),
+	ogImageAlt: () =>
+		painting.value?.name
+			? `Peinture "${painting.value.name}" par ${painting.value.artist}`
+			: null,
+	twitterTitle: () =>
+		painting.value
+			? `${painting.value.name} | ${siteName}`
+			: "Page non trouvée",
+	twitterDescription: () =>
+		painting.value
+			? `${
+					painting.value.description
+						? painting.value.description.substring(0, 150) + "..."
+						: `Une œuvre originale "${painting.value.name}" de l'artiste ${painting.value.artist}. À découvrir !`
+			  }`
+			: "Page de peinture non trouvée",
+	twitterImage: () =>
+		painting.value?.image ? `${painting.value.image}` : null,
+	twitterUrl: () => `${baseUrl}/${route.params.slug}`,
+});
 </script>
 
 <template>
@@ -101,9 +140,9 @@ useHead(() => ({
 				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
 				<div
 					class="relative overflow-hidden rounded-2xl"
-					:class="{ 
+					:class="{
 						'animate-pulse bg-gray-200': !imageLoaded,
-						'aspect-square': painting.width === painting.height 
+						'aspect-square': painting.width === painting.height,
 					}"
 					@mousemove="handleMouseMove"
 					@mouseleave="handleMouseLeave"

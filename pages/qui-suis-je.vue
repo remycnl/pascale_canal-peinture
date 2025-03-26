@@ -1,3 +1,27 @@
+<script setup>
+const config = useRuntimeConfig();
+
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
+
+useSeoMeta({
+	title: () => `Qui suis-je ? | ${siteName}`,
+	description:
+		"Découvrez l'univers de Pascale Canal, artiste peintre inspirée par les terres sauvages de l'Aubrac. Une peinture qui capture l'essence des paysages et des animaux à travers des teintes de noir, blanc, gris et or.",
+	ogTitle: () => `Qui suis-je ? | ${siteName}`,
+	ogDescription:
+		"Découvrez l'univers de Pascale Canal, artiste peintre inspirée par les terres sauvages de l'Aubrac. Une peinture qui capture l'essence des paysages et des animaux à travers des teintes de noir, blanc, gris et or.",
+	ogUrl: () => `${baseUrl}/qui-suis-je`,
+	ogImage: () => `${baseUrl}/img/pascalecanal.jpg`,
+	ogImageAlt: "Portrait de l'artiste Pascale Canal",
+	twitterTitle: () => `Qui suis-je ? | ${siteName}`,
+	twitterDescription:
+		"Découvrez l'univers de Pascale Canal, artiste peintre inspirée par les terres sauvages de l'Aubrac. Une peinture qui capture l'essence des paysages et des animaux à travers des teintes de noir, blanc, gris et or.",
+	twitterImage: () => `${baseUrl}/img/pascalecanal.jpg`,
+	twitterUrl: () => `${baseUrl}/qui-suis-je`,
+});
+</script>
+
 <template>
 	<div class="relative min-h-screen text-white pt-10 md:pt-20">
 		<h1
@@ -10,7 +34,7 @@
 				<div
 					class="parallax-strong absolute inset-0 w-full h-full bg-yellow rounded-2xl"></div>
 				<NuxtImg
-					src="/img/maman.jpg"
+					src="/img/pascalecanal.jpg"
 					alt="Une photo de moi (Pascale Canal)"
 					fit="cover"
 					format="webp"
@@ -24,7 +48,7 @@
 			</h2>
 			<div class="lg:hidden flex justify-end">
 				<NuxtImg
-					src="/img/maman.jpg"
+					src="/img/pascalecanal.jpg"
 					alt="Une photo de moi (Pascale Canal)"
 					fit="cover"
 					format="webp"

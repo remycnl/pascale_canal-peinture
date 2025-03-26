@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
 	currentPaintingId: {
@@ -8,10 +8,11 @@ const props = defineProps({
 	},
 });
 
-const paintings = ref([]);
-const pending = ref(true);
-const error = ref(null);
-const windowWidth = ref(0);
+const windowWidth = ref(1024);
+
+if (import.meta.client) {
+	windowWidth.value = window.innerWidth;
+}
 
 const SuggestionsLimit = computed(() => {
 	if (windowWidth.value < 640) return 4; // Mobile
@@ -19,51 +20,45 @@ const SuggestionsLimit = computed(() => {
 	return 8; // Desktop
 });
 
-const fetchSuggestions = async () => {
-	try {
-		pending.value = true;
-		const { data } = await useFetch("/api/paintings/forSalePaintings", {
-			query: {
-				limit: SuggestionsLimit.value,
-				excludeId: props.currentPaintingId,
-			},
-			key: `suggestions-${props.currentPaintingId}-${SuggestionsLimit.value}`,
-			server: true,
-			fresh: true,
-		});
-
-		paintings.value = data.value || [];
-	} catch (err) {
-		error.value = err;
-		console.error("Erreur de chargement des suggestions", err);
-	} finally {
-		pending.value = false;
-	}
-};
-
-const handleResize = () => {
-	windowWidth.value = window.innerWidth;
-};
-
-watch(SuggestionsLimit, () => {
-	fetchSuggestions();
-});
-
-watch(
-	() => props.currentPaintingId,
-	() => {
-		fetchSuggestions();
-	}
+const fetchKey = computed(
+	() => `suggestions-${props.currentPaintingId}-${SuggestionsLimit.value}`
 );
 
+const {
+	data: paintings,
+	pending,
+	error,
+	refresh,
+} = useFetch("/api/paintings/forSalePaintings", {
+	query: computed(() => ({
+		limit: SuggestionsLimit.value,
+		excludeId: props.currentPaintingId,
+	})),
+	key: fetchKey.value,
+	server: true,
+	fresh: true,
+});
+
+const handleResize = () => {
+	if (import.meta.client) {
+		windowWidth.value = window.innerWidth;
+	}
+};
+
+watch([SuggestionsLimit, () => props.currentPaintingId], () => {
+	refresh();
+});
+
 onMounted(() => {
-	windowWidth.value = window.innerWidth;
-	fetchSuggestions();
-	window.addEventListener("resize", handleResize);
+	if (import.meta.client) {
+		window.addEventListener("resize", handleResize);
+	}
 });
 
 onUnmounted(() => {
-	window.removeEventListener("resize", handleResize);
+	if (import.meta.client) {
+		window.removeEventListener("resize", handleResize);
+	}
 });
 </script>
 
@@ -76,6 +71,9 @@ onUnmounted(() => {
 				<NuxtImg
 					src="/img/logo.png"
 					alt="Logo"
+					fit="cover"
+					format="webp"
+					quality="50"
 					class="w-10 sm:w-15 md:w-20 h-auto" />
 			</div>
 			<div

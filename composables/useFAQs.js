@@ -1,13 +1,13 @@
 export const useFAQs = () => {
-	const fetchFAQs = async () => {
-		try {
-			const data = await $fetch("/api/faqs");
-			return data || [];
-		} catch (err) {
-			console.error("Failed to fetch FAQs:", err);
-			throw err;
-		}
-	};
+	const {
+		data: faqs,
+		pending,
+		error,
+		refresh,
+	} = useFetch("/api/faqs", {
+		server: true,
+		key: "faqs",
+	});
 
 	const createFAQ = async (faqData) => {
 		try {
@@ -15,6 +15,7 @@ export const useFAQs = () => {
 				method: "POST",
 				body: faqData,
 			});
+			refresh();
 			return data;
 		} catch (err) {
 			console.error("Failed to create FAQ:", err);
@@ -28,6 +29,7 @@ export const useFAQs = () => {
 				method: "PUT",
 				body: faqData,
 			});
+			refresh();
 			return data;
 		} catch (err) {
 			console.error("Failed to update FAQ:", err);
@@ -37,10 +39,10 @@ export const useFAQs = () => {
 
 	const deleteFAQ = async (id) => {
 		try {
-			const data = await $fetch(`/api/faqs/${id}`, {
+			await $fetch(`/api/faqs/${id}`, {
 				method: "DELETE",
 			});
-			return data;
+			refresh();
 		} catch (err) {
 			console.error("Failed to delete FAQ:", err);
 			throw err;
@@ -48,7 +50,10 @@ export const useFAQs = () => {
 	};
 
 	return {
-		fetchFAQs,
+		faqs,
+		pending,
+		error,
+		refresh,
 		createFAQ,
 		updateFAQ,
 		deleteFAQ,

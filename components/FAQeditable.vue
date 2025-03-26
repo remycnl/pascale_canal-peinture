@@ -2,21 +2,22 @@
 import { ref, onMounted, computed } from "vue";
 import { useFAQs } from "@/composables/useFAQs";
 
-const { fetchFAQs, updateFAQ: updateFAQApi, createFAQ, deleteFAQ } = useFAQs();
-const faqs = ref([]);
-
+const { faqs, pending, error, refresh, createFAQ, updateFAQ, deleteFAQ } =
+	useFAQs();
 const sortedFaqs = computed(() => {
-	return [...faqs.value].sort((a, b) => a.order - b.order);
+	return [...(faqs.value || [])].sort(
+		(a, b) => (a.order || 0) - (b.order || 0)
+	);
 });
 
 onMounted(async () => {
-	faqs.value = await fetchFAQs();
+	await refresh();
 	initializeTextareas();
 });
 
 const addFAQ = async () => {
 	const maxOrder =
-		faqs.value.length > 0
+		(faqs.value?.length ?? 0) > 0
 			? Math.max(...faqs.value.map((f) => f.order || 0))
 			: -1;
 
@@ -31,11 +32,11 @@ const addFAQ = async () => {
 
 const toggleActive = async (faq) => {
 	faq.isActive = !faq.isActive;
-	await updateFAQApi(faq.id, faq);
+	await updateFAQ(faq.id, faq);
 };
 
-const updateFAQ = async (faq) => {
-	await updateFAQApi(faq.id, faq);
+const updateFAQData = async (faq) => {
+	await updateFAQ(faq.id, faq);
 };
 
 const removeFAQ = async (id) => {
@@ -54,8 +55,8 @@ const moveUp = async (faq) => {
 		faq.order = prevFaq.order;
 		prevFaq.order = tempOrder;
 
-		await updateFAQApi(faq.id, faq);
-		await updateFAQApi(prevFaq.id, prevFaq);
+		await updateFAQ(faq.id, faq);
+		await updateFAQ(prevFaq.id, prevFaq);
 	}
 };
 
@@ -68,8 +69,8 @@ const moveDown = async (faq) => {
 		faq.order = nextFaq.order;
 		nextFaq.order = tempOrder;
 
-		await updateFAQApi(faq.id, faq);
-		await updateFAQApi(nextFaq.id, nextFaq);
+		await updateFAQ(faq.id, faq);
+		await updateFAQ(nextFaq.id, nextFaq);
 	}
 };
 
@@ -234,12 +235,12 @@ const initializeTextareas = () => {
 					<div class="flex flex-col">
 						<input
 							v-model="faq.question"
-							@change="updateFAQ(faq)"
+							@change="updateFAQData(faq)"
 							class="w-full px-3 py-2 rounded-2xl text-base sm:text-lg font-semibold text-black mb-2"
 							placeholder="Saisissez votre question" />
 						<textarea
 							v-model="faq.answer"
-							@change="updateFAQ(faq)"
+							@change="updateFAQData(faq)"
 							@input="autoResize($event.target)"
 							class="w-full px-3 py-2 rounded-2xl text-gray-700 min-h-[80px] overflow-hidden resize-none"
 							placeholder="Saisissez votre réponse"></textarea>

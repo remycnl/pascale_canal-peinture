@@ -1,32 +1,38 @@
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Analytics } from "@vercel/analytics/nuxt";
 import Header from "@/layouts/Header.vue";
 import Footer from "@/layouts/Footer.vue";
 
-const activeTitle = ref("Pascale Canal | Artiste Peintre • Exposition en ligne");
+const config = useRuntimeConfig();
+const route = useRoute();
+
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
+
 const inactiveTitle = ref("I miss you... 🥺");
 
 useSeoMeta({
-	title: "Pascale Canal | Artiste Peintre • Exposition en ligne",
+	title: siteName,
 	description:
-		"Explorez les œuvres de Pascale Canal, artiste peintre française. Découvrez ses tableaux dans une exposition en ligne, avec des détails et l'inspiration derrière chaque création.",
-	canonical: "https://www.pascalecanal.com",
+		"Explorez l'univers artistique de Pascale Canal, artiste peintre française. Découvrez et achetez ses tableaux originaux dans une exposition en ligne, avec l'histoire derrière chaque création.",
 	keywords:
-		"Pascale Canal, Artiste peintre, Exposition en ligne, Tableaux, Art , Peinture, Vente d'art, Artiste française",
-	ogTitle: "Pascale Canal | Artiste Peintre • Exposition en ligne",
+		"Pascale Canal, tableaux originaux, peinture contemporaine, artiste peintre, galerie d'art en ligne, acheter tableau original, œuvres signées, art français",
+	ogTitle: () => siteName,
 	ogDescription:
-		"Découvrez les œuvres de Pascale Canal, artiste peintre française, à travers une exposition en ligne interactive. Informations sur les prix, techniques et inspirations disponibles.",
-	ogUrl: "https://www.pascalecanal.com",
-	ogSiteName: "Pascale Canal | Artiste Peintre • Exposition en ligne",
+		"Explorez l'univers artistique de Pascale Canal, artiste peintre française. Découvrez et achetez ses tableaux originaux dans une exposition en ligne, avec l'histoire derrière chaque création.",
+	ogUrl: () => baseUrl,
+	ogSiteName: () => siteName,
 	ogType: "website",
-	ogImage: "https://www.pascalecanal.com/img/metaImg.png",
-	ogImageAlt: "Aperçu des tableaux de Pascale Canal",
+	ogImage: () => `${baseUrl}/img/metaImg.png`,
+	ogImageAlt: "E-galerie de Pascale Canal",
 	ogLocale: "fr_FR",
-	twitterTitle: "Exposition en ligne • Pascale Canal | Artiste Peintre",
+	twitterTitle: () => siteName,
 	twitterDescription:
-		"Parcourez l'exposition en ligne des œuvres de Pascale Canal, artiste peintre française. Détails sur les tableaux inclus.",
-	twitterImage: "https://www.pascalecanal.com/img/metaImg.png",
-	twitterUrl: "https://www.pascalecanal.com",
+		"Explorez l'univers artistique de Pascale Canal, artiste peintre française. Découvrez et achetez ses tableaux originaux dans une exposition en ligne, avec l'histoire derrière chaque création.",
+	twitterImage: () => `${baseUrl}/img/metaImg.png`,
+	twitterUrl: () => baseUrl,
+	twitterCard: "summary_large_image",
 });
 
 useHead({
@@ -43,17 +49,20 @@ useHead({
 		{
 			rel: "icon",
 			type: "image/x-icon",
-			href: "https://pascale-canal-peinture.vercel.app/favicon.ico",
+			href: () => `${baseUrl}/favicon.ico`,
 			id: "favicon",
 		},
 		{
 			rel: "apple-touch-icon",
 			sizes: "180x180",
-			href: "https://pascale-canal-peinture.vercel.app/img/logo.png",
+			href: () => `${baseUrl}/img/logo.png`,
 		},
 		{
 			rel: "canonical",
-			href: "https://pascale-canal-peinture.vercel.app/",
+			href: () => {
+				const path = route.path;
+				return path === "/" ? baseUrl : `${baseUrl}${path}`;
+			},
 		},
 	],
 });
@@ -63,8 +72,6 @@ const setSEO = () => {
 		document.addEventListener("visibilitychange", function () {
 			if (document.visibilityState === "hidden") {
 				document.title = inactiveTitle.value;
-			} else {
-				document.title = activeTitle.value;
 			}
 		});
 	}
@@ -81,22 +88,26 @@ onMounted(() => {
 
 	if (import.meta.client) {
 		console.log(`
-    ******************************************
-    *                                        *
-    *    Appreciate scrolling through my     *
-    *            portfolio! :)               *
-    *                                        *
-    ******************************************
-    `);
+	******************************************
+	*                                        *
+	*    Appreciate scrolling through my     *
+	*            e-galery! :)               *
+	*                                        *
+	******************************************
+	`);
 	}
 
-	setInterval(() => {
+	const intervalId = setInterval(() => {
 		currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
 		const faviconElement = document.querySelector('link[rel="icon"]');
 		if (faviconElement) {
 			faviconElement.href = favicons[currentFaviconIndex];
 		}
 	}, 1000);
+
+	onBeforeUnmount(() => {
+		clearInterval(intervalId);
+	});
 });
 </script>
 

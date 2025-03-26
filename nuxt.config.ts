@@ -37,8 +37,10 @@ export default defineNuxtConfig({
 		},
 	},
 	site: {
-		url: "https://pascale-canal-peinture.vercel.app/",
-		name: "Pascale Canal | Artiste Peintre • Exposition en ligne",
+		url: process.env.NUXT_SITE_URL || "http://localhost:3000",
+		name:
+			process.env.NUXT_SITE_NAME ||
+			"Pascale Canal | Artiste Peintre • Exposition en ligne",
 	},
 	robots: {
 		disallow: ["/secret"],
@@ -98,6 +100,10 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			NUXT_SECRET_KEY: process.env.NUXT_SECRET_KEY,
+			siteUrl: process.env.NUXT_SITE_URL || "http://localhost:3000",
+			siteName:
+				process.env.NUXT_SITE_NAME ||
+				"Pascale Canal | Artiste Peintre • Exposition en ligne",
 		},
 	},
 });
