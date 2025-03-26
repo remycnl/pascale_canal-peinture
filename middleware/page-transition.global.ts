@@ -52,19 +52,19 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			container.classList.add("wave-enter");
 		});
 
-		// On attend que l'animation démarre réellement avant d'ajouter la pause
-		setTimeout(() => {
-			container.classList.add("wave-paused");
-		}, midPoint - 50); // Juste avant d'arriver au milieu, pour être sûr
-
 		document.documentElement.classList.add("page-transition-leave-to");
 
 		await new Promise((resolve) => setTimeout(resolve, midPoint));
 
-		// ⚠️ Vérification pour s'assurer que `.wave-paused` fonctionne bien
-		console.log("Animation mise en pause à mi-chemin");
+		container.classList.add("wave-paused");
 
-		await navigateTo(to.fullPath);
+		try {
+			await navigateTo(to.fullPath);
+		} catch (error) {
+			console.error("Navigation error:", error);
+		}
+
+		await new Promise((resolve) => setTimeout(resolve, 200));
 
 		requestAnimationFrame(() => {
 			container.classList.remove("wave-paused");
@@ -72,7 +72,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			container.classList.add("wave-leave");
 		});
 
-		// On supprime l'élément après l'animation
 		setTimeout(() => {
 			container.remove();
 			document.body.classList.remove("page-transitioning");
