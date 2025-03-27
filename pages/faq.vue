@@ -48,6 +48,15 @@ useSchemaOrg([
 			}
 		}))
 	}),
+	...sortedFAQs.value.map(faq => 
+		defineQuestion({
+			name: faq.question,
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: faq.answer
+			}
+		})
+	),
 	defineBreadcrumb({
 		itemListElement: [
 			{
