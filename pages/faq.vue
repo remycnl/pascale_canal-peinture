@@ -39,28 +39,28 @@ useSeoMeta({
 
 useSchemaOrg([
 	defineWebPage({
-		'@type': 'FAQPage',
-		name: `Foire aux questions | ${siteName}`,
+		"@type": "FAQPage",
+		name: () => `Foire aux questions | ${siteName}`,
 		description:
 			"Découvrez les réponses aux questions fréquemment posées sur l'œuvre de Pascale Canal, artiste peintre. Informations sur ses techniques, inspirations et processus créatif.",
 		inLanguage: "fr-FR",
 		datePublished: "2023-09-15T08:00:00+02:00",
 		dateModified: new Date().toISOString(),
-		url: `${baseUrl}/faq`,
-		mainEntity: computed(() => 
-			sortedFAQs.value.map(faq => ({
+		url: () => `${baseUrl}/faq`,
+		mainEntity: computed(() =>
+			sortedFAQs.value.map((faq) => ({
 				"@type": "Question",
-				name: faq.question,
+				name: () => faq.question,
 				acceptedAnswer: {
 					"@type": "Answer",
-					text: faq.answer
-				}
+					text: () => faq.answer,
+				},
 			}))
 		),
 		author: {
 			"@type": "Person",
 			name: "Pascale Canal",
-			url: baseUrl,
+			url: () => baseUrl,
 			jobTitle: "Artiste peintre",
 			sameAs: [
 				"https://www.instagram.com/pascale.canal.art/",
@@ -70,12 +70,12 @@ useSchemaOrg([
 		publisher: {
 			"@type": "Person",
 			name: "Pascale Canal",
-			url: baseUrl,
+			url: () => baseUrl,
 		},
 		isPartOf: {
 			"@type": "WebSite",
-			name: siteName,
-			url: baseUrl,
+			name: () => siteName,
+			url: () => baseUrl,
 		},
 	}),
 

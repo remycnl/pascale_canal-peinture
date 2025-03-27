@@ -73,6 +73,22 @@ useSchemaOrg([
 			target: () => `${baseUrl}/contact`,
 		},
 	}),
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "Accueil",
+				item: () => baseUrl,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "Contact",
+				item: () => `${baseUrl}/contact`,
+			},
+		],
+	}),
 ]);
 </script>
 
