@@ -26,6 +26,7 @@
 		"vue-router": "latest"
 	},
 	"devDependencies": {
+		"@unhead/schema-org": "^2.0.2",
 		"prisma": "^6.5.0"
 	}
 }

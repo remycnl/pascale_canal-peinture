@@ -13,6 +13,7 @@ export default defineNuxtConfig({
 		"@prisma/nuxt",
 		"@nuxtjs/sitemap",
 		"@nuxtjs/robots",
+		"@unhead/schema-org",
 		"nuxt-schema-org",
 	],
 	plugins: [
@@ -98,12 +99,10 @@ export default defineNuxtConfig({
 		minify: true,
 
 		identity: {
-			type: 'Person',
-			name: 'Pascale Canal',
+			type: "Person",
+			name: "Pascale Canal",
 			url: process.env.NUXT_SITE_URL || "http://localhost:3000",
-			sameAs: [
-				"https://www.linkedin.com/in/pascale-canal",
-			],
+			sameAs: ["https://www.linkedin.com/in/pascale-canal"],
 		},
 	},
 	routeRules: {

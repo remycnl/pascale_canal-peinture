@@ -1,5 +1,6 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
+import { defineWebPage, definePerson, useSchemaOrg } from '@unhead/schema-org/vue'
 
 const config = useRuntimeConfig();
 
@@ -21,14 +22,47 @@ useSeoMeta({
 });
 
 useSchemaOrg([
+	defineWebPage({
+		"@type": "ContactPage",
+		"@id": () => `${baseUrl}/contact`,
+		url: () => `${baseUrl}/contact`,
+		name: "Contact Pascale Canal - Artiste Peintre",
+		description:
+			"Contactez Pascale Canal, artiste peintre française. Pour toute question, commission ou échange artistique.",
+		breadcrumb: {
+			"@type": "BreadcrumbList",
+			itemListElement: [
+				{
+					"@type": "ListItem",
+					position: 1,
+					name: "Accueil",
+					item: () => baseUrl,
+				},
+				{
+					"@type": "ListItem",
+					position: 2,
+					name: "Contact",
+					item: () => `${baseUrl}/contact`,
+				},
+			],
+		},
+		mainEntity: {
+			"@type": "ContactPoint",
+			contactType: "customer service",
+			email: "pascalecanal@gmail.com",
+			telephone: "+33686596029",
+			availableLanguage: ["French", "English"],
+		},
+	}),
+
 	definePerson({
 		"@type": "Person",
-		"@id": `${baseUrl}#pascalecanal`,
+		"@id": () => `${baseUrl}#pascalecanal`,
 		name: "Pascale Canal",
-		url: `${baseUrl}`,
+		url: () => baseUrl,
 		image: {
 			"@type": "ImageObject",
-			url: `${baseUrl}/img/pascalecanal.jpg`,
+			url: () => `${baseUrl}/img/pascalecanal.jpg`,
 			width: 800,
 			height: 800,
 			caption: "Pascale Canal - Artiste Peintre",
@@ -49,39 +83,7 @@ useSchemaOrg([
 			email: "pascalecanal@gmail.com",
 			telephone: "+33686596029",
 			availableLanguage: ["French", "English"],
-			url: `${baseUrl}/contact`,
-		},
-	}),
-	defineWebPage({
-		"@type": "ContactPage",
-		"@id": `${baseUrl}/contact`,
-		url: `${baseUrl}/contact`,
-		name: "Contact Pascale Canal - Artiste Peintre",
-		description:
-			"Contactez Pascale Canal, artiste peintre française. Pour toute question, commission ou échange artistique.",
-		breadcrumb: {
-			"@type": "BreadcrumbList",
-			itemListElement: [
-				{
-					"@type": "ListItem",
-					position: 1,
-					name: "Accueil",
-					item: `${baseUrl}`,
-				},
-				{
-					"@type": "ListItem",
-					position: 2,
-					name: "Contact",
-					item: `${baseUrl}/contact`,
-				},
-			],
-		},
-		mainEntity: {
-			"@type": "ContactPoint",
-			contactType: "customer service",
-			email: "pascalecanal@gmail.com",
-			telephone: "+33686596029",
-			availableLanguage: ["French", "English"],
+			url: () => `${baseUrl}/contact`,
 		},
 	}),
 ]);
