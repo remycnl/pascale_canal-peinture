@@ -30,22 +30,6 @@ useSchemaOrg([
 		inLanguage: "fr-FR",
 		datePublished: "2023-09-15T08:00:00+02:00",
 		dateModified: new Date().toISOString(),
-		mainEntityOfPage: defineBreadcrumb({
-            itemListElement: [
-                {
-                    "@type": "ListItem",
-                    position: 1,
-                    name: "Accueil",
-                    item: () => baseUrl,
-                },
-                {
-                    "@type": "ListItem",
-                    position: 2,
-                    name: "Contact",
-                    item: () => `${baseUrl}/contact`,
-                },
-            ],
-        }),
 		author: {
 			"@type": "Person",
 			name: "Pascale Canal",
@@ -78,6 +62,23 @@ useSchemaOrg([
 			{
 				"@type": "ContactAction",
 				target: () => `${baseUrl}/contact`,
+			},
+		],
+	}),
+
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "Accueil",
+				item: () => baseUrl,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "Contact",
+				item: () => `${baseUrl}/contact`,
 			},
 		],
 	}),

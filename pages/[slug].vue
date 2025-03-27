@@ -128,7 +128,7 @@ useSchemaOrg([
 		brand: {
 			"@type": "Brand",
 			name: "Pascale Canal",
-			logo: `${baseUrl}/img/fullLogo.png`,
+			logo: () => `${baseUrl}/img/fullLogo.png`,
 		},
 		sku: () => painting.value?.id?.toString(),
 		productID: () => `painting:${painting.value?.id}`,
@@ -180,13 +180,43 @@ useSchemaOrg([
 			name: "Home Decoration",
 		},
 	}),
+
 	defineWebPage({
 		name: () => `${painting.value?.name || "Œuvre"} | ${siteName}`,
 		description: () =>
 			painting.value?.description?.substring(0, 150) + "..." ||
 			`Œuvre originale par ${painting.value?.artist || "Pascale Canal"}`,
 		image: () => painting.value?.image,
+		inLanguage: "fr-FR",
 		datePublished: () => painting.value?.date,
+		dateModified: new Date().toISOString(),
+		url: () => `${baseUrl}/${route.params.slug}`,
+		author: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+			jobTitle: "Artiste peintre",
+			sameAs: [
+				"https://www.instagram.com/pascale.canal.art/",
+				"https://www.facebook.com/pascale.canal.art/",
+			],
+		},
+		publisher: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+		},
+		isPartOf: {
+			"@type": "WebSite",
+			name: () => siteName,
+			url: () => baseUrl,
+		},
+		potentialAction: [
+			{
+				"@type": "BuyAction",
+				target: `${baseUrl}/${route.params.slug}`,
+			},
+		],
 	}),
 ]);
 </script>
