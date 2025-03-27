@@ -49,61 +49,18 @@ export default defineNuxtConfig({
 		defaults: {
 			priority: 0.5,
 			changefreq: "weekly",
+			lastmod: new Date().toISOString(),
 		},
-		urls: [
-			{
-				loc: "/",
-				priority: 1.0,
-				changefreq: "daily",
-				lastmod: new Date().toISOString(),
-			},
-			{
-				loc: "/comment-ca-marche",
-				priority: 0.9,
-				changefreq: "weekly",
-			},
-			{
-				loc: "/qui-suis-je",
-				priority: 0.8,
-				changefreq: "monthly",
-			},
-			{
-				loc: "/contact",
-				priority: 0.7,
-				changefreq: "monthly",
-			},
-			{
-				loc: "/faq",
-				priority: 0.6,
-				changefreq: "weekly",
-			},
-			{
-				loc: "/cgu",
-				priority: 0.4,
-				changefreq: "yearly",
-			},
-			{
-				loc: "/mentions-legales",
-				priority: 0.3,
-				changefreq: "yearly",
-			},
-			{
-				loc: "/politique-de-confidentialite",
-				priority: 0.3,
-				changefreq: "yearly",
-			},
-		],
+		sources: ["/api/sitemap-urls"],
 	},
 	schemaOrg: {
 		minify: true,
 
 		identity: {
-			type: 'Person',
-			name: 'Pascale Canal',
+			type: "Person",
+			name: "Pascale Canal",
 			url: process.env.NUXT_SITE_URL || "http://localhost:3000",
-			sameAs: [
-				"https://www.linkedin.com/in/pascale-canal",
-			],
+			sameAs: ["https://www.linkedin.com/in/pascale-canal"],
 		},
 	},
 	routeRules: {
