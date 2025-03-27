@@ -54,12 +54,10 @@ useSchemaOrg([
 			name: () => siteName,
 			url: () => baseUrl,
 		},
-		potentialAction: [
-			{
-				"@type": "ContactAction",
-				target: () => `${baseUrl}/contact`,
-			},
-		],
+		potentialAction: {
+			"@type": "ContactAction",
+			target: () => `${baseUrl}/contact`,
+		},
 	}),
 
 	defineBreadcrumb({
