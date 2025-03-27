@@ -123,45 +123,19 @@ useSchemaOrg([
 		name: "Comment acheter une œuvre d'art originale de Pascale Canal",
 		description: `Découvrez le processus complet d'achat pour acquérir une peinture originale de Pascale Canal. De la sélection dans la galerie à la livraison sécurisée de votre tableau, suivez notre guide détaillé en ${sections.length} étapes simples.`,
 		totalTime: "PT30M",
-		estimatedCost: {
-			"@type": "MonetaryAmount",
-			currency: "EUR",
-			value: "Variable selon l'œuvre",
-		},
-		datePublished: "2023-09-15T08:00:00+02:00",
-		dateModified: new Date().toISOString(),
+		estimatedCost: "Variable selon l'œuvre",
 		inLanguage: "fr-FR",
-		mainEntityOfPage: {
-			"@type": "WebPage",
-			"@id": `${baseUrl}/comment-ca-marche`,
-		},
-		url: `${baseUrl}/comment-ca-marche`,
-		author: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			url: baseUrl,
-			jobTitle: "Artiste peintre",
-			sameAs: [
-				"https://www.instagram.com/pascale.canal.art/",
-				"https://www.facebook.com/pascale.canal.art/",
-			],
-		},
 		step: sections.map((section, index) => {
-			const cleanText = section.description.text.replace(
+			const text = section.description.text.replace(
 				/{link:([^:]+):([^}]+)}/g,
 				"$1"
 			);
-
+			
 			return {
-				"@type": "HowToStep",
+				url: `#etape-${section.number}`,
 				name: section.title,
-				text: cleanText,
+				text: text,
 				position: index + 1,
-				url: `${baseUrl}/comment-ca-marche#etape-${section.number}`,
-				itemListElement: {
-					"@type": "HowToDirection",
-					text: cleanText,
-				},
 			};
 		}),
 	}),
