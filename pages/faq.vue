@@ -48,17 +48,15 @@ useSchemaOrg([
 		},
 		mainEntity: true,
 	}),
-	...(sortedFAQs.value?.length > 1
-		? sortedFAQs.value.slice(1).map((faq) =>
-				defineQuestion({
-					name: () => faq.question,
-					acceptedAnswer: {
-						"@type": "Answer",
-						text: () => faq.answer,
-					},
-				})
-		  )
-		: []),
+	...sortedFAQs.value.slice(1).map(faq => 
+		defineQuestion({
+			name: faq.question,
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: faq.answer
+			}
+		})
+	),
 	defineBreadcrumb({
 		itemListElement: [
 			{
