@@ -38,7 +38,6 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	// Définition de la page en tant que FAQ
 	defineWebPage({
 		'@type': 'FAQPage',
 		name: `Foire aux questions | ${siteName}`,
@@ -70,16 +69,6 @@ useSchemaOrg([
 		},
 	}),
 
-	// Génération dynamique des questions FAQ
-	...sortedFAQs.value.map((faq) =>
-		defineQuestion({
-			name: faq.question,
-			acceptedAnswer: faq.answer,
-			inLanguage: "fr-FR",
-		})
-	),
-
-	// Définition des fils d'Ariane (Breadcrumbs)
 	defineBreadcrumb({
 		itemListElement: [
 			{
