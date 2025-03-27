@@ -162,119 +162,51 @@ onBeforeUnmount(() => {
 	if (displayInterval.value) clearInterval(displayInterval.value);
 });
 
-const loadedPaintings = computed(() =>
-	paintings.value.filter((painting) => isImageLoaded.value[painting.id])
-);
-
-const updateSchemaOrg = () => {
-	useSchemaOrg([
-		defineWebSite({
-			name: "Pascale Canal - Artiste Peintre",
-			description:
-				"Site officiel de Pascale Canal, artiste peintre française spécialisée dans les paysages d'Aubrac",
-			url: baseUrl,
-		}),
-
-		defineWebPage({
-			"@type": "CollectionPage",
-			"@id": `${baseUrl}#gallery`,
-			url: baseUrl,
-			name: "Galerie des œuvres de Pascale Canal",
-			description:
-				"Découvrez et achetez les tableaux originaux de Pascale Canal, artiste peintre française. Peintures à l'huile et acryliques représentant des paysages et des compositions abstraites.",
-			isPartOf: {
-				"@type": "WebSite",
-				"@id": baseUrl,
-			},
-			breadcrumb: {
-				"@type": "BreadcrumbList",
-				itemListElement: [
-					{
-						"@type": "ListItem",
-						position: 1,
-						name: "Accueil",
-						item: baseUrl,
-					},
-				],
-			},
-			mainEntity: {
-				"@type": "ItemList",
-				"@id": `${baseUrl}#tableaux`,
-			},
-		}),
-
-		definePerson({
+useSchemaOrg([
+	defineWebPage({
+		name: "Pascale Canal - Artiste peintre française",
+		description:
+			"Découvrez les œuvres de Pascale Canal, artiste peintre française contemporaine. Explorez sa e-galerie de peintures abstraites et figuratives.",
+		image: () => `${baseUrl}/images/main-artwork.jpg`,
+		url: () => baseUrl,
+		inLanguage: "fr-FR",
+		datePublished: "2023-09-15T08:00:00+02:00",
+		dateModified: new Date().toISOString(),
+		author: {
+			"@type": "Person",
 			name: "Pascale Canal",
+			url: () => baseUrl,
 			jobTitle: "Artiste peintre",
-			url: baseUrl,
-			address: {
-				"@type": "PostalAddress",
-				addressCountry: "France",
-			},
 			sameAs: [
 				"https://www.instagram.com/pascale.canal.art/",
-				"https://www.facebook.com/pascalecanal.art",
-				"https://www.artmajeur.com/pascale-canal",
-				"https://www.linkedin.com/in/pascale-canal/",
+				"https://www.facebook.com/pascale.canal.art/",
 			],
-		}),
+		},
+		publisher: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+		},
+		isPartOf: {
+			"@type": "WebSite",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+		},
+	}),
 
-		defineItemList({
-			"@type": "ItemList",
-			"@id": `${baseUrl}#tableaux`,
-			name: "Galerie des œuvres d'art de Pascale Canal",
-			numberOfItems: loadedPaintings.value.length,
-			itemListElement: loadedPaintings.value.map((painting, index) => ({
-				"@type": "ListItem",
-				position: index + 1,
-				item: {
-					"@type": "Product",
-					"@id": `${baseUrl}/${painting.slug}`,
-					url: `${baseUrl}/${painting.slug}`,
-					name: painting.name,
-					image: {
-						"@type": "ImageObject",
-						url: painting.image,
-						caption: painting.name,
-					},
-					description:
-						painting.description ||
-						`Tableau "${painting.name}" par l'artiste peintre Pascale Canal`,
-					creator: {
-						"@type": "Person",
-						name: "Pascale Canal",
-					},
-					offers: {
-						"@type": "Offer",
-						price: painting.price,
-						priceCurrency: "EUR",
-						url: `${baseUrl}/${painting.slug}`,
-						availability:
-							painting.state === "FOR_SALE"
-								? "https://schema.org/InStock"
-								: "https://schema.org/SoldOut",
-						seller: {
-							"@type": "Person",
-							name: "Pascale Canal",
-						},
-					},
-				},
-			})),
-		}),
-	]);
-};
+	definePerson({
+		name: "Pascale Canal",
+		jobTitle: "Artiste peintre",
+		url: () => baseUrl,
+		image: () => `${baseUrl}/img/pascalecanal.jpg`,
+		sameAs: [
+			"https://www.instagram.com/pascale.canal.art/",
+			"https://www.facebook.com/pascale.canal.art/",
+		],
+	}),
 
-updateSchemaOrg();
-
-watch(
-	loadedPaintings,
-	() => {
-		if (loadedPaintings.value.length > 0) {
-			updateSchemaOrg();
-		}
-	},
-	{ deep: true }
-);
+	defineBreadcrumb({ name: "Accueil", url: baseUrl }),
+]);
 </script>
 
 <template>

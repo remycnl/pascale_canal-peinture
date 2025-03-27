@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watchEffect } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Analytics } from "@vercel/analytics/nuxt";
 import Header from "@/layouts/Header.vue";
 import Footer from "@/layouts/Footer.vue";
+import { useSchemaOrg } from "#imports";
 
 const config = useRuntimeConfig();
 const route = useRoute();
@@ -69,6 +70,16 @@ useHead({
 		},
 	],
 });
+
+useSchemaOrg([
+	defineWebSite({
+		name: () => siteName,
+		description:
+			"Site officiel de Pascale Canal, artiste peintre française spécialisée dans les paysages d'Aubrac",
+		url: () => baseUrl,
+		inLanguage: "fr-FR",
+	}),
+]);
 
 const setSEO = () => {
 	if (import.meta.client) {
