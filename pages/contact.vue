@@ -23,39 +23,6 @@ useSeoMeta({
 useSchemaOrg([
 	defineWebPage({
 		"@type": "ContactPage",
-		url: () => `${baseUrl}/contact`,
-		name: "Contact Pascale Canal - Artiste Peintre",
-		description:
-			"Contactez Pascale Canal, artiste peintre française. Pour toute question, commission ou échange artistique.",
-		inLanguage: "fr-FR",
-		datePublished: "2023-09-15T08:00:00+02:00",
-		dateModified: new Date().toISOString(),
-		author: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			url: () => baseUrl,
-			jobTitle: "Artiste peintre",
-			email: "pascalecanal@gmail.com",
-			telephone: "+33686596029",
-			sameAs: [
-				"https://www.instagram.com/pascale.canal.art/",
-				"https://www.facebook.com/pascale.canal.art/",
-			],
-		},
-		publisher: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			url: () => baseUrl,
-		},
-		isPartOf: {
-			"@type": "WebSite",
-			name: () => siteName,
-			url: () => baseUrl,
-		},
-		potentialAction: {
-			"@type": "ContactAction",
-			target: () => `${baseUrl}/contact`,
-		},
 	}),
 
 	defineBreadcrumb({
