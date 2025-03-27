@@ -55,7 +55,6 @@ export default defineNuxtConfig({
 	},
 	schemaOrg: {
 		minify: true,
-
 		identity: {
 			type: "Person",
 			name: "Pascale Canal",
