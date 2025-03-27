@@ -1,5 +1,4 @@
 <script setup>
-import { useSchemaOrg } from "#imports";
 import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
 
 const config = useRuntimeConfig();
@@ -161,61 +160,6 @@ onBeforeUnmount(() => {
 	window.removeEventListener("scroll", handleScroll);
 	if (displayInterval.value) clearInterval(displayInterval.value);
 });
-
-useSchemaOrg([
-	defineWebPage({
-		name: "Pascale Canal - Artiste peintre française",
-		description:
-			"Découvrez les œuvres de Pascale Canal, artiste peintre française contemporaine. Explorez sa e-galerie de peintures abstraites et figuratives.",
-		image: () => `${baseUrl}/images/main-artwork.jpg`,
-		url: () => baseUrl,
-		inLanguage: "fr-FR",
-		datePublished: "2023-09-15T08:00:00+02:00",
-		dateModified: new Date().toISOString(),
-		author: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			url: () => baseUrl,
-			jobTitle: "Artiste peintre",
-			sameAs: [
-				"https://www.instagram.com/pascale.canal.art/",
-				"https://www.facebook.com/pascale.canal.art/",
-			],
-		},
-		publisher: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			url: () => baseUrl,
-		},
-		isPartOf: {
-			"@type": "WebSite",
-			name: "Pascale Canal",
-			url: () => baseUrl,
-		},
-	}),
-
-	definePerson({
-		name: "Pascale Canal",
-		jobTitle: "Artiste peintre",
-		url: () => baseUrl,
-		image: () => `${baseUrl}/img/pascalecanal.jpg`,
-		sameAs: [
-			"https://www.instagram.com/pascale.canal.art/",
-			"https://www.facebook.com/pascale.canal.art/",
-		],
-	}),
-
-	defineBreadcrumb({
-		itemListElement: [
-			{
-				"@type": "ListItem",
-				position: 1,
-				name: "Accueil",
-				item: baseUrl,
-			},
-		],
-	}),
-]);
 </script>
 
 <template>
