@@ -39,24 +39,26 @@ useSeoMeta({
 
 useSchemaOrg([
 	defineQuestion({
-		mainEntity: sortedFAQs.value.map(faq => ({
-			"@type": "Question",
-			name: faq.question,
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: faq.answer
-			}
-		}))
+		name: () => "Quelles techniques utilisez-vous dans vos peintures ?",
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: () => "J'utilise principalement l'acrylique et les techniques mixtes dans mes créations."
+		}
 	}),
-	...sortedFAQs.value.map(faq => 
-		defineQuestion({
-			name: faq.question,
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: faq.answer
-			}
-		})
-	),
+	defineQuestion({
+		name: () => "Proposez-vous des œuvres sur commande ?",
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: () => "Oui, je réalise des œuvres sur commande selon vos dimensions et couleurs préférées."
+		}
+	}),
+	defineQuestion({
+		name: () => "Comment prendre soin d'une peinture acrylique ?",
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: () => "Évitez l'exposition directe au soleil et nettoyez délicatement avec un chiffon doux et sec."
+		}
+	}),
 	defineBreadcrumb({
 		itemListElement: [
 			{
