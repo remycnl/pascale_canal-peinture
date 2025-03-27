@@ -47,6 +47,16 @@ useSchemaOrg([
 		datePublished: "2023-09-15T08:00:00+02:00",
 		dateModified: new Date().toISOString(),
 		url: `${baseUrl}/faq`,
+		mainEntity: computed(() => 
+			sortedFAQs.value.map(faq => ({
+				"@type": "Question",
+				name: faq.question,
+				acceptedAnswer: {
+					"@type": "Answer",
+					text: faq.answer
+				}
+			}))
+		),
 		author: {
 			"@type": "Person",
 			name: "Pascale Canal",
