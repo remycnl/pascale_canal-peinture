@@ -213,22 +213,25 @@ useSchemaOrg([
 		},
 		potentialAction: {
 			"@type": "BuyAction",
-			target: {
-				"@type": "EntryPoint",
-				urlTemplate: () => `${baseUrl}/${route.params.slug}`,
-			},
-			result: {
-				"@type": "OwnershipInfo",
-				acquiredFrom: {
-					"@type": "Person",
-					name: "Pascale Canal",
-				},
-			},
-			object: {
-				"@type": "Product",
-				name: () => painting.value?.name,
-			},
+			target: `${baseUrl}/${route.params.slug}`,
 		},
+	}),
+
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "Accueil",
+				item: () => baseUrl,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: () => painting.value?.name || "Œuvre",
+				item: () => `${baseUrl}/${route.params.slug}`,
+			},
+		],
 	}),
 ]);
 </script>
