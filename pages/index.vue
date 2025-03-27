@@ -204,35 +204,6 @@ useSchemaOrg([
             url: () => baseUrl
         }
     }),
-
-    definePerson({
-        "@type": "Person",
-        name: "Pascale Canal",
-        jobTitle: "Artiste peintre",
-        url: () => baseUrl,
-        image: {
-            "@type": "ImageObject",
-            url: () => `${baseUrl}/img/pascalecanal.jpg`,
-            width: 400,
-            height: 400
-        },
-        sameAs: [
-            "https://www.instagram.com/pascale.canal.art/",
-            "https://www.facebook.com/pascale.canal.art/"
-        ]
-    }),
-
-    defineBreadcrumb({
-        "@type": "BreadcrumbList",
-        itemListElement: [
-            {
-                "@type": "ListItem",
-                position: 1,
-                name: "Accueil",
-                item: baseUrl
-            }
-        ]
-    })
 ]);
 </script>
 
