@@ -38,16 +38,13 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	defineQuestion({
-		mainEntity: sortedFAQs.value.map((faq) => ({
-			"@type": "Question",
-			"name": () => faq.question,
-			"acceptedAnswer": {
-				"@type": "Answer",
-				text: () => faq.answer,
-			},
-		})),
-	}),
+	...sortedFAQs.value.map(faq => defineQuestion({
+		name: () => faq.question,
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: () => faq.answer
+		}
+	})),
 	defineBreadcrumb({
 		itemListElement: [
 			{
