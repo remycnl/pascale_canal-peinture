@@ -11,7 +11,9 @@ const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
 const inactiveTitle = ref("I miss you... 🥺");
-const pageTitle = ref(siteName || "Pascale Canal | Artiste Peintre • Exposition en ligne");
+const pageTitle = ref(
+	siteName || "Pascale Canal | Artiste Peintre • Exposition en ligne"
+);
 
 useSeoMeta({
 	title: siteName,
@@ -56,7 +58,7 @@ useHead({
 		{
 			rel: "apple-touch-icon",
 			sizes: "180x180",
-			href: () => `${baseUrl}/img/logo.png`,
+			href: () => `${baseUrl}/img/fullLogo.png`,
 		},
 		{
 			rel: "canonical",
@@ -68,16 +70,13 @@ useHead({
 	],
 });
 
-watchEffect(() => {
-	if (import.meta.client) {
-		pageTitle.value = document.title;
-	}
-});
-
 const setSEO = () => {
 	if (import.meta.client) {
+		pageTitle.value = document.title;
+
 		document.addEventListener("visibilitychange", function () {
 			if (document.visibilityState === "hidden") {
+				pageTitle.value = document.title;
 				document.title = inactiveTitle.value;
 			} else if (document.visibilityState === "visible") {
 				document.title = pageTitle.value;

@@ -94,6 +94,18 @@ export default defineNuxtConfig({
 			},
 		],
 	},
+	schemaOrg: {
+		minify: true,
+
+		identity: {
+			type: 'Person',
+			name: 'Pascale Canal',
+			url: process.env.NUXT_SITE_URL || "http://localhost:3000",
+			sameAs: [
+				"https://www.linkedin.com/in/pascale-canal",
+			],
+		},
+	},
 	routeRules: {
 		"/secret/**": { robots: false },
 	},

@@ -1,4 +1,6 @@
 <script setup>
+import { useSchemaOrg } from "#imports";
+
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
@@ -20,6 +22,67 @@ useSeoMeta({
 	twitterImage: () => `${baseUrl}/img/pascalecanal.jpg`,
 	twitterUrl: () => `${baseUrl}/qui-suis-je`,
 });
+
+useSchemaOrg([
+	definePerson({
+		name: "Pascale Canal",
+		gender: "Female",
+		url: `${baseUrl}/qui-suis-je`,
+		image: `${baseUrl}/img/pascalecanal.jpg`,
+		jobTitle: "Artiste Peintre",
+		nationality: "French",
+		address: {
+			"@type": "PostalAddress",
+			addressLocality: "Aubrac",
+			addressRegion: "Occitanie",
+			addressCountry: "France",
+		},
+		description:
+			"Artiste peintre passionnée par l'Aubrac, je capture l'âme des paysages sauvages et la noblesse des bovins emblématiques de ce territoire. Ma palette de noir, blanc, gris et or évoque la profondeur des terres volcaniques, la lumière qui sculpte les reliefs, et l'élégance intemporelle de la race Aubrac.",
+		knowsAbout: [
+			"Peinture à l'huile",
+			"Art contemporain",
+			"Paysages de l'Aubrac",
+			"Peinture animalière",
+			"Race bovine Aubrac",
+			"Art noir et blanc",
+			"Techniques artistiques",
+			"Patrimoine rural français",
+		],
+		sameAs: [
+			"https://www.facebook.com/pascalecanal",
+			"https://www.instagram.com/pascalecanal/",
+			"https://www.linkedin.com/in/pascalecanal/",
+			"https://www.pinterest.com/pascalecanal/",
+			"https://twitter.com/pascalecanal",
+		],
+		contactPoint: [
+			{
+				"@type": "ContactPoint",
+				contactType: "customer service",
+				email: "pascalecanal@gmail.com",
+				telephone: "+33686596029",
+				availableLanguage: ["French", "English"],
+			},
+		],
+		brand: {
+			"@type": "Brand",
+			name: "Pascale Canal Art",
+			logo: `${baseUrl}/img/fullLogo.png`,
+			url: `${baseUrl}`,
+		},
+		worksFor: {
+			"@type": "Organization",
+			name: "Pascale Canal Art",
+			url: `${baseUrl}`,
+			logo: `${baseUrl}/img/fullLogo.png`,
+		},
+		mainEntityOfPage: {
+			"@type": "WebPage",
+			"@id": `${baseUrl}/qui-suis-je`,
+		},
+	}),
+]);
 </script>
 
 <template>

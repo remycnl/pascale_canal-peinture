@@ -1,4 +1,6 @@
 <script setup>
+import { useSchemaOrg } from "#imports";
+
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
@@ -17,6 +19,73 @@ useSeoMeta({
 		"Contactez Pascale Canal, artiste peintre. N'hésitez pas à me faire part de vos questions, demandes de commission ou simplement pour échanger sur l'art.",
 	twitterUrl: () => `${baseUrl}/contact`,
 });
+
+useSchemaOrg([
+	defineWebPage({
+		"@type": "ContactPage",
+		"@id": `${baseUrl}/contact`,
+		url: `${baseUrl}/contact`,
+		name: "Contact Pascale Canal - Artiste Peintre",
+		description:
+			"Contactez Pascale Canal, artiste peintre française. Pour toute question, commission ou échange artistique.",
+		breadcrumb: {
+			"@type": "BreadcrumbList",
+			itemListElement: [
+				{
+					"@type": "ListItem",
+					position: 1,
+					name: "Accueil",
+					item: `${baseUrl}`,
+				},
+				{
+					"@type": "ListItem",
+					position: 2,
+					name: "Contact",
+					item: `${baseUrl}/contact`,
+				},
+			],
+		},
+		mainEntity: {
+			"@type": "ContactPoint",
+			contactType: "customer service",
+			email: "pascalecanal@gmail.com",
+			telephone: "+33686596029",
+			availableLanguage: ["French", "English"],
+		},
+	}),
+
+	definePerson({
+		"@type": "Person",
+		"@id": `${baseUrl}#pascalecanal`,
+		name: "Pascale Canal",
+		url: `${baseUrl}`,
+		image: {
+			"@type": "ImageObject",
+			url: `${baseUrl}/img/pascalecanal.jpg`,
+			width: 800,
+			height: 800,
+			caption: "Pascale Canal - Artiste Peintre",
+		},
+		jobTitle: "Artiste Peintre",
+		description:
+			"Artiste peintre indépendante spécialisée dans les paysages d'Aubrac et leur faune emblématique. Créations originales et commissions sur demande.",
+		sameAs: [
+			"https://www.facebook.com/pascalecanal",
+			"https://www.instagram.com/pascalecanal/",
+			"https://www.linkedin.com/in/pascalecanal/",
+			"https://www.pinterest.com/pascalecanal/",
+			"https://twitter.com/pascalecanal",
+		],
+		contactPoint: {
+			"@type": "ContactPoint",
+			contactType: "Renseignements artistiques",
+			email: "pascalecanal@gmail.com",
+			telephone: "+33686596029",
+			availableLanguage: ["French", "English"],
+			url: `${baseUrl}/contact`,
+		},
+	}),
+]);
 </script>
 
 <template>
