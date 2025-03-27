@@ -205,7 +205,16 @@ useSchemaOrg([
 		],
 	}),
 
-	defineBreadcrumb({ name: "Accueil", url: baseUrl }),
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "Accueil",
+				item: baseUrl,
+			},
+		],
+	}),
 ]);
 </script>
 
