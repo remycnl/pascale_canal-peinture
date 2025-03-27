@@ -9,14 +9,17 @@ const siteName = config.public.siteName;
 const lastUpdated = ref(new Date().toLocaleDateString("fr-FR"));
 
 useSeoMeta({
-  title: () => `Conditions Générales d'Utilisation | ${siteName}`,
-  description: "Conditions générales d'utilisation du site. Informations sur les règles d'utilisation, la propriété intellectuelle et les responsabilités.",
-  ogTitle: () => `Conditions Générales d'Utilisation | ${siteName}`,
-  ogDescription: "Conditions générales d'utilisation du site. Informations sur les règles d'utilisation, la propriété intellectuelle et les responsabilités.",
-  ogUrl: () => `${baseUrl}/cgu`,
-  twitterTitle: () => `Conditions Générales d'Utilisation | ${siteName}`,
-  twitterDescription: "Conditions générales d'utilisation du site. Informations sur les règles d'utilisation, la propriété intellectuelle et les responsabilités.",
-  twitterUrl: () => `${baseUrl}/cgu`,
+	title: () => `Conditions Générales d'Utilisation | ${siteName}`,
+	description:
+		"Conditions générales d'utilisation du site. Informations sur les règles d'utilisation, la propriété intellectuelle et les responsabilités.",
+	ogTitle: () => `Conditions Générales d'Utilisation | ${siteName}`,
+	ogDescription:
+		"Conditions générales d'utilisation du site. Informations sur les règles d'utilisation, la propriété intellectuelle et les responsabilités.",
+	ogUrl: () => `${baseUrl}/cgu`,
+	twitterTitle: () => `Conditions Générales d'Utilisation | ${siteName}`,
+	twitterDescription:
+		"Conditions générales d'utilisation du site. Informations sur les règles d'utilisation, la propriété intellectuelle et les responsabilités.",
+	twitterUrl: () => `${baseUrl}/cgu`,
 });
 </script>
 
