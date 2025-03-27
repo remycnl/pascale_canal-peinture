@@ -173,10 +173,6 @@ useSchemaOrg([
 				painting.value?.name || ""
 			}, ${painting.value?.artist || "Pascale Canal"}`,
 		dateCreated: () => painting.value?.date,
-		audience: {
-			"@type": "Audience",
-			audienceType: "Art Collectors"
-		},
 		award: "Original Artwork",
 		isAccessoryOrSparePartFor: {
 			"@type": "Product",
