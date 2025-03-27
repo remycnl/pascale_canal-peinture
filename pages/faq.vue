@@ -38,58 +38,64 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-    ...sortedFAQs.value.map((faq, index) =>
-        defineQuestion({
-            name: faq.question,
-            acceptedAnswer: faq.answer,
-            mainEntity: index === 0,
-        })
-    ),
-    defineBreadcrumb({
-        itemListElement: [
-            {
-                "@type": "ListItem",
-                position: 1,
-                name: "Accueil",
-                item: baseUrl,
-            },
-            {
-                "@type": "ListItem",
-                position: 2,
-                name: "FAQ",
-                item: `${baseUrl}/faq`,
-            },
-        ],
-    }),
-    defineWebPage({
-        name: `Foire aux questions | ${siteName}`,
-        description:
-            "Découvrez les réponses aux questions fréquemment posées sur l'œuvre de Pascale Canal, artiste peintre. Informations sur ses techniques, inspirations et processus créatif.",
-        inLanguage: "fr-FR",
-        datePublished: "2023-09-15T08:00:00+02:00",
-        dateModified: new Date().toISOString(),
-        url: `${baseUrl}/faq`,
-        author: {
-            "@type": "Person",
-            name: "Pascale Canal",
-            url: baseUrl,
-            jobTitle: "Artiste peintre",
-            sameAs: [
-                "https://www.instagram.com/pascale.canal.art/",
-                "https://www.facebook.com/pascale.canal.art/",
-            ],
-        },
-        publisher: {
-            "@type": "Person",
-            name: "Pascale Canal",
-            url: baseUrl,
-        },
-        isPartOf: {
-            "@type": "WebSite",
-            name: siteName,
-            url: baseUrl,
-        },
-    }),
+	defineQuestion({
+		name: () =>
+			sortedFAQs.value?.length > 0 ? sortedFAQs.value[0].question : "",
+		acceptedAnswer: () =>
+			sortedFAQs.value?.length > 0 ? sortedFAQs.value[0].answer : "",
+		mainEntity: true,
+	}),
+	...sortedFAQs.value.slice(1).map((faq) =>
+		defineQuestion({
+			name: faq.question,
+			acceptedAnswer: faq.answer,
+		})
+	),
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "Accueil",
+				item: () => baseUrl,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "FAQ",
+				item: () => `${baseUrl}/faq`,
+			},
+		],
+	}),
+	defineWebPage({
+		name: `Foire aux questions | ${siteName}`,
+		description:
+			"Découvrez les réponses aux questions fréquemment posées sur l'œuvre de Pascale Canal, artiste peintre. Informations sur ses techniques, inspirations et processus créatif.",
+		inLanguage: "fr-FR",
+		datePublished: "2023-09-15T08:00:00+02:00",
+		dateModified: new Date().toISOString(),
+		url: `${baseUrl}/faq`,
+		author: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: baseUrl,
+			jobTitle: "Artiste peintre",
+			sameAs: [
+				"https://www.instagram.com/pascale.canal.art/",
+				"https://www.facebook.com/pascale.canal.art/",
+			],
+		},
+		publisher: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: baseUrl,
+		},
+		isPartOf: {
+			"@type": "WebSite",
+			name: siteName,
+			url: baseUrl,
+		},
+	}),
 ]);
 </script>
 
