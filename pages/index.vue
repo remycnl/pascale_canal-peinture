@@ -175,33 +175,7 @@ const updateSchemaOrg = () => {
 			url: baseUrl,
 		}),
 
-	defineWebPage({
-		"@type": "CollectionPage",
-		"@id": `${baseUrl}#gallery`,
-		url: baseUrl,
-		name: "Galerie des œuvres de Pascale Canal",
-		description:
-			"Découvrez et achetez les tableaux originaux de Pascale Canal, artiste peintre française. Peintures à l'huile et acryliques représentant des paysages et des compositions abstraites.",
-		isPartOf: {
-			"@type": "WebSite",
-			"@id": baseUrl,
-		},
-		breadcrumb: {
-			"@type": "BreadcrumbList",
-			itemListElement: [
-				{
-					"@type": "ListItem",
-					position: 1,
-					name: "Accueil",
-					item: baseUrl,
-				},
-			],
-		},
-		mainEntity: {
-			"@type": "ItemList",
-			"@id": `${baseUrl}#tableaux`,
-		},
-	}),
+	
 
 	definePerson({
 		name: "Pascale Canal",
