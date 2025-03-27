@@ -23,6 +23,26 @@ useSeoMeta({
 useSchemaOrg([
 	defineWebPage({
 		"@type": "ContactPage",
+		url: () => `${baseUrl}/contact`,
+		name: "Contact | Pascale Canal - Artiste Peintre",
+		description: "Contactez Pascale Canal, artiste peintre. N'hésitez pas à me faire part de vos questions, demandes de commission ou simplement pour échanger sur l'art.",
+		inLanguage: "fr-FR",
+		datePublished: "2023-09-15T08:00:00+02:00",
+		dateModified: new Date(),
+		author: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			jobTitle: "Artiste peintre",
+		},
+		isPartOf: {
+			"@type": "WebSite",
+			name: siteName,
+			url: baseUrl,
+		},
+		potentialAction: {
+			"@type": "ReadAction",
+			target: () => `${baseUrl}/contact`,
+		},
 	}),
 
 	defineBreadcrumb({
