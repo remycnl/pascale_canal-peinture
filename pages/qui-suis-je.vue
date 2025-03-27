@@ -24,53 +24,18 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	defineWebPage({
-		name: "Qui suis-je ? | Pascale Canal",
-		description: "Découvrez l'univers de Pascale Canal, artiste peintre inspirée par les terres sauvages de l'Aubrac. Une peinture qui capture l'essence des paysages et des animaux à travers des teintes de noir, blanc, gris et or.",
-		url: `${baseUrl}/qui-suis-je`,
-		image: `${baseUrl}/img/pascalecanal.jpg`,
-		mainEntity: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			gender: "Female",
-			image: `${baseUrl}/img/pascalecanal.jpg`,
-			jobTitle: "Artiste Peintre",
-			nationality: "French",
-			address: {
-				"@type": "PostalAddress",
-				addressLocality: "Aubrac",
-				addressRegion: "Occitanie",
-				addressCountry: "France"
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				name: "Accueil",
+				item: "/",
 			},
-			description: "Artiste peintre passionnée par l'Aubrac, je capture l'âme des paysages sauvages et la noblesse des bovins emblématiques de ce territoire. Ma palette de noir, blanc, gris et or évoque la profondeur des terres volcaniques, la lumière qui sculpte les reliefs, et l'élégance intemporelle de la race Aubrac.",
-			knowsAbout: [
-				"Peinture à l'huile",
-				"Art contemporain",
-				"Paysages de l'Aubrac",
-				"Peinture animalière",
-				"Race bovine Aubrac",
-				"Art noir et blanc",
-				"Techniques artistiques",
-				"Patrimoine rural français"
-			],
-			sameAs: [
-				"https://www.facebook.com/pascalecanal",
-				"https://www.instagram.com/pascalecanal/",
-				"https://www.linkedin.com/in/pascalecanal/",
-				"https://www.pinterest.com/pascalecanal/",
-				"https://twitter.com/pascalecanal"
-			],
-			contactPoint: [
-				{
-					"@type": "ContactPoint",
-					contactType: "customer service",
-					email: "pascalecanal@gmail.com",
-					telephone: "+33686596029",
-					availableLanguage: ["French", "English"]
-				}
-			]
-		}
-	})
+			{
+				name: "Qui suis-je ?",
+				item: "/qui-suis-je",
+			},
+		],
+	}),
 ]);
 </script>
 

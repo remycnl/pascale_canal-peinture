@@ -213,7 +213,7 @@ useSchemaOrg([
 		},
 		potentialAction: {
 			"@type": "BuyAction",
-			target: `${baseUrl}/${route.params.slug}`,
+			target: () => `${baseUrl}/${route.params.slug}`,
 		},
 	}),
 

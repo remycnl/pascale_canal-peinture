@@ -9,14 +9,17 @@ const siteName = config.public.siteName;
 const lastUpdated = ref(new Date().toLocaleDateString("fr-FR"));
 
 useSeoMeta({
-  title: () => `Mentions Légales | ${siteName}`,
-  description: "Mentions légales du site de Pascale Canal, artiste peintre. Informations sur les droits d'auteur, la protection des données et les responsabilités.",
-  ogTitle: () => `Mentions Légales | ${siteName}`,
-  ogDescription: "Mentions légales du site de Pascale Canal, artiste peintre. Informations sur les droits d'auteur, la protection des données et les responsabilités.",
-  ogUrl: () => `${baseUrl}/mentions-legales`,
-  twitterTitle: () => `Mentions Légales | ${siteName}`,
-  twitterDescription: "Mentions légales du site de Pascale Canal, artiste peintre. Informations sur les droits d'auteur, la protection des données et les responsabilités.",
-  twitterUrl: () => `${baseUrl}/mentions-legales`,
+	title: () => `Mentions Légales | ${siteName}`,
+	description:
+		"Mentions légales du site de Pascale Canal, artiste peintre. Informations sur les droits d'auteur, la protection des données et les responsabilités.",
+	ogTitle: () => `Mentions Légales | ${siteName}`,
+	ogDescription:
+		"Mentions légales du site de Pascale Canal, artiste peintre. Informations sur les droits d'auteur, la protection des données et les responsabilités.",
+	ogUrl: () => `${baseUrl}/mentions-legales`,
+	twitterTitle: () => `Mentions Légales | ${siteName}`,
+	twitterDescription:
+		"Mentions légales du site de Pascale Canal, artiste peintre. Informations sur les droits d'auteur, la protection des données et les responsabilités.",
+	twitterUrl: () => `${baseUrl}/mentions-legales`,
 });
 </script>
 

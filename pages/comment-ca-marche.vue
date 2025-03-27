@@ -75,7 +75,6 @@ function renderDescription(description) {
 	let match;
 
 	while ((match = linkRegex.exec(description.text)) !== null) {
-		// Add text before link
 		if (match.index > lastIndex) {
 			parts.push({
 				text: description.text.substring(lastIndex, match.index),
@@ -83,7 +82,6 @@ function renderDescription(description) {
 			});
 		}
 
-		// Add link
 		parts.push({
 			text: match[1],
 			to: match[2],
@@ -93,7 +91,6 @@ function renderDescription(description) {
 		lastIndex = match.index + match[0].length;
 	}
 
-	// Add remaining text
 	if (lastIndex < description.text.length) {
 		parts.push({
 			text: description.text.substring(lastIndex),

@@ -9,14 +9,17 @@ const siteName = config.public.siteName;
 const lastUpdated = ref(new Date().toLocaleDateString("fr-FR"));
 
 useSeoMeta({
-  title: () => `Politique de Confidentialité | ${siteName}`,
-  description: "Découvrez notre politique de confidentialité qui détaille comment nous collectons, utilisons et protégeons vos données personnelles sur notre site.",
-  ogTitle: () => `Politique de Confidentialité | ${siteName}`,
-  ogDescription: "Découvrez notre politique de confidentialité qui détaille comment nous collectons, utilisons et protégeons vos données personnelles sur notre site.",
-  ogUrl: () => `${baseUrl}/politique-de-confidentialite`,
-  twitterTitle: () => `Politique de Confidentialité | ${siteName}`,
-  twitterDescription: "Découvrez notre politique de confidentialité qui détaille comment nous collectons, utilisons et protégeons vos données personnelles sur notre site.",
-  twitterUrl: () => `${baseUrl}/politique-de-confidentialite`,
+	title: () => `Politique de Confidentialité | ${siteName}`,
+	description:
+		"Découvrez notre politique de confidentialité qui détaille comment nous collectons, utilisons et protégeons vos données personnelles sur notre site.",
+	ogTitle: () => `Politique de Confidentialité | ${siteName}`,
+	ogDescription:
+		"Découvrez notre politique de confidentialité qui détaille comment nous collectons, utilisons et protégeons vos données personnelles sur notre site.",
+	ogUrl: () => `${baseUrl}/politique-de-confidentialite`,
+	twitterTitle: () => `Politique de Confidentialité | ${siteName}`,
+	twitterDescription:
+		"Découvrez notre politique de confidentialité qui détaille comment nous collectons, utilisons et protégeons vos données personnelles sur notre site.",
+	twitterUrl: () => `${baseUrl}/politique-de-confidentialite`,
 });
 </script>
 
