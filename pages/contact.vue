@@ -30,25 +30,19 @@ useSchemaOrg([
 		inLanguage: "fr-FR",
 		datePublished: new Date().toISOString(),
 		dateModified: new Date().toISOString(),
-		mainEntity: {
-			"@type": "ContactPoint",
-			contactType: "customer service",
-			email: "pascalecanal@gmail.com",
-			telephone: "+33686596029",
-			availableLanguage: ["French", "English"],
-			areaServed: ["FR", "EU", "US"],
-			hoursAvailable: {
-				"@type": "OpeningHoursSpecification",
-				dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-				opens: "09:00",
-				closes: "18:00",
-			},
-		},
 		author: {
 			"@type": "Person",
 			name: "Pascale Canal",
 			url: () => baseUrl,
 			jobTitle: "Artiste peintre",
+			contactPoint: {
+				"@type": "ContactPoint",
+				contactType: "customer service",
+				email: "pascalecanal@gmail.com",
+				telephone: "+33686596029",
+				availableLanguage: ["French", "English"],
+				areaServed: ["FR", "EU", "US"],
+			},
 			sameAs: [
 				"https://www.instagram.com/pascale.canal.art/",
 				"https://www.facebook.com/pascale.canal.art/",
