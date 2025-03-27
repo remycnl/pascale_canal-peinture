@@ -39,22 +39,26 @@ useSeoMeta({
 
 useSchemaOrg([
 	defineQuestion({
-		name: () => sortedFAQs.value.length > 0 ? sortedFAQs.value[0].question : "",
+		name: () =>
+			sortedFAQs.value?.length > 0 ? sortedFAQs.value[0].question : "",
 		acceptedAnswer: {
 			"@type": "Answer",
-			text: () => sortedFAQs.value.length > 0 ? sortedFAQs.value[0].answer : ""
+			text: () =>
+				sortedFAQs.value?.length > 0 ? sortedFAQs.value[0].answer : "",
 		},
-		mainEntity: true
+		mainEntity: true,
 	}),
-	...sortedFAQs.value.slice(1).map(faq => 
-		defineQuestion({
-			name: () => faq.question,
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: () => faq.answer
-			}
-		})
-	),
+	...(sortedFAQs.value?.length > 1
+		? sortedFAQs.value.slice(1).map((faq) =>
+				defineQuestion({
+					name: () => faq.question,
+					acceptedAnswer: {
+						"@type": "Answer",
+						text: () => faq.answer,
+					},
+				})
+		  )
+		: []),
 	defineBreadcrumb({
 		itemListElement: [
 			{
