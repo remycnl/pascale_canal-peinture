@@ -23,7 +23,6 @@ useSeoMeta({
 useSchemaOrg([
 	defineWebPage({
 		"@type": "ContactPage",
-		"@id": () => `${baseUrl}/contact`,
 		url: () => `${baseUrl}/contact`,
 		name: "Contact Pascale Canal - Artiste Peintre",
 		description:
@@ -31,29 +30,6 @@ useSchemaOrg([
 		inLanguage: "fr-FR",
 		datePublished: new Date().toISOString(),
 		dateModified: new Date().toISOString(),
-		isPartOf: {
-			"@type": "WebSite",
-			"@id": () => `${baseUrl}/#website`,
-			name: () => siteName,
-			url: () => baseUrl,
-		},
-		breadcrumb: {
-			"@type": "BreadcrumbList",
-			itemListElement: [
-				{
-					"@type": "ListItem",
-					position: 1,
-					name: "Accueil",
-					item: () => baseUrl,
-				},
-				{
-					"@type": "ListItem",
-					position: 2,
-					name: "Contact",
-					item: () => `${baseUrl}/contact`,
-				},
-			],
-		},
 		mainEntity: {
 			"@type": "ContactPoint",
 			contactType: "customer service",
@@ -68,11 +44,32 @@ useSchemaOrg([
 				closes: "18:00",
 			},
 		},
+		author: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+			jobTitle: "Artiste peintre",
+			sameAs: [
+				"https://www.instagram.com/pascale.canal.art/",
+				"https://www.facebook.com/pascale.canal.art/",
+			],
+		},
+		publisher: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+		},
+		isPartOf: {
+			"@type": "WebSite",
+			name: () => siteName,
+			url: () => baseUrl,
+		},
 		potentialAction: {
 			"@type": "ContactAction",
 			target: () => `${baseUrl}/contact`,
 		},
 	}),
+
 	defineBreadcrumb({
 		itemListElement: [
 			{
