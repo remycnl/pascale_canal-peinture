@@ -38,27 +38,15 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	defineQuestion({
-		name: () => "Quelles techniques utilisez-vous dans vos peintures ?",
-		acceptedAnswer: {
-			"@type": "Answer",
-			text: () => "J'utilise principalement l'acrylique et les techniques mixtes dans mes créations."
-		}
-	}),
-	defineQuestion({
-		name: () => "Proposez-vous des œuvres sur commande ?",
-		acceptedAnswer: {
-			"@type": "Answer",
-			text: () => "Oui, je réalise des œuvres sur commande selon vos dimensions et couleurs préférées."
-		}
-	}),
-	defineQuestion({
-		name: () => "Comment prendre soin d'une peinture acrylique ?",
-		acceptedAnswer: {
-			"@type": "Answer",
-			text: () => "Évitez l'exposition directe au soleil et nettoyez délicatement avec un chiffon doux et sec."
-		}
-	}),
+	...sortedFAQs.value.map(faq => 
+		defineQuestion({
+			name: () => faq.question,
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: () => faq.answer
+			}
+		})
+	),
 	defineBreadcrumb({
 		itemListElement: [
 			{
