@@ -211,12 +211,10 @@ useSchemaOrg([
 			name: () => siteName,
 			url: () => baseUrl,
 		},
-		potentialAction: [
-			{
-				"@type": "BuyAction",
-				target: `${baseUrl}/${route.params.slug}`,
-			},
-		],
+		potentialAction: {
+			"@type": "BuyAction",
+			target: `${baseUrl}/${route.params.slug}`,
+		},
 	}),
 ]);
 </script>
