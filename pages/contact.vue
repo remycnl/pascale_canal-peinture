@@ -34,15 +34,6 @@ useSchemaOrg([
 			"@type": "Person",
 			name: "Pascale Canal",
 			url: baseUrl,
-			jobTitle: "Artiste peintre",
-			contactPoint: {
-				"@type": "ContactPoint",
-				contactType: "customer service",
-				email: "pascalecanal@gmail.com",
-				telephone: "+33686596029",
-				availableLanguage: ["French", "English"],
-				areaServed: ["FR", "EU", "US"],
-			},
 			sameAs: [
 				"https://www.instagram.com/pascale.canal.art/",
 				"https://www.facebook.com/pascale.canal.art/",
