@@ -41,20 +41,14 @@ useSchemaOrg([
 	defineQuestion({
 		name: () =>
 			sortedFAQs.value?.length > 0 ? sortedFAQs.value[0].question : "",
-		acceptedAnswer: {
-			"@type": "Answer",
-			text: () =>
-				sortedFAQs.value?.length > 0 ? sortedFAQs.value[0].answer : "",
-		},
+		acceptedAnswer: () =>
+			sortedFAQs.value?.length > 0 ? sortedFAQs.value[0].answer : "",
 		mainEntity: true,
 	}),
-	...sortedFAQs.value.slice(1).map(faq => 
+	...sortedFAQs.value.slice(1).map((faq) =>
 		defineQuestion({
-			name: faq.question,
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: faq.answer
-			}
+			name: () => faq.question,
+			acceptedAnswer: () => faq.answer,
 		})
 	),
 	defineBreadcrumb({
