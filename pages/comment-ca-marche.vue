@@ -119,25 +119,17 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	defineHowTo({
-		name: "Comment acheter une œuvre d'art originale de Pascale Canal",
-		description: `Découvrez le processus complet d'achat pour acquérir une peinture originale de Pascale Canal. De la sélection dans la galerie à la livraison sécurisée de votre tableau, suivez notre guide détaillé en ${sections.length} étapes simples.`,
-		totalTime: "PT30M",
-		estimatedCost: "Variable selon l'œuvre",
-		inLanguage: "fr-FR",
-		step: sections.map((section, index) => {
-			const text = section.description.text.replace(
-				/{link:([^:]+):([^}]+)}/g,
-				"$1"
-			);
-			
-			return {
-				url: `#etape-${section.number}`,
-				name: section.title,
-				text: text,
-				position: index + 1,
-			};
-		}),
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				name: "Accueil",
+				item: "/",
+			},
+			{
+				name: "Comment ça marche ?",
+				item: "/comment-ca-marche",
+			},
+		],
 	}),
 ]);
 </script>
