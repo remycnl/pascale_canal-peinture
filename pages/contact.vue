@@ -35,14 +35,8 @@ useSchemaOrg([
 			name: "Pascale Canal",
 			url: () => baseUrl,
 			jobTitle: "Artiste peintre",
-			contactPoint: {
-				"@type": "ContactPoint",
-				contactType: "customer service",
-				email: "pascalecanal@gmail.com",
-				telephone: "+33686596029",
-				availableLanguage: ["French", "English"],
-				areaServed: ["FR", "EU", "US"],
-			},
+			email: "pascalecanal@gmail.com",
+			telephone: "+33686596029",
 			sameAs: [
 				"https://www.instagram.com/pascale.canal.art/",
 				"https://www.facebook.com/pascale.canal.art/",
@@ -58,12 +52,10 @@ useSchemaOrg([
 			name: () => siteName,
 			url: () => baseUrl,
 		},
-		potentialAction: [
-			{
-				"@type": "ContactAction",
-				target: () => `${baseUrl}/contact`,
-			},
-		],
+		potentialAction: {
+			"@type": "ContactAction",
+			target: () => `${baseUrl}/contact`,
+		},
 	}),
 
 	defineBreadcrumb({
