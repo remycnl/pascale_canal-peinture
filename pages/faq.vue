@@ -38,11 +38,12 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	...sortedFAQs.value.map((faq) =>
+	sortedFAQs.value.map((faq) =>
 		defineQuestion({
-			name: () => faq.question,
-			acceptedAnswer: () => faq.answer,
+			name: faq.question,
+			acceptedAnswer: faq.answer,
 			mainEntity: true,
+			inLanguage: "fr-FR",
 		})
 	),
 	defineBreadcrumb({
