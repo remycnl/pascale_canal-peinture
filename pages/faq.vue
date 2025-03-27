@@ -38,7 +38,15 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	...sortedFAQs.value.map(faq => 
+	defineQuestion({
+		name: () => sortedFAQs.value.length > 0 ? sortedFAQs.value[0].question : "",
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: () => sortedFAQs.value.length > 0 ? sortedFAQs.value[0].answer : ""
+		},
+		mainEntity: true
+	}),
+	...sortedFAQs.value.slice(1).map(faq => 
 		defineQuestion({
 			name: () => faq.question,
 			acceptedAnswer: {
