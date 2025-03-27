@@ -38,31 +38,9 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	sortedFAQs.value.map((faq) =>
-		defineQuestion({
-			name: faq.question,
-			acceptedAnswer: faq.answer,
-			mainEntity: true,
-			inLanguage: "fr-FR",
-		})
-	),
-	defineBreadcrumb({
-		itemListElement: [
-			{
-				"@type": "ListItem",
-				position: 1,
-				name: "Accueil",
-				item: () => baseUrl,
-			},
-			{
-				"@type": "ListItem",
-				position: 2,
-				name: "FAQ",
-				item: () => `${baseUrl}/faq`,
-			},
-		],
-	}),
+	// Définition de la page en tant que FAQ
 	defineWebPage({
+		'@type': 'FAQPage',
 		name: `Foire aux questions | ${siteName}`,
 		description:
 			"Découvrez les réponses aux questions fréquemment posées sur l'œuvre de Pascale Canal, artiste peintre. Informations sur ses techniques, inspirations et processus créatif.",
@@ -90,6 +68,33 @@ useSchemaOrg([
 			name: siteName,
 			url: baseUrl,
 		},
+	}),
+
+	// Génération dynamique des questions FAQ
+	...sortedFAQs.value.map((faq) =>
+		defineQuestion({
+			name: faq.question,
+			acceptedAnswer: faq.answer,
+			inLanguage: "fr-FR",
+		})
+	),
+
+	// Définition des fils d'Ariane (Breadcrumbs)
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "Accueil",
+				item: () => baseUrl,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "FAQ",
+				item: () => `${baseUrl}/faq`,
+			},
+		],
 	}),
 ]);
 </script>
