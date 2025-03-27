@@ -42,7 +42,7 @@ useSchemaOrg([
 		defineQuestion({
 			name: () => faq.question,
 			acceptedAnswer: () => faq.answer,
-			mainEntity: index === 0,
+			mainEntity: () => index === 0,
 		})
 	),
 	defineBreadcrumb({
