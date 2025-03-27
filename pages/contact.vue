@@ -23,22 +23,14 @@ useSeoMeta({
 useSchemaOrg([
 	defineWebPage({
 		"@type": "ContactPage",
-		name: () => `Contact | ${siteName}`,
-		description: "Contactez Pascale Canal, artiste peintre. N'hésitez pas à me faire part de vos questions, demandes de commission ou simplement pour échanger sur l'art.",
+		url: () => `${baseUrl}/contact`,
+		name: "Contact Pascale Canal - Artiste Peintre",
+		description:
+			"Contactez Pascale Canal, artiste peintre française. Pour toute question, commission ou échange artistique.",
 		inLanguage: "fr-FR",
 		datePublished: "2023-09-15T08:00:00+02:00",
 		dateModified: new Date().toISOString(),
-		url: () => `${baseUrl}/contact`,
-		author: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			url: () => baseUrl,
-			jobTitle: "Artiste peintre",
-			sameAs: [
-				"https://www.instagram.com/pascale.canal.art/",
-				"https://www.facebook.com/pascale.canal.art/",
-			],
-		},
+		
 		publisher: {
 			"@type": "Person",
 			name: "Pascale Canal",
@@ -49,6 +41,12 @@ useSchemaOrg([
 			name: () => siteName,
 			url: () => baseUrl,
 		},
+		potentialAction: [
+			{
+				"@type": "ContactAction",
+				target: () => `${baseUrl}/contact`,
+			},
+		],
 	}),
 
 	defineBreadcrumb({
@@ -57,13 +55,13 @@ useSchemaOrg([
 				"@type": "ListItem",
 				position: 1,
 				name: "Accueil",
-				item: baseUrl,
+				item: () => baseUrl,
 			},
 			{
 				"@type": "ListItem",
 				position: 2,
 				name: "Contact",
-				item: `${baseUrl}/contact`,
+				item: () => `${baseUrl}/contact`,
 			},
 		],
 	}),
