@@ -30,7 +30,40 @@ useSchemaOrg([
 		inLanguage: "fr-FR",
 		datePublished: "2023-09-15T08:00:00+02:00",
 		dateModified: new Date().toISOString(),
-		
+		mainEntityOfPage: defineBreadcrumb({
+            itemListElement: [
+                {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Accueil",
+                    item: () => baseUrl,
+                },
+                {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Contact",
+                    item: () => `${baseUrl}/contact`,
+                },
+            ],
+        }),
+		author: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+			jobTitle: "Artiste peintre",
+			contactPoint: {
+				"@type": "ContactPoint",
+				contactType: "customer service",
+				email: "pascalecanal@gmail.com",
+				telephone: "+33686596029",
+				availableLanguage: ["French", "English"],
+				areaServed: ["FR", "EU", "US"],
+			},
+			sameAs: [
+				"https://www.instagram.com/pascale.canal.art/",
+				"https://www.facebook.com/pascale.canal.art/",
+			],
+		},
 		publisher: {
 			"@type": "Person",
 			name: "Pascale Canal",
@@ -45,23 +78,6 @@ useSchemaOrg([
 			{
 				"@type": "ContactAction",
 				target: () => `${baseUrl}/contact`,
-			},
-		],
-	}),
-
-	defineBreadcrumb({
-		itemListElement: [
-			{
-				"@type": "ListItem",
-				position: 1,
-				name: "Accueil",
-				item: () => baseUrl,
-			},
-			{
-				"@type": "ListItem",
-				position: 2,
-				name: "Contact",
-				item: () => `${baseUrl}/contact`,
 			},
 		],
 	}),
