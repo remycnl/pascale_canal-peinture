@@ -163,17 +163,14 @@ onBeforeUnmount(() => {
 });
 
 useSchemaOrg([
-    defineBreadcrumb({
-        "@type": "BreadcrumbList",
-        itemListElement: [
-            {
-                "@type": "ListItem",
-                position: 1,
-                name: "Accueil",
-                item: baseUrl
-            }
-        ]
-    })
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				name: "Accueil",
+				item: "/",
+			},
+		],
+	}),
 ]);
 </script>
 
