@@ -120,40 +120,42 @@ useSeoMeta({
 
 useSchemaOrg([
 	defineProduct({
-		name: painting.value?.name,
-		description: painting.value?.description,
-		image: painting.value?.image,
+		name: () => painting.value?.name,
+		description: () =>
+			painting.value?.description ||
+			`Œuvre originale créée par ${painting.value?.artist || "Pascale Canal"}`,
+		image: () => painting.value?.image,
 		brand: {
 			"@type": "Brand",
 			name: "Pascale Canal",
 			logo: `${baseUrl}/img/fullLogo.png`,
 		},
-		sku: painting.value?.id,
-		productID: `painting:${painting.value?.id}`,
+		sku: () => painting.value?.id?.toString(),
+		productID: () => `painting:${painting.value?.id}`,
 		category: "Art/Painting",
-		material: painting.value?.paintingType,
+		material: () => painting.value?.paintingType,
 		width: {
 			"@type": "QuantitativeValue",
-			value: painting.value?.width,
+			value: () => painting.value?.width,
 			unitCode: "CMT",
 		},
 		height: {
 			"@type": "QuantitativeValue",
-			value: painting.value?.height,
+			value: () => painting.value?.height,
 			unitCode: "CMT",
 		},
 		offers: {
 			"@type": "Offer",
-			price: painting.value?.price,
+			price: () => painting.value?.price,
 			priceCurrency: "EUR",
-			url: `${baseUrl}/${route.params.slug}`,
-			availability:
+			url: () => `${baseUrl}/${route.params.slug}`,
+			availability: () =>
 				painting.value?.state === "FOR_SALE"
 					? "https://schema.org/InStock"
 					: "https://schema.org/SoldOut",
 			seller: {
 				"@type": "Person",
-				name: painting.value?.artist || "Pascale Canal",
+				name: () => painting.value?.artist || "Pascale Canal",
 			},
 			itemCondition: "https://schema.org/NewCondition",
 			priceValidUntil: new Date(
@@ -164,10 +166,27 @@ useSchemaOrg([
 		},
 		creator: {
 			"@type": "Person",
-			name: painting.value?.artist || "Pascale Canal",
+			name: () => painting.value?.artist || "Pascale Canal",
 		},
-		keywords: `${painting.value?.paintingType}, peinture, ${painting.value?.artist}, art, tableau`,
-		dateCreated: painting.value?.date,
+		keywords: () =>
+			`art, peinture, tableau, ${painting.value?.paintingType || ""}, ${
+				painting.value?.name || ""
+			}, ${painting.value?.artist || "Pascale Canal"}`,
+		dateCreated: () => painting.value?.date,
+		audience: "Art Collectors",
+		award: "Original Artwork",
+		isAccessoryOrSparePartFor: {
+			"@type": "Product",
+			name: "Home Decoration",
+		},
+	}),
+	defineWebPage({
+		name: () => `${painting.value?.name || "Œuvre"} | ${siteName}`,
+		description: () =>
+			painting.value?.description?.substring(0, 150) + "..." ||
+			`Œuvre originale par ${painting.value?.artist || "Pascale Canal"}`,
+		image: () => painting.value?.image,
+		datePublished: () => painting.value?.date,
 	}),
 ]);
 </script>
