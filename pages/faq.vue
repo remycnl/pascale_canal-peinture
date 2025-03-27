@@ -38,7 +38,7 @@ useSeoMeta({
 });
 
 useSchemaOrg([
-	defineFAQPage({
+	defineQuestion({
 		mainEntity: sortedFAQs.value.map(faq => ({
 			"@type": "Question",
 			name: faq.question,
