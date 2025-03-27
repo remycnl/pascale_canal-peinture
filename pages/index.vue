@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
 
 const paintings = ref([]);
 const page = ref(1);
@@ -144,11 +144,11 @@ watch(
 	}
 );
 
-onMounted(() => {
+onMounted(async () => {
 	calculateCardSize();
 	window.addEventListener("resize", calculateCardSize);
+	await loadPaintings();
 	window.addEventListener("scroll", handleScroll);
-	loadPaintings();
 });
 
 onBeforeUnmount(() => {
@@ -204,6 +204,7 @@ onBeforeUnmount(() => {
 						:alt="painting.name"
 						fit="cover"
 						format="webp"
+						loading="lazy"
 						quality="50"
 						@load="handleImageLoad(painting.id)"
 						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />

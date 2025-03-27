@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, watchEffect } from "vue";
 import { Analytics } from "@vercel/analytics/nuxt";
 import Header from "@/layouts/Header.vue";
 import Footer from "@/layouts/Footer.vue";
@@ -11,6 +11,7 @@ const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
 const inactiveTitle = ref("I miss you... 🥺");
+const pageTitle = ref(siteName || "Pascale Canal | Artiste Peintre • Exposition en ligne");
 
 useSeoMeta({
 	title: siteName,
@@ -67,11 +68,19 @@ useHead({
 	],
 });
 
+watchEffect(() => {
+	if (import.meta.client) {
+		pageTitle.value = document.title;
+	}
+});
+
 const setSEO = () => {
 	if (import.meta.client) {
 		document.addEventListener("visibilitychange", function () {
 			if (document.visibilityState === "hidden") {
 				document.title = inactiveTitle.value;
+			} else if (document.visibilityState === "visible") {
+				document.title = pageTitle.value;
 			}
 		});
 	}
