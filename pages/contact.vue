@@ -21,6 +21,37 @@ useSeoMeta({
 });
 
 useSchemaOrg([
+	definePerson({
+		"@type": "Person",
+		"@id": `${baseUrl}#pascalecanal`,
+		name: "Pascale Canal",
+		url: `${baseUrl}`,
+		image: {
+			"@type": "ImageObject",
+			url: `${baseUrl}/img/pascalecanal.jpg`,
+			width: 800,
+			height: 800,
+			caption: "Pascale Canal - Artiste Peintre",
+		},
+		jobTitle: "Artiste Peintre",
+		description:
+			"Artiste peintre indépendante spécialisée dans les paysages d'Aubrac et leur faune emblématique. Créations originales et commissions sur demande.",
+		sameAs: [
+			"https://www.facebook.com/pascalecanal",
+			"https://www.instagram.com/pascalecanal/",
+			"https://www.linkedin.com/in/pascalecanal/",
+			"https://www.pinterest.com/pascalecanal/",
+			"https://twitter.com/pascalecanal",
+		],
+		contactPoint: {
+			"@type": "ContactPoint",
+			contactType: "Renseignements artistiques",
+			email: "pascalecanal@gmail.com",
+			telephone: "+33686596029",
+			availableLanguage: ["French", "English"],
+			url: `${baseUrl}/contact`,
+		},
+	}),
 	defineWebPage({
 		"@type": "ContactPage",
 		"@id": `${baseUrl}/contact`,
@@ -51,38 +82,6 @@ useSchemaOrg([
 			email: "pascalecanal@gmail.com",
 			telephone: "+33686596029",
 			availableLanguage: ["French", "English"],
-		},
-	}),
-
-	definePerson({
-		"@type": "Person",
-		"@id": `${baseUrl}#pascalecanal`,
-		name: "Pascale Canal",
-		url: `${baseUrl}`,
-		image: {
-			"@type": "ImageObject",
-			url: `${baseUrl}/img/pascalecanal.jpg`,
-			width: 800,
-			height: 800,
-			caption: "Pascale Canal - Artiste Peintre",
-		},
-		jobTitle: "Artiste Peintre",
-		description:
-			"Artiste peintre indépendante spécialisée dans les paysages d'Aubrac et leur faune emblématique. Créations originales et commissions sur demande.",
-		sameAs: [
-			"https://www.facebook.com/pascalecanal",
-			"https://www.instagram.com/pascalecanal/",
-			"https://www.linkedin.com/in/pascalecanal/",
-			"https://www.pinterest.com/pascalecanal/",
-			"https://twitter.com/pascalecanal",
-		],
-		contactPoint: {
-			"@type": "ContactPoint",
-			contactType: "Renseignements artistiques",
-			email: "pascalecanal@gmail.com",
-			telephone: "+33686596029",
-			availableLanguage: ["French", "English"],
-			url: `${baseUrl}/contact`,
 		},
 	}),
 ]);

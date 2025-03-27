@@ -65,18 +65,6 @@ useSchemaOrg([
 				availableLanguage: ["French", "English"],
 			},
 		],
-		brand: {
-			"@type": "Brand",
-			name: "Pascale Canal Art",
-			logo: `${baseUrl}/img/fullLogo.png`,
-			url: `${baseUrl}`,
-		},
-		worksFor: {
-			"@type": "Organization",
-			name: "Pascale Canal Art",
-			url: `${baseUrl}`,
-			logo: `${baseUrl}/img/fullLogo.png`,
-		},
 		mainEntityOfPage: {
 			"@type": "WebPage",
 			"@id": `${baseUrl}/qui-suis-je`,

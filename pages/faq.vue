@@ -72,6 +72,9 @@ useSchemaOrg([
 		datePublished: "2023-09-15T08:00:00+02:00",
 		dateModified: new Date().toISOString(),
 		url: `${baseUrl}/faq`,
+		mainEntity: {
+			"@type": "FAQPage"
+		},
 		author: {
 			"@type": "Person",
 			name: "Pascale Canal",
@@ -98,7 +101,7 @@ useSchemaOrg([
 
 <template>
 	<div class="relative min-h-screen pt-10 md:pt-20">
-		<h1
+	 	<h1
 			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
 			Frequently
 			<div></div>
@@ -147,7 +150,7 @@ useSchemaOrg([
 @keyframes fadeIn {
 	from {
 		opacity: 0;
-		transform: translateY(20px);
+		transform: translateY(40px);
 	}
 	to {
 		opacity: 1;

@@ -167,11 +167,6 @@ useSchemaOrg([
 			name: painting.value?.artist || "Pascale Canal",
 		},
 		keywords: `${painting.value?.paintingType}, peinture, ${painting.value?.artist}, art, tableau`,
-		aggregateRating: {
-			"@type": "AggregateRating",
-			ratingValue: "5",
-			reviewCount: "0",
-		},
 		dateCreated: painting.value?.date,
 	}),
 ]);
