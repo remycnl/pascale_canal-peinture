@@ -71,7 +71,7 @@ useSchemaOrg([
 				item: "/contact",
 			},
 		],
-npm	}),
+	}),
 ]);
 </script>
 
