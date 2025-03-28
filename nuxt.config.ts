@@ -54,7 +54,6 @@ export default defineNuxtConfig({
 		sources: ["/api/sitemap-urls"],
 	},
 	schemaOrg: {
-		minify: true,
 		identity: {
 			type: "Person",
 			name: "Pascale Canal",
