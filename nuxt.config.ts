@@ -1,4 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
+import { definePerson } from 'nuxt-schema-org/schema'
 
 export default defineNuxtConfig({
 	compatibilityDate: "2024-11-01",
@@ -54,12 +55,17 @@ export default defineNuxtConfig({
 		sources: ["/api/sitemap-urls"],
 	},
 	schemaOrg: {
-		identity: {
-			type: "Person",
+		debug: true,
+		enabled: true,
+		reactive: true,
+		minify: true,
+		identity: definePerson({
 			name: "Pascale Canal",
+			image: "/pascalecanal.jpg",
+			description: "Artiste Peintre",
 			url: process.env.NUXT_SITE_URL || "http://localhost:3000",
 			sameAs: ["https://www.linkedin.com/in/pascale-canal"],
-		},
+		}),
 	},
 	routeRules: {
 		"/secret/**": { robots: false },
