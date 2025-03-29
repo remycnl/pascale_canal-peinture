@@ -86,7 +86,7 @@ useSchemaOrg([
 		</p>
 
 		<div
-			class="mt-12 md:mt-20 lg:mt-40 flex flex-col md:flex-row items-start justify-between gap-12 w-full">
+			class="mt-20 md:mt-40 lg:mt-50 flex flex-col md:flex-row items-start justify-between gap-12 w-full">
 			<!-- Contact Information -->
 			<div class="flex flex-col space-y-10">
 				<div class="contact-section">

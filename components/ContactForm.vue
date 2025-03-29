@@ -481,7 +481,7 @@
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<input
 						v-model="form.firstName"
-						placeholder="Prénom"
+						placeholder="Prénom*"
 						class="p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50" />
 					<input
 						v-model="form.lastName"
@@ -490,7 +490,7 @@
 					<input
 						v-model="form.email"
 						type="email"
-						placeholder="Email"
+						placeholder="Email*"
 						class="col-span-1 sm:col-span-2 p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50" />
 					<input
 						v-model="form.phone"
