@@ -95,7 +95,7 @@ useSchemaOrg([
 						<NuxtLink
 							to="mailto:pascalecanal@gmail.com"
 							target="_blank"
-							class="flex items-center group">
+							class="w-fit flex items-center group">
 							<span
 								class="w-10 h-10 flex items-center justify-center mr-4 bg-white/10 rounded-full group-hover:bg-white/20 transition-all duration-300">
 								<svg
@@ -113,14 +113,14 @@ useSchemaOrg([
 								</svg>
 							</span>
 							<span
-								class="text-lg group-hover:text-white transition-colors duration-300"
-								>pascalecanal@gmail.com</span
-							>
+								class="text-lg group-hover:text-white transition-colors duration-300">
+								pascalecanal@gmail.com
+							</span>
 						</NuxtLink>
 						<NuxtLink
 							to="tel:+33686596029"
 							target="_blank"
-							class="flex items-center group">
+							class="w-fit flex items-center group">
 							<span
 								class="w-10 h-10 flex items-center justify-center mr-4 bg-white/10 rounded-full group-hover:bg-white/20 transition-all duration-300">
 								<svg
@@ -137,9 +137,9 @@ useSchemaOrg([
 								</svg>
 							</span>
 							<span
-								class="text-lg group-hover:text-white transition-colors duration-300"
-								>+33 6 86 59 60 29</span
-							>
+								class="text-lg group-hover:text-white transition-colors duration-300">
+								+33 6 86 59 60 29
+							</span>
 						</NuxtLink>
 					</div>
 				</div>
