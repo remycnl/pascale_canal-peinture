@@ -93,7 +93,7 @@
 						</svg>
 					</div>
 				</div>
-				<h2 class="text-2xl font-bold text-white">
+				<h2 class="text-2xl font-apercuBold text-white">
 					Message envoyé avec succès !
 				</h2>
 				<p class="text-white/80">
@@ -125,7 +125,9 @@
 						</svg>
 					</div>
 				</div>
-				<h2 class="text-2xl font-bold text-white">Erreur lors de l'envoi</h2>
+				<h2 class="text-2xl font-apercuBold text-white">
+					Erreur lors de l'envoi
+				</h2>
 				<p class="text-white/80">Veuillez réessayer ultérieurement.</p>
 				<button
 					@click="retrySubmit"
@@ -140,7 +142,7 @@
 			class="backdrop-blur-sm bg-white/10 rounded-2xl p-4 sm:p-6 shadow-lg shadow-white/5 border border-white/20">
 			<!-- Step 0: Contact Reason (Only if no pre-selected artwork) -->
 			<div v-if="currentStep === 0 && !preSelectedArtwork" class="text-center">
-				<h2 class="text-xl sm:text-2xl font-bold mb-6 text-white">
+				<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
 					Quel est le motif de votre contact ?
 				</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -163,7 +165,7 @@
 				"
 				class="text-center">
 				<template v-if="preSelectedArtwork">
-					<h2 class="text-xl sm:text-2xl font-bold mb-6 text-white">
+					<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
 						Œuvre sélectionnée
 					</h2>
 					<div class="flex justify-center mb-6">
@@ -177,7 +179,7 @@
 								quality="50"
 								class="w-full h-64" />
 							<div class="p-4">
-								<h3 class="font-bold text-xl mb-2 text-white">
+								<h3 class="font-apercuBold text-xl mb-2 text-white">
 									{{ preSelectedArtwork.name }}
 								</h3>
 								<div class="flex justify-between items-center">
@@ -261,14 +263,14 @@
 									fit="cover"
 									format="webp"
 									quality="50"
-									class="w-full h-24 sm:h-32 rounded-lg" />
+									class="w-full rounded-lg aspect-square" />
 								<span
 									v-if="artwork.state === 'SOLD'"
 									class="absolute top-2 flex items-center right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-md">
 									Vendu
 								</span>
 							</div>
-							<p class="text-sm mt-2 text-white">{{ artwork.name }}</p>
+							<p class="text-sm mt-2 text-white truncate">{{ artwork.name }}</p>
 						</div>
 					</div>
 
@@ -314,7 +316,7 @@
 
 				<!-- Inside the Step 1: Artwork Selection section -->
 				<template v-else-if="selectedReason.value === 'artwork'">
-					<h2 class="text-xl sm:text-2xl font-bold mb-6 text-white">
+					<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
 						Sélectionnez vos œuvres
 					</h2>
 
@@ -384,14 +386,14 @@
 									fit="cover"
 									format="webp"
 									quality="50"
-									class="w-full h-24 sm:h-32 rounded-lg" />
+									class="w-full rounded-lg aspect-square" />
 								<span
 									v-if="artwork.state === 'SOLD'"
 									class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 flex items-center rounded-md">
 									Vendu
 								</span>
 							</div>
-							<p class="text-sm mt-2 text-white">{{ artwork.name }}</p>
+							<p class="text-sm mt-2 text-white truncate">{{ artwork.name }}</p>
 						</div>
 					</div>
 
@@ -440,14 +442,14 @@
 			<div
 				v-if="currentStep === 2 && selectedReason.value === 'artwork'"
 				class="text-center">
-				<h2 class="text-xl sm:text-2xl font-bold mb-6 text-white">
+				<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
 					Résumé des œuvres sélectionnées
 				</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 					<div
 						v-for="artwork in selectedArtworks"
 						:key="artwork.id"
-						class="backdrop-blur-md bg-white/10 rounded-xl p-2 border border-white/30 shadow-lg">
+						class="backdrop-blur-md h-fit bg-white/10 rounded-xl p-2 border border-white/30 shadow-lg">
 						<div class="relative">
 							<NuxtImg
 								:src="artwork.image"
@@ -455,14 +457,16 @@
 								fit="cover"
 								format="webp"
 								quality="50"
-								class="w-full h-24 sm:h-32 rounded-lg" />
+								class="w-full rounded-lg aspect-square" />
 							<span
 								v-if="artwork.state === 'SOLD'"
 								class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-md">
 								Vendu
 							</span>
 						</div>
-						<p class="text-sm mt-2 text-white">{{ artwork.name }}</p>
+						<p class="text-sm mt-2 text-white truncate" :title="artwork.name">
+							{{ artwork.name }}
+						</p>
 						<p class="text-sm text-white/70">{{ artwork.price }} €</p>
 					</div>
 				</div>
@@ -470,7 +474,8 @@
 
 			<!-- Step 3: Personal Details (For all cases) -->
 			<div v-if="currentStep === getPersonalDetailsStep()" class="space-y-4">
-				<h2 class="text-xl sm:text-2xl font-bold text-center mb-6 text-white">
+				<h2
+					class="text-xl sm:text-2xl font-apercuBold text-center mb-6 text-white">
 					Vos coordonnées
 				</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -497,7 +502,8 @@
 
 			<!-- Step 4: Message -->
 			<div v-if="currentStep === getMessageStep()" class="space-y-4">
-				<h2 class="text-xl sm:text-2xl font-bold text-center mb-6 text-white">
+				<h2
+					class="text-xl sm:text-2xl font-apercuBold text-center mb-6 text-white">
 					Votre message
 				</h2>
 				<!-- Reason details input for non-artwork contacts -->
