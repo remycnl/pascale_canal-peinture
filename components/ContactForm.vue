@@ -204,7 +204,7 @@
 							class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
 							@input="searchArtworks"
 							@focus="showSearchResults = true"
-							@blur="showSearchResults = false" />
+							@blur="handleSearchBlur" />
 						<!-- Search results dropdown -->
 						<div
 							v-if="artworkSearchQuery && showSearchResults"
@@ -248,7 +248,7 @@
 							v-for="artwork in otherFilteredArtworks"
 							:key="artwork.id"
 							@click="toggleArtworkSelection(artwork)"
-							class="cursor-pointer rounded-xl p-2 transition-all duration-300 hover:scale-105"
+							class="cursor-pointer rounded-xl p-2 transition-all duration-300 lg:hover:scale-105"
 							:class="
 								isArtworkSelected(artwork)
 									? 'backdrop-blur-md bg-yellow/30 border border-yellow/50 shadow-lg shadow-yellow/30'
@@ -327,7 +327,7 @@
 							class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
 							@input="searchArtworks"
 							@focus="showSearchResults = true"
-							@blur="showSearchResults = false" />
+							@blur="handleSearchBlur" />
 						<!-- Search results dropdown -->
 						<div
 							v-if="artworkSearchQuery && showSearchResults"
@@ -371,7 +371,7 @@
 							v-for="artwork in filteredArtworks"
 							:key="artwork.id"
 							@click="toggleArtworkSelection(artwork)"
-							class="cursor-pointer rounded-xl p-2 transition-all duration-300 hover:scale-105"
+							class="cursor-pointer rounded-xl p-2 transition-all duration-300 lg:hover:scale-105"
 							:class="
 								isArtworkSelected(artwork)
 									? 'backdrop-blur-md bg-yellow/30 border border-yellow/50 shadow-lg shadow-yellow/30'
@@ -595,6 +595,7 @@ const formSubmitted = ref(false);
 const submitSuccess = ref(false);
 const submitting = ref(false);
 const showSearchResults = ref(false);
+let blurTimeout = null;
 
 const form = ref({
 	firstName: "",
@@ -981,12 +982,30 @@ const searchArtworks = () => {
 		.filter((artwork) => artwork.name.toLowerCase().includes(query))
 		.slice(0, 5); // Limit to 5 results for dropdown
 };
-
 // Function to select a result from search dropdown
 const selectSearchResult = (artwork) => {
 	toggleArtworkSelection(artwork);
 	artworkSearchQuery.value = ""; // Clear search after selection
 	artworkSearchResults.value = [];
+	showSearchResults.value = false;
+	if (blurTimeout) {
+		clearTimeout(blurTimeout);
+		blurTimeout = null;
+	}
+};
+
+// Handle blur event for search input
+const handleSearchBlur = () => {
+	// Clear any existing timeout
+	if (blurTimeout) {
+		clearTimeout(blurTimeout);
+	}
+
+	// Set a new timeout
+	blurTimeout = setTimeout(() => {
+		showSearchResults.value = false;
+		blurTimeout = null;
+	}, 200);
 };
 
 // Filtered artworks for grid display
