@@ -608,7 +608,6 @@ const form = ref({
 	document: null,
 });
 
-// Watch for changes in selected artworks to update the message template
 watch(
 	selectedArtworks,
 	(newArtworks) => {
@@ -653,7 +652,6 @@ const otherArtworks = computed(() =>
 		: artworks.value
 );
 
-// Get visible steps based on the current flow
 const visibleSteps = computed(() => {
 	if (preSelectedArtwork.value) {
 		return ["Œuvre", "Résumé", "Coordonnées", "Message"];
@@ -664,45 +662,41 @@ const visibleSteps = computed(() => {
 	return ["Motif", "Coordonnées", "Message"];
 });
 
-// Get current visible step index (for progress indicator)
 const currentVisibleStepIndex = computed(() => {
 	if (preSelectedArtwork.value) {
-		// Map actual step to visible step for preselected artwork
-		if (currentStep.value === 1) return 0; // Œuvre
-		if (currentStep.value === 2) return 1; // Résumé
-		if (currentStep.value === 3) return 2; // Coordonnées
-		if (currentStep.value === 4) return 3; // Message
+		if (currentStep.value === 1) return 0;
+		if (currentStep.value === 2) return 1;
+		if (currentStep.value === 3) return 2;
+		if (currentStep.value === 4) return 3;
 	} else if (selectedReason.value.value === "artwork") {
-		return currentStep.value; // No mapping needed
+		return currentStep.value;
 	} else if (selectedReason.value.value) {
-		// Map actual step to visible step for other reasons
-		if (currentStep.value === 0) return 0; // Motif
-		if (currentStep.value === 1) return 1; // Coordonnées (skipped steps 1 & 2)
-		if (currentStep.value === 4) return 2; // Message
+		if (currentStep.value === 0) return 0;
+		if (currentStep.value === 1) return 1;
+		if (currentStep.value === 4) return 2;
 	}
 	return currentStep.value;
 });
 
-// Helper functions to determine step locations based on reason
 const getPersonalDetailsStep = () => {
 	if (selectedReason.value.value === "artwork") {
 		return 3;
 	}
-	return 1; // For all other reasons
+	return 1;
 };
 
 const getMessageStep = () => {
 	if (selectedReason.value.value === "artwork") {
 		return 4;
 	}
-	return 4; // Keep message step at the end for all flows
+	return 4;
 };
 
 const getMaxStep = () => {
 	if (selectedReason.value.value === "artwork") {
 		return 4;
 	}
-	return 4; // All flows have 4 steps max
+	return 4;
 };
 
 const isStepValid = computed(() => {
@@ -713,19 +707,16 @@ const isStepValid = computed(() => {
 			if (selectedReason.value.value === "artwork") {
 				return selectedArtworks.value.length > 0;
 			}
-			// For other reasons at step 1 (personal details)
 			return form.value.firstName && form.value.email;
 		case 2:
 			if (selectedReason.value.value === "artwork") {
-				return true; // Summary step
+				return true;
 			}
-			// For other reasons, step 2 is skipped
 			return true;
 		case 3:
 			if (selectedReason.value.value === "artwork") {
 				return form.value.firstName && form.value.email;
 			}
-			// For other reasons, we're at message step
 			return form.value.message.length > 10 && form.value.reasonDetails;
 		case 4:
 			return form.value.message.length > 10;
@@ -735,7 +726,6 @@ const isStepValid = computed(() => {
 });
 
 const selectReason = (reason) => {
-	// Reset form data
 	form.value = {
 		firstName: "",
 		lastName: "",
@@ -747,26 +737,20 @@ const selectReason = (reason) => {
 		document: null,
 	};
 
-	// Reset selected artworks if changing reason
 	if (selectedReason.value.value !== reason.value) {
 		selectedArtworks.value = [];
 	}
 
-	// Update selected reason
 	selectedReason.value = reason;
 
-	// Set default reason details based on reason type
 	if (reason.value === "artwork") {
 		form.value.reasonDetails = "Intéressé(e) à l'achat";
 	}
 
-	// Load artworks only if the selected reason is 'artwork'
 	if (reason.value === "artwork" && !artworksLoaded.value) {
 		loadArtworks();
 		nextStep();
-	}
-	// For other reasons, skip to personal details
-	else if (reason.value !== "artwork") {
+	} else if (reason.value !== "artwork") {
 		currentStep.value = getPersonalDetailsStep();
 	} else {
 		nextStep();
@@ -797,7 +781,6 @@ const getMessageTemplate = () => {
 
 	let message = "Bonjour,\n\n";
 
-	// Handle available artworks
 	if (availableArtworks.length > 0) {
 		const artworkNames = availableArtworks.map((a) => a.name).join(", ");
 		const isMultiple = availableArtworks.length > 1;
@@ -806,7 +789,6 @@ const getMessageTemplate = () => {
 		} suivante${isMultiple ? "s" : ""} : ${artworkNames}.\n\n`;
 	}
 
-	// Handle sold artworks (reprint requests)
 	if (soldArtworks.length > 0) {
 		const soldArtworkNames = soldArtworks.map((a) => a.name).join(", ");
 		const isMultipleSold = soldArtworks.length > 1;
@@ -822,10 +804,9 @@ const getMessageTemplate = () => {
 
 const nextStep = () => {
 	if (currentStep.value < getMaxStep()) {
-		stepHistory.value.push(currentStep.value); // Track step history
+		stepHistory.value.push(currentStep.value);
 		currentStep.value++;
 
-		// Skip steps if needed for non-artwork reasons
 		if (
 			selectedReason.value.value &&
 			selectedReason.value.value !== "artwork"
@@ -835,7 +816,6 @@ const nextStep = () => {
 			}
 		}
 
-		// Pre-fill message when moving to the message step for artwork
 		if (
 			currentStep.value === getMessageStep() &&
 			selectedReason.value.value === "artwork"
@@ -849,24 +829,20 @@ const nextStep = () => {
 
 const previousStep = () => {
 	if (currentStep.value > 0) {
-		// If pre-selected artwork, prevent going back to contact reasons
 		if (preSelectedArtwork.value && currentStep.value === 1) {
 			return;
 		}
 
-		// For non-artwork flow, handle step skipping when going back
 		if (
 			selectedReason.value.value &&
 			selectedReason.value.value !== "artwork"
 		) {
 			if (currentStep.value === 4) {
-				// Going back from message step
-				currentStep.value = 1; // Go to personal details
+				currentStep.value = 1;
 				return;
 			}
 		}
 
-		// Reset data based on which step we're returning to
 		resetStepData(currentStep.value);
 		currentStep.value--;
 	}
@@ -874,7 +850,7 @@ const previousStep = () => {
 
 const resetStepData = (step) => {
 	switch (step) {
-		case 1: // Going from step 1 back to step 0
+		case 1:
 			if (
 				!preSelectedArtwork.value &&
 				selectedReason.value.value === "artwork"
@@ -882,17 +858,15 @@ const resetStepData = (step) => {
 				selectedArtworks.value = [];
 			}
 			break;
-		case 2: // Going from step 2 back to step 1
-			// Nothing to reset here as this is just a summary
+		case 2:
 			break;
-		case 3: // Going from step 3 back to step 2
+		case 3:
 			form.value.firstName = "";
 			form.value.lastName = "";
 			form.value.email = "";
 			form.value.phone = "";
 			break;
-		case 4: // Going from step 4 back to step 3
-			// Don't reset message when going back
+		case 4:
 			if (selectedReason.value.value !== "artwork") {
 				form.value.reasonDetails = "";
 			}
@@ -905,13 +879,11 @@ const submitForm = async () => {
 	submitting.value = true;
 
 	try {
-		// Prepare form data for submission
 		const formData = { ...form.value };
 		if (selectedReason.value.value === "artwork") {
 			formData.selectedArtworks = selectedArtworks.value;
 		}
 
-		// Simulate API call (replace with actual API call)
 		await new Promise((resolve) => setTimeout(resolve, 1500));
 
 		console.log("Formulaire soumis :", formData);
@@ -927,7 +899,6 @@ const submitForm = async () => {
 };
 
 const resetForm = () => {
-	// Reset all form data
 	form.value = {
 		firstName: "",
 		lastName: "",
@@ -943,7 +914,6 @@ const resetForm = () => {
 	formSubmitted.value = false;
 	submitSuccess.value = false;
 
-	// If there was a preselected artwork, restore that state
 	if (props.preSelectedArtworkId && preSelectedArtwork.value) {
 		selectedArtworks.value = [preSelectedArtwork.value];
 		currentStep.value = 1;
@@ -962,15 +932,12 @@ const retrySubmit = () => {
 	formSubmitted.value = false;
 };
 
-// Add these variables after your existing refs
 const artworkSearchQuery = ref("");
 const artworkSearchResults = ref([]);
 
-// For pagination and filtering
 const itemsPerPage = 6;
 const currentPage = ref(1);
 
-// Function to filter artworks based on search query
 const searchArtworks = () => {
 	if (!artworkSearchQuery.value) {
 		artworkSearchResults.value = [];
@@ -980,12 +947,11 @@ const searchArtworks = () => {
 	const query = artworkSearchQuery.value.toLowerCase();
 	artworkSearchResults.value = artworks.value
 		.filter((artwork) => artwork.name.toLowerCase().includes(query))
-		.slice(0, 5); // Limit to 5 results for dropdown
+		.slice(0, 5);
 };
-// Function to select a result from search dropdown
 const selectSearchResult = (artwork) => {
 	toggleArtworkSelection(artwork);
-	artworkSearchQuery.value = ""; // Clear search after selection
+	artworkSearchQuery.value = "";
 	artworkSearchResults.value = [];
 	showSearchResults.value = false;
 	if (blurTimeout) {
@@ -994,21 +960,17 @@ const selectSearchResult = (artwork) => {
 	}
 };
 
-// Handle blur event for search input
 const handleSearchBlur = () => {
-	// Clear any existing timeout
 	if (blurTimeout) {
 		clearTimeout(blurTimeout);
 	}
 
-	// Set a new timeout
 	blurTimeout = setTimeout(() => {
 		showSearchResults.value = false;
 		blurTimeout = null;
 	}, 200);
 };
 
-// Filtered artworks for grid display
 const filteredArtworks = computed(() => {
 	const startIndex = (currentPage.value - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
@@ -1023,7 +985,6 @@ const filteredArtworks = computed(() => {
 		.slice(startIndex, endIndex);
 });
 
-// Calculate total pages
 const totalPages = computed(() => {
 	if (!artworkSearchQuery.value) {
 		return Math.ceil(artworks.value.length / itemsPerPage);
@@ -1037,7 +998,6 @@ const totalPages = computed(() => {
 	return Math.ceil(filteredCount / itemsPerPage);
 });
 
-// Filtered artworks excluding the pre-selected artwork
 const otherFilteredArtworks = computed(() => {
 	const startIndex = (currentPage.value - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
@@ -1054,7 +1014,6 @@ const otherFilteredArtworks = computed(() => {
 	return filteredArtworks.slice(startIndex, endIndex);
 });
 
-// Calculate total pages for other artworks (without pre-selected)
 const totalPagesWithoutPreselected = computed(() => {
 	let filteredCount = otherArtworks.value.length;
 
@@ -1068,7 +1027,6 @@ const totalPagesWithoutPreselected = computed(() => {
 	return Math.max(1, Math.ceil(filteredCount / itemsPerPage));
 });
 
-// Page navigation functions
 const nextPage = () => {
 	if (currentPage.value < totalPages.value) {
 		currentPage.value++;
@@ -1081,7 +1039,6 @@ const prevPage = () => {
 	}
 };
 
-// Reset pagination when search query changes
 watch(
 	artworkSearchQuery,
 	() => {
@@ -1090,7 +1047,6 @@ watch(
 	{ immediate: true }
 );
 
-// Only load artworks if preSelectedArtworkId is provided, otherwise wait for user to select 'artwork'
 onMounted(() => {
 	if (props.preSelectedArtworkId) {
 		loadArtworks();
