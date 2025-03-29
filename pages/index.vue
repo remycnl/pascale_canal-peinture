@@ -321,7 +321,7 @@ useSchemaOrg([
 			</div>
 		</div>
 
-		<div v-if="!hasMore && !isLoading" class="text-center mt-28 mb-16">
+		<div v-if="!hasMore && !isLoading" class="text-center mt-20 md:mt-30 lg:mt-40">
 			<div
 				class="inline-block relative overflow-hidden px-8 py-4 border border-black rounded-xl bg-white/80 shadow-sm animate-float">
 				<div
