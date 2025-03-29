@@ -109,8 +109,8 @@ onMounted(() => {
 		console.log(`
 	******************************************
 	*                                        *
-	*    Appreciate scrolling through my     *
-	*            e-galery! :)               *
+	*      Appreciate scrolling through      *
+	*            my e-galery! :)             *
 	*                                        *
 	******************************************
 	`);
