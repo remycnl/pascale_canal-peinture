@@ -392,7 +392,7 @@ useSchemaOrg([
 
 					<!-- Modal -->
 					<div
-						class="relative bg-black rounded-4xl w-fit m-1 sm:m-3 md:m-10 max-h-[99vh] md:max-h-[90vh] z-10 pt-6 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col overflow-y-auto transform transition-all duration-400 ease-out"
+						class="relative bg-black rounded-4xl w-fit m-1 sm:m-3 md:m-10 max-h-[85vh] xs:max-h-[90vh] md:max-h-[90vh] z-10 pt-6 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col overflow-y-auto transform transition-all duration-400 ease-out"
 						:class="{
 							'translate-y-8 opacity-0 scale-95': !formLoaded,
 							'translate-y-0 opacity-100 scale-100': formLoaded,
