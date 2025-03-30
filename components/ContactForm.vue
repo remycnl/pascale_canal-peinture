@@ -250,6 +250,21 @@
 								</div>
 							</div>
 
+							<!-- Loading state for artwork selection -->
+							<div
+								v-if="!artworksLoaded"
+								class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+								<div
+									v-for="i in 6"
+									:key="i"
+									class="backdrop-blur-sm bg-white/10 border border-white/20 rounded-xl p-2">
+									<div class="animate-pulse">
+										<div class="bg-white/20 rounded-lg aspect-square"></div>
+										<div class="h-4 bg-white/20 rounded mt-2 w-3/4"></div>
+									</div>
+								</div>
+							</div>
+
 							<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
 								<div
 									v-for="artwork in otherFilteredArtworks"
@@ -373,6 +388,21 @@
 										Vendu
 									</span>
 								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Loading state for artwork selection -->
+					<div
+						v-if="!artworksLoaded"
+						class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+						<div
+							v-for="i in 6"
+							:key="i"
+							class="backdrop-blur-sm bg-white/10 border border-white/20 rounded-xl p-2">
+							<div class="animate-pulse">
+								<div class="bg-white/20 rounded-lg aspect-square"></div>
+								<div class="h-4 bg-white/20 rounded mt-2 w-3/4"></div>
 							</div>
 						</div>
 					</div>
