@@ -39,7 +39,7 @@ watch(isOpen, (newValue) => {
 </script>
 
 <template>
-	<div>
+	<header>
 		<!-- Backdrop when menu is open -->
 		<div
 			class="fixed inset-0 w-full h-full bg-black/20 backdrop-blur-md transition-all duration-300 z-40 md:hidden"
@@ -155,7 +155,7 @@ watch(isOpen, (newValue) => {
 				</div>
 			</div>
 		</div>
-	</div>
+	</header>
 </template>
 
 <style scoped>

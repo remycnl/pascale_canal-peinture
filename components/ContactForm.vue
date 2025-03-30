@@ -1,7 +1,7 @@
 <template>
 	<form
 		@submit.prevent="submitForm"
-		class="w-full max-w-xl backdrop-blur-md bg-white/20 rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 border border-white/30">
+		class="w-full max-w-5xl backdrop-blur-md bg-white/20 rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 border border-white/30">
 		<!-- Progress Indicator -->
 		<div class="mb-18 sm:mb-20 px-10 relative">
 			<div class="flex justify-between relative">
@@ -31,7 +31,7 @@
 							(index / (visibleSteps.length - 1)) * 100
 						}% - 14px); top: 0px;`">
 						<div
-							class="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-500 ease-out border-2 transform hover:scale-110"
+							class="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-500 ease-out border-2 transform hover:scale-102"
 							:class="{
 								'bg-yellow/30 border-yellow shadow-md shadow-yellow/50 scale-110 backdrop-blur-sm':
 									currentVisibleStepIndex >= index,
@@ -102,7 +102,7 @@
 				<button
 					v-if="!preSelectedArtworkId"
 					@click="resetForm"
-					class="mt-6 px-6 py-3 backdrop-blur-md bg-yellow/80 text-black rounded-lg hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-105">
+					class="mt-6 px-6 py-3 backdrop-blur-md bg-yellow/80 text-black rounded-lg hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-102">
 					Nouveau message
 				</button>
 			</div>
@@ -131,7 +131,7 @@
 				<p class="text-white/80">Veuillez réessayer ultérieurement.</p>
 				<button
 					@click="retrySubmit"
-					class="mt-6 px-6 py-3 backdrop-blur-md bg-yellow/80 text-black rounded-lg hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-105">
+					class="mt-6 px-6 py-3 backdrop-blur-md bg-yellow/80 text-black rounded-lg hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-102">
 					Réessayer
 				</button>
 			</div>
@@ -151,7 +151,7 @@
 						:key="reason.value"
 						type="button"
 						@click="selectReason(reason)"
-						class="p-4 backdrop-blur-md bg-white/20 rounded-xl hover:bg-white/30 border border-white/30 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+						class="p-4 backdrop-blur-md bg-white/20 rounded-xl hover:bg-white/30 border border-white/30 text-white shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300">
 						{{ reason.label }}
 					</button>
 				</div>
@@ -165,152 +165,161 @@
 				"
 				class="text-center">
 				<template v-if="preSelectedArtwork">
-					<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
+					<h2
+						class="text-xl sm:text-2xl lg:text-start font-apercuBold mb-6 text-white">
 						Œuvre sélectionnée
 					</h2>
-					<div class="flex justify-center mb-6">
+					<div class="flex flex-col lg:flex-row lg:gap-8">
+						<!-- Selected artwork section -->
 						<div
-							class="max-w-sm rounded-xl overflow-hidden shadow-2xl backdrop-blur-md bg-white/20 border border-white/30">
-							<NuxtImg
-								:src="preSelectedArtwork.image"
-								:alt="preSelectedArtwork.name"
-								fit="cover"
-								format="webp"
-								quality="50"
-								class="w-full h-64" />
-							<div class="p-4">
-								<h3 class="font-apercuBold text-xl mb-2 text-white">
-									{{ preSelectedArtwork.name }}
-								</h3>
-								<div class="flex justify-between items-center">
-									<p class="text-white/80">{{ preSelectedArtwork.price }} €</p>
-									<span
-										v-if="preSelectedArtwork.state === 'SOLD'"
-										class="bg-[#B60071]/60 text-white text-xs px-2 py-1 rounded-md">
-										Vendu
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<h3 class="text-lg text-start py-4 text-white">
-						D'autres œuvres vous intéressent ?
-					</h3>
-
-					<!-- Search bar for artwork -->
-					<div class="relative mb-6">
-						<input
-							v-model="artworkSearchQuery"
-							type="text"
-							placeholder="Rechercher une œuvre..."
-							class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
-							@input="searchArtworks"
-							@focus="showSearchResults = true"
-							@blur="handleSearchBlur" />
-						<!-- Search results dropdown -->
-						<div
-							v-if="artworkSearchQuery && showSearchResults"
-							class="absolute z-10 mt-1 w-full rounded-lg backdrop-blur-md bg-white/30 shadow-lg border border-white/30 max-h-60 overflow-y-auto">
-							<!-- No results message -->
+							class="flex justify-center lg:justify-between mb-6 lg:mb-0 lg:w-1/2">
 							<div
-								v-if="artworkSearchResults.length === 0"
-								class="p-4 text-center text-white">
-								Aucune œuvre ne correspond à votre recherche
-							</div>
-							<!-- Search results -->
-							<div
-								v-else
-								v-for="result in artworkSearchResults"
-								:key="result.id"
-								@click="selectSearchResult(result)"
-								class="p-2 cursor-pointer hover:bg-white/20 flex items-center gap-2 transition-colors duration-200">
+								class="relative h-fit max-w-sm rounded-xl overflow-hidden shadow-2xl backdrop-blur-md bg-white/20 border border-white/30">
 								<NuxtImg
-									:src="result.image"
-									:alt="result.name"
-									width="40"
-									height="40"
+									:src="preSelectedArtwork.image"
+									:alt="preSelectedArtwork.name"
 									fit="cover"
 									format="webp"
 									quality="50"
-									class="rounded-md" />
-								<div class="flex">
-									<span class="text-white">{{ result.name }}</span>
-									<span
-										v-if="result.state === 'SOLD'"
-										class="ml-2 flex items-center bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-md">
-										Vendu
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-						<div
-							v-for="artwork in otherFilteredArtworks"
-							:key="artwork.id"
-							@click="toggleArtworkSelection(artwork)"
-							class="cursor-pointer rounded-xl p-2 transition-all duration-300 lg:hover:scale-105"
-							:class="
-								isArtworkSelected(artwork)
-									? 'backdrop-blur-md bg-yellow/30 border border-yellow/50 shadow-lg shadow-yellow/30'
-									: 'backdrop-blur-sm bg-white/10 border border-white/20'
-							">
-							<div class="relative">
-								<NuxtImg
-									:src="artwork.image"
-									:alt="artwork.name"
-									fit="cover"
-									format="webp"
-									quality="50"
-									class="w-full rounded-lg aspect-square" />
+									class="w-full h-auto" />
 								<span
-									v-if="artwork.state === 'SOLD'"
-									class="absolute top-2 flex items-center right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-md">
+									v-if="preSelectedArtwork.state === 'SOLD'"
+									class="absolute top-4 flex items-center right-4 bg-[#B60071]/60 text-white text-xs px-2 py-1 rounded-full">
 									Vendu
 								</span>
+								<div class="p-4">
+									<h3 class="font-apercuBold text-xl mb-2 text-white">
+										{{ preSelectedArtwork.name }}
+									</h3>
+									<p class="text-white/80">{{ preSelectedArtwork.price }} €</p>
+								</div>
 							</div>
-							<p class="text-sm mt-2 text-white truncate">{{ artwork.name }}</p>
 						</div>
-					</div>
 
-					<!-- Pagination controls -->
-					<div class="flex items-center justify-center mt-6 space-x-2">
-						<button
-							@click="prevPage"
-							:disabled="currentPage === 1"
-							class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-5 w-5"
-								viewBox="0 0 20 20"
-								fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-									clip-rule="evenodd" />
-							</svg>
-						</button>
+						<!-- Other artworks section -->
+						<div class="lg:w-1/2">
+							<h3 class="text-lg text-start py-4 text-white">
+								D'autres œuvres vous intéressent ?
+							</h3>
 
-						<span class="text-white">
-							Page {{ currentPage }} sur {{ totalPagesWithoutPreselected }}
-						</span>
+							<!-- Search bar for artwork -->
+							<div class="relative mb-6">
+								<input
+									v-model="artworkSearchQuery"
+									type="text"
+									placeholder="Rechercher une œuvre..."
+									class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
+									@input="searchArtworks"
+									@focus="showSearchResults = true"
+									@blur="handleSearchBlur" />
+								<!-- Search results dropdown -->
+								<div
+									v-if="artworkSearchQuery && showSearchResults"
+									class="absolute z-10 mt-1 w-full rounded-lg backdrop-blur-md bg-white/30 shadow-lg border border-white/30 max-h-60 overflow-y-auto">
+									<!-- No results message -->
+									<div
+										v-if="artworkSearchResults.length === 0"
+										class="p-4 text-center text-white">
+										Aucune œuvre ne correspond à votre recherche
+									</div>
+									<!-- Search results -->
+									<div
+										v-else
+										v-for="result in artworkSearchResults"
+										:key="result.id"
+										@click="selectSearchResult(result)"
+										class="p-2 cursor-pointer hover:bg-white/20 flex items-center gap-2 transition-colors duration-200">
+										<NuxtImg
+											:src="result.image"
+											:alt="result.name"
+											width="40"
+											height="40"
+											fit="cover"
+											format="webp"
+											quality="50"
+											class="rounded-md" />
+										<div class="flex">
+											<span class="text-white">{{ result.name }}</span>
+											<span
+												v-if="result.state === 'SOLD'"
+												class="ml-2 flex items-center bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
+												Vendu
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
 
-						<button
-							@click="nextPage"
-							:disabled="currentPage === totalPagesWithoutPreselected"
-							class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-5 w-5"
-								viewBox="0 0 20 20"
-								fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-									clip-rule="evenodd" />
-							</svg>
-						</button>
+							<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+								<div
+									v-for="artwork in otherFilteredArtworks"
+									:key="artwork.id"
+									@click="toggleArtworkSelection(artwork)"
+									class="cursor-pointer rounded-xl p-2 transition-all duration-300 lg:hover:scale-102"
+									:class="
+										isArtworkSelected(artwork)
+											? 'backdrop-blur-md bg-yellow/30 border border-yellow/50 shadow-lg shadow-yellow/30'
+											: 'backdrop-blur-sm bg-white/10 border border-white/20'
+									">
+									<div class="relative">
+										<NuxtImg
+											:src="artwork.image"
+											:alt="artwork.name"
+											fit="cover"
+											format="webp"
+											quality="50"
+											class="w-full rounded-lg aspect-square" />
+										<span
+											v-if="artwork.state === 'SOLD'"
+											class="absolute top-2 flex items-center right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
+											Vendu
+										</span>
+									</div>
+									<p class="text-sm mt-2 text-white truncate">
+										{{ artwork.name }}
+									</p>
+								</div>
+							</div>
+
+							<!-- Pagination controls -->
+							<div class="flex items-center justify-center mt-6 space-x-2">
+								<button
+									@click="prevPage"
+									:disabled="currentPage === 1"
+									class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-5 w-5"
+										viewBox="0 0 20 20"
+										fill="currentColor">
+										<path
+											fill-rule="evenodd"
+											d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								</button>
+
+								<span class="text-white">
+									Page {{ currentPage }} sur {{ totalPagesWithoutPreselected }}
+								</span>
+
+								<button
+									@click="nextPage"
+									:disabled="currentPage === totalPagesWithoutPreselected"
+									class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-5 w-5"
+										viewBox="0 0 20 20"
+										fill="currentColor">
+										<path
+											fill-rule="evenodd"
+											d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+											clip-rule="evenodd" />
+									</svg>
+								</button>
+							</div>
+						</div>
 					</div>
 				</template>
 
@@ -360,7 +369,7 @@
 									<span class="text-white">{{ result.name }}</span>
 									<span
 										v-if="result.state === 'SOLD'"
-										class="ml-2 flex items-center bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-md">
+										class="ml-2 flex items-center bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
 										Vendu
 									</span>
 								</div>
@@ -373,7 +382,7 @@
 							v-for="artwork in filteredArtworks"
 							:key="artwork.id"
 							@click="toggleArtworkSelection(artwork)"
-							class="cursor-pointer rounded-xl p-2 transition-all duration-300 lg:hover:scale-105"
+							class="cursor-pointer rounded-xl p-2 transition-all duration-300 lg:hover:scale-102"
 							:class="
 								isArtworkSelected(artwork)
 									? 'backdrop-blur-md bg-yellow/30 border border-yellow/50 shadow-lg shadow-yellow/30'
@@ -389,7 +398,7 @@
 									class="w-full rounded-lg aspect-square" />
 								<span
 									v-if="artwork.state === 'SOLD'"
-									class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 flex items-center rounded-md">
+									class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 flex items-center rounded-full">
 									Vendu
 								</span>
 							</div>
@@ -460,7 +469,7 @@
 								class="w-full rounded-lg aspect-square" />
 							<span
 								v-if="artwork.state === 'SOLD'"
-								class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-md">
+								class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
 								Vendu
 							</span>
 						</div>
@@ -522,7 +531,8 @@
 					<label class="block mb-2 text-white">Votre message</label>
 					<textarea
 						v-model="form.message"
-						class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50 h-32"
+						@input="autoResize($event.target)"
+						class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50 h-32 overflow-hidden resize-none min-h-[80px]"
 						placeholder="Écrivez votre message ici..."></textarea>
 				</div>
 
@@ -559,14 +569,14 @@
 				type="button"
 				@click="nextStep"
 				:disabled="!isStepValid"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-105">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-102">
 				Suivant
 			</button>
 			<button
 				v-if="currentStep === getMaxStep()"
 				type="submit"
 				:disabled="submitting"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-gradient-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 hover:shadow-xl hover:scale-105 transition-all duration-300">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-gradient-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 hover:shadow-xl hover:scale-102 transition-all duration-300">
 				{{ submitting ? "Envoi en cours..." : "Envoyer" }}
 			</button>
 		</div>
@@ -582,6 +592,8 @@ const props = defineProps({
 		default: null,
 	},
 });
+
+const emit = defineEmits(["form-loaded"]);
 
 const contactReasons = [
 	{ value: "artwork", label: "Achat d'œuvre" },
@@ -647,8 +659,10 @@ const loadArtworks = async () => {
 				stepHistory.value = [0, 1];
 			}
 		}
+		emit("form-loaded", true);
 	} catch (error) {
 		console.error("Error fetching artworks:", error);
+		emit("form-loaded", false);
 	}
 };
 
@@ -1045,6 +1059,19 @@ const prevPage = () => {
 	}
 };
 
+const autoResize = (element) => {
+	element.style.height = "auto";
+	element.style.height = element.scrollHeight + "px";
+};
+
+const initializeTextareas = () => {
+	setTimeout(() => {
+		document.querySelectorAll("textarea").forEach((textarea) => {
+			autoResize(textarea);
+		});
+	}, 0);
+};
+
 watch(
 	artworkSearchQuery,
 	() => {
@@ -1053,9 +1080,20 @@ watch(
 	{ immediate: true }
 );
 
+watch(currentStep, (newStep) => {
+	if (newStep === getMessageStep()) {
+		nextTick(() => {
+			initializeTextareas();
+		});
+	}
+});
+
 onMounted(() => {
 	if (props.preSelectedArtworkId) {
 		loadArtworks();
+	} else {
+		emit("form-loaded", true);
 	}
+	initializeTextareas();
 });
 </script>
