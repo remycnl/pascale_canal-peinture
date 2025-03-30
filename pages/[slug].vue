@@ -384,7 +384,7 @@ useSchemaOrg([
 			<Transition name="overlay">
 				<div
 					v-if="showContactOverlay"
-					class="fixed inset-0 backdrop-blur-md w-screen h-screen z-[9999] flex items-center justify-center">
+					class="fixed inset-0 backdrop-blur-md w-screen h-screen z-[9999] flex items-start md:items-center justify-center">
 					<!-- Backdrop avec flou -->
 					<div
 						class="absolute inset-0 bg-black/70"
