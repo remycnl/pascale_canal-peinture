@@ -273,12 +273,12 @@ useSchemaOrg([
 			</NuxtLink>
 		</div>
 
-		<Transition name="fade" mode="out-in" :duration="500">
+		<Transition name="fade" mode="out-in">
 			<div
 				v-if="isLoading || (paintings.length === 0 && !hasMore)"
 				:class="[
 					'relative flex flex-wrap justify-between items-center gap-5 md:gap-10 lg:gap-20 2xl:gap-30',
-					page > 2 ? 'mt-5 md:mt-10 lg:mt-20 2xl:mt-30' : '',
+					page > 1 ? 'mt-5 md:mt-10 lg:mt-20 2xl:mt-30' : '',
 				]">
 				<div
 					v-for="i in fetchedCount || limit"
@@ -354,16 +354,32 @@ useSchemaOrg([
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-	transition: opacity 0.5s ease, transform 0.5s ease;
+	transition: opacity 0.5s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
-	transform: translateY(20px);
 }
-.fade-enter-to,
-.fade-leave-from {
-	opacity: 1;
-	transform: translateY(0);
+
+.animate-float {
+	animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+	0% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.animate-float {
+		animation: none;
+	}
 }
 </style>
