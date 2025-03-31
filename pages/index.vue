@@ -1,6 +1,6 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
-import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 
 const paintings = ref([]);
 const page = ref(1);
@@ -81,50 +81,37 @@ const handleScroll = () => {
 
 const calculateCardSize = () => {
 	const screenWidth = document.documentElement.clientWidth;
-	const containerWidth = Math.min(screenWidth, 2560);
 
-	let columns;
-	if (screenWidth < 768) {
-		columns = 1; // Mobile
-	} else if (screenWidth < 1024) {
-		columns = 2; // Tablette
-	} else {
-		columns = 3; // Grand écran
-	}
+	const containerPadding =
+		screenWidth < 768
+			? 24
+			: screenWidth < 1024
+			? 40
+			: screenWidth < 1280
+			? 56
+			: 120;
 
-	let padding;
-	if (screenWidth < 768) {
-		// sm
-		padding = 2 * 12;
-	} else if (screenWidth < 1024) {
-		// md
-		padding = 2 * 20;
-	} else if (screenWidth < 1280) {
-		// lg
-		padding = 2 * 28;
-	} else {
-		// xl+
-		padding = 2 * 60;
-	}
+	const maxWidth = 2560;
+	const availableWidth = Math.min(screenWidth, maxWidth);
+	const containerWidth = availableWidth - containerPadding;
 
-	let gap;
-	if (screenWidth < 768) {
-		// mobile (gap-5)
-		gap = 20;
-	} else if (screenWidth < 1024) {
-		// md (gap-10)
-		gap = 40;
-	} else if (screenWidth < 1536) {
-		// lg (gap-20)
-		gap = 80;
-	} else {
-		// 2xl (gap-30)
-		gap = 120;
-	}
+	const columns =
+		screenWidth < 768
+			? 1 // Mobile
+			: screenWidth < 1024
+			? 2 // Tablet
+			: 3; // Desktop
 
-	cardSize.value = Math.floor(
-		(containerWidth - padding - gap * (columns - 1)) / columns
-	);
+	const gap =
+		screenWidth < 768
+			? 20
+			: screenWidth < 1024
+			? 40
+			: screenWidth < 1536
+			? 80
+			: 120;
+
+	cardSize.value = Math.floor((containerWidth - gap * (columns - 1)) / columns);
 };
 
 watch(
@@ -145,16 +132,24 @@ watch(
 	}
 );
 
-onMounted(async () => {
+onMounted(() => {
 	calculateCardSize();
 	window.addEventListener("resize", calculateCardSize);
-	await loadPaintings();
 	window.addEventListener("scroll", handleScroll);
+
+	window.addEventListener("popstate", calculateCardSize);
+
+	nextTick(() => {
+		calculateCardSize();
+	});
+
+	loadPaintings();
 });
 
 onBeforeUnmount(() => {
 	window.removeEventListener("resize", calculateCardSize);
 	window.removeEventListener("scroll", handleScroll);
+	window.removeEventListener("popstate", calculateCardSize);
 	if (displayInterval.value) clearInterval(displayInterval.value);
 });
 
@@ -317,7 +312,9 @@ useSchemaOrg([
 			</div>
 		</div>
 
-		<div v-if="!hasMore && !isLoading" class="text-center mt-20 md:mt-30 lg:mt-40">
+		<div
+			v-if="!hasMore && !isLoading"
+			class="text-center mt-20 md:mt-30 lg:mt-40">
 			<div
 				class="inline-block relative overflow-hidden px-8 py-4 border border-black rounded-xl bg-white/80 shadow-sm animate-float">
 				<div
