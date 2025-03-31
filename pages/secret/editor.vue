@@ -4,13 +4,11 @@ import { useRuntimeConfig } from "nuxt/app";
 
 const { $initializeSmoothScroll } = useNuxtApp();
 
-// Configuration et variables d'état
 const config = useRuntimeConfig();
 const secretKey = config.public.NUXT_SECRET_KEY;
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
-// Refs pour les champs du formulaire
 const secretKeyInput = ref("");
 const showPassword = ref(false);
 const isSecretPage = ref(false);
@@ -30,11 +28,9 @@ const selectedPainting = ref(null);
 const isEditMode = ref(false);
 const isSelectOpen = ref(false);
 
-// Fonction pour formater la date
 const formatDate = (date) => date.toISOString().split("T")[0];
 const date = ref(formatDate(new Date()));
 
-// Fonction pour formater la taille du fichier
 const formatFileSize = (bytes) => {
 	if (bytes === 0) return "0 Bytes";
 	const k = 1024;
@@ -43,7 +39,6 @@ const formatFileSize = (bytes) => {
 	return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
 
-// Gestion de l'upload d'image
 const handleImageUpload = (event) => {
 	const file = event.target.files[0];
 	if (file) {
@@ -51,7 +46,6 @@ const handleImageUpload = (event) => {
 	}
 };
 
-// Génération automatique du slug
 const generateSlug = () => {
 	if (name.value) {
 		slug.value = name.value
@@ -67,13 +61,11 @@ const generateSlug = () => {
 	}
 };
 
-// Fonction pour désactiver le scroll
 const disableScroll = () => {
 	document.body.style.overflow = "hidden";
 	document.body.style.height = "100vh";
 };
 
-// Fonction pour réactiver le scroll
 const enableScroll = () => {
 	document.body.style.overflow = "auto";
 	document.body.style.height = "auto";
@@ -82,7 +74,6 @@ const enableScroll = () => {
 	}
 };
 
-// Vérification du mot de passe
 const checkSecretKey = () => {
 	if (secretKeyInput.value === secretKey) {
 		isSecretPage.value = true;
@@ -93,7 +84,6 @@ const checkSecretKey = () => {
 	}
 };
 
-// Gestion du scroll au montage/démontage
 onMounted(() => {
 	if (!isSecretPage.value) {
 		disableScroll();
@@ -116,7 +106,6 @@ const loadPaintings = async () => {
 	}
 };
 
-// Sélection d'une peinture pour édition
 const selectPaintingForEdit = (painting) => {
 	selectedPainting.value = painting;
 	name.value = painting.name;
@@ -135,7 +124,6 @@ const selectPaintingForEdit = (painting) => {
 	isSelectOpen.value = false;
 };
 
-// Suppression d'une peinture
 const deletePainting = async (painting) => {
 	if (confirm(`Êtes-vous sûr de vouloir supprimer "${painting.name}" ?`)) {
 		try {
@@ -151,7 +139,6 @@ const deletePainting = async (painting) => {
 	}
 };
 
-// Mise à jour d'une peinture
 const updatePainting = async () => {
 	try {
 		const formData = new FormData();
@@ -184,7 +171,6 @@ const updatePainting = async () => {
 	}
 };
 
-// Soumission du formulaire
 const submitPainting = async () => {
 	try {
 		if (isEditMode.value) {
@@ -223,7 +209,6 @@ const submitPainting = async () => {
 	}
 };
 
-// Réinitialisation du formulaire
 const resetForm = () => {
 	name.value = "";
 	description.value = "";

@@ -2,10 +2,6 @@
 import { useSchemaOrg } from "#imports";
 import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
 
-const config = useRuntimeConfig();
-
-const baseUrl = config.public.siteUrl;
-
 const paintings = ref([]);
 const page = ref(1);
 const limit = 9;
@@ -211,7 +207,7 @@ useSchemaOrg([
 				:key="painting.id"
 				:class="[getImageClass(painting.id, index)]"
 				:style="`width: ${cardSize}px`"
-				class="z-10 group bg-gradient-to-tr active:scale-95 from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none will-change-auto transition-all duration-500">
+				class="z-10 group bg-gradient-to-tr active:scale-95 from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none will-change-transform transition-all duration-500">
 				<div
 					:style="`height: ${cardSize}px`"
 					class="overflow-hidden relative w-full p-3 group-hover:p-0 transition-all duration-500">
