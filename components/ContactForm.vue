@@ -51,7 +51,7 @@
 							</svg>
 							<span
 								v-else
-								class="text-sm font-apercuBold"
+								class="text-sm font-apercuBold mt-0.5"
 								:class="{
 									'text-white': currentVisibleStepIndex >= index,
 									'text-white/70': currentVisibleStepIndex < index,
