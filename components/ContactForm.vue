@@ -61,9 +61,9 @@
 						</div>
 						<!-- Step name under each circle -->
 						<p
-							class="absolute left-1/2 transform -translate-x-1/2 mt-2 text-sm whitespace-nowrap transition-opacity duration-300 top-full"
+							class="absolute left-1/2 transform -translate-x-1/2 mt-2 text-yellow text-sm whitespace-nowrap transition-opacity duration-300 top-full"
 							:class="{
-								'text-yellow opacity-100': currentVisibleStepIndex === index,
+								'opacity-100': currentVisibleStepIndex === index,
 								'opacity-0': currentVisibleStepIndex !== index,
 							}">
 							{{ step }}
