@@ -81,9 +81,13 @@ const handleScroll = () => {
 
 const calculateCardSize = () => {
 	const screenWidth = window.innerWidth;
-	
-	const hasVerticalScrollbar = document.documentElement.scrollHeight > document.documentElement.clientHeight;
-	const scrollbarWidth = hasVerticalScrollbar ? window.innerWidth - document.documentElement.clientWidth : 0;
+
+	const hasVerticalScrollbar =
+		document.documentElement.scrollHeight >
+		document.documentElement.clientHeight;
+	const scrollbarWidth = hasVerticalScrollbar
+		? window.innerWidth - document.documentElement.clientWidth
+		: 0;
 
 	const containerPadding =
 		screenWidth < 768
@@ -266,28 +270,27 @@ useSchemaOrg([
 			</NuxtLink>
 		</div>
 
-		<div v-if="isLoading" class="flex justify-center mt-28">
-			<div class="relative flex items-center space-x-4">
+		<Transition name="fade" mode="out-in" :duration="500">
+			<div
+				v-if="isLoading"
+				class="relative flex flex-wrap justify-between items-center gap-5 md:gap-10 lg:gap-20 2xl:gap-30 mt-5 md:mt-10 lg:mt-20 2xl:mt-30">
 				<div
-					class="w-3 h-3 md:w-5 md:h-5 bg-black rounded-full"
-					:style="{
-						animation: 'bounce-smooth 1.5s infinite ease-in-out',
-						animationDelay: '0s',
-					}"></div>
-				<div
-					class="w-3 h-3 md:w-5 md:h-5 bg-black rounded-full"
-					:style="{
-						animation: 'bounce-smooth 1.5s infinite ease-in-out',
-						animationDelay: '0.3s',
-					}"></div>
-				<div
-					class="w-3 h-3 md:w-5 md:h-5 bg-black rounded-full"
-					:style="{
-						animation: 'bounce-smooth 1.5s infinite ease-in-out',
-						animationDelay: '0.6s',
-					}"></div>
+					v-for="i in paintings.length > 0 ? limit : 3"
+					:key="i"
+					:style="`width: ${cardSize}px; height: ${cardSize}px`"
+					class="z-10 backdrop-blur-sm bg-black/10 border border-black/20 p-3 rounded-2xl transition-all duration-500">
+					<div
+						class="animate-pulse"
+						:style="{ animationDelay: `${i * 150}ms` }">
+						<div
+							:style="`height: ${cardSize - 70}px`"
+							class="bg-black/20 rounded-lg"></div>
+						<div class="h-4 bg-black/20 rounded mt-2 w-3/4"></div>
+						<div class="h-3 bg-black/20 rounded mt-2 w-1/4"></div>
+					</div>
+				</div>
 			</div>
-		</div>
+		</Transition>
 
 		<div
 			v-if="hasMore && !isLoading && paintings.length > 0"
@@ -341,3 +344,20 @@ useSchemaOrg([
 		</div>
 	</div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+	transform: translateY(20px);
+}
+.fade-enter-to,
+.fade-leave-from {
+	opacity: 1;
+	transform: translateY(0);
+}
+</style>

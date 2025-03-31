@@ -98,8 +98,9 @@ const setSEO = () => {
 
 onMounted(() => {
 	const favicons = [
-		"https://pascale-canal-peinture.vercel.app/favicon.ico",
-		"https://pascale-canal-peinture.vercel.app/favicon-reversed.ico",
+		`${baseUrl}/favicon.ico`,
+		`${baseUrl}/favicon-yellow.ico`,
+		`${baseUrl}/favicon-reversed.ico`,
 	];
 	let currentFaviconIndex = 0;
 
