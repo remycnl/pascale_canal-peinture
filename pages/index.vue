@@ -80,7 +80,10 @@ const handleScroll = () => {
 };
 
 const calculateCardSize = () => {
-	const screenWidth = document.documentElement.clientWidth;
+	const screenWidth = window.innerWidth;
+	
+	const hasVerticalScrollbar = document.documentElement.scrollHeight > document.documentElement.clientHeight;
+	const scrollbarWidth = hasVerticalScrollbar ? window.innerWidth - document.documentElement.clientWidth : 0;
 
 	const containerPadding =
 		screenWidth < 768
@@ -92,7 +95,7 @@ const calculateCardSize = () => {
 			: 120;
 
 	const maxWidth = 2560;
-	const availableWidth = Math.min(screenWidth, maxWidth);
+	const availableWidth = Math.min(screenWidth, maxWidth) - scrollbarWidth;
 	const containerWidth = availableWidth - containerPadding;
 
 	const columns =
