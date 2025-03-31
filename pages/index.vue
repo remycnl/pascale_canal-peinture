@@ -11,6 +11,7 @@ const isImageLoaded = ref({});
 const cardSize = ref(0);
 const displayedCount = ref(0);
 const displayInterval = ref(null);
+const fetchedCount = ref(0);
 
 const loadPaintings = async () => {
 	if (isLoading.value || !hasMore.value) return;
@@ -21,6 +22,8 @@ const loadPaintings = async () => {
 			`/api/paintings?page=${page.value}&limit=${limit}`
 		);
 		if (Array.isArray(data)) {
+			fetchedCount.value = data.length;
+			
 			if (data.length < limit) {
 				hasMore.value = false;
 			}
@@ -275,7 +278,7 @@ useSchemaOrg([
 				v-if="isLoading"
 				class="relative flex flex-wrap justify-between items-center gap-5 md:gap-10 lg:gap-20 2xl:gap-30 mt-5 md:mt-10 lg:mt-20 2xl:mt-30">
 				<div
-					v-for="i in paintings.length > 0 ? limit : 3"
+					v-for="i in fetchedCount"
 					:key="i"
 					:style="`width: ${cardSize}px; height: ${cardSize}px`"
 					class="z-10 backdrop-blur-sm bg-black/10 border border-black/20 p-3 rounded-2xl transition-all duration-500">
