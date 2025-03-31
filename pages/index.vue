@@ -23,7 +23,7 @@ const loadPaintings = async () => {
 		);
 		if (Array.isArray(data)) {
 			fetchedCount.value = data.length;
-			
+
 			if (data.length < limit) {
 				hasMore.value = false;
 			}
@@ -275,10 +275,13 @@ useSchemaOrg([
 
 		<Transition name="fade" mode="out-in" :duration="500">
 			<div
-				v-if="isLoading"
-				class="relative flex flex-wrap justify-between items-center gap-5 md:gap-10 lg:gap-20 2xl:gap-30 mt-5 md:mt-10 lg:mt-20 2xl:mt-30">
+				v-if="isLoading || (paintings.length === 0 && !hasMore)"
+				:class="[
+					'relative flex flex-wrap justify-between items-center gap-5 md:gap-10 lg:gap-20 2xl:gap-30',
+					page > 2 ? 'mt-5 md:mt-10 lg:mt-20 2xl:mt-30' : '',
+				]">
 				<div
-					v-for="i in fetchedCount"
+					v-for="i in fetchedCount || limit"
 					:key="i"
 					:style="`width: ${cardSize}px; height: ${cardSize}px`"
 					class="z-10 backdrop-blur-sm bg-black/10 border border-black/20 p-3 rounded-2xl transition-all duration-500">
