@@ -13,7 +13,14 @@ onMounted(() => {
 
 <template>
 	<div
-		>
+		v-if="isVisible"
+		class="splash-screen"
+		:class="{ 'fade-out': !isVisible }">
+		<NuxtImg
+			src="/img/logo.png"
+			alt="Logo"
+			class="w-40 h-auto logo-animation"
+			:class="{ 'scale-active': isVisible }" />
 	</div>
 </template>
 
