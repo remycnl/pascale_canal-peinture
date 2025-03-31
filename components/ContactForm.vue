@@ -599,7 +599,7 @@
 				type="button"
 				@click="nextStep"
 				:disabled="!isStepValid"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-102">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-102 disabled:hover:scale-100">
 				Suivant
 			</button>
 			<button
