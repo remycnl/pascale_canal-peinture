@@ -25,12 +25,12 @@ useSeoMeta({
 
 <template>
 	<div class="legal-mentions container mx-auto px-4 md:px-6 py-8 md:py-12">
-		<h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8">
+		<h1 class="text-2xl md:text-3xl lg:text-4xl font-apercuBold mb-6 md:mb-8">
 			Mentions Légales
 		</h1>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				1. Informations Générales
 			</h2>
 			<p class="mb-2"><strong>Propriétaire du site :</strong> Pascale Canal</p>
@@ -55,7 +55,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				2. Propriété Intellectuelle
 			</h2>
 			<p class="text-sm md:text-base">
@@ -67,7 +67,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				3. Protection des Données Personnelles
 			</h2>
 			<p class="text-sm md:text-base mb-3">
@@ -93,7 +93,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">4. Responsabilités</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">4. Responsabilités</h2>
 			<p class="text-sm md:text-base">
 				Le propriétaire du site s'efforce d'assurer l'exactitude et la mise à
 				jour des informations, mais ne saurait être tenu responsable des erreurs
@@ -102,7 +102,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">5. Liens Externes</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">5. Liens Externes</h2>
 			<p class="text-sm md:text-base">
 				Le site peut contenir des liens vers des sites tiers. Pascale Canal ne
 				peut être tenue responsable du contenu de ces sites ni des éventuels
@@ -111,7 +111,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">6. Droit Applicable</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">6. Droit Applicable</h2>
 			<p class="text-sm md:text-base">
 				Les présentes mentions légales sont soumises au droit français. En cas
 				de litige, les tribunaux français seront seuls compétents.

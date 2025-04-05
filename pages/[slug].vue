@@ -313,13 +313,13 @@ useSchemaOrg([
 						<button
 							v-if="painting.state === 'SOLD'"
 							@click="openContactOverlay('reedition')"
-							class="bg-black active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-200">
+							class="bg-black active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200">
 							Demander une réédition
 						</button>
 						<button
 							v-else
 							@click="openContactOverlay('achat')"
-							class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-bold shadow-md hover:bg-grayDark transition duration-200">
+							class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200">
 							Acheter
 						</button>
 						<ShareButton
@@ -328,7 +328,7 @@ useSchemaOrg([
 							position="bottom-right" />
 					</div>
 					<h2
-						class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-bold text-black">
+						class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-apercuBold text-black">
 						Détails
 					</h2>
 					<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2">
@@ -362,7 +362,7 @@ useSchemaOrg([
 
 				<div
 					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
-					<h2 class="text-lg md:text-xl lg:text-3xl font-bold text-black">
+					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 						Son histoire
 					</h2>
 					<p class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed">
@@ -416,7 +416,7 @@ useSchemaOrg([
 						</button>
 
 						<!-- Contenu du modal -->
-						<h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
+						<h2 class="text-2xl md:text-3xl font-apercuBold text-white mb-6">
 							{{
 								contactType === "achat"
 									? "Acheter cette œuvre"

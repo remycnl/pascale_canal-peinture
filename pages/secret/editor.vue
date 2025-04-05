@@ -475,51 +475,59 @@ useSeoMeta({
 					</div>
 					<div
 						v-else
-						class="space-y-4 bg-white p-2 md:p-6 rounded-2xl shadow-custom">
-						<div
-							v-for="painting in paintings"
-							:key="painting.id"
-							class="bg-gray-50 p-2 md:p-4 rounded-lg hover:scale-101 flex items-center justify-between gap-2 md:gap-4 hover:bg-gray-100 transition-all duration-300">
+						class="space-y-4 bg-white overflow-hidden rounded-2xl shadow-custom">
+						<div class="max-h-screen p-2 md:p-6 overflow-y-auto overflow-x-hidden">
 							<div
-								class="flex items-center gap-2 md:gap-4 overflow-hidden flex-1">
-								<img
-									:src="painting.image"
-									:alt="painting.name"
-									class="w-16 h-16 min-w-[64px] object-cover rounded-lg" />
-								<div class="overflow-hidden">
-									<h3 class="font-semibold truncate text-gray-800 max-w-full">
-										{{ painting.name }}
-									</h3>
-									<p class="text-sm text-gray-600 whitespace-nowrap">
-										{{ painting.price }}€
-										<span class="hidden md:inline">{{
-											painting.state === "FOR_SALE" ? " - À vendre" : " - Vendu"
-										}}</span>
-									</p>
+								v-for="painting in paintings"
+								:key="painting.id"
+								class="bg-gray-50 p-2 md:p-4 rounded-lg hover:scale-101 flex items-center justify-between gap-2 md:gap-4 hover:bg-gray-100 transition-all duration-300">
+								<div
+									class="flex items-center gap-2 md:gap-4 overflow-hidden flex-1">
+									<NuxtImg
+										:src="painting.image"
+										:alt="painting.name"
+										loading="azy"
+										fit="cover"
+										format="webp"
+										class="w-16 h-16 min-w-[64px] rounded-lg" />
+									<div class="overflow-hidden">
+										<h3 class="font-semibold truncate text-gray-800 max-w-full">
+											{{ painting.name }}
+										</h3>
+										<p class="text-sm text-gray-600 whitespace-nowrap">
+											{{ painting.price }}€
+											<span class="hidden md:inline">{{
+												painting.state === "FOR_SALE" ? " - À vendre" : " - Vendu"
+											}}</span>
+										</p>
+									</div>
 								</div>
-							</div>
-							<div class="flex flex-row gap-2 shrink-0">
-								<button
-									@click="selectPaintingForEdit(painting)"
-									class="p-2 w-11 bg-yellow focus:scale-95 text-white text-sm rounded-lg hover:bg-yellow/80 border border-yellow hover:border-black transition-all duration-300">
-									<NuxtImg
-										src="/svg/edit.svg"
-										alt="edit icon for editing painting"
-										class="w-7 h-7" />
-								</button>
-								<button
-									@click="deletePainting(painting)"
-									class="p-2 w-11 bg-red-400 focus:scale-95 text-white text-sm rounded-lg hover:bg-red-400/80 border border-red-400 hover:border-black transition-all duration-300">
-									<NuxtImg
-										src="/svg/trash.svg"
-										alt="trash icon for deleting painting"
-										class="w-7 h-7" />
-								</button>
+								<div class="flex flex-row gap-2 shrink-0">
+									<button
+										@click="selectPaintingForEdit(painting)"
+										class="p-2 w-11 bg-yellow focus:scale-95 text-white text-sm rounded-lg hover:bg-yellow/80 border border-yellow hover:border-black transition-all duration-300">
+										<NuxtImg
+											src="/svg/edit.svg"
+											loading="lazy"
+											alt="edit icon for editing painting"
+											class="w-7 h-7" />
+									</button>
+									<button
+										@click="deletePainting(painting)"
+										class="p-2 w-11 bg-red-400 focus:scale-95 text-white text-sm rounded-lg hover:bg-red-400/80 border border-red-400 hover:border-black transition-all duration-300">
+										<NuxtImg
+											src="/svg/trash.svg"
+											loading="lazy"
+											alt="trash icon for deleting painting"
+											class="w-7 h-7" />
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<event-editable />
 			<FAQeditable />
 		</div>
 
@@ -551,6 +559,7 @@ useSeoMeta({
 							<NuxtImg
 								v-if="!showPassword"
 								src="/svg/eye-open.svg"
+								loading="lazy"
 								class="w-5 h-5" />
 							<NuxtImg v-else src="/svg/eye-closed.svg" class="w-5 h-5" />
 						</button>

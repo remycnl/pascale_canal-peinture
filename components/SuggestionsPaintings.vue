@@ -79,7 +79,7 @@ onUnmounted(() => {
 			<div
 				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
 		</div>
-		<h2 class="text-lg md:text-xl lg:text-3xl font-bold text-black">
+		<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 			Des œuvres qui
 			<div class="lg:hidden"></div>
 			pourraient vous séduire...

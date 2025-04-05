@@ -117,7 +117,7 @@ const initializeTextareas = () => {
 			class="w-full max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
 			<div
 				class="bg-black text-white p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center">
-				<h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-0">
+				<h2 class="text-2xl sm:text-3xl font-apercuBold mb-4 sm:mb-0">
 					Gestion des FAQs
 				</h2>
 				<button
@@ -236,7 +236,7 @@ const initializeTextareas = () => {
 						<input
 							v-model="faq.question"
 							@change="updateFAQData(faq)"
-							class="w-full px-3 py-2 rounded-2xl text-base sm:text-lg font-semibold text-black mb-2"
+							class="w-full px-3 py-2 rounded-2xl text-base sm:text-lg font-apercuMediumbold text-black mb-2"
 							placeholder="Saisissez votre question" />
 						<textarea
 							v-model="faq.answer"

@@ -29,7 +29,7 @@
 					class="flex flex-col md:flex-row justify-between gap-x-30 gap-y-15">
 					<!-- Plan du site -->
 					<div>
-						<h3 class="text-sm font-bold uppercase mb-6 text-yellow">
+						<h3 class="text-sm font-apercuBold uppercase mb-6 text-yellow">
 							Plan du site
 						</h3>
 						<div class="flex flex-col space-y-3">
@@ -49,6 +49,11 @@
 								Qui suis-je ?
 							</NuxtLink>
 							<NuxtLink
+								to="/mes-evenements"
+								class="w-fit text-gray-300 hover:text-yellow transition-colors">
+								Mes évènements
+							</NuxtLink>
+							<NuxtLink
 								to="/contact"
 								class="w-fit text-gray-300 hover:text-yellow transition-colors">
 								Contact
@@ -58,7 +63,7 @@
 
 					<!-- Social links -->
 					<div>
-						<h3 class="text-sm font-bold uppercase mb-6 text-yellow">
+						<h3 class="text-sm font-apercuBold uppercase mb-6 text-yellow">
 							Réseaux sociaux
 						</h3>
 						<div class="flex flex-col space-y-3">
@@ -112,7 +117,7 @@
 
 					<!-- Legal links -->
 					<div>
-						<h3 class="text-sm font-bold uppercase mb-6 text-yellow">
+						<h3 class="text-sm font-apercuBold uppercase mb-6 text-yellow">
 							Informations légales
 						</h3>
 						<div class="flex flex-col space-y-3">

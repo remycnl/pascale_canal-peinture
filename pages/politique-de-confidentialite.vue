@@ -25,12 +25,12 @@ useSeoMeta({
 
 <template>
 	<div class="privacy-policy container mx-auto px-4 md:px-6 py-8 md:py-12">
-		<h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8">
+		<h1 class="text-2xl md:text-3xl lg:text-4xl font-apercuBold mb-6 md:mb-8">
 			Politique de Confidentialité
 		</h1>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">1. Introduction</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">1. Introduction</h2>
 			<p class="text-sm md:text-base">
 				Cette politique de confidentialité a pour but d'informer les
 				utilisateurs du site sur la collecte, l'utilisation et la protection de
@@ -39,7 +39,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				2. Données Collectées
 			</h2>
 			<p class="text-sm md:text-base mb-3">
@@ -55,7 +55,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				3. Utilisation des Données
 			</h2>
 			<p class="text-sm md:text-base">
@@ -66,7 +66,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				4. Conservation des Données
 			</h2>
 			<p class="text-sm md:text-base">
@@ -77,7 +77,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				5. Droits des Utilisateurs
 			</h2>
 			<p class="text-sm md:text-base mb-3">
@@ -103,7 +103,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				6. Sécurité des Données
 			</h2>
 			<p class="text-sm md:text-base">
@@ -114,7 +114,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				7. Absence de Cookies
 			</h2>
 			<p class="text-sm md:text-base">
@@ -123,7 +123,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				8. Modifications de la Politique de Confidentialité
 			</h2>
 			<p class="text-sm md:text-base">

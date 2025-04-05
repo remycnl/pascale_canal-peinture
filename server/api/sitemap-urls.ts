@@ -29,7 +29,7 @@ export default defineSitemapEventHandler(async () => {
 		loc: `/${slug}`,
 		lastmod: new Date().toISOString(),
 		changefreq: "weekly",
-		priority: 0.8,
+		priority: 0.7,
 	}));
 
 	return [
@@ -40,44 +40,50 @@ export default defineSitemapEventHandler(async () => {
 			lastmod: new Date().toISOString(),
 		},
 		{
+			loc: "/qui-suis-je",
+			priority: 0.9,
+			changefreq: "monthly",
+			lastmod: new Date().toISOString(),
+		},
+		{
 			loc: "/comment-ca-marche",
 			priority: 0.9,
+			changefreq: "monthly",
+			lastmod: new Date().toISOString(),
+		},
+		{
+			loc: "/mes-evenements",
+			priority: 0.8,
 			changefreq: "weekly",
 			lastmod: new Date().toISOString(),
 		},
 		{
-			loc: "/qui-suis-je",
+			loc: "/contact",
 			priority: 0.8,
 			changefreq: "monthly",
 			lastmod: new Date().toISOString(),
 		},
 		{
-			loc: "/contact",
-			priority: 0.7,
+			loc: "/faq",
+			priority: 0.8,
 			changefreq: "monthly",
 			lastmod: new Date().toISOString(),
 		},
 		{
-			loc: "/faq",
-			priority: 0.6,
-			changefreq: "weekly",
-			lastmod: new Date().toISOString(),
-		},
-		{
-			loc: "/cgu",
+			loc: "/mentions-legales",
 			priority: 0.4,
 			changefreq: "yearly",
 			lastmod: new Date().toISOString(),
 		},
 		{
-			loc: "/mentions-legales",
-			priority: 0.3,
+			loc: "/politique-de-confidentialite",
+			priority: 0.4,
 			changefreq: "yearly",
 			lastmod: new Date().toISOString(),
 		},
 		{
-			loc: "/politique-de-confidentialite",
-			priority: 0.3,
+			loc: "/cgu",
+			priority: 0.4,
 			changefreq: "yearly",
 			lastmod: new Date().toISOString(),
 		},

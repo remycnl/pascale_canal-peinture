@@ -1,7 +1,7 @@
 export const useFAQs = () => {
 	const {
 		data: faqs,
-		pending,
+		status,
 		error,
 		refresh,
 	} = useFetch("/api/faqs", {
@@ -51,7 +51,7 @@ export const useFAQs = () => {
 
 	return {
 		faqs,
-		pending,
+		status,
 		error,
 		refresh,
 		createFAQ,

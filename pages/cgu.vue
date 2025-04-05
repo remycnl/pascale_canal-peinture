@@ -25,12 +25,12 @@ useSeoMeta({
 
 <template>
 	<div class="cgu container mx-auto px-4 md:px-6 py-8 md:py-12">
-		<h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8">
+		<h1 class="text-2xl md:text-3xl lg:text-4xl font-apercuBold mb-6 md:mb-8">
 			Conditions Générales d'Utilisation
 		</h1>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">1. Introduction</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">1. Introduction</h2>
 			<p class="text-sm md:text-base">
 				Les présentes Conditions Générales d'Utilisation (CGU) définissent les
 				règles et obligations liées à l'utilisation du site web.
@@ -38,7 +38,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				2. Acceptation des Conditions
 			</h2>
 			<p class="text-sm md:text-base">
@@ -49,7 +49,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">3. Accès au Site</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">3. Accès au Site</h2>
 			<p class="text-sm md:text-base">
 				Le site est accessible gratuitement à tout utilisateur disposant d'un
 				accès à Internet. L'utilisateur est responsable de son matériel
@@ -58,7 +58,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				4. Propriété Intellectuelle
 			</h2>
 			<p class="text-sm md:text-base">
@@ -69,7 +69,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">5. Responsabilités</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">5. Responsabilités</h2>
 			<p class="text-sm md:text-base">
 				L'éditeur du site ne saurait être tenu responsable des erreurs,
 				omissions ou indisponibilités du site.
@@ -77,7 +77,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				6. Liens Hypertextes
 			</h2>
 			<p class="text-sm md:text-base">
@@ -87,7 +87,7 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-semibold mb-3">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				7. Modifications des CGU
 			</h2>
 			<p class="text-sm md:text-base">

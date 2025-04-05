@@ -41,5 +41,20 @@ enum PaintingState {
   SOLD       // Vendu
 }
 
+model Event {
+  id          Int       @id @default(autoincrement())
+  title       String    // Titre de l'événement
+  description String    // Description détaillée
+  location    String    // Lieu de l'événement
+  price       Decimal?  // Prix de l'entrée (optionnel)
+  startDate   DateTime  // Date et heure de début
+  endDate     DateTime? // Date et heure de fin (optionnel)
+  imageUrl    String?   // Image associée à l'événement (optionnel)
+  isActive    Boolean   @default(true) // Pour activer/désactiver un événement
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+
 // npx prisma migrate dev --name update-schema
 // npx prisma migrate deploy

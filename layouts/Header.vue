@@ -82,6 +82,11 @@ watch(isOpen, (newValue) => {
 						>Qui suis-je ?</NuxtLink
 					>
 					<NuxtLink
+						to="/mes-evenements"
+						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						>Mes évènements</NuxtLink
+					>
+					<NuxtLink
 						to="/contact"
 						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
 						>Contact</NuxtLink
@@ -143,6 +148,12 @@ watch(isOpen, (newValue) => {
 								to="/qui-suis-je"
 								class="w-fit active:scale-90 transition-transform duration-200">
 								Qui suis-je ?
+							</NuxtLink>
+							<NuxtLink
+								@click="isOpen = false"
+								to="/mes-evenements"
+								class="w-fit active:scale-90 transition-transform duration-200">
+								Mes évènements
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"
