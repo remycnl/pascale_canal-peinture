@@ -454,7 +454,8 @@ useSeoMeta({
 										v-model="date"
 										id="date"
 										type="date"
-										class="input"
+										class="input cursor-pointer"
+										@click="$event.target.showPicker()"
 										required />
 								</div>
 							</div>

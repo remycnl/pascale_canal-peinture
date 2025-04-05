@@ -510,12 +510,11 @@ const initializeTextareas = () => {
 										</div>
 										<input
 											:value="formatDateForInput(event.startDate)"
-											@change="
-												(e) =>
-													handleDateChange(event, 'startDate', e.target.value)
-											"
+											@change="(e) => handleDateChange(event, 'startDate', e.target.value)"
 											type="datetime-local"
-											class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow" />
+											class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow cursor-pointer hover:bg-gray-50 transition-colors"
+											@click="$event.target.showPicker()"
+											title="Cliquer pour ouvrir le sélecteur de date" />
 										<div class="text-sm text-gray-600 mt-1">
 											{{
 												event.startDate
@@ -569,12 +568,11 @@ const initializeTextareas = () => {
 										</div>
 										<input
 											:value="formatDateForInput(event.endDate)"
-											@change="
-												(e) =>
-													handleDateChange(event, 'endDate', e.target.value)
-											"
+											@change="(e) => handleDateChange(event, 'endDate', e.target.value)"
 											type="datetime-local"
-											class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow" />
+											class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow cursor-pointer hover:bg-gray-50 transition-colors"
+											@click="$event.target.showPicker()"
+											title="Cliquer pour ouvrir le sélecteur de date" />
 										<div class="text-sm text-gray-600 mt-1">
 											{{
 												event.endDate
