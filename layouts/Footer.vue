@@ -118,7 +118,7 @@
 					<!-- Legal links -->
 					<div>
 						<h3 class="text-sm font-apercuBold uppercase mb-6 text-yellow">
-							Informations légales
+							Informations
 						</h3>
 						<div class="flex flex-col space-y-3">
 							<NuxtLink
