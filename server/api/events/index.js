@@ -47,10 +47,13 @@ export default defineEventHandler(async (event) => {
 					typeof body.startDate === "string"
 						? new Date(body.startDate)
 						: body.startDate || new Date(),
+				showStartTime:
+					body.showStartTime !== undefined ? body.showStartTime : true,
 				endDate:
 					typeof body.endDate === "string"
 						? new Date(body.endDate)
 						: body.endDate || null,
+				showEndTime: body.showEndTime !== undefined ? body.showEndTime : true,
 				location: body.location || "",
 				price:
 					body.price !== undefined && body.price !== null

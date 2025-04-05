@@ -29,116 +29,150 @@ export default defineEventHandler(async (event) => {
 				return singleEvent;
 
 			case "PUT":
-				const formData = await readMultipartFormData(event);
+				const contentType = event.headers.get("content-type") || "";
+				let updateData = {};
 
-				// Get existing event
-				const existingEvent = await prisma.event.findUnique({
-					where: { id },
-				});
+				if (contentType.includes("multipart/form-data")) {
+					const formData = await readMultipartFormData(event);
 
-				if (!existingEvent) {
-					throw createError({
-						statusCode: 404,
-						statusMessage: "Event not found",
-					});
+					if (!formData) {
+						throw createError({
+							statusCode: 400,
+							statusMessage: "Invalid form data",
+						});
+					}
+
+					for (const field of formData) {
+						const fieldName = field.name;
+
+						if (fieldName === "imageUrl" && field.filename) {
+							const imageData = field.data;
+							const base64Image = `data:${
+								field.type
+							};base64,${imageData.toString("base64")}`;
+							updateData.image = base64Image;
+						} else {
+							let value = field.data.toString();
+
+							if (fieldName === "price") {
+								value = value ? parseFloat(value) : null;
+							} else if (
+								fieldName === "isActive" ||
+								fieldName === "showStartTime" ||
+								fieldName === "showEndTime"
+							) {
+								value = value === "true";
+							} else if (fieldName === "startDate" || fieldName === "endDate") {
+								value = value === "null" || value === "" ? null : value;
+							}
+
+							updateData[fieldName] = value;
+						}
+					}
+				} else {
+					const body = await readBody(event);
+					updateData = typeof body === "string" ? JSON.parse(body) : body;
 				}
 
-				// Extract fields from formData
-				const getFieldValue = (fieldName) => {
-					const field = formData.find((f) => f.name === fieldName);
-					return field ? field.data.toString() : null;
-				};
+				const prismaUpdateData = { ...updateData };
 
-				// Handle image update if provided
-				let imageUrl = existingEvent.imageUrl;
-				const imageFile = formData.find((f) => f.name === "imageUrl");
+				if (
+					updateData.image &&
+					typeof updateData.image === "string" &&
+					updateData.image.startsWith("data:")
+				) {
+					const currentEvent = await prisma.event.findUnique({
+						where: { id },
+						select: { imageUrl: true },
+					});
 
-				if (imageFile) {
-					// Delete old image from Cloudinary if it exists
 					if (
-						existingEvent.imageUrl &&
-						existingEvent.imageUrl.includes("cloudinary.com")
+						currentEvent?.imageUrl &&
+						currentEvent.imageUrl.includes("cloudinary.com")
 					) {
 						try {
-							const urlParts = existingEvent.imageUrl.split("/");
-							const filenameWithExtension = urlParts[urlParts.length - 1];
-							const filename = filenameWithExtension.split(".")[0];
-							const folderName = urlParts[urlParts.length - 2];
-							const publicId = `${folderName}/${filename}`;
+							const publicId = extractPublicIdFromUrl(currentEvent.imageUrl);
 
-							await cloudinary.uploader.destroy(publicId);
+							if (publicId) {
+								await cloudinary.uploader.destroy(publicId);
+							}
 						} catch (error) {
 							console.error(
-								"Error deleting previous image from Cloudinary:",
+								"Erreur lors de la suppression de l'ancienne image:",
 								error
 							);
 						}
 					}
 
-					// Upload new image to Cloudinary
 					try {
-						const base64Image = `data:${imageFile.type};base64,${Buffer.from(
-							imageFile.data
-						).toString("base64")}`;
+						const uploadResult = await cloudinary.uploader.upload(
+							updateData.image,
+							{
+								folder: "events",
+							}
+						);
 
-						const uploadResult = await cloudinary.uploader.upload(base64Image, {
-							folder: "events",
+						prismaUpdateData.imageUrl = uploadResult.secure_url;
+					} catch (error) {
+						console.error("Erreur lors de l'upload de l'image:", error);
+						throw createError({
+							statusCode: 500,
+							statusMessage: "Échec de l'upload d'image",
 						});
-
-						imageUrl = uploadResult.secure_url;
-					} catch (uploadError) {
-						console.error("Error uploading image to Cloudinary:", uploadError);
-						throw new Error(`Upload error: ${uploadError.message}`);
 					}
+				} else if (updateData.image === null) {
+					const currentEvent = await prisma.event.findUnique({
+						where: { id },
+						select: { imageUrl: true },
+					});
+
+					if (
+						currentEvent?.imageUrl &&
+						currentEvent.imageUrl.includes("cloudinary.com")
+					) {
+						try {
+							const publicId = extractPublicIdFromUrl(currentEvent.imageUrl);
+
+							if (publicId) {
+								await cloudinary.uploader.destroy(publicId);
+							}
+						} catch (error) {
+							console.error("Erreur lors de la suppression de l'image:", error);
+						}
+					}
+
+					prismaUpdateData.imageUrl = null;
 				}
 
-				// Update event in database
+				delete prismaUpdateData.image;
+				delete prismaUpdateData.imageUrl_file;
+				delete prismaUpdateData.id;
+				delete prismaUpdateData.createdAt;
+				delete prismaUpdateData.updatedAt;
+
 				const updatedEvent = await prisma.event.update({
 					where: { id },
-					data: {
-						title: getFieldValue("title") || existingEvent.title,
-						description:
-							getFieldValue("description") || existingEvent.description,
-						location: getFieldValue("location") || existingEvent.location,
-						price: getFieldValue("price")
-							? parseFloat(getFieldValue("price"))
-							: existingEvent.price,
-						startDate: getFieldValue("startDate")
-							? new Date(getFieldValue("startDate"))
-							: existingEvent.startDate,
-						endDate: getFieldValue("endDate")
-							? new Date(getFieldValue("endDate"))
-							: existingEvent.endDate,
-						imageUrl: imageUrl,
-						isActive: getFieldValue("isActive")
-							? getFieldValue("isActive") === "true"
-							: existingEvent.isActive,
-					},
+					data: prismaUpdateData,
 				});
-
 				return updatedEvent;
 
 			case "DELETE":
-				// Get event before deletion to access imageUrl
 				const eventToDelete = await prisma.event.findUnique({
 					where: { id },
 				});
 
 				if (
-					eventToDelete &&
-					eventToDelete.imageUrl &&
+					eventToDelete?.imageUrl &&
 					eventToDelete.imageUrl.includes("cloudinary.com")
 				) {
 					try {
-						const urlParts = eventToDelete.imageUrl.split("/");
-						const filenameWithExtension = urlParts[urlParts.length - 1];
-						const filename = filenameWithExtension.split(".")[0];
-						const folderName = urlParts[urlParts.length - 2];
-						const publicId = `${folderName}/${filename}`;
+						const publicId = extractPublicIdFromUrl(eventToDelete.imageUrl);
 
-						await cloudinary.uploader.destroy(publicId);
+						if (publicId) {
+							await cloudinary.uploader.destroy(publicId);
+						}
 					} catch (error) {
-						console.error("Error deleting image from Cloudinary:", error);
+						console.error("Erreur lors de la suppression de l'image:", error);
 					}
 				}
 
@@ -155,18 +189,41 @@ export default defineEventHandler(async (event) => {
 				});
 		}
 	} catch (error) {
-		console.error("Event API Error:", error);
+		console.error("Erreur API Event:", error);
 
 		if (error.code === "P2025") {
 			throw createError({
 				statusCode: 404,
-				statusMessage: "Event not found",
+				statusMessage: "Événement non trouvé",
 			});
 		}
 
 		throw createError({
 			statusCode: 500,
-			statusMessage: `Internal Server Error: ${error.message}`,
+			statusMessage: `Erreur interne du serveur: ${error.message}`,
 		});
 	}
 });
+
+function extractPublicIdFromUrl(url) {
+	if (!url || !url.includes("cloudinary.com")) return null;
+
+	try {
+		const regex = /\/v\d+\/([^/]+\/[^.]+)/;
+		const match = url.match(regex);
+
+		if (match && match[1]) {
+			return match[1];
+		}
+
+		const urlParts = url.split("/");
+		const filenameWithExtension = urlParts[urlParts.length - 1];
+		const filename = filenameWithExtension.split(".")[0];
+		const folderName = urlParts[urlParts.length - 2];
+
+		return `${folderName}/${filename}`;
+	} catch (error) {
+		console.error("Erreur lors de l'extraction du public_id:", error);
+		return null;
+	}
+}

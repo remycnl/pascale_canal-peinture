@@ -936,7 +936,6 @@ const submitForm = async () => {
 
 		await new Promise((resolve) => setTimeout(resolve, 1500));
 
-		console.log("Formulaire soumis :", formData);
 		submitSuccess.value = true;
 		formSubmitted.value = true;
 	} catch (error) {

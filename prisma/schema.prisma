@@ -48,13 +48,14 @@ model Event {
   location    String    // Lieu de l'événement
   price       Decimal?  // Prix de l'entrée (optionnel)
   startDate   DateTime  // Date et heure de début
+  showStartTime Boolean @default(true) // Contrôle si l'heure de début est affichée
   endDate     DateTime? // Date et heure de fin (optionnel)
+  showEndTime Boolean @default(true) // Contrôle si l'heure de fin est affichée
   imageUrl    String?   // Image associée à l'événement (optionnel)
   isActive    Boolean   @default(true) // Pour activer/désactiver un événement
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
-
 
 // npx prisma migrate dev --name update-schema
 // npx prisma migrate deploy

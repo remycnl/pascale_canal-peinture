@@ -14,6 +14,7 @@ const {
 
 const isAdding = ref(false);
 const searchQuery = ref("");
+const isUploading = ref(false);
 
 const sortedEvents = computed(() => {
 	const filtered = [...(events.value || [])].filter(
@@ -43,7 +44,9 @@ const addEvent = async () => {
 			location: "",
 			price: null,
 			startDate: null,
+			showStartTime: true,
 			endDate: null,
+			showEndTime: true,
 			imageUrl: "",
 			isActive: true,
 		});
@@ -78,9 +81,74 @@ const toggleActive = async (event) => {
 
 const updateEventData = async (event) => {
 	try {
-		await updateEvent(event.id, event);
+		// Create a copy of the event for sending to the API
+		const eventToUpdate = { ...event };
+
+		// Format dates before sending
+		if (eventToUpdate.startDate) {
+			eventToUpdate.startDate = new Date(eventToUpdate.startDate).toISOString();
+		}
+		if (eventToUpdate.endDate) {
+			eventToUpdate.endDate = new Date(eventToUpdate.endDate).toISOString();
+		}
+
+		await updateEvent(event.id, eventToUpdate);
 	} catch (error) {
 		console.error("Error updating event:", error);
+	}
+};
+
+const handleImageUpload = async (event, eventData) => {
+	isUploading.value = true;
+	const file = event.target.files[0];
+
+	if (!file) {
+		isUploading.value = false;
+		return;
+	}
+
+	try {
+		const formData = new FormData();
+		formData.append("imageUrl", file);
+
+		// Format dates before adding them to formData
+		const eventToUpdate = { ...eventData };
+		if (eventToUpdate.startDate) {
+			eventToUpdate.startDate = new Date(eventToUpdate.startDate).toISOString();
+		}
+		if (eventToUpdate.endDate) {
+			eventToUpdate.endDate = new Date(eventToUpdate.endDate).toISOString();
+		}
+
+		Object.keys(eventToUpdate).forEach((key) => {
+			if (
+				key !== "id" &&
+				key !== "imageUrl" &&
+				eventToUpdate[key] !== undefined
+			) {
+				formData.append(key, eventToUpdate[key]);
+			}
+		});
+
+		const response = await fetch(`/api/events/${eventData.id}`, {
+			method: "PUT",
+			body: formData,
+		});
+
+		if (!response.ok) {
+			throw new Error("Failed to upload image");
+		}
+
+		const updatedEvent = await response.json();
+
+		const index = events.value.findIndex((e) => e.id === eventData.id);
+		if (index !== -1) {
+			events.value[index] = updatedEvent;
+		}
+	} catch (error) {
+		console.error("Error uploading image:", error);
+	} finally {
+		isUploading.value = false;
 	}
 };
 
@@ -113,11 +181,6 @@ const initializeTextareas = () => {
 		});
 	}, 0);
 };
-
-const previewImage = (url) => {
-	if (!url) return "/img/placeholder-event.jpg";
-	return url;
-};
 </script>
 
 <template>
@@ -146,7 +209,7 @@ const previewImage = (url) => {
 						class="text-2xl sm:text-3xl font-apercuBold mb-4 sm:mb-0 flex items-center">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="h-8 w-8 mr-2 text-yellow"
+							class="h-8 w-8 mr-2 hidden md:block text-yellow"
 							viewBox="0 0 20 20"
 							fill="currentColor">
 							<path
@@ -255,19 +318,57 @@ const previewImage = (url) => {
 								<div
 									class="relative rounded-xl overflow-hidden aspect-[4/3] bg-gray-100 shadow-md">
 									<NuxtImg
-										:src="previewImage(event.imageUrl)"
+										v-if="event.imageUrl"
+										:src="event.imageUrl"
 										:alt="event.title"
 										loading="lazy"
 										fit="cover"
 										format="webp"
 										class="w-full h-full" />
+
 									<div
-										class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity">
+										v-else
+										class="w-full h-full flex items-center justify-center">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-16 w-16 text-gray-400"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor">
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+										</svg>
+									</div>
+
+									<div
+										class="absolute rounded-xl border border-black inset-0 flex flex-col items-center justify-center bg-white/70 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity">
+										<label
+											:for="`imageUpload-${event.id}`"
+											class="cursor-pointer px-4 py-2 bg-white border border-black rounded-lg mb-2 active:scale-95 transition-transform duration-200">
+											<span v-if="!isUploading">Changer l'image</span>
+											<span v-else>Chargement...</span>
+										</label>
 										<input
-											v-model="event.imageUrl"
-											@change="updateEventData(event)"
-											class="w-full px-3 py-2 bg-white/90 focus:outline-none"
-											placeholder="URL de l'image" />
+											:id="`imageUpload-${event.id}`"
+											type="file"
+											accept="image/*"
+											style="
+												position: absolute;
+												width: 0;
+												height: 0;
+												opacity: 0;
+											"
+											@change="(e) => handleImageUpload(e, event)" />
+									</div>
+
+									<div
+										v-if="isUploading"
+										class="absolute rounded-xl backdrop-blur-xs border border-black inset-0 flex items-center justify-center bg-white/70">
+										<div
+											class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-black"></div>
 									</div>
 								</div>
 							</div>
@@ -362,20 +463,37 @@ const previewImage = (url) => {
 
 								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 mb-2">
 									<div>
-										<div class="flex items-center mb-1">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												class="h-5 w-5 text-gray-500 mr-2"
-												fill="none"
-												viewBox="0 0 24 24"
-												stroke="currentColor">
-												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													stroke-width="2"
-													d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-											</svg>
-											<label class="text-sm text-gray-600">Date de début</label>
+										<div class="flex items-center mb-1 justify-between">
+											<div class="flex items-center">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5 text-gray-500 mr-2"
+													fill="none"
+													viewBox="0 0 24 24"
+													stroke="currentColor">
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+												</svg>
+												<label class="text-sm text-gray-600"
+													>Date de début</label
+												>
+											</div>
+											<div class="flex items-center">
+												<span class="text-xs mr-2">Afficher l'heure</span>
+												<label class="switch scale-75">
+													<input
+														type="checkbox"
+														:checked="event.showStartTime"
+														@change="
+															event.showStartTime = !event.showStartTime;
+															updateEventData(event);
+														" />
+													<span class="slider"></span>
+												</label>
+											</div>
 										</div>
 										<input
 											:value="formatDateForInput(event.startDate)"
@@ -393,28 +511,47 @@ const previewImage = (url) => {
 															day: "numeric",
 															month: "long",
 															year: "numeric",
-															hour: "2-digit",
-															minute: "2-digit",
+															...(event.showStartTime
+																? {
+																		hour: "2-digit",
+																		minute: "2-digit",
+																  }
+																: {}),
 													  })
 													: ""
 											}}
 										</div>
 									</div>
 									<div>
-										<div class="flex items-center mb-1">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												class="h-5 w-5 text-gray-500 mr-2"
-												fill="none"
-												viewBox="0 0 24 24"
-												stroke="currentColor">
-												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													stroke-width="2"
-													d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-											</svg>
-											<label class="text-sm text-gray-600">Date de fin</label>
+										<div class="flex items-center mb-1 justify-between">
+											<div class="flex items-center">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5 text-gray-500 mr-2"
+													fill="none"
+													viewBox="0 0 24 24"
+													stroke="currentColor">
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+												</svg>
+												<label class="text-sm text-gray-600">Date de fin</label>
+											</div>
+											<div class="flex items-center">
+												<span class="text-xs mr-2">Afficher l'heure</span>
+												<label class="switch scale-75">
+													<input
+														type="checkbox"
+														:checked="event.showEndTime"
+														@change="
+															event.showEndTime = !event.showEndTime;
+															updateEventData(event);
+														" />
+													<span class="slider"></span>
+												</label>
+											</div>
 										</div>
 										<input
 											:value="formatDateForInput(event.endDate)"
@@ -432,8 +569,12 @@ const previewImage = (url) => {
 															day: "numeric",
 															month: "long",
 															year: "numeric",
-															hour: "2-digit",
-															minute: "2-digit",
+															...(event.showEndTime
+																? {
+																		hour: "2-digit",
+																		minute: "2-digit",
+																  }
+																: {}),
 													  })
 													: ""
 											}}
