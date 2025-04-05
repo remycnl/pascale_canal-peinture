@@ -495,7 +495,7 @@ useSeoMeta({
 						v-else
 						class="space-y-4 bg-white overflow-hidden rounded-2xl shadow-custom">
 						<div
-							class="max-h-screen p-2 md:p-6 overflow-y-auto overflow-x-hidden">
+							class="max-h-[70vh] p-2 md:p-6 overflow-y-auto overflow-x-hidden">
 							<div class="sticky top-0 z-10 rounded-xl bg-gray-50/80 backdrop-blur-md">
 								<div
 									class="relative backdrop-blur-sm mb-4 bg-black/10 rounded-xl overflow-hidden shadow-lg border border-black/10">

@@ -221,7 +221,7 @@ const initializeTextareas = () => {
 		</div>
 
 		<div
-			class="w-full max-w-5xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
+			class="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
 			<!-- Header with fixed position -->
 			<div class="bg-black text-white p-4 sm:p-6">
 				<div class="flex flex-col sm:flex-row justify-between items-center">

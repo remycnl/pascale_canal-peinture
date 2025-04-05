@@ -114,7 +114,7 @@ const initializeTextareas = () => {
 		</div>
 
 		<div
-			class="w-full max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
+			class="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
 			<div
 				class="bg-black text-white p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center">
 				<h2 class="text-2xl sm:text-3xl font-apercuBold mb-4 sm:mb-0">
@@ -155,7 +155,7 @@ const initializeTextareas = () => {
 				</p>
 			</div>
 
-			<div class="divide-y divide-gray-200">
+			<div class="divide-y max-h-[70vh] overflow-y-auto divide-gray-200">
 				<div
 					v-for="(faq, index) in sortedFaqs"
 					:key="faq.id"
@@ -251,6 +251,9 @@ const initializeTextareas = () => {
 						<span>Créé le : {{ formatDate(faq.createdAt) }}</span>
 						<div class="absolute bottom-4 right-4">
 							<div class="flex items-center space-x-2">
+								<span class="text-xs font-medium" :class="faq.isActive ? 'text-green-500' : 'text-gray-400'">
+									{{ faq.isActive ? 'Active' : 'Inactive' }}
+								</span>
 								<label class="switch">
 									<input
 										type="checkbox"
