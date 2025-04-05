@@ -202,31 +202,30 @@ export function useEvents() {
 
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
-    
+  
     const date = new Date(dateString);
-    if (isNaN(date.getTime())) return "";
-
-    const formatter = new Intl.DateTimeFormat('fr-FR', {
+  
+    const options = {
+      timeZone: 'Europe/Paris',
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false,
-      timeZone: 'Europe/Paris'
-    });
-
-    const parts = formatter.formatToParts(date);
-    const dateParts = {};
-    
-    parts.forEach(part => {
+      hour12: false
+    };
+  
+    const parts = new Intl.DateTimeFormat('fr-FR', options).formatToParts(date);
+    const map = {};
+    for (const part of parts) {
       if (part.type !== 'literal') {
-        dateParts[part.type] = part.value;
+        map[part.type] = part.value;
       }
-    });
-    
-    return `${dateParts.year}-${dateParts.month}-${dateParts.day}T${dateParts.hour}:${dateParts.minute}`;
+    }
+  
+    return `${map.year}-${map.month}-${map.day}T${map.hour}:${map.minute}`;
   };
+  
 
 	return {
 		events,

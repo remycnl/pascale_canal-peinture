@@ -163,10 +163,23 @@ const removeEvent = async (id) => {
 };
 
 const handleDateChange = (event, field, value) => {
-	if (value) {
-		event[field] = new Date(value).toISOString();
-		updateEventData(event);
-	}
+	if (!value) return;
+
+	const [datePart, timePart] = value.split("T");
+	const [year, month, day] = datePart.split("-");
+	const [hour, minute] = timePart.split(":");
+
+	const localDate = new Date(
+		Number(year),
+		Number(month) - 1,
+		Number(day),
+		Number(hour),
+		Number(minute)
+	);
+
+	event[field] = localDate.toISOString();
+
+	updateEventData(event);
 };
 
 const autoResize = (element) => {
@@ -511,6 +524,7 @@ const initializeTextareas = () => {
 															day: "numeric",
 															month: "long",
 															year: "numeric",
+															timeZone: 'Europe/Paris',
 															...(event.showStartTime
 																? {
 																		hour: "2-digit",
@@ -569,6 +583,7 @@ const initializeTextareas = () => {
 															day: "numeric",
 															month: "long",
 															year: "numeric",
+															timeZone: 'Europe/Paris',
 															...(event.showEndTime
 																? {
 																		hour: "2-digit",
