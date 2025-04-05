@@ -524,7 +524,7 @@ const initializeTextareas = () => {
 															day: "numeric",
 															month: "long",
 															year: "numeric",
-															timeZone: 'Europe/Paris',
+															timeZone: "Europe/Paris",
 															...(event.showStartTime
 																? {
 																		hour: "2-digit",
@@ -583,7 +583,7 @@ const initializeTextareas = () => {
 															day: "numeric",
 															month: "long",
 															year: "numeric",
-															timeZone: 'Europe/Paris',
+															timeZone: "Europe/Paris",
 															...(event.showEndTime
 																? {
 																		hour: "2-digit",

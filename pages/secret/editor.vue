@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useRuntimeConfig } from "nuxt/app";
 
 const { $initializeSmoothScroll } = useNuxtApp();
@@ -27,6 +27,23 @@ const paintings = ref([]);
 const selectedPainting = ref(null);
 const isEditMode = ref(false);
 const isSelectOpen = ref(false);
+const searchQuery = ref("");
+
+const filteredPaintings = computed(() => {
+	return [...(paintings.value || [])].filter(
+		(painting) =>
+			painting.name
+				.toLowerCase()
+				.includes(searchQuery.value.toLowerCase()) ||
+			painting.artist
+				.toLowerCase()
+				.includes(searchQuery.value.toLowerCase()) ||
+			painting.price
+				.toString()
+				.toLowerCase()
+				.includes(searchQuery.value.toLowerCase())
+	);
+});
 
 const formatDate = (date) => date.toISOString().split("T")[0];
 const date = ref(formatDate(new Date()));
@@ -476,9 +493,55 @@ useSeoMeta({
 					<div
 						v-else
 						class="space-y-4 bg-white overflow-hidden rounded-2xl shadow-custom">
-						<div class="max-h-screen p-2 md:p-6 overflow-y-auto overflow-x-hidden">
+						<div
+							class="max-h-screen p-2 md:p-6 overflow-y-auto overflow-x-hidden">
+							<div class="sticky top-0 z-10 rounded-xl bg-gray-50/80 backdrop-blur-md">
+								<div
+									class="relative backdrop-blur-sm mb-4 bg-black/10 rounded-xl overflow-hidden shadow-lg border border-black/10">
+									<input
+										v-model="searchQuery"
+										type="text"
+										placeholder="Rechercher des peintures..."
+										class="w-full px-4 py-3 bg-transparent text-black placeholder-gray-500 focus:outline-none pl-10" />
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-5 w-5 absolute left-3 top-3.5 text-black/70"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor">
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+									</svg>
+								</div>
+							</div>
 							<div
-								v-for="painting in paintings"
+								v-if="filteredPaintings.length === 0"
+								class="text-center py-16 bg-gray-50">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-16 w-16 mx-auto text-gray-400"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+								</svg>
+								<p class="mt-4 text-gray-600">
+									{{
+										searchQuery
+											? "Aucune peinture ne correspond à votre recherche."
+											: "Aucune peinture disponible."
+									}}
+								</p>
+							</div>
+							<div
+								v-for="painting in filteredPaintings"
 								:key="painting.id"
 								class="bg-gray-50 p-2 md:p-4 rounded-lg hover:scale-101 flex items-center justify-between gap-2 md:gap-4 hover:bg-gray-100 transition-all duration-300">
 								<div
@@ -497,7 +560,9 @@ useSeoMeta({
 										<p class="text-sm text-gray-600 whitespace-nowrap">
 											{{ painting.price }}€
 											<span class="hidden md:inline">{{
-												painting.state === "FOR_SALE" ? " - À vendre" : " - Vendu"
+												painting.state === "FOR_SALE"
+													? " - À vendre"
+													: " - Vendu"
 											}}</span>
 										</p>
 									</div>
