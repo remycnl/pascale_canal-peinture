@@ -28,20 +28,20 @@ const selectedPainting = ref(null);
 const isEditMode = ref(false);
 const isSelectOpen = ref(false);
 const searchQuery = ref("");
+const normalizeString = (str) => {
+	return str.toLowerCase()
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.trim();
+};
 
 const filteredPaintings = computed(() => {
+	const query = normalizeString(searchQuery.value);
 	return [...(paintings.value || [])].filter(
 		(painting) =>
-			painting.name
-				.toLowerCase()
-				.includes(searchQuery.value.toLowerCase()) ||
-			painting.artist
-				.toLowerCase()
-				.includes(searchQuery.value.toLowerCase()) ||
-			painting.price
-				.toString()
-				.toLowerCase()
-				.includes(searchQuery.value.toLowerCase())
+			normalizeString(painting.name).includes(query) ||
+			normalizeString(painting.artist).includes(query) ||
+			normalizeString(painting.price.toString()).includes(query)
 	);
 });
 
@@ -555,7 +555,7 @@ useSeoMeta({
 										format="webp"
 										class="w-16 h-16 min-w-[64px] rounded-lg" />
 									<div class="overflow-hidden">
-										<h3 class="font-semibold truncate text-gray-800 max-w-full">
+										<h3 class="font-apercuMedium truncate text-gray-800 max-w-full">
 											{{ painting.name }}
 										</h3>
 										<p class="text-sm text-gray-600 whitespace-nowrap">

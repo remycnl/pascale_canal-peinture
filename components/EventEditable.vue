@@ -17,13 +17,20 @@ const searchQuery = ref("");
 const isUploading = ref(false);
 
 const sortedEvents = computed(() => {
+	const normalizeText = (text) => {
+		return text
+			?.toLowerCase()
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "");
+	};
+	
+	const normalizedQuery = normalizeText(searchQuery.value);
+	
 	const filtered = [...(events.value || [])].filter(
 		(event) =>
-			event.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-			event.description
-				.toLowerCase()
-				.includes(searchQuery.value.toLowerCase()) ||
-			event.location.toLowerCase().includes(searchQuery.value.toLowerCase())
+			normalizeText(event.title)?.includes(normalizedQuery) ||
+			normalizeText(event.description)?.includes(normalizedQuery) ||
+			normalizeText(event.location)?.includes(normalizedQuery)
 	);
 
 	return filtered.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
