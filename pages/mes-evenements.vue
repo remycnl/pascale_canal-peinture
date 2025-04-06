@@ -2,7 +2,6 @@
 import { useEvents } from "@/composables/useEvents";
 import { ref, computed, watch, onMounted, nextTick } from "vue";
 
-// Import the composable
 const {
 	upcomingEvents,
 	pastEvents,
@@ -15,18 +14,14 @@ const {
 	fetchPastEvents,
 } = useEvents();
 
-// Active tab state
 const activeTab = ref("upcoming");
 
-// Refs pour les boutons
 const upcomingBtn = ref(null);
 const pastBtn = ref(null);
 
-// État pour l'indicateur
 const indicatorWidth = ref(0);
 const indicatorLeft = ref(0);
 
-// Fonction pour mettre à jour la position et la largeur de l'indicateur
 const updateIndicatorPosition = () => {
 	if (activeTab.value === "upcoming" && upcomingBtn.value) {
 		indicatorWidth.value = upcomingBtn.value.offsetWidth;
@@ -37,33 +32,23 @@ const updateIndicatorPosition = () => {
 	}
 };
 
-// Computed property to get the events based on active tab
 const displayedEvents = computed(() => {
 	return activeTab.value === "upcoming"
 		? upcomingEvents.value
 		: pastEvents.value;
 });
 
-// Computed property to determine loading state based on active tab
 const isLoading = computed(() => {
 	return activeTab.value === "upcoming"
 		? upcomingEventsLoading.value
 		: pastEventsLoading.value;
 });
 
-// Function to view event details
-const viewEventDetails = (eventId) => {
-	// Navigate to event details page
-	navigateTo(`/events/${eventId}`);
-};
-
-// Format price
 const formatPrice = (price) => {
 	if (!price) return "Gratuit";
 	return `${price} €`;
 };
 
-// Format date range
 const formatDateRange = (startDate, endDate, showStartTime, showEndTime) => {
 	if (!startDate) return "";
 
@@ -74,7 +59,6 @@ const formatDateRange = (startDate, endDate, showStartTime, showEndTime) => {
 	return `${start} - ${end}`;
 };
 
-// Load events based on active tab
 const loadEvents = async () => {
 	if (activeTab.value === "upcoming") {
 		await fetchUpcomingEvents();
@@ -83,7 +67,6 @@ const loadEvents = async () => {
 	}
 };
 
-// Watch for tab changes to load appropriate events and update indicator
 watch(activeTab, () => {
 	loadEvents();
 	nextTick(() => {
@@ -91,7 +74,6 @@ watch(activeTab, () => {
 	});
 });
 
-// Initial data load and setup
 onMounted(() => {
 	loadEvents();
 	nextTick(() => {
@@ -100,15 +82,11 @@ onMounted(() => {
 	});
 });
 
-// Cleanup on component unmount
 onUnmounted(() => {
 	window.removeEventListener("resize", updateIndicatorPosition);
 });
 
-// Skeleton array for loading state
 const skeletonItems = computed(() => {
-	// If there are events in the current tab, use that count for the skeletons
-	// Otherwise, default to 3 skeletons
 	const count =
 		activeTab.value === "upcoming"
 			? upcomingEvents.value?.length || 3
@@ -127,7 +105,7 @@ const skeletonItems = computed(() => {
 
 		<div class="mt-10 md:mt-20 lg:mt-30">
 			<!-- Event tabs -->
-			<div class="flex justify-end mb-12">
+			<div class="flex justify-end mb-8 md:mb-12">
 				<div class="relative inline-flex bg-black rounded-full shadow-md p-1.5">
 					<!-- Sliding indicator -->
 					<div
@@ -266,45 +244,100 @@ const skeletonItems = computed(() => {
 			</div>
 
 			<!-- Events display -->
-			<div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+			<div v-else class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8">
 				<div
 					v-for="event in displayedEvents"
 					:key="event.id"
-					class="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden h-full transform hover:-translate-y-1"
 					tabindex="0"
-					@click="viewEventDetails(event.id)"
-					@keydown.enter="viewEventDetails(event.id)"
-					role="button"
-					:aria-label="`Voir les détails de l'événement: ${event.title}`">
-					<!-- Event Image -->
-					<div class="relative h-52 overflow-hidden">
-						<img
-							:src="event.imageUrl || '/images/event-placeholder.jpg'"
-							:alt="event.title"
-							class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-							loading="lazy" />
+					class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden">
+					<img
+						:src="event.imageUrl || '/images/event-placeholder.jpg'"
+						:alt="event.title"
+						class="w-full h-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
+						loading="lazy" />
 
-						<!-- Price tag -->
-						<div
-							class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-sm font-apercuMedium shadow-md">
-							{{ formatPrice(event.price) }}
-						</div>
+					<!-- Price tag - now positioned differently on mobile -->
+					<div
+						class="absolute top-13 sm:top-4 right-4 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium shadow-md">
+						{{ formatPrice(event.price) }}
+					</div>
 
-						<!-- Past event overlay -->
-						<div
-							v-if="activeTab === 'past'"
-							class="absolute inset-0 bg-black/50 flex items-center justify-center">
-							<span
-								class="bg-black/70 text-white px-5 py-2 rounded-full font-apercuMedium">
-								Terminé
-							</span>
-						</div>
+					<!-- Location tag - now positioned differently on mobile -->
+					<div
+						class="absolute top-4 right-4 sm:left-1/2 sm:right-auto max-w-4/6 sm:transform sm:-translate-x-1/2 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium shadow-md flex items-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-gray-700"
+							viewBox="0 0 20 20"
+							fill="currentColor">
+							<path
+								fill-rule="evenodd"
+								d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+								clip-rule="evenodd" />
+						</svg>
+						<span
+							class="text-gray-700 truncate">
+							{{ event.location }}
+						</span>
+					</div>
 
-						<!-- Date badge -->
-						<div
-							class="absolute left-4 top-4 bg-white rounded-xl overflow-hidden shadow-md">
+					<!-- Past event overlay -->
+					<div
+						v-if="activeTab === 'past'"
+						class="absolute inset-0 pointer-events-none bg-black/50 flex items-center justify-center">
+						<span
+							class="bg-black/70 text-white px-4 py-1.5 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium">
+							Terminé
+						</span>
+					</div>
+
+					<!-- Date badge -->
+					<div
+						class="absolute left-4 top-4 overflow-hidden rounded-lg shadow-md">
+						<!-- If event has both start and end dates on different days -->
+						<template
+							v-if="
+								event.endDate &&
+								new Date(event.startDate).getDate() !==
+									new Date(event.endDate).getDate()
+							">
+							<div class="flex">
+								<!-- Start date -->
+								<div class="text-center">
+									<div
+										class="bg-black px-1.5 sm:px-2 py-0.5 sm:py-1 border-r border-gray-700 text-white text-xs font-apercuMedium">
+										{{
+											new Date(event.startDate)
+												.toLocaleString("fr-FR", { month: "short" })
+												.toUpperCase()
+										}}
+									</div>
+									<div
+										class="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-white border-r border-gray-200 text-gray-800 font-apercuBold text-sm sm:text-lg leading-none">
+										{{ new Date(event.startDate).getDate() }}
+									</div>
+								</div>
+								<!-- End date -->
+								<div class="text-center">
+									<div
+										class="bg-black px-1.5 sm:px-2 py-0.5 sm:py-1 text-white text-xs font-apercuMedium">
+										{{
+											new Date(event.endDate)
+												.toLocaleString("fr-FR", { month: "short" })
+												.toUpperCase()
+										}}
+									</div>
+									<div
+										class="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-white text-gray-800 font-apercuBold text-sm sm:text-lg leading-none">
+										{{ new Date(event.endDate).getDate() }}
+									</div>
+								</div>
+							</div>
+						</template>
+						<!-- If event has only start date or same-day event -->
+						<template v-else>
 							<div
-								class="bg-primary px-3 py-1 text-center text-white text-xs font-apercuMedium">
+								class="bg-black px-2 sm:px-3 py-0.5 sm:py-1 text-center text-white text-xs font-apercuMedium">
 								{{
 									new Date(event.startDate)
 										.toLocaleString("fr-FR", { month: "short" })
@@ -312,65 +345,64 @@ const skeletonItems = computed(() => {
 								}}
 							</div>
 							<div
-								class="px-3 py-1 text-center text-gray-800 font-apercuBold text-lg leading-none">
+								class="px-2 sm:px-3 py-0.5 sm:py-1 bg-white text-center text-gray-800 font-apercuBold text-sm sm:text-lg leading-none">
 								{{ new Date(event.startDate).getDate() }}
 							</div>
-						</div>
+						</template>
 					</div>
-
-					<!-- Event Content -->
-					<div class="p-6 flex-1 flex flex-col">
-						<h3
-							class="text-xl font-apercuBold mb-2 group-hover:text-primary transition-colors">
-							{{ event.title }}
-						</h3>
-
-						<div class="flex items-center text-gray-500 mb-4 text-sm">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-4 w-4 mr-1"
-								viewBox="0 0 20 20"
-								fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-									clip-rule="evenodd" />
-							</svg>
-							<span>{{
-								formatDateRange(
-									event.startDate,
-									event.endDate,
-									event.showStartTime,
-									event.showEndTime
-								)
-							}}</span>
-						</div>
-
-						<p class="text-gray-600 line-clamp-2 mb-4 text-sm">
-							{{ event.description }}
-						</p>
-
-						<div class="mt-auto">
-							<div class="flex items-center text-gray-500 mb-4 text-sm">
+					<!-- Hover overlay with event info -->
+					<div class="absolute inset-0 flex items-end p-3 sm:p-4">
+						<div
+							class="flex bg-white shadow-md w-full p-3 sm:p-4 rounded-lg flex-col">
+							<div
+								class="flex items-center text-gray-500 mb-1 text-xs">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									class="h-4 w-4 mr-1"
+									class="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1"
 									viewBox="0 0 20 20"
 									fill="currentColor">
 									<path
 										fill-rule="evenodd"
-										d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+										d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
 										clip-rule="evenodd" />
 								</svg>
-								<span>{{ event.location }}</span>
+								<span>{{
+									formatDateRange(
+										event.startDate,
+										event.endDate,
+										event.showStartTime,
+										event.showEndTime
+									)
+								}}</span>
 							</div>
-
-							<div class="flex justify-between items-center">
-								<button
-									class="w-full py-3 rounded-lg bg-primary hover:bg-primary-dark text-white font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-									Voir les détails
-									<span class="sr-only">de {{ event.title }}</span>
-								</button>
+							<h4 class="text-base sm:text-xl font-apercuBold">
+								{{ event.title }}
+							</h4>
+							<p
+								v-if="event.description"
+								class="text-gray-600 line-clamp-2 sm:line-clamp-3 mt-1 sm:mt-2 text-xs sm:text-sm">
+								{{ event.description }}
+							</p>
+							<div
+								v-if="event.url"
+								class="flex mt-3 sm:mt-4 justify-end items-center">
+								<NuxtLink
+									:to="event.url"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full w-fit bg-black hover:bg-black/90 text-white font-medium transition-colors active:scale-97 duration-200 shadow-sm text-xs sm:text-sm flex items-center" >
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5"
+										viewBox="0 0 20 20"
+										fill="currentColor">
+										<path
+											d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+										<path
+											d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+									</svg>
+									Voir l'évènement
+								</NuxtLink>
 							</div>
 						</div>
 					</div>

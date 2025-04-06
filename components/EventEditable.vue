@@ -23,9 +23,9 @@ const sortedEvents = computed(() => {
 			.normalize("NFD")
 			.replace(/[\u0300-\u036f]/g, "");
 	};
-	
+
 	const normalizedQuery = normalizeText(searchQuery.value);
-	
+
 	const filtered = [...(events.value || [])].filter(
 		(event) =>
 			normalizeText(event.title)?.includes(normalizedQuery) ||
@@ -56,6 +56,7 @@ const addEvent = async () => {
 			showEndTime: true,
 			imageUrl: "",
 			isActive: true,
+			url: null,
 		});
 
 		setTimeout(() => {
@@ -391,6 +392,32 @@ const initializeTextareas = () => {
 											class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-black"></div>
 									</div>
 								</div>
+								
+								<!-- URL Field -->
+								<div class="mt-5">
+									<div class="flex items-center mb-1">
+										<svg 
+											xmlns="http://www.w3.org/2000/svg" 
+											class="h-4 w-4 text-gray-500 mr-2" 
+											fill="none" 
+											viewBox="0 0 24 24" 
+											stroke="currentColor">
+											<path 
+												stroke-linecap="round" 
+												stroke-linejoin="round" 
+												stroke-width="2" 
+												d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+										</svg>
+										<label class="text-sm text-gray-600">Lien de l'événement</label>
+									</div>
+									<input
+										v-model="event.url"
+										@change="updateEventData(event)"
+										type="url"
+										placeholder="https://example.com"
+										class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow transition-colors hover:bg-gray-50"
+									/>
+								</div>
 							</div>
 
 							<!-- Right side - Event details -->
@@ -517,7 +544,10 @@ const initializeTextareas = () => {
 										</div>
 										<input
 											:value="formatDateForInput(event.startDate)"
-											@change="(e) => handleDateChange(event, 'startDate', e.target.value)"
+											@change="
+												(e) =>
+													handleDateChange(event, 'startDate', e.target.value)
+											"
 											type="datetime-local"
 											class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow cursor-pointer hover:bg-gray-50 transition-colors"
 											@click="$event.target.showPicker()"
@@ -575,7 +605,10 @@ const initializeTextareas = () => {
 										</div>
 										<input
 											:value="formatDateForInput(event.endDate)"
-											@change="(e) => handleDateChange(event, 'endDate', e.target.value)"
+											@change="
+												(e) =>
+													handleDateChange(event, 'endDate', e.target.value)
+											"
 											type="datetime-local"
 											class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow cursor-pointer hover:bg-gray-50 transition-colors"
 											@click="$event.target.showPicker()"
@@ -606,6 +639,9 @@ const initializeTextareas = () => {
 									class="text-xs text-gray-400 flex justify-between items-center mt-8">
 									<span> Créé le : {{ formatDate(event.createdAt) }} </span>
 									<div class="flex items-center space-x-2">
+										<span class="text-xs font-medium" :class="event.isActive ? 'text-green-500' : 'text-gray-400'">
+									{{ event.isActive ? 'Actif' : 'Inactif' }}
+								</span>
 										<label
 											class="switch"
 											:title="

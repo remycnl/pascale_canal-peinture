@@ -65,7 +65,7 @@ watch(isOpen, (newValue) => {
 
 				<!-- Desktop Menu -->
 				<div
-					class="hidden md:flex flex-row text-white justify-end space-x-10 uppercase font-apercuBold">
+					class="hidden md:flex flex-row text-white justify-end space-x-10 uppercase font-apercuMedium">
 					<NuxtLink
 						to="/"
 						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"

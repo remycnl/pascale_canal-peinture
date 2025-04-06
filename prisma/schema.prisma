@@ -52,6 +52,7 @@ model Event {
   endDate     DateTime? // Date et heure de fin (optionnel)
   showEndTime Boolean @default(true) // Contrôle si l'heure de fin est affichée
   imageUrl    String?   // Image associée à l'événement (optionnel)
+  url         String?   // URL externe pour plus d'informations (optionnel)
   isActive    Boolean   @default(true) // Pour activer/désactiver un événement
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

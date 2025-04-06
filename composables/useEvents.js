@@ -56,6 +56,7 @@ export function useEvents() {
 		endDate: null,
 		showEndTime: true,
 		imageUrl: "",
+		url: "",
 		isActive: true,
 	});
 
@@ -72,6 +73,7 @@ export function useEvents() {
 			endDate: null,
 			showEndTime: true,
 			imageUrl: "",
+			url: "",
 			isActive: true,
 		});
 	};
