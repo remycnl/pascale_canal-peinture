@@ -98,7 +98,7 @@ body {
 }
 
 .label {
-	@apply text-sm font-medium text-white/80;
+	@apply text-sm font-apercuMedium text-white/80;
 }
 
 .input {

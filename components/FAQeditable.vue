@@ -225,7 +225,7 @@ const initializeTextareas = () => {
 									</svg>
 								</button>
 								<span
-									class="text-xs font-medium text-gray-500 flex items-center bg-gray-200 px-2 py-1 rounded-md ml-2"
+									class="text-xs font-apercuMedium text-gray-500 flex items-center bg-gray-200 px-2 py-1 rounded-md ml-2"
 									>Position: {{ faq.order }}</span
 								>
 							</div>
@@ -251,7 +251,7 @@ const initializeTextareas = () => {
 						<span>Créé le : {{ formatDate(faq.createdAt) }}</span>
 						<div class="absolute bottom-4 right-4">
 							<div class="flex items-center space-x-2">
-								<span class="text-xs font-medium" :class="faq.isActive ? 'text-green-500' : 'text-gray-400'">
+								<span class="text-xs font-apercuMedium" :class="faq.isActive ? 'text-green-500' : 'text-gray-400'">
 									{{ faq.isActive ? 'Active' : 'Inactive' }}
 								</span>
 								<label class="switch">

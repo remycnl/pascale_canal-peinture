@@ -122,7 +122,7 @@ onUnmounted(() => {
 				</div>
 				<div
 					class="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 translate-y-0 group-hover:translate-y-0 transition-transform duration-300">
-					<h3 class="text-sm md:text-lg font-medium text-white drop-shadow-md">
+					<h3 class="text-sm md:text-lg font-apercuMedium text-white drop-shadow-md">
 						{{ painting.name }}
 					</h3>
 					<p class="text-xs md:text-sm text-gray-200 mt-0.5 md:mt-1 opacity-90">

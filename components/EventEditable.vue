@@ -639,7 +639,7 @@ const initializeTextareas = () => {
 									class="text-xs text-gray-400 flex justify-between items-center mt-8">
 									<span> Créé le : {{ formatDate(event.createdAt) }} </span>
 									<div class="flex items-center space-x-2">
-										<span class="text-xs font-medium" :class="event.isActive ? 'text-green-500' : 'text-gray-400'">
+										<span class="text-xs font-apercuMedium" :class="event.isActive ? 'text-green-500' : 'text-gray-400'">
 									{{ event.isActive ? 'Actif' : 'Inactif' }}
 								</span>
 										<label
