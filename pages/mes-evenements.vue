@@ -1,6 +1,12 @@
 <script setup>
 import { useEvents } from "@/composables/useEvents";
 import { ref, computed, watch, onMounted, nextTick } from "vue";
+import { useSchemaOrg } from "#imports";
+
+const config = useRuntimeConfig();
+
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
 
 const {
 	upcomingEvents,
@@ -94,6 +100,35 @@ const skeletonItems = computed(() => {
 
 	return Array(count).fill({});
 });
+
+useSeoMeta({
+	title: () => `Mes évènements | ${siteName}`,
+	description: () =>
+		`Découvrez les prochains évènements de Pascale Canal et les expositions passées. Retrouvez toutes les dates, lieux et informations sur les expositions et ateliers à venir.`,
+	ogTitle: () => `Mes évènements | ${siteName}`,
+	ogDescription: () =>
+		`Découvrez les prochains évènements de Pascale Canal et les expositions passées. Retrouvez toutes les dates, lieux et informations sur les expositions et ateliers à venir.`,
+	ogUrl: () => `${baseUrl}/mes-evenements`,
+	twitterTitle: () => `Mes évènements | ${siteName}`,
+	twitterDescription: () =>
+		`Découvrez les prochains évènements de Pascale Canal et les expositions passées. Retrouvez toutes les dates, lieux et informations sur les expositions et ateliers à venir.`,
+	twitterUrl: () => `${baseUrl}/mes-evenements`,
+});
+
+useSchemaOrg([
+	defineBreadcrumb({
+		itemListElement: [
+			{
+				name: "Accueil",
+				item: "/",
+			},
+			{
+				name: "Mes évènements",
+				item: "/mes-evenements",
+			},
+		],
+	}),
+]);
 </script>
 
 <template>
