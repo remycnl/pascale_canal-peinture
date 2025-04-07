@@ -343,6 +343,7 @@ const initializeTextareas = () => {
 										:src="event.imageUrl"
 										:alt="event.title"
 										loading="lazy"
+										provider="cloudinary"
 										fit="cover"
 										format="webp"
 										class="w-full h-full" />

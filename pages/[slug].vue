@@ -265,7 +265,7 @@ useSchemaOrg([
 				@click="$router.back() || $router.push('/')"
 				title="Go to the previous page"
 				class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 pointer-cursor hover:-translate-x-2 transition-transform duration-200">
-				<NuxtImg src="/svg/arrow-black.svg" />
+				<NuxtImg src="/svg/arrow-black.svg" @contextmenu.prevent />
 			</button>
 			<div class="text-end mb-10">
 				<h1
@@ -281,23 +281,41 @@ useSchemaOrg([
 				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
 				<div
 					class="relative overflow-hidden rounded-2xl"
-					:class="{
-						'animate-pulse bg-gray-200': !imageLoaded,
-						'aspect-square': painting.width === painting.height,
-					}"
+					:class="[
+						painting.width === painting.height
+							? 'aspect-square'
+							: 'aspect-auto',
+					]"
 					@mousemove="handleMouseMove"
 					@mouseleave="handleMouseLeave"
 					@click="handleClick"
 					:style="{
 						cursor: isZoomed ? 'zoom-out' : 'zoom-in',
 					}">
+					<div
+						v-if="!imageLoaded"
+						class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center">
+						<div class="w-16 h-16 text-gray-400">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="1"
+									d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+							</svg>
+						</div>
+					</div>
 					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
 						fit="cover"
 						format="webp"
-						quality="100"
 						ref="imageRef"
+						@contextmenu.prevent
 						@load="handleImageLoad"
 						:style="{
 							transform: transform,

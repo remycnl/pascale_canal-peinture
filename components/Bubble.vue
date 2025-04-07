@@ -8,12 +8,27 @@ const suggestions = ref([]);
 const isInputFocused = ref(false);
 const preventBlurEvent = ref(false);
 const isMobile = ref(false);
+const imageLoading = ref({});
+
+const setImageLoaded = (id) => {
+	imageLoading.value[id] = false;
+};
+
+const watchSuggestions = (newSuggestions) => {
+	newSuggestions.forEach((suggestion) => {
+		if (imageLoading.value[suggestion.id] === undefined) {
+			imageLoading.value[suggestion.id] = true;
+		}
+	});
+};
+
+watch(() => suggestions.value, watchSuggestions, { immediate: true });
 
 const checkScreenSize = () => {
 	isMobile.value = window.innerWidth < 768;
 };
 
-const { data: allTables, error } = await useFetch("/api/allPaintings");
+const { data: allTables } = await useFetch("/api/allPaintings");
 
 const bubbleWidthClass = computed(() => {
 	if (isMobile.value) {
@@ -54,7 +69,7 @@ const searchTables = () => {
 	const normalizedQuery = normalizeText(searchQuery.value);
 	suggestions.value = allTables.value
 		.filter((table) => normalizeText(table.name).includes(normalizedQuery))
-		.slice(0, 5); // Limiter à 5 suggestions
+		.slice(0, 5);
 };
 
 const preventBlur = () => {
@@ -111,10 +126,12 @@ onMounted(() => {
 				},
 			]"
 			class="z-50 h-fit origin-center bg-[#000000] rounded-full fixed bottom-5 py-1.5 md:py-2 pr-1.5 md:pr-2 transition-all duration-500">
-			<div class="flex justify-between items-center gap-x-5 sm:gap-x-10 md:gap-x-8">
+			<div
+				class="flex justify-between items-center gap-x-5 sm:gap-x-10 md:gap-x-8">
 				<NuxtImg
 					src="/img/logo-reversed.png"
 					alt="Logo"
+					format="webp"
 					class="w-auto ml-2 md:ml-0 h-6 md:h-7"
 					:class="{ hidden: isMobile && isInputFocused }" />
 				<div
@@ -137,8 +154,24 @@ onMounted(() => {
 									:key="suggestion.id"
 									@click="selectSuggestion(suggestion)"
 									@mousedown="preventBlur"
-									class="px-3 py-2 text-sm text-white hover:bg-black rounded-lg cursor-pointer">
-									{{ suggestion.name }}
+									class="p-2 text-sm text-white hover:bg-black rounded-lg cursor-pointer flex items-center gap-2">
+									<div
+										v-if="imageLoading[suggestion.id]"
+										class="w-10 h-10 rounded-md bg-gray-700 animate-pulse"></div>
+									<NuxtImg
+										v-show="!imageLoading[suggestion.id]"
+										:src="suggestion.image"
+										:alt="suggestion.name"
+										provider="cloudinary"
+										format="webp"
+										fit="cover"
+										quality="50"
+										width="40"
+										height="40"
+										class="rounded-md"
+										@contextmenu.prevent
+										@load="setImageLoaded(suggestion.id)" />
+									<span>{{ suggestion.name }}</span>
 								</li>
 							</ul>
 						</div>

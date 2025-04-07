@@ -19,6 +19,7 @@ onMounted(() => {
 		<NuxtImg
 			src="/img/logo.png"
 			alt="Logo"
+			format="webp"
 			class="w-40 h-auto logo-animation"
 			:class="{ 'scale-active': isVisible }" />
 	</div>

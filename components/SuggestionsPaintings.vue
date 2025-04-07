@@ -73,7 +73,6 @@ onUnmounted(() => {
 					alt="Logo"
 					fit="cover"
 					format="webp"
-					quality="50"
 					class="w-10 sm:w-15 md:w-20 h-auto" />
 			</div>
 			<div
@@ -112,11 +111,16 @@ onUnmounted(() => {
 				:to="`/${painting.slug}`"
 				class="group relative block overflow-hidden rounded-xl md:rounded-2xl active:scale-98 transition-transform duration-200">
 				<div class="aspect-square overflow-hidden">
-					<img
+					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
+						format="webp"
+						fit="cover"
+						quality="50"
 						loading="lazy"
-						class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:filter group-hover:grayscale" />
+						provider="cloudinary"
+						@contextmenu.prevent
+						class="w-full h-full transition-all duration-500 group-hover:scale-105 group-hover:filter group-hover:grayscale" />
 					<div
 						class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 				</div>

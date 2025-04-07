@@ -55,7 +55,7 @@ useSchemaOrg([
 					alt="Une photo de moi (Pascale Canal)"
 					fit="cover"
 					format="webp"
-					class="grayscale brightness-70 contrast-110 shadow-custom w-full h-full rounded-2xl" />
+					class="grayscale pointer-events-none brightness-70 contrast-110 shadow-custom w-full h-full rounded-2xl" />
 			</div>
 		</div>
 		<ZigzagLine>
@@ -69,7 +69,7 @@ useSchemaOrg([
 					alt="Une photo de moi (Pascale Canal)"
 					fit="cover"
 					format="webp"
-					class="grayscale brightness-70 contrast-110 w-full max-w-md h-full rounded-lg md:rounded-2xl" />
+					class="grayscale brightness-70 pointer-events-none contrast-110 w-full max-w-md h-full rounded-lg md:rounded-2xl" />
 			</div>
 			<div class="relative">
 				<p
@@ -83,7 +83,7 @@ useSchemaOrg([
 				</p>
 				<span
 					class="z-10 select-none parallax pointer-events-none absolute top-50 -left-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
-					<NuxtImg src="/svg/blob_yellow-1.svg" alt="Blob yellow" />
+					<NuxtImg src="/svg/blob_yellow-1.svg" alt="Blob yellow" @contextmenu.prevent />
 				</span>
 			</div>
 			<div class="relative">
@@ -101,7 +101,7 @@ useSchemaOrg([
 				</p>
 				<span
 					class="z-10 select-none parallax-reverse pointer-events-none absolute top-50 -right-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
-					<NuxtImg src="/svg/blob_yellow-2.svg" alt="Blob yellow" />
+					<NuxtImg src="/svg/blob_yellow-2.svg" alt="Blob yellow" @contextmenu.prevent />
 				</span>
 			</div>
 			<p
@@ -128,7 +128,7 @@ useSchemaOrg([
 					</p>
 					<span
 						class="z-10 hidden md:block select-none parallax pointer-events-none absolute -top-60 left-80 rotate-25 w-130 h-auto opacity-90 blur-2xl">
-						<NuxtImg src="/svg/blob_yellow-3.svg" alt="Blob yellow" />
+						<NuxtImg src="/svg/blob_yellow-3.svg" alt="Blob yellow" @contextmenu.prevent />
 					</span>
 				</div>
 			</div>

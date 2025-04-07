@@ -109,6 +109,10 @@ button {
 	cursor: pointer;
 }
 
+img {
+	@apply select-none;
+}
+
 @keyframes bounce-smooth {
 	0%,
 	100% {

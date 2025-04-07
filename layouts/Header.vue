@@ -60,6 +60,7 @@ watch(isOpen, (newValue) => {
 					<NuxtImg
 						src="/img/logo-reversed.png"
 						alt="Logo"
+						format="webp"
 						class="hover:scale-105 transition-transform duration-500 w-15 md:w-20 h-auto" />
 				</NuxtLink>
 

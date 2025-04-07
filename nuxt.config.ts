@@ -1,5 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
-import { definePerson } from 'nuxt-schema-org/schema'
+import { definePerson } from "nuxt-schema-org/schema";
 
 export default defineNuxtConfig({
 	compatibilityDate: "2024-11-01",
@@ -66,6 +66,16 @@ export default defineNuxtConfig({
 	},
 	routeRules: {
 		"/secret/**": { robots: false },
+	},
+	image: {
+		providers: {
+			cloudinary: {
+				provider: "cloudinary",
+			},
+			static: {
+				provider: "ipx",
+			},
+		},
 	},
 	runtimeConfig: {
 		public: {

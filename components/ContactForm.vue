@@ -97,7 +97,7 @@
 					Message envoyé avec succès !
 				</h2>
 				<p class="text-white/80">
-					Nous vous répondrons dans les plus brefs délais.
+					Je vous répondrai dans les plus brefs délais.
 				</p>
 				<button
 					v-if="!preSelectedArtworkId"
@@ -179,8 +179,10 @@
 									:src="preSelectedArtwork.image"
 									:alt="preSelectedArtwork.name"
 									fit="cover"
+									provider="cloudinary"
 									format="webp"
 									quality="50"
+									@contextmenu.prevent
 									class="w-full h-auto" />
 								<span
 									v-if="preSelectedArtwork.state === 'SOLD'"
@@ -235,6 +237,8 @@
 											width="40"
 											height="40"
 											fit="cover"
+											provider="cloudinary"
+											@contextmenu.prevent
 											format="webp"
 											quality="50"
 											class="rounded-md" />
@@ -280,6 +284,8 @@
 										<NuxtImg
 											:src="artwork.image"
 											:alt="artwork.name"
+											provider="cloudinary"
+											@contextmenu.prevent
 											fit="cover"
 											format="webp"
 											quality="50"
@@ -374,11 +380,13 @@
 								<NuxtImg
 									:src="result.image"
 									:alt="result.name"
+									provider="cloudinary"
 									width="40"
 									height="40"
 									fit="cover"
 									format="webp"
 									quality="50"
+									@contextmenu.prevent
 									class="rounded-md" />
 								<div class="flex">
 									<span class="text-white">{{ result.name }}</span>
@@ -422,9 +430,11 @@
 								<NuxtImg
 									:src="artwork.image"
 									:alt="artwork.name"
+									provider="cloudinary"
 									fit="cover"
 									format="webp"
 									quality="50"
+									@contextmenu.prevent
 									class="w-full rounded-lg aspect-square" />
 								<span
 									v-if="artwork.state === 'SOLD'"
@@ -493,9 +503,11 @@
 							<NuxtImg
 								:src="artwork.image"
 								:alt="artwork.name"
+								provider="cloudinary"
 								fit="cover"
 								format="webp"
 								quality="50"
+								@contextmenu.prevent
 								class="w-full rounded-lg aspect-square" />
 							<span
 								v-if="artwork.state === 'SOLD'"

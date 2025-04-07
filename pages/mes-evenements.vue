@@ -293,10 +293,14 @@ const skeletonItems = computed(() => {
 						:key="event.id"
 						tabindex="0"
 						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden">
-						<img
-							:src="event.imageUrl || '/images/event-placeholder.jpg'"
+						<NuxtImg
+							:src="event.imageUrl"
 							:alt="event.title"
+							format="webp"
+							provider="cloudinary"
+							@contextmenu.prevent
 							class="w-full h-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
+							:class="{ 'opacity-70 brightness-110 contrast-90': activeTab === 'past' }"
 							loading="lazy" />
 
 						<!-- Price tag - now positioned differently on mobile -->
@@ -326,9 +330,9 @@ const skeletonItems = computed(() => {
 						<!-- Past event overlay -->
 						<div
 							v-if="activeTab === 'past'"
-							class="absolute inset-0 pointer-events-none bg-black/50 flex items-center justify-center">
+							class="absolute inset-0 pointer-events-none backdrop-blur-[2px] flex items-center justify-center">
 							<span
-								class="bg-black/70 text-white px-4 py-1.5 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium">
+								class="bg-black/90 backdrop-blur-xs text-white px-4 py-1.5 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium">
 								Terminé
 							</span>
 						</div>

@@ -29,7 +29,8 @@ const isEditMode = ref(false);
 const isSelectOpen = ref(false);
 const searchQuery = ref("");
 const normalizeString = (str) => {
-	return str.toLowerCase()
+	return str
+		.toLowerCase()
 		.normalize("NFD")
 		.replace(/[\u0300-\u036f]/g, "")
 		.trim();
@@ -496,7 +497,8 @@ useSeoMeta({
 						class="space-y-4 bg-white overflow-hidden rounded-2xl shadow-custom">
 						<div
 							class="max-h-[70vh] p-2 md:p-6 overflow-y-auto overflow-x-hidden">
-							<div class="sticky top-0 z-10 rounded-xl bg-gray-50/80 backdrop-blur-md">
+							<div
+								class="sticky top-0 z-10 rounded-xl bg-gray-50/80 backdrop-blur-md">
 								<div
 									class="relative backdrop-blur-sm mb-4 bg-black/10 rounded-xl overflow-hidden shadow-lg border border-black/10">
 									<input
@@ -550,12 +552,15 @@ useSeoMeta({
 									<NuxtImg
 										:src="painting.image"
 										:alt="painting.name"
-										loading="azy"
+										loading="lazy"
 										fit="cover"
 										format="webp"
+										provider="cloudinary"
+										@contextmenu.prevent
 										class="w-16 h-16 min-w-[64px] rounded-lg" />
 									<div class="overflow-hidden">
-										<h3 class="font-apercuMedium truncate text-gray-800 max-w-full">
+										<h3
+											class="font-apercuMedium truncate text-gray-800 max-w-full">
 											{{ painting.name }}
 										</h3>
 										<p class="text-sm text-gray-600 whitespace-nowrap">
@@ -575,6 +580,7 @@ useSeoMeta({
 										<NuxtImg
 											src="/svg/edit.svg"
 											loading="lazy"
+											@contextmenu.prevent
 											alt="edit icon for editing painting"
 											class="w-7 h-7" />
 									</button>
@@ -584,6 +590,7 @@ useSeoMeta({
 										<NuxtImg
 											src="/svg/trash.svg"
 											loading="lazy"
+											@contextmenu.prevent
 											alt="trash icon for deleting painting"
 											class="w-7 h-7" />
 									</button>
@@ -626,8 +633,9 @@ useSeoMeta({
 								v-if="!showPassword"
 								src="/svg/eye-open.svg"
 								loading="lazy"
+								@contextmenu.prevent
 								class="w-5 h-5" />
-							<NuxtImg v-else src="/svg/eye-closed.svg" class="w-5 h-5" />
+							<NuxtImg v-else src="/svg/eye-closed.svg" class="w-5 h-5" @contextmenu.prevent />
 						</button>
 					</div>
 					<button

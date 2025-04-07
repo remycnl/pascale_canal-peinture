@@ -249,6 +249,7 @@ const share = (platform) => {
 								v-if="!copied"
 								src="/svg/copy.svg"
 								alt="copy link"
+								@contextmenu.prevent
 								class="w-6 h-6" />
 							<svg
 								v-else
@@ -275,6 +276,7 @@ const share = (platform) => {
 							<NuxtImg
 								:src="`/svg/logos/${network.id}.svg`"
 								:alt="network.name"
+								@contextmenu.prevent
 								class="w-7 h-7" />
 						</span>
 						<span>{{ network.name }}</span>
