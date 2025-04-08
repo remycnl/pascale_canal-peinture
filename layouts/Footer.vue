@@ -67,7 +67,7 @@
 						<h3 class="text-sm font-apercuBold uppercase mb-6 text-yellow">
 							Réseaux sociaux
 						</h3>
-						<div class="flex flex-col space-y-3">
+						<address class="flex flex-col space-y-3 not-italic">
 							<NuxtLink
 								to="https://www.facebook.com/pascalecanalpeintre"
 								target="_blank"
@@ -113,7 +113,7 @@
 								</span>
 								<span>LinkedIn</span>
 							</NuxtLink>
-						</div>
+						</address>
 					</div>
 
 					<!-- Legal links -->

@@ -65,7 +65,7 @@ watch(isOpen, (newValue) => {
 				</NuxtLink>
 
 				<!-- Desktop Menu -->
-				<div
+				<nav
 					class="hidden md:flex flex-row text-white justify-end space-x-10 uppercase font-apercuMedium">
 					<NuxtLink
 						to="/"
@@ -92,7 +92,7 @@ watch(isOpen, (newValue) => {
 						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
 						>Contact</NuxtLink
 					>
-				</div>
+				</nav>
 
 				<!-- Mobile Menu Button -->
 				<button
@@ -130,7 +130,7 @@ watch(isOpen, (newValue) => {
 					</div>
 
 					<div class="flex flex-col items-center gap-y-12 relative z-10">
-						<div
+						<nav
 							class="flex flex-col text-center items-center gap-y-10 uppercase font-apercuBold text-xl">
 							<NuxtLink
 								@click="isOpen = false"
@@ -162,7 +162,7 @@ watch(isOpen, (newValue) => {
 								class="w-fit active:scale-90 transition-transform duration-200">
 								Contact
 							</NuxtLink>
-						</div>
+						</nav>
 					</div>
 				</div>
 			</div>

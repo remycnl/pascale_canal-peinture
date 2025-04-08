@@ -91,7 +91,7 @@ useSchemaOrg([
 			<div class="flex flex-col space-y-10">
 				<div class="contact-section">
 					<h2 class="text-2xl md:text-3xl font-apercuBold mb-6">Coordonnées</h2>
-					<div class="space-y-5">
+					<address class="space-y-5 not-italic">
 						<NuxtLink
 							to="mailto:pascalecanal@gmail.com"
 							target="_blank"
@@ -141,7 +141,7 @@ useSchemaOrg([
 								+33 6 86 59 60 29
 							</span>
 						</NuxtLink>
-					</div>
+					</address>
 				</div>
 
 				<div class="contact-section">

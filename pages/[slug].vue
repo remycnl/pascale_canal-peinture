@@ -371,8 +371,10 @@ useSchemaOrg([
 							{{ painting.paintingType }}
 						</li>
 						<li>
-							<span class="font-apercuBold">Date:</span>
-							{{ formatDate(painting.date) }}
+							<span class="font-apercuBold">Date: </span>
+							<time>
+								{{ formatDate(painting.date) }}
+							</time>
 						</li>
 					</ul>
 				</div>
