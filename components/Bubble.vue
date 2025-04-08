@@ -154,7 +154,7 @@ onMounted(() => {
 									:key="suggestion.id"
 									@click="selectSuggestion(suggestion)"
 									@mousedown="preventBlur"
-									class="p-1 text-sm text-white hover:bg-black rounded-lg cursor-pointer flex items-center gap-2 md:gap-3">
+									class="p-1 text-sm text-white hover:bg-black transition-all duration-200 active:scale-99 rounded-lg cursor-pointer flex items-center gap-3">
 									<div
 										v-if="imageLoading[suggestion.id]"
 										class="w-10 h-10 rounded-md bg-gray-700 animate-pulse"></div>
