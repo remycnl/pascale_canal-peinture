@@ -31,7 +31,7 @@
 							(index / (visibleSteps.length - 1)) * 100
 						}% - 14px); top: 0px;`">
 						<div
-							class="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-500 ease-out border-2 transform hover:scale-102"
+							class="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-500 ease-out border-2 transform hover:scale-102 relative"
 							:class="{
 								'bg-yellow/30 border-yellow shadow-md shadow-yellow/50 scale-110 backdrop-blur-sm':
 									currentVisibleStepIndex >= index,
@@ -41,7 +41,7 @@
 							<svg
 								v-if="currentVisibleStepIndex > index"
 								xmlns="http://www.w3.org/2000/svg"
-								class="h-3.5 w-3.5 text-white"
+								class="h-3.5 w-3.5 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 								viewBox="0 0 20 20"
 								fill="currentColor">
 								<path
@@ -51,7 +51,7 @@
 							</svg>
 							<span
 								v-else
-								class="text-sm font-apercuBold mt-0.5"
+								class="text-sm font-apercuBold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 								:class="{
 									'text-white': currentVisibleStepIndex >= index,
 									'text-white/70': currentVisibleStepIndex < index,
@@ -538,11 +538,23 @@
 						v-model="form.lastName"
 						placeholder="Nom"
 						class="p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50" />
-					<input
-						v-model="form.email"
-						type="email"
-						placeholder="Email*"
-						class="col-span-1 sm:col-span-2 p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50" />
+					<div class="col-span-1 sm:col-span-2 relative">
+						<input
+							v-model="form.email"
+							type="email"
+							placeholder="Email*"
+							:class="[
+								'w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border focus:outline-none text-white placeholder-white/50',
+								isEmailValid || !form.email
+									? 'border-white/30 focus:border-yellow'
+									: 'border-red-500 focus:border-red-500',
+							]" />
+						<p
+							v-if="form.email && !isEmailValid"
+							class="text-red-400 text-xs mt-1">
+							Veuillez entrer une adresse email valide
+						</p>
+					</div>
 					<input
 						v-model="form.phone"
 						type="tel"
@@ -624,7 +636,6 @@
 		</div>
 	</form>
 </template>
-
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 
@@ -655,6 +666,7 @@ const formSubmitted = ref(false);
 const submitSuccess = ref(false);
 const submitting = ref(false);
 const showSearchResults = ref(false);
+let isEmailValid = ref(true);
 let blurTimeout = null;
 
 const form = ref({
@@ -667,6 +679,25 @@ const form = ref({
 	reasonDetails: "",
 	document: null,
 });
+
+// Email validation function
+const validateEmail = (email) => {
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	isEmailValid.value = emailRegex.test(email);
+	return isEmailValid.value;
+};
+
+// Watch email changes for validation
+watch(
+	() => form.value.email,
+	(newEmail) => {
+		if (newEmail) {
+			validateEmail(newEmail);
+		} else {
+			isEmailValid.value = true;
+		}
+	}
+);
 
 watch(
 	selectedArtworks,
@@ -769,7 +800,7 @@ const isStepValid = computed(() => {
 			if (selectedReason.value.value === "artwork") {
 				return selectedArtworks.value.length > 0;
 			}
-			return form.value.firstName && form.value.email;
+			return form.value.firstName && form.value.email && isEmailValid.value;
 		case 2:
 			if (selectedReason.value.value === "artwork") {
 				return true;
@@ -777,7 +808,7 @@ const isStepValid = computed(() => {
 			return true;
 		case 3:
 			if (selectedReason.value.value === "artwork") {
-				return form.value.firstName && form.value.email;
+				return form.value.firstName && form.value.email && isEmailValid.value;
 			}
 			return form.value.message.length > 10 && form.value.reasonDetails;
 		case 4:
@@ -866,6 +897,16 @@ const getMessageTemplate = () => {
 
 const nextStep = () => {
 	if (currentStep.value < getMaxStep()) {
+		// Validate email if it's a step with email input
+		if (
+			(currentStep.value === 1 && selectedReason.value.value !== "artwork") ||
+			(currentStep.value === 3 && selectedReason.value.value === "artwork")
+		) {
+			if (form.value.email && !validateEmail(form.value.email)) {
+				return;
+			}
+		}
+
 		stepHistory.value.push(currentStep.value);
 		currentStep.value++;
 
@@ -938,6 +979,11 @@ const resetStepData = (step) => {
 };
 
 const submitForm = async () => {
+	// Final email validation before submit
+	if (form.value.email && !validateEmail(form.value.email)) {
+		return;
+	}
+
 	submitting.value = true;
 
 	try {
@@ -974,6 +1020,7 @@ const resetForm = () => {
 	currentStep.value = 0;
 	formSubmitted.value = false;
 	submitSuccess.value = false;
+	isEmailValid.value = true;
 
 	if (props.preSelectedArtworkId && preSelectedArtwork.value) {
 		selectedArtworks.value = [preSelectedArtwork.value];

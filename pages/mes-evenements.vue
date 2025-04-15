@@ -327,8 +327,10 @@ useSchemaOrg([
 						v-for="event in displayedEvents"
 						:key="event.id"
 						tabindex="0"
-						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden">
+						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden"
+						:class="{'bg-yellow': !event.imageUrl}">
 						<NuxtImg
+							v-if="event.imageUrl"
 							:src="event.imageUrl"
 							:alt="event.title"
 							format="webp"

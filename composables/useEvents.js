@@ -28,7 +28,7 @@ export function useEvents() {
 			.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
 			.filter(
 				(event) =>
-					event.imageUrl && event.title && event.location && event.startDate
+					event.title && event.location && event.startDate
 			);
 	});
 
@@ -40,7 +40,7 @@ export function useEvents() {
 			.sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
 			.filter(
 				(event) =>
-					event.imageUrl && event.title && event.location && event.startDate
+					event.title && event.location && event.startDate
 			);
 	});
 
@@ -181,53 +181,52 @@ export function useEvents() {
 		}
 	};
 
-  // Format date for display
-  const formatDate = (dateString, showTime = true) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return "";
+	// Format date for display
+	const formatDate = (dateString, showTime = true) => {
+		if (!dateString) return "";
+		const date = new Date(dateString);
+		if (isNaN(date.getTime())) return "";
 
-    const options = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      timeZone: 'Europe/Paris'
-    };
+		const options = {
+			year: "numeric",
+			month: "short",
+			day: "numeric",
+			timeZone: "Europe/Paris",
+		};
 
-    if (showTime) {
-      options.hour = "2-digit";
-      options.minute = "2-digit";
-    }
+		if (showTime) {
+			options.hour = "2-digit";
+			options.minute = "2-digit";
+		}
 
-    return date.toLocaleDateString("fr-FR", options);
-  };
+		return date.toLocaleDateString("fr-FR", options);
+	};
 
-  const formatDateForInput = (dateString) => {
-    if (!dateString) return "";
-  
-    const date = new Date(dateString);
-  
-    const options = {
-      timeZone: 'Europe/Paris',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    };
-  
-    const parts = new Intl.DateTimeFormat('fr-FR', options).formatToParts(date);
-    const map = {};
-    for (const part of parts) {
-      if (part.type !== 'literal') {
-        map[part.type] = part.value;
-      }
-    }
-  
-    return `${map.year}-${map.month}-${map.day}T${map.hour}:${map.minute}`;
-  };
-  
+	const formatDateForInput = (dateString) => {
+		if (!dateString) return "";
+
+		const date = new Date(dateString);
+
+		const options = {
+			timeZone: "Europe/Paris",
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: false,
+		};
+
+		const parts = new Intl.DateTimeFormat("fr-FR", options).formatToParts(date);
+		const map = {};
+		for (const part of parts) {
+			if (part.type !== "literal") {
+				map[part.type] = part.value;
+			}
+		}
+
+		return `${map.year}-${map.month}-${map.day}T${map.hour}:${map.minute}`;
+	};
 
 	return {
 		events,
