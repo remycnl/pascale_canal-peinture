@@ -12,6 +12,7 @@ export default defineNuxtConfig({
 	],
 	modules: [
 		"@nuxt/image",
+		"@prisma/nuxt",
 		"@nuxtjs/sitemap",
 		"@nuxtjs/robots",
 		"nuxt-schema-org",
