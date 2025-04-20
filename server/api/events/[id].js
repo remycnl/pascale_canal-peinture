@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import cloudinary from "@/server/utils/cloudinary";
 
 export default defineEventHandler(async (event) => {
