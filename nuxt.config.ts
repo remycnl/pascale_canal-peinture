@@ -36,6 +36,9 @@ export default defineNuxtConfig({
 			crawlLinks: true,
 			routes: ["/"],
 		},
+		esbuild: {
+			target: "esnext",
+		},
 	},
 	site: {
 		url: process.env.NUXT_SITE_URL || "http://localhost:3000",
