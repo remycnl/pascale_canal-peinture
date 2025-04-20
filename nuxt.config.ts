@@ -31,6 +31,7 @@ export default defineNuxtConfig({
 	},
 	nitro: {
 		preset: "vercel",
+		moduleSideEffects: ["@prisma/client"],
 		prerender: {
 			crawlLinks: true,
 			routes: ["/"],
