@@ -25,4 +25,4 @@ logs
 
 # Build files
 .vercel
-prisma/generated
+generated
