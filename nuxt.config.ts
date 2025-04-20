@@ -8,6 +8,7 @@ export default defineNuxtConfig({
 		"@/assets/css/main.css",
 		"@/assets/css/scrollBar.css",
 		"@/assets/css/transition.css",
+		"@/assets/css/checkbox.css",
 	],
 	modules: [
 		"@nuxt/image",

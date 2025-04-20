@@ -600,6 +600,30 @@
 						@change="handleFileUpload"
 						class="w-fit text-white file:bg-yellow file:border-0 file:text-black file:px-4 file:py-2 file:mr-4 file:rounded-lg hover:file:bg-yellow file:cursor-pointer cursor-pointer" />
 				</div>
+
+				<!-- RGPD Consent Checkbox -->
+				<div class="mt-6 flex gap-x-3">
+					<div class="relative">
+						<input
+							class="hidden"
+							id="rgpdConsent"
+							type="checkbox"
+							v-model="form.rgpdConsent" />
+						<label
+							class="cbx border bg-white/10 border-white/30"
+							for="rgpdConsent"></label>
+					</div>
+					<label
+						for="rgpdConsent"
+						class="cursor-pointer text-white text-sm mt-1.5">
+						J'accepte l'utilisation de mes données personnelles pour le
+						traitement de ma demande et pour être recontacté(e)*
+					</label>
+				</div>
+				<p v-if="showRgpdError" class="text-red-400 text-xs mt-2">
+					Vous devez accepter les conditions d'utilisation des données pour
+					envoyer le formulaire
+				</p>
 			</div>
 		</div>
 
@@ -611,7 +635,7 @@
 				v-if="currentStep > 0 && (!preSelectedArtwork || currentStep > 1)"
 				type="button"
 				@click="previousStep"
-				class="px-4 sm:px-6 py-2 backdrop-blur-md bg-white/10 text-white rounded-lg border border-white/30 hover:bg-white/20 transition-all duration-300">
+				class="px-4 sm:px-6 py-2 disabled:active:scale-100 active:scale-97 backdrop-blur-md bg-white/10 text-white rounded-lg border border-white/30 hover:bg-white/20 transition-all duration-300">
 				Précédent
 			</button>
 			<button
@@ -623,21 +647,21 @@
 				type="button"
 				@click="nextStep"
 				:disabled="!isStepValid"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-102 disabled:hover:scale-100">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg disabled:active:scale-100 active:scale-97 shadow-yellow/30 transition-all duration-300 hover:scale-102 disabled:hover:scale-100">
 				Suivant
 			</button>
 			<button
 				v-if="currentStep === getMaxStep()"
 				type="submit"
 				:disabled="submitting"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-gradient-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 hover:shadow-xl hover:scale-102 transition-all duration-300">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-gradient-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 disabled:active:scale-100 active:scale-97 hover:shadow-xl hover:scale-102 transition-all duration-200">
 				{{ submitting ? "Envoi en cours..." : "Envoyer" }}
 			</button>
 		</div>
 	</form>
 </template>
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch, nextTick } from "vue";
 
 const props = defineProps({
 	preSelectedArtworkId: {
@@ -668,6 +692,7 @@ const submitting = ref(false);
 const showSearchResults = ref(false);
 let isEmailValid = ref(true);
 let blurTimeout = null;
+const showRgpdError = ref(false);
 
 const form = ref({
 	firstName: "",
@@ -678,6 +703,7 @@ const form = ref({
 	reason: "",
 	reasonDetails: "",
 	document: null,
+	rgpdConsent: false,
 });
 
 // Email validation function
@@ -707,6 +733,16 @@ watch(
 		}
 	},
 	{ deep: true }
+);
+
+// Watch RGPD consent changes to hide error when checkbox is checked
+watch(
+	() => form.value.rgpdConsent,
+	(newValue) => {
+		if (newValue) {
+			showRgpdError.value = false;
+		}
+	}
 );
 
 const loadArtworks = async () => {
@@ -810,9 +846,13 @@ const isStepValid = computed(() => {
 			if (selectedReason.value.value === "artwork") {
 				return form.value.firstName && form.value.email && isEmailValid.value;
 			}
-			return form.value.message.length > 10 && form.value.reasonDetails;
+			return (
+				form.value.message.length > 10 &&
+				form.value.reasonDetails &&
+				form.value.rgpdConsent
+			);
 		case 4:
-			return form.value.message.length > 10;
+			return form.value.message.length > 10 && form.value.rgpdConsent;
 		default:
 			return false;
 	}
@@ -828,7 +868,10 @@ const selectReason = (reason) => {
 		reason: reason.value,
 		reasonDetails: "",
 		document: null,
+		rgpdConsent: false,
 	};
+
+	showRgpdError.value = false;
 
 	if (selectedReason.value.value !== reason.value) {
 		selectedArtworks.value = [];
@@ -968,12 +1011,16 @@ const resetStepData = (step) => {
 			form.value.lastName = "";
 			form.value.email = "";
 			form.value.phone = "";
+			form.value.rgpdConsent = false;
+			showRgpdError.value = false;
 			break;
 		case 4:
 			if (selectedReason.value.value !== "artwork") {
 				form.value.reasonDetails = "";
 			}
 			form.value.document = null;
+			form.value.rgpdConsent = false;
+			showRgpdError.value = false;
 			break;
 	}
 };
@@ -981,6 +1028,12 @@ const resetStepData = (step) => {
 const submitForm = async () => {
 	// Final email validation before submit
 	if (form.value.email && !validateEmail(form.value.email)) {
+		return;
+	}
+
+	// Check RGPD consent before submission
+	if (!form.value.rgpdConsent) {
+		showRgpdError.value = true;
 		return;
 	}
 
@@ -1015,12 +1068,14 @@ const resetForm = () => {
 		reason: "",
 		reasonDetails: "",
 		document: null,
+		rgpdConsent: false,
 	};
 	selectedArtworks.value = [];
 	currentStep.value = 0;
 	formSubmitted.value = false;
 	submitSuccess.value = false;
 	isEmailValid.value = true;
+	showRgpdError.value = false;
 
 	if (props.preSelectedArtworkId && preSelectedArtwork.value) {
 		selectedArtworks.value = [preSelectedArtwork.value];
