@@ -1,0 +1,1356 @@
+[33mcommit ce8abd336c148e6112c68e607b1331223db0c03e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 01:07:13 2025 +0200
+
+    [fix] build
+
+[33mcommit 05ab51f33bad868931e7662c149b454aaddf6edc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 01:04:41 2025 +0200
+
+    [fix] build
+
+[33mcommit 06beb4460cb0c052a8709a5ae340e75c1d8a1f4c[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:39:01 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit d35935fba48e7c85150bae88a24bf5d426289117[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:36:10 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit 618b63e73c2f89e82a838d0175c05debb0568605[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:33:15 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit cc81cf576949c779167b7b6dc9b926c5dbf8bf1f[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:30:03 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit 1f1b3cbca1ecd353e7d8ca2a4677b37179ba60bf[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:29:48 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit 6d670a084b0fd4857ab95db0a92ca3f2728fa40f[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:21:50 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit 0c630220d5e635118bd9b7998f234a8731fcb1c0[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:18:03 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit 7190f87fd00e36d8751c55f496d09b84780caa0c[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 21 00:17:37 2025 +0200
+
+    [add] animation /commande-personnalisee
+
+[33mcommit 35f77582b9f9ddd6f86840876805a0eb564ee5d6[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 20 23:40:47 2025 +0200
+
+    [add] animation /commande-personnalisee + upgrade prisma v6
+
+[33mcommit 8e2689a9b2c8eca28b921a013fbcc59eee2c4866[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 20 02:49:44 2025 +0200
+
+    [add] rgpd checkbox
+
+[33mcommit 94ab88aec779e0a2033e51eaa09a7c66e67f75b9[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Apr 16 00:20:40 2025 +0200
+
+    [fix] form and event
+
+[33mcommit fc725e1c342e0b64bdaac1719c927fad88b619e3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Apr 8 22:52:24 2025 +0200
+
+    [fix] balise html MDN
+
+[33mcommit a17383072b1cc3c4e4f30333570f18f7f6743d62[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Apr 8 02:04:05 2025 +0200
+
+    [fix] bubble style
+
+[33mcommit 32eea37a58e7ab68d23d27fe0c1d53398eaa40b2[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Apr 8 01:11:28 2025 +0200
+
+    [fix] bubble padding
+
+[33mcommit 0bec69cf86b97f29e4ff24d8450450ecaaef54d5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 7 23:56:07 2025 +0200
+
+    [SEO] /mes-evenements page
+
+[33mcommit c41f6256af80eb87dfa478e91dfa712962918fae[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 7 23:46:20 2025 +0200
+
+    [update] packages
+
+[33mcommit 511d716f22a8667f775be83a4f746c3a6fce59b4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 7 23:42:52 2025 +0200
+
+    [fix] optimize images
+
+[33mcommit cab41d1905748bd375c84ad406827628155457d9[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Apr 7 21:36:12 2025 +0200
+
+    [fix] event page
+
+[33mcommit 7c0792d7331ac7c34c7d3b69828ab54b470a0607[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 6 22:41:56 2025 +0200
+
+    [add] event page
+
+[33mcommit 5ec5aeadf2d2de7ca1849dfdb0b1c179a8c1f3f6[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 6 01:39:26 2025 +0200
+
+    [fix] size of editor sections
+
+[33mcommit 9024686553f81673111f199895419a577e725111[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 6 01:09:37 2025 +0200
+
+    [fix] search filters
+
+[33mcommit 7996e1a6356d5fb4cfd7c1cbb86a6e6a0f7424d9[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 6 00:54:12 2025 +0200
+
+    [fix] datepickers
+
+[33mcommit f892ea0560762b7f46f6f18dd3561cda59ae75cc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 6 00:48:27 2025 +0200
+
+    [add] filter on paintings on Editor
+
+[33mcommit 6988d97a458a0cf7b33f28737408f5044cc83339[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 6 00:20:20 2025 +0200
+
+    [fix] footer
+
+[33mcommit 04431407558a1b47bc3de06c221d09276e5e479a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Apr 6 00:17:48 2025 +0200
+
+    [add] Events
+
+[33mcommit bc9284da638f47486bbb4c5ad2f3abe44b9edb0e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Apr 5 23:55:07 2025 +0200
+
+    [add] Events
+
+[33mcommit 40a1f463b018a2d79d477e947b7cf112fc05d99d[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Apr 5 17:10:56 2025 +0200
+
+    [add] Events
+
+[33mcommit 9b24b6526a2c32256737807d931028d887e4e4a4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 20:10:20 2025 +0200
+
+    [fix] button suivant
+
+[33mcommit c911e46bbb843ef1dde728287f805f4e552ba1f5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 19:56:44 2025 +0200
+
+    [fix] step name color
+
+[33mcommit 5a270725189e58c070397264dae7646583bfb337[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 19:18:08 2025 +0200
+
+    [fix] transitions
+
+[33mcommit 1538b61089feba76978737d38b2ad9cf98939b24[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 19:03:21 2025 +0200
+
+    [fix] transitions
+
+[33mcommit 925244f8e11933820827cad6ee32f7219fc6af52[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 18:53:46 2025 +0200
+
+    [fix] loading state
+
+[33mcommit f6aa9c7b435f2448573e9856551a2a5f9e96232b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 18:39:09 2025 +0200
+
+    [fix] step indicator positition
+
+[33mcommit 060c06e6ade8356d45be7ac72456f22707fa364e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 18:30:47 2025 +0200
+
+    [fix] loading state
+
+[33mcommit ab9b422220dc5daaa7cc7a0f4269f34618de5e21[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 18:24:11 2025 +0200
+
+    [fix] loading state
+
+[33mcommit e5cf8dd97bb464648f95516dd6f5e1f5f8bc4dcb[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 15:49:21 2025 +0200
+
+    [fix] calculateCardSize()
+
+[33mcommit 8ad4cca6a5a4f7c45c192c93133427af15ba6f72[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 15:32:00 2025 +0200
+
+    [fix] calculateCardSize()
+
+[33mcommit dfe0c05289d44b94d64845539c5b4b72e0eaf080[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 31 15:06:53 2025 +0200
+
+    [remove] comment
+
+[33mcommit deb440a3a7a7b5a6dcfb40b2de86a24b5cbcd97e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 30 23:30:19 2025 +0200
+
+    [add] loading state on contact form
+
+[33mcommit 294e9d0e5c89b2820f5f485cee3af435ad0ce55b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 30 03:51:32 2025 +0200
+
+    [fix] contact page
+
+[33mcommit da1108d25bc1820d310169b88f6ea1997e1dfbf0[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 30 03:46:44 2025 +0200
+
+    [fix] contact page
+
+[33mcommit ecc3c446220b27b8a861d3c6ce6d4640e7582822[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 30 03:26:18 2025 +0200
+
+    [fix] contact page
+
+[33mcommit aefeb894e5569568f9b1cc29f36a9f870be79d87[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 30 01:22:46 2025 +0100
+
+    [fix] contact form and page
+
+[33mcommit d252d902f4825582fd2a90fe0e28956660a0e885[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Mar 29 21:59:01 2025 +0100
+
+    [fix] contact form
+
+[33mcommit 276698beb974c1916fdb384bfad59243ef4f1602[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Mar 29 21:53:44 2025 +0100
+
+    [fix] contact form
+
+[33mcommit 748da9acbd2c208d523850a5c0f81fd79d3a360a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Mar 29 21:30:41 2025 +0100
+
+    [remove] comments
+
+[33mcommit 65f82a83ff9d43e1bc8913ce9cd5214670709637[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Mar 29 21:22:13 2025 +0100
+
+    [fix] contact page
+
+[33mcommit c38c36b270dc97af467d4caf7dcea1d40b57cb71[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Mar 29 21:09:56 2025 +0100
+
+    [fix] contact form
+
+[33mcommit 37320947770c65667bb2dba32595c0b13cd9041a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Mar 29 20:50:01 2025 +0100
+
+    [add] contact page
+
+[33mcommit d6ca51be7eececf056a3babaf803ac37d749f9e2[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Mar 29 19:00:29 2025 +0100
+
+    [add] contact form
+
+[33mcommit ab848283cb2cd24845207c446cb1bdd44282615b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Fri Mar 28 13:10:33 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 758617fada2e2721bea7f6c208fee0cfc92960cc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Fri Mar 28 12:18:27 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit bf62a843edbe162c88952906d943d3e25e5fdde8[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Fri Mar 28 12:09:01 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 29cc9245faba0ca5f3244a6c13833bda5ead5033[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Fri Mar 28 12:04:21 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 1400ba852393246313823ceb4b9d3e3aaaec6d80[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 22:39:11 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 7d4d9ff702bffc61f55962aa3ee23b0f4589bcf3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 22:31:21 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 5be9b82ee88eb6b72a69c8b1d0495579b243317a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 22:18:32 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit fb566302d77e78fe03d42ccbfb84a42f4e265f2c[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 22:16:57 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 1cbb46b88fd4ef76daf255c037ff1c221c501ac5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 22:08:47 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit d42ea79f600b62a597a583c07d3430744749b442[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 22:04:08 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit ca953f513c1ee3c30a4dd24e25a9e74705453c83[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:59:46 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit c415c2c6a63377e45a2fcc5404a46e6abb382f30[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:46:52 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 47acef1442e5f059eef770f7debfe2f8ab63e0fa[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:28:07 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 9cc3c85e6a4cfd9e605798f140599a321dfa7a28[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:15:17 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit f37655dff0139e012b7a6c5833c433f70747960a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:12:51 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 7513e5148662a831c0556d2126de1e8e4d115ce6[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:09:05 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit bf8c573b2e989cee74a4a50b16afc826f3cab435[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:03:40 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 21b50d448a4a2bbf2c52703d35b6bf5adb69055e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 21:01:54 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit ee679d72903d08c864b42b6817564c58e9b690d1[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 20:30:55 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 7123da2ddbf5a1b7906e2765e85230a6a5f7bf1e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 20:28:16 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 216c26089913b9058d05424f82fe373eb6bb1346[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 20:26:11 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 0d1f7022236a0f380938ad1f5c23895f010cb0f6[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 20:14:14 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 10ee8bfd316729f436d6f65f6ee797380f30c4d1[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 20:12:33 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 1bd65c6086c5ae4b4cb037fae9a59cf76bbd28ba[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 20:09:35 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit f7b10c519259129e269ee2b58076ff792e202752[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 20:04:14 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit a1392e418a6c8aabe33afbc921370ae21897ddb7[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:59:22 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit f6db44475597dc404301f4adfbe29cdcaea91ef6[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:53:36 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 7d1918618eac8973f52002222e8d33fb00d69488[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:50:47 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit c7519c32225f4633a453baf07a413e5a6354fdd8[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:46:50 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit a1836fcd00cb13dfd2bd5efc5e1a1bcc580670d4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:44:41 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit f1916eac4c0d30029d5ec3fa388eb9551ecbe611[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:39:14 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 376527350c3e9a92aefac4995f3a73a829ab8822[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:36:14 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit da4f9b62a5b3460e992f01668ebc3233463d7ecf[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:31:36 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 80359fe472b353aa875f66193541b80bef7fbda5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:28:41 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit f8bc1ec974c49c11f555bb748d94f0bd3ee560bc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:22:01 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit a1b491efe7a4fc74870ee8f4f40a95ad6d8415a5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:19:18 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 8e57eacc6eae020955d45af07eca32ebe545ccdc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:16:01 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit b01b34d21fffa398806f33eb0643c90df149d28f[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:09:29 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 24e35cfa1d122c3b076f2445e6ed2e3a3cd65ac5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:06:29 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 2001a083d75c84c822790699cac95c58e2264512[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 19:00:55 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 37c5fa2068d16b177e5a46364e31f68ff914518b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:55:41 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 35b013260fd189fe5968a22e95678efbd1867c33[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:51:49 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 74c1a0eb0ec9d69b98d95c4bcdb2f667f606614b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:48:53 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 9dde2361c54bd60d970c8b4a6604aa5c107d3cef[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:40:53 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit d4f398fd4e4df16ef589a8c938416fb3618f6521[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:39:12 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 626dbf00201d5b3446300237f35298e0f40b1e5c[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:37:25 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 9b06b915aa1fe7f5095d0266973109d0e54bc9e6[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:35:06 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit c5acf508b75c66d7f589755081819e6f3452456c[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:30:02 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 60cfd3292453ef00d2a1a1253415257170dfd58a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:24:35 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 293596c70541d98058b740828187ea6cd854980d[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:19:50 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 96928a7a060960b2435943767b72444a3e15deb9[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:16:55 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 73a670b24251802ad36ae136e58ccd6663edf416[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:13:13 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 149126c7b484c890b8b87a076222e78c006eeed9[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:11:48 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit ab191c6696e1b07a6ba3e4eb3d8a14d3440f517e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:09:54 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit a85d00c4f2208d573d7655c8600e67520d20d52b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:07:01 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 793263bd231d411ef0a951f6ca9a5c1bd9ebf1c0[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 18:02:48 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 84a5ee51ce131a25ac6ae718eb1f75202c14db4d[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:59:19 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 602ece32550ea3a131b9c280e2f579a745476e91[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:55:18 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit cb61f09a3be81494f6d03dd3482a84f882be195b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:52:52 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit e7402ae09e1b18318bff26d5d3573a9f4cf15f8f[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:50:40 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 12e1368a3393f66f67c2bc17b681db0bf3ed11bb[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:48:57 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 3cf6fb49f0652c4bf47cb34d222890f4cb62f99b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:47:02 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit d26148709a7e7f561002e7265e070b7cf3a9f4a1[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:43:56 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 99be375fe93bfd18547394b73f13315fa584fd47[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:38:50 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 85cfa3af400edb31dae7c2e8739439929137aa09[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:30:30 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit e8e8f1741bbb4e9caea4a141218935986a344d73[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 17:20:45 2025 +0100
+
+    [fix] sitemap
+
+[33mcommit a09a1ea7d9aefb74c8c4e593240ee0cf0de14f68[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 16:50:33 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 6be4b47e6c2ba8e9d9471cc45fe9fae8358066eb[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 16:31:00 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 5add757451f1ef041bccc24c397863484e0fc59e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 16:04:34 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 6fb11b5670f74d21035d9e4e7cf8c2066f9e9db5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 15:58:44 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit 76df210cc5f81a20c8b2023a864b9e2f1d04f01b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 15:35:31 2025 +0100
+
+    [fix] schema.org
+
+[33mcommit b5cb2ad0d5af1ecb17f1e0d4daaa8783e91c57bd[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 04:17:23 2025 +0100
+
+    [add] schema.org
+
+[33mcommit 77ab28114b5e5397c27bc535068929c2590b04cc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 01:00:25 2025 +0100
+
+    [fix] seo active title
+
+[33mcommit 0650a33872abf15b7c63edd7da4460915e879308[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 00:31:49 2025 +0100
+
+    [fix] router on slug page
+
+[33mcommit 36a00cafc219f60a94c5072cbc55981a6c5d8455[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Mar 27 00:19:11 2025 +0100
+
+    [add] seo on all pages
+
+[33mcommit 10ccdafd7f87bfe939da6073fd2b7aeeb77605ff[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 17:40:39 2025 +0100
+
+    [fix] seo
+
+[33mcommit 0469ca38dd4730966aa179b1ab02e65778ed7efe[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 15:07:41 2025 +0100
+
+    [fix] seo
+
+[33mcommit 923e9ee68f7bac02e1dbbca97e62aeb6bca0bd92[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 15:03:30 2025 +0100
+
+    [add] seo modules
+
+[33mcommit d8da4dcf18de60fe97da256976b6e151cf25b4af[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 12:48:34 2025 +0100
+
+    [fix] aspect of painting
+
+[33mcommit 84e2dc9aa75ea48aa0fef2069305b3e527e2cc2d[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 12:34:49 2025 +0100
+
+    [fix] transition page
+
+[33mcommit 7d7fd1e68d0255e339fdd5a536e811f8860fd418[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 12:09:29 2025 +0100
+
+    [fix] transition page
+
+[33mcommit 5871f7fdf0b195fb8ba1e9382907d5a57ca863d3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 12:05:25 2025 +0100
+
+    [fix] transition page
+
+[33mcommit df83502fefa275748175d13b47fc0acac6682289[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 11:59:59 2025 +0100
+
+    [fix] transition page
+
+[33mcommit 4f55ed314762e191bdf18390c1cd929b79713f30[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 11:55:13 2025 +0100
+
+    [fix] transition page
+
+[33mcommit fcf1a7cadfc3b04dc18c20c1bf8084d66145ea21[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 26 10:53:02 2025 +0100
+
+    [fix] orthographe
+
+[33mcommit 326651f9f644f4d7f667e30fb329110150d3543e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 22:51:15 2025 +0100
+
+    [fix] suggestions
+
+[33mcommit 4cb7e8fa24924a0cad54938ac5b659d795154853[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 22:36:12 2025 +0100
+
+    [add] suggestions
+
+[33mcommit 4b40d0ae77241c34000115fad73fcd15c34458df[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 15:53:55 2025 +0100
+
+    [add] animation on index
+
+[33mcommit cac174bbaa9ee0e297cf64b1a228f94c5da8ec9e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 15:45:37 2025 +0100
+
+    [fix] FAQ
+
+[33mcommit d686f3ee4acd29e3fe502fda155edcf41ef78adc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 15:40:15 2025 +0100
+
+    [fix] password modal
+
+[33mcommit 8d577277c646d3488d4aa6767b26151fd388f6e3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 15:40:13 2025 +0100
+
+    [fix] password modal
+
+[33mcommit 5c978ec113fab392eaccc19b3cbd2039d850fd72[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 15:32:11 2025 +0100
+
+    [fix] FAQ
+
+[33mcommit f0844f4058522ba51f240cf84671f8e27aa3e2b5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 25 15:16:07 2025 +0100
+
+    [add] FAQs / editable --> done
+
+[33mcommit 65ce9c7d927e4cce82d7af7e3af99c285be93db9[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 23:36:45 2025 +0100
+
+    [fix] revert slug file
+
+[33mcommit 681556241708c93c8aef2289fda0e7db972e17e7[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 23:22:08 2025 +0100
+
+    [fix] UI of header menu on mobile
+
+[33mcommit 4f42782612dad661588566f5f511da15729758ff[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 23:19:16 2025 +0100
+
+    [fix] UI of header menu on mobile
+
+[33mcommit 4b0e149fe2529111699e4bd532a22c34317c912e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 23:16:16 2025 +0100
+
+    [fix] UI of header menu on mobile
+
+[33mcommit e16f8fc7d2e8db7dda79a6146d3fb4cbbec66ec3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 20:11:06 2025 +0100
+
+    [fix] reponsive on index
+
+[33mcommit 30363e80299fc314150c5b42f541504a1344da3d[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 20:06:17 2025 +0100
+
+    [responsive design] slug.vue page
+
+[33mcommit c62bc4398f2a4026137119482fee69680d06c60b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 20:05:51 2025 +0100
+
+    [responsive design] footer
+
+[33mcommit 78d271badf31e267a0903de9d50882caab12824d[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 15:38:26 2025 +0100
+
+    [responsive design] footer
+
+[33mcommit f3a7a3fef689a078b6ed6c77f83318bfb4a68f9a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 03:36:57 2025 +0100
+
+    [fix] animation bubble
+
+[33mcommit 13ba5830bee04add3584aa54bd5ec93948b0d40e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 03:18:01 2025 +0100
+
+    [responsive design] transitions page
+
+[33mcommit 63960e353cb615c229c95c2e3ecd225c14402f6e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 03:17:07 2025 +0100
+
+    [responsive design] transitions page
+
+[33mcommit 034e7b10e78687bd7a62384cb2ec5a902451d9d3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 02:50:56 2025 +0100
+
+    [responsive design] header
+
+[33mcommit eaae94bc07b1aef6296a7c91423c08e0710d5059[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 01:39:25 2025 +0100
+
+    [responsive design] bubble
+
+[33mcommit 1a9efd5be080e619850ad0d7966e2a80a0dffa73[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 24 00:44:41 2025 +0100
+
+    [responsive design] comment-ca-marche page
+
+[33mcommit d0913d636b91f30da63461fab10dc6e681d850ca[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 23 23:45:09 2025 +0100
+
+    [responsive design] qui-suis-je page
+
+[33mcommit 10c9fda2b13c52ad62bf863d1b2d5723045f8ade[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 23 22:49:38 2025 +0100
+
+    [responsive design] qui-suis-je page
+
+[33mcommit da2b93bac1bcb03b0be19ef0f293a462a4791a81[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 23 18:34:09 2025 +0100
+
+    [responsive design] index page
+
+[33mcommit 07044000deef0c7bdde51b3ebf677cc68f1eedfa[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 23 16:19:14 2025 +0100
+
+    [fix] custom container
+
+[33mcommit 243208636893471efc686edf824116b87083557a[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 17 18:05:51 2025 +0100
+
+    [fix] zigzag line offset
+
+[33mcommit 02c6e1958332f2330ed584c221d7a2e2bd458fb4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 17 17:53:51 2025 +0100
+
+    [fix] zigzag line offset
+
+[33mcommit cbab0155a7e130894462c2e669f2de058bee29f4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 17 17:49:40 2025 +0100
+
+    [fix] zigzag line offset
+
+[33mcommit 7db436e0b62e6fabd1d7889cca725b9d90e44faf[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 12 15:12:45 2025 +0100
+
+    [fix] mobile scroll and no animations
+
+[33mcommit 6d06e4586163dfe9ac72fc0b65cb765ad103784e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 12 13:50:45 2025 +0100
+
+    [fix] erase /public/paintings
+
+[33mcommit df89d6a4ee0ff1a138f1eb542213446370b81ea1[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 12 13:44:50 2025 +0100
+
+    [fix] update on cloudinary
+
+[33mcommit 8da7cb6d1d3d4c288b34e3beb8f3c19e6751db76[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 12 13:32:42 2025 +0100
+
+    [fix] update packages
+
+[33mcommit 0b7a72d6328b25745f296bcf48315b3939566c0b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Mar 12 13:31:02 2025 +0100
+
+    [fix] cloudinary for image management
+
+[33mcommit bcc43f0d37ba3a8966999bcd0c80a0ccc8640251[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 11 17:57:21 2025 +0100
+
+    [fix] deploy
+
+[33mcommit 319c9bb89eb72dfbe34f2d54cf3d528b27a3d9d4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 11 17:54:39 2025 +0100
+
+    [fix] migrate sqlite to psql with néon
+
+[33mcommit 299dc0f8155ea26db05b78ad15b7a9724f372c49[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Mar 11 17:53:10 2025 +0100
+
+    [fix] migrate sqlite to psql with néon
+
+[33mcommit 1569786f706de612e69a2d6ed44464212001eaf1[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 18:29:56 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit f36613a1779a01e55f210e35d36804713251accc[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 18:23:58 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 0c60670020da23f34788458bce76341ce374b6f7[m
+Merge: 9eef67f 676a212
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 18:22:47 2025 +0100
+
+    Merge branch 'dev'
+
+[33mcommit 676a212cdebc5bace62589976d0d099a8e8a6db6[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 18:19:51 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 9eef67f3c6b8330bceae7a82dece4c5deea94e79[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 17:59:22 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit c7ac5fbe53a43a6e781b58ba64067dae04256b64[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 14:15:09 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 31fb4ed2389d69966501698b93b5d0afc6ee362b[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 14:12:55 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit be67b67be07f7a8d7647e7608eee2aa03f683fe1[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 14:10:51 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 9d8ba796c182dadaee20dd6a0f624728618f1ff1[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 14:09:23 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 703d8daaf91b4f013cab7f9555ea0117524a0676[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 14:08:15 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 0c415869d9e1bf62f734a11d737b2a8b0117d19f[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 14:00:19 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit ce6ec56d49489053654c5e88cb978412503116b2[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 13:39:09 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 7aafff7129e3e2f2e4ee60871bb81afb2108d2a3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 13:33:36 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 648131f80c0a4ffc807ec445be4473a9cb5275c3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 13:30:26 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit a9f7e342541b458ba535d38ef2f5ddb73bcc7401[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 13:27:39 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 7f1e15d0ed1b5a753c0080c3958e210d352955d8[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 12:28:21 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 99aabb1d7e8ec2bcc31935a33a6b69b04903e7f4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 12:07:36 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit b62061f1a1675e0e5d4f7660e975e813fdf3a87f[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 10 12:01:10 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 63473a55bf4910a9745a7dfc767c3c0d783a9003[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 23:02:25 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit c51a46cb3619d53ad990ec061c5722d22cfe3825[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 22:51:33 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit a7d8adc7cd8c3e739865df3a25e04d30df5961ed[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 22:43:01 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 9c9891f4fe4310287ce630a047b0efafe9fdb88d[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 22:41:20 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 65b1ee81362c06a9cad6fe8de6a309175b73a025[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 22:30:19 2025 +0100
+
+    [fix] Vercel build
+
+[33mcommit 9affc6acf6a44601829a9a1d025078b75a9b5bdd[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 22:05:25 2025 +0100
+
+    [add] prisma command for build
+
+[33mcommit 0a516a409faa61d9a071e3b93ef561c5fb2115a8[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 21:06:27 2025 +0100
+
+    [add] bubble + /comment-ca-marche page
+
+[33mcommit c93a4267c9babca045e69ec833526846bdcfe0d7[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Mar 9 21:05:58 2025 +0100
+
+    [add] bubble + /comment-ca-marche page
+
+[33mcommit a635a499bb14b33e0116f57c217417d8269bb252[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 3 16:57:00 2025 +0100
+
+    [add] share button
+
+[33mcommit 792c18356ed0718dfdd66616b9430dc6196c8b5e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Mar 3 13:35:31 2025 +0100
+
+    [add] yellow blob on /qui-suis-je page
+
+[33mcommit 093f8fafa2af842a11f2bb0b106b7bb585267dc4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Feb 25 22:11:46 2025 +0100
+
+    [fix] zigzag line for large screens
+
+[33mcommit 31170b7a55e550351b4425e023c32dc016d02317[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Feb 25 17:45:43 2025 +0100
+
+    [add] zigzag line
+
+[33mcommit 06f3c7cc811dc0e0436ff10eaa0a4fd04b18ffea[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Feb 23 01:48:11 2025 +0100
+
+    [fill] qui suis-je page
+
+[33mcommit 7f94b05e36b5a2e6c3a701b4c3705e597da4e367[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Feb 22 05:58:00 2025 +0100
+
+    [init] qui suis-je page
+
+[33mcommit a2280a1bdd1e6d0d88ad7f9f819b3fc911ff1959[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Feb 22 05:56:50 2025 +0100
+
+    [init] qui suis-je page
+
+[33mcommit 32378a0e374afd0a473b89d51ef609cdbf4191da[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Feb 19 09:04:49 2025 +0100
+
+    [fix] dark mode
+
+[33mcommit eebddcb86619ce0449119da45720e859ed5315b5[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Feb 19 08:41:46 2025 +0100
+
+    [add] splash screen
+
+[33mcommit 9a4d8366c74df4bab73fa02f71605d2013af5dad[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Feb 5 04:06:39 2025 +0100
+
+    [add] dark mode on page about
+
+[33mcommit bf080d472007b64aba246119d3998f67d9d4c6c0[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Feb 2 23:18:16 2025 +0100
+
+    [add] transition page + fix many bugs
+
+[33mcommit a42eab00bed27edd05e8d524bfb2767d061b173e[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Thu Jan 30 11:09:59 2025 +0100
+
+    [fix] size text on footer
+
+[33mcommit 4eab089502d2d0c0dba0ab21354adc5239fb2adb[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Jan 29 21:33:47 2025 +0100
+
+    [add] shape & password visibility
+
+[33mcommit c241a00db6de9571274da8106b75a5dd92fe51fe[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Jan 29 20:08:32 2025 +0100
+
+    [add] zoom on image & handle SOLD and FOR_SALE state
+
+[33mcommit e94993d4c009c83efb35bd114ab3188a76156701[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Jan 26 16:36:35 2025 +0100
+
+    [fix] fluid cursor effect lighter
+
+[33mcommit 70c28d35568e6cf45c15c092b1b366fdfae4a2a2[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Jan 26 02:09:33 2025 +0100
+
+    [upgrade] Tailwindcss v3.4 to v4
+
+[33mcommit a3cbefbee75853a761a28aff80719c2222fc558f[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Fri Jan 24 21:48:33 2025 +0100
+
+    [add] autor on slug vue
+
+[33mcommit 55e58ded3b858e3358ef30ad9fa336cd31010df0[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Wed Jan 22 01:57:20 2025 +0100
+
+    [fix] tailwind color into css file
+
+[33mcommit 6d11a400bd4b62a0c639f342fde7152eecdc0931[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Jan 14 18:02:47 2025 +0100
+
+    [inté] [slug].vue page
+
+[33mcommit 3b74917b3460ff9c552e6e9abf93a775900385a4[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Tue Jan 14 16:32:41 2025 +0100
+
+    [add] infinite scroll on homepage and setup quality of NuxtImg
+
+[33mcommit ecb6958ec331465f8c43735ed53fb9506df456a9[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Jan 13 17:46:01 2025 +0100
+
+    [add] about and contact pages
+
+[33mcommit ab1c4053b2f66590fc7ea6dbd2bf792a212cd7ca[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Mon Jan 13 17:03:06 2025 +0100
+
+    [add] edit and remove option in editor
+
+[33mcommit a5268f643cca42e3104866003d6fc5153fcfad24[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Jan 12 23:39:14 2025 +0100
+
+    [add] custom cursor webgl
+
+[33mcommit 5a41d194549ab8e82b99e21be3498a5c7d4223e0[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sun Jan 12 04:30:56 2025 +0100
+
+    [add] base de donnée
+
+[33mcommit 542c1fd8fe9f1f5aa23f2935ecfcc0746425f7f3[m
+Author: Rémy Canal <remy.canal@epitech.eu>
+Date:   Sat Jan 11 19:03:04 2025 +0100
+
+    [inté] homepage
+
+[33mcommit 97649a194c097230c296d3c998be92f03961019e[m
+Author: Rémy Canal <74762154+remycnl@users.noreply.github.com>
+Date:   Sat Jan 11 19:00:34 2025 +0100
+
+    Initial commit
