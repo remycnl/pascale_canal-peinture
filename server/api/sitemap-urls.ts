@@ -52,6 +52,12 @@ export default defineSitemapEventHandler(async () => {
 			lastmod: new Date().toISOString(),
 		},
 		{
+			loc: "/commande-personnalisee",
+			priority: 0.9,
+			changefreq: "monthly",
+			lastmod: new Date().toISOString(),
+		},
+		{
 			loc: "/mes-evenements",
 			priority: 0.8,
 			changefreq: "weekly",

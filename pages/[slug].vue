@@ -239,7 +239,7 @@ useSchemaOrg([
 		},
 		potentialAction: {
 			"@type": "BuyAction",
-			target: () => `${baseUrl}/${route.params.slug}`,
+			target: `${baseUrl}/${route.params.slug}`,
 		},
 	}),
 
@@ -328,12 +328,12 @@ useSchemaOrg([
 				<div class="relative prose max-w-none text-grayDark">
 					<div
 						class="lg:absolute -mt-7 lg:mt-0 -top-20 right-0 text-end will-change-scroll flex flex-col lg:flex-row gap-4">
-						<button
+						<NuxtLink
 							v-if="painting.state === 'SOLD'"
-							@click="openContactOverlay('reedition')"
+							to="/"
 							class="bg-black active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200">
-							Demander une réédition
-						</button>
+							Retourner à la galerie
+						</NuxtLink>
 						<button
 							v-else
 							@click="openContactOverlay('achat')"
@@ -353,12 +353,24 @@ useSchemaOrg([
 						<li v-if="painting.state === 'SOLD'">
 							<span
 								class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-								Ce tableau a été vendu. Il est possible de demander une
-								réédition, mais chaque création étant unique, la nouvelle
-								version ne sera pas exactement identique.
+								Ce tableau n’est plus disponible à la vente et est présentée
+								uniquement à titre d'exposition. Si vous souhaitez acquérir une
+								œuvre, vous avez la possibilité de
+								<NuxtLink
+									to="/commande-personnalisee"
+									class="text-[#B60071] underline"
+									>commander une création personnalisée</NuxtLink
+								>
+								ou de
+								<NuxtLink
+									to="/galerie?state=FOR_SALE"
+									class="text-[#B60071] underline"
+									>découvrir les œuvres actuellement disponibles à
+									l’achat</NuxtLink
+								>.
 							</span>
 						</li>
-						<li>
+						<li v-if="painting.state === 'FOR_SALE'">
 							<span class="font-apercuBold">Prix:</span>
 							{{ formatPrice(painting.price) }} €
 						</li>

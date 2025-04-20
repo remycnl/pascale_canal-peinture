@@ -78,6 +78,11 @@ watch(isOpen, (newValue) => {
 						>Comment ça marche ?</NuxtLink
 					>
 					<NuxtLink
+						to="/commande-personnalisee"
+						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						>Commande personalisée</NuxtLink
+					>
+					<NuxtLink
 						to="/qui-suis-je"
 						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
 						>Qui suis-je ?</NuxtLink
@@ -143,6 +148,12 @@ watch(isOpen, (newValue) => {
 								to="/comment-ca-marche"
 								class="w-fit active:scale-90 transition-transform duration-200">
 								Comment ça marche ?
+							</NuxtLink>
+							<NuxtLink
+								@click="isOpen = false"
+								to="/commande-personnalisee"
+								class="w-fit active:scale-90 transition-transform duration-200">
+								Commande personalisée
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"

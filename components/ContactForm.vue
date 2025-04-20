@@ -749,7 +749,7 @@ const loadArtworks = async () => {
 	if (artworksLoaded.value) return;
 
 	try {
-		const response = await $fetch("/api/allPaintings");
+		const response = await $fetch("/api/forSalePaintings");
 		artworks.value = response;
 		artworksLoaded.value = true;
 

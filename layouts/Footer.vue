@@ -45,6 +45,11 @@
 								Comment ça marche ?
 							</NuxtLink>
 							<NuxtLink
+								to="/commande-personnalisee"
+								class="w-fit text-gray-300 hover:text-yellow transition-colors">
+								Commande personalisée
+							</NuxtLink>
+							<NuxtLink
 								to="/qui-suis-je"
 								class="w-fit text-gray-300 hover:text-yellow transition-colors">
 								Qui suis-je ?
