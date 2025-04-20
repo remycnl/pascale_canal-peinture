@@ -9,7 +9,6 @@
 		"preview": "nuxt preview",
 		"postinstall": "npx prisma generate && nuxt prepare",
 		"clean": "rimraf .nuxt dist node_modules package-lock.json"
-
 	},
 	"dependencies": {
 		"@nuxt/image": "^1.10.0",
@@ -28,8 +27,5 @@
 		"@tailwindcss/vite": "^4.1.4",
 		"prisma": "^6.6.0",
 		"tailwindcss": "^4.1.4"
-	},
-	"engines": {
-		"node": "22.x"	
 	}
 }
