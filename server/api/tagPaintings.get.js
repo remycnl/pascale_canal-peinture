@@ -2,7 +2,6 @@ import prisma from "@/lib/prisma";
 
 export default defineEventHandler(async (event) => {
   try {
-    // Récupérer le tag depuis les query params
     const query = getQuery(event);
     const tag = query.tag;
 

@@ -32,9 +32,6 @@ export default defineNuxtConfig({
 			crawlLinks: true,
 			routes: ["/"],
 		},
-		experimental: {
-			wasm: true,
-		},
 		esbuild: {
 			options: {
 				target: "es2020",
