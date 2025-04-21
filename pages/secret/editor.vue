@@ -475,8 +475,8 @@ useSeoMeta({
 										<option class="bg-white text-black" value="FOR_SALE">
 											À vendre
 										</option>
-										<option class="bg-white text-black" value="SOLD">
-											Vendu
+										<option class="bg-white text-black" value="OFF_SALE">
+											Hors vente
 										</option>
 									</select>
 									<svg
@@ -613,7 +613,7 @@ useSeoMeta({
 											<span class="hidden md:inline">{{
 												painting.state === "FOR_SALE"
 													? " - À vendre"
-													: " - Vendu"
+													: " - Hors vente"
 											}}</span>
 										</p>
 									</div>

@@ -185,9 +185,9 @@
 									@contextmenu.prevent
 									class="w-full h-auto" />
 								<span
-									v-if="preSelectedArtwork.state === 'SOLD'"
+									v-if="preSelectedArtwork.state === 'OFF_SALE'"
 									class="absolute top-4 flex items-center right-4 bg-[#B60071]/60 text-white text-xs px-2 py-1 rounded-full">
-									Vendu
+									Hors vente
 								</span>
 								<div class="p-4">
 									<h3 class="font-apercuBold text-xl mb-2 text-white">
@@ -245,9 +245,9 @@
 										<div class="flex">
 											<span class="text-white">{{ result.name }}</span>
 											<span
-												v-if="result.state === 'SOLD'"
+												v-if="result.state === 'OFF_SALE'"
 												class="ml-2 flex items-center bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
-												Vendu
+												Hors vente
 											</span>
 										</div>
 									</div>
@@ -291,9 +291,9 @@
 											quality="50"
 											class="w-full rounded-lg aspect-square" />
 										<span
-											v-if="artwork.state === 'SOLD'"
+											v-if="artwork.state === 'OFF_SALE'"
 											class="absolute top-2 flex items-center right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
-											Vendu
+											Hors vente
 										</span>
 									</div>
 									<p class="text-sm mt-2 text-white truncate">
@@ -391,9 +391,9 @@
 								<div class="flex">
 									<span class="text-white">{{ result.name }}</span>
 									<span
-										v-if="result.state === 'SOLD'"
+										v-if="result.state === 'OFF_SALE'"
 										class="ml-2 flex items-center bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
-										Vendu
+										Hors vente
 									</span>
 								</div>
 							</div>
@@ -437,9 +437,9 @@
 									@contextmenu.prevent
 									class="w-full rounded-lg aspect-square" />
 								<span
-									v-if="artwork.state === 'SOLD'"
+									v-if="artwork.state === 'OFF_SALE'"
 									class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 flex items-center rounded-full">
-									Vendu
+									Hors vente
 								</span>
 							</div>
 							<p class="text-sm mt-2 text-white truncate">{{ artwork.name }}</p>
@@ -510,9 +510,9 @@
 								@contextmenu.prevent
 								class="w-full rounded-lg aspect-square" />
 							<span
-								v-if="artwork.state === 'SOLD'"
+								v-if="artwork.state === 'OFF_SALE'"
 								class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
-								Vendu
+								Hors vente
 							</span>
 						</div>
 						<p class="text-sm mt-2 text-white truncate" :title="artwork.name">
@@ -910,9 +910,9 @@ const handleFileUpload = (event) => {
 };
 
 const getMessageTemplate = () => {
-	const soldArtworks = selectedArtworks.value.filter((a) => a.state === "SOLD");
+	const soldArtworks = selectedArtworks.value.filter((a) => a.state === "OFF_SALE");
 	const availableArtworks = selectedArtworks.value.filter(
-		(a) => a.state !== "SOLD"
+		(a) => a.state !== "OFF_SALE"
 	);
 
 	let message = "Bonjour,\n\n";

@@ -231,7 +231,7 @@ useSchemaOrg([
 						@load="handleImageLoad(painting.id)"
 						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 					<div
-						v-if="painting.state === 'SOLD'"
+						v-if="painting.state === 'OFF_SALE'"
 						class="absolute select-none inset-0 flex items-center justify-center scale:100 lg:scale-50 group-hover:scale-100 lg:opacity-0 group-hover:opacity-100 transition-all duration-400">
 						<div
 							:style="{
@@ -264,14 +264,14 @@ useSchemaOrg([
 						<div
 							class="text-sm md:text-base lg:text-lg whitespace-nowrap decoration-white flex-shrink-0">
 							<span
-								v-if="painting.state !== 'SOLD'"
+								v-if="painting.state !== 'OFF_SALE'"
 								:class="
-									painting.state === 'SOLD' ? 'line-through' : 'no-underline'
+									painting.state === 'OFF_SALE' ? 'line-through' : 'no-underline'
 								">
 								{{ painting.price + " €" }}
 							</span>
 							<span
-								v-if="painting.state === 'SOLD'"
+								v-if="painting.state === 'OFF_SALE'"
 								class="ml-1 2xl:ml-2 hidden lg:inline">
 								Hors vente
 							</span>

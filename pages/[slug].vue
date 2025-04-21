@@ -329,7 +329,7 @@ useSchemaOrg([
 					<div
 						class="lg:absolute -mt-7 lg:mt-0 -top-20 right-0 text-end will-change-scroll flex flex-col lg:flex-row gap-4">
 						<NuxtLink
-							v-if="painting.state === 'SOLD'"
+							v-if="painting.state === 'OFF_SALE'"
 							to="/"
 							class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center">
 							Retourner à la galerie
@@ -350,7 +350,7 @@ useSchemaOrg([
 						Détails
 					</h2>
 					<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2">
-						<li v-if="painting.state === 'SOLD'">
+						<li v-if="painting.state === 'OFF_SALE'">
 							<span
 								class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
 								Ce tableau n’est plus disponible à la vente et est présentée
