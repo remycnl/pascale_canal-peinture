@@ -29,14 +29,10 @@ export default defineNuxtConfig({
 					"./node_modules/.prisma/client/index-browser.js",
 			},
 		},
-		optimizeDeps: {
-			exclude: ["@prisma/client"],
-		},
 	},
 	nitro: {
 		preset: "vercel",
-		compressPublicAssets: true,
-		moduleSideEffects: ["@prisma/client"],
+
 		prerender: {
 			crawlLinks: true,
 			routes: ["/"],
