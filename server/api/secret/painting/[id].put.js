@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
 		// Get existing painting
 		const existingPainting = await prisma.painting.findUnique({
 			where: { id: parseInt(id) },
+			include: { tags: true },
 		});
 
 		if (!existingPainting) {
@@ -53,9 +54,9 @@ export default defineEventHandler(async (event) => {
 
 			// Upload new image to Cloudinary
 			try {
-				const base64Image = `data:${imageFile.type};base64,${Buffer.from(
+				const base64Image = `data:${imageFile.type};base64,${new Uint8Array(
 					imageFile.data
-				).toString("base64")}`;
+				).reduce((data, byte) => data + String.fromCharCode(byte), "")}`;
 
 				const uploadResult = await cloudinary.uploader.upload(base64Image, {
 					folder: "paintings",
@@ -72,7 +73,7 @@ export default defineEventHandler(async (event) => {
 		}
 
 		// Update painting in database
-		const painting = await prisma.painting.update({
+		const updatedPainting = await prisma.painting.update({
 			where: { id: parseInt(id) },
 			data: {
 				name: getFieldValue("name") || existingPainting.name,
@@ -91,7 +92,6 @@ export default defineEventHandler(async (event) => {
 					: existingPainting.height,
 				paintingType:
 					getFieldValue("paintingType") || existingPainting.paintingType,
-				tag: getFieldValue("tag") || existingPainting.tag,
 				slug: getFieldValue("slug") || existingPainting.slug,
 				state: getFieldValue("state") || existingPainting.state,
 				date: getFieldValue("date")
@@ -100,7 +100,48 @@ export default defineEventHandler(async (event) => {
 			},
 		});
 
-		return { painting };
+		const tagsField = formData.find((field) => field.name === "tags");
+		if (tagsField) {
+			try {
+				const tagsArray = JSON.parse(tagsField.data.toString());
+
+				if (Array.isArray(tagsArray) && tagsArray.length > 0) {
+					// Delete existing tags
+					await prisma.paintingTag.deleteMany({
+						where: { paintingId: updatedPainting.id },
+					});
+
+					// Create new tags
+					for (const tag of tagsArray) {
+						if (
+							[
+								"ANIMAL",
+								"PERSONNAGE",
+								"PAYSAGE",
+								"COMMANDE_PERSONNALISEE",
+							].includes(tag)
+						) {
+							await prisma.paintingTag.create({
+								data: {
+									paintingId: updatedPainting.id,
+									tag: tag,
+								},
+							});
+						}
+					}
+				}
+			} catch (parseError) {
+				console.error("Erreur lors du parsing des tags:", parseError);
+			}
+		}
+
+		// Récupérer la peinture mise à jour avec ses tags
+		const paintingWithTags = await prisma.painting.findUnique({
+			where: { id: updatedPainting.id },
+			include: { tags: true },
+		});
+
+		return { painting: paintingWithTags };
 	} catch (error) {
 		console.error(
 			"Erreur détaillée lors de la modification de la peinture:",

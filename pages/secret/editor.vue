@@ -20,7 +20,7 @@ const height = ref("");
 const paintingType = ref("");
 const price = ref("");
 const selectedImage = ref(null);
-const tag = ref("");
+const selectedTags = ref([]);
 const slug = ref("");
 const state = ref("FOR_SALE");
 const paintings = ref([]);
@@ -28,6 +28,14 @@ const selectedPainting = ref(null);
 const isEditMode = ref(false);
 const isSelectOpen = ref(false);
 const searchQuery = ref("");
+
+const availableTags = [
+	{ value: "ANIMAL", label: "Animal" },
+	{ value: "PERSONNAGE", label: "Personnage" },
+	{ value: "PAYSAGE", label: "Paysage" },
+	{ value: "COMMANDE_PERSONNALISEE", label: "Commande personnalisée" },
+];
+
 const normalizeString = (str) => {
 	return str
 		.toLowerCase()
@@ -134,7 +142,12 @@ const selectPaintingForEdit = (painting) => {
 	height.value = painting.height;
 	paintingType.value = painting.paintingType;
 	price.value = painting.price;
-	tag.value = painting.tag;
+	selectedTags.value =
+		painting.tags && painting.tags.length
+			? painting.tags.map((tagObj) =>
+					typeof tagObj === "object" ? tagObj.tag : tagObj
+			  )
+			: [];
 	slug.value = painting.slug;
 	state.value = painting.state;
 	date.value = formatDate(new Date(painting.date));
@@ -159,6 +172,11 @@ const deletePainting = async (painting) => {
 
 const updatePainting = async () => {
 	try {
+		if (!selectedTags.value.length) {
+			alert("Veuillez sélectionner au moins un tag.");
+			return;
+		}
+
 		const formData = new FormData();
 		formData.append("name", name.value);
 		formData.append("description", description.value);
@@ -170,7 +188,7 @@ const updatePainting = async () => {
 		if (selectedImage.value) {
 			formData.append("image", selectedImage.value);
 		}
-		formData.append("tag", tag.value);
+		formData.append("tags", JSON.stringify(selectedTags.value));
 		formData.append("slug", slug.value);
 		formData.append("state", state.value);
 		formData.append("date", date.value);
@@ -191,6 +209,11 @@ const updatePainting = async () => {
 
 const submitPainting = async () => {
 	try {
+		if (!selectedTags.value.length) {
+			alert("Veuillez sélectionner au moins un tag.");
+			return;
+		}
+
 		if (isEditMode.value) {
 			await updatePainting();
 		} else {
@@ -203,7 +226,7 @@ const submitPainting = async () => {
 			formData.append("height", height.value);
 			formData.append("paintingType", paintingType.value);
 			formData.append("price", price.value);
-			formData.append("tag", tag.value);
+			formData.append("tags", JSON.stringify(selectedTags.value));
 			formData.append("slug", slug.value);
 			formData.append("state", state.value);
 			formData.append("date", date.value);
@@ -236,12 +259,20 @@ const resetForm = () => {
 	paintingType.value = "";
 	price.value = "";
 	selectedImage.value = null;
-	tag.value = "";
+	selectedTags.value = [];
 	slug.value = "";
 	state.value = "FOR_SALE";
 	date.value = formatDate(new Date());
 	selectedPainting.value = null;
 	isEditMode.value = false;
+};
+
+const toggleTag = (tagValue) => {
+	if (selectedTags.value.includes(tagValue)) {
+		selectedTags.value = selectedTags.value.filter((t) => t !== tagValue);
+	} else {
+		selectedTags.value.push(tagValue);
+	}
 };
 
 useSeoMeta({
@@ -412,10 +443,24 @@ useSeoMeta({
 									required />
 							</div>
 
-							<!-- Tag -->
+							<!-- Tags - Multiple selection -->
 							<div class="form-group">
-								<label for="tag" class="label">Tag</label>
-								<input v-model="tag" id="tag" class="input" required />
+								<label class="label">Tags</label>
+								<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+									<button
+										v-for="tag in availableTags"
+										:key="tag.value"
+										type="button"
+										@click="toggleTag(tag.value)"
+										class="px-4 py-2 font-apercuMedium whitespace-nowrap rounded-lg text-sm transition-all active:scale-97 duration-200"
+										:class="
+											selectedTags.includes(tag.value)
+												? 'bg-yellow text-black border border-yellow'
+												: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'
+										">
+										{{ tag.label }}
+									</button>
+								</div>
 							</div>
 
 							<div class="flex gap-3 md:gap-8">
@@ -635,7 +680,11 @@ useSeoMeta({
 								loading="lazy"
 								@contextmenu.prevent
 								class="w-5 h-5" />
-							<NuxtImg v-else src="/svg/eye-closed.svg" class="w-5 h-5" @contextmenu.prevent />
+							<NuxtImg
+								v-else
+								src="/svg/eye-closed.svg"
+								class="w-5 h-5"
+								@contextmenu.prevent />
 						</button>
 					</div>
 					<button

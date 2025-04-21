@@ -41,7 +41,7 @@ useSchemaOrg([
 ]);
 
 const { data: personalizedPaintings } = await useFetch("/api/tagPaintings", {
-	params: { tag: "Vache" },
+	params: { tag: "COMMANDE_PERSONNALISEE" },
 	transform: (data) => data || [],
 });
 

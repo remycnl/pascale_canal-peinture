@@ -10,6 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PaintingState {
+  FOR_SALE   // À vendre
+  SOLD       // Vendu
+}
+
+enum ArtTag {
+  ANIMAL
+  PERSONNAGE
+  PAYSAGE
+  COMMANDE_PERSONNALISEE
+}
+
 model Painting {
   id          Int       @id @default(autoincrement())
   name        String    // Nom de la peinture
@@ -17,13 +29,22 @@ model Painting {
   date        DateTime  @default(now()) // Date de création ou d'exposition
   price       Decimal   // Prix de la peinture
   image       String    // URL ou chemin d'image
-  tag         String    // Type ou style artistique (ex : portrait, paysage, vaches, etc)
+  tags        PaintingTag[] // Relation many-to-many avec les tags
   state       PaintingState @default(FOR_SALE) // État : "vendu" ou "à vendre"
   slug        String    @unique // Identifiant unique (slug)
   artist      String    // Nom de l'artiste
   width       Decimal   // Largeur en cm
   height      Decimal   // Hauteur en cm
   paintingType String   // Type de peinture (ex : huile, aquarelle, acrylique, etc)
+}
+
+model PaintingTag {
+  id        Int      @id @default(autoincrement())
+  painting  Painting @relation(fields: [paintingId], references: [id], onDelete: Cascade)
+  paintingId Int
+  tag       ArtTag
+  
+  @@unique([paintingId, tag]) // Garantit qu'un tag n'est ajouté qu'une seule fois à une peinture
 }
 
 model FAQ {
@@ -34,11 +55,6 @@ model FAQ {
   isActive    Boolean   @default(true) // Pour activer/désactiver une entrée sans la supprimer
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-}
-
-enum PaintingState {
-  FOR_SALE   // À vendre
-  SOLD       // Vendu
 }
 
 model Event {

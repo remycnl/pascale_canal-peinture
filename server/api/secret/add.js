@@ -31,11 +31,28 @@ export default defineEventHandler(async (event) => {
 			);
 
 			const readableStream = new Readable();
-			readableStream.push(imageFile.data);
+			readableStream.push(new Uint8Array(imageFile.data));
 			readableStream.push(null);
 
 			readableStream.pipe(uploadStream);
 		});
+
+		// Récupération et traitement des tags
+		const tagsField = formData.find((field) => field.name === "tags");
+		let tagArray = [];
+
+		if (tagsField) {
+			try {
+				tagArray = JSON.parse(tagsField.data.toString());
+
+				if (!Array.isArray(tagArray)) {
+					tagArray = [];
+					console.error("Les tags fournis ne sont pas un tableau valide");
+				}
+			} catch (parseError) {
+				console.error("Erreur lors du parsing des tags:", parseError);
+			}
+		}
 
 		// Création de la peinture dans la base de données
 		const painting = await prisma.painting.create({
@@ -51,9 +68,16 @@ export default defineEventHandler(async (event) => {
 				width: parseFloat(getFieldValue("width") || "0"),
 				height: parseFloat(getFieldValue("height") || "0"),
 				paintingType: getFieldValue("paintingType"),
-				tag: getFieldValue("tag"),
 				slug: getFieldValue("slug"),
 				state: getFieldValue("state"),
+				tags: {
+					create: tagArray.map((tag) => ({
+						tag: tag,
+					})),
+				},
+			},
+			include: {
+				tags: true,
 			},
 		});
 
