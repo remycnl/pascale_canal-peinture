@@ -8,7 +8,11 @@
 		"generate": "npx prisma generate && nuxt generate",
 		"preview": "nuxt preview",
 		"postinstall": "npx prisma generate && nuxt prepare",
-		"clean": "rimraf .nuxt dist node_modules package-lock.json"
+		"clean": "rimraf .nuxt dist node_modules package-lock.json",
+		"prisma:generate": "prisma generate",
+		"prisma:studio": "prisma studio",
+		"prisma:deploy": "prisma migrate deploy",
+		"vercel-build": "prisma generate && prisma migrate deploy && nuxt build"
 	},
 	"dependencies": {
 		"@nuxt/image": "^1.10.0",

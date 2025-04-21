@@ -35,16 +35,16 @@ export default defineNuxtConfig({
 	},
 	nitro: {
 		preset: "vercel",
-		esbuild: {
-			options: {
-				target: "es2020",
-			},
-		},
 		compressPublicAssets: true,
 		moduleSideEffects: ["@prisma/client"],
 		prerender: {
 			crawlLinks: true,
 			routes: ["/"],
+		},
+		esbuild: {
+			options: {
+				target: "es2020",
+			},
 		},
 	},
 	site: {
