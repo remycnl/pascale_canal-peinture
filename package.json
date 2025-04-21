@@ -12,7 +12,7 @@
 		"prisma:generate": "prisma generate",
 		"prisma:studio": "prisma studio",
 		"prisma:deploy": "prisma migrate deploy",
-		"vercel-build": "prisma generate && prisma db push && nuxt build"
+		"vercel-build": "prisma generate && prisma db push --accept-data-loss && nuxt build"
 	},
 	"dependencies": {
 		"@nuxt/image": "^1.10.0",
