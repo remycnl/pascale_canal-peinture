@@ -235,10 +235,11 @@ useSchemaOrg([
 						class="absolute select-none inset-0 flex items-center justify-center scale:100 lg:scale-50 group-hover:scale-100 lg:opacity-0 group-hover:opacity-100 transition-all duration-400">
 						<div
 							:style="{
-								fontSize: `${cardSize * 0.3}px`,
+								fontSize: `${cardSize * 0.28}px`,
+								lineHeight: `${cardSize * 0.28}px`
 							}"
-							class="-rotate-45 mt-5 ml-5 flex items-center justify-center uppercase font-apercuBold text-white/50 origin-center">
-							Vendu
+							class="-rotate-45 flex items-center justify-center text-center uppercase font-apercuBold text-white/50 origin-center">
+							Hors vente
 						</div>
 					</div>
 				</div>
@@ -263,6 +264,7 @@ useSchemaOrg([
 						<div
 							class="text-sm md:text-base lg:text-lg whitespace-nowrap decoration-white flex-shrink-0">
 							<span
+								v-if="painting.state !== 'SOLD'"
 								:class="
 									painting.state === 'SOLD' ? 'line-through' : 'no-underline'
 								">
@@ -271,7 +273,7 @@ useSchemaOrg([
 							<span
 								v-if="painting.state === 'SOLD'"
 								class="ml-1 2xl:ml-2 hidden lg:inline">
-								Vendu
+								Hors vente
 							</span>
 						</div>
 					</div>
