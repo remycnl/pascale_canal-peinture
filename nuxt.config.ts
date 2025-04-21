@@ -23,10 +23,6 @@ export default defineNuxtConfig({
 	],
 	vite: {
 		plugins: [tailwindcss()],
-
-		optimizeDeps: {
-			exclude: ["@prisma/client"],
-		},
 	},
 	nitro: {
 		preset: "vercel",
