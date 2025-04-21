@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
 						: body.endDate || null,
 				showEndTime: body.showEndTime !== undefined ? body.showEndTime : true,
 				location: body.location || "",
-				url: body.url || null,
+				url: body.url || "",
 				price:
 					body.price !== undefined && body.price !== null
 						? new Prisma.Decimal(body.price)

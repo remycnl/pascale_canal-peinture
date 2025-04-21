@@ -56,7 +56,7 @@ const addEvent = async () => {
 			showEndTime: true,
 			imageUrl: "",
 			isActive: true,
-			url: null,
+			url: "",
 		});
 
 		setTimeout(() => {
