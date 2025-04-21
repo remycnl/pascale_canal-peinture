@@ -312,7 +312,6 @@ useSchemaOrg([
 					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
-						fit="cover"
 						format="webp"
 						ref="imageRef"
 						@contextmenu.prevent
@@ -323,7 +322,7 @@ useSchemaOrg([
 							transition: isZoomed ? 'none' : 'all 0.3s ease',
 							opacity: imageLoaded ? 1 : 0,
 						}"
-						class="rounded-2xl w-full h-full object-center" />
+						class="rounded-2xl object-cover w-full h-full object-center" />
 				</div>
 				<div class="relative prose max-w-none text-grayDark">
 					<div

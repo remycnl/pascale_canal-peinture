@@ -164,11 +164,8 @@ onMounted(() => {
 										:alt="suggestion.name"
 										provider="cloudinary"
 										format="webp"
-										fit="cover"
 										quality="50"
-										width="40"
-										height="40"
-										class="rounded-md"
+										class="rounded-md object-cover w-10 h-10"
 										@contextmenu.prevent
 										@load="setImageLoaded(suggestion.id)" />
 									<span>{{ suggestion.name }}</span>

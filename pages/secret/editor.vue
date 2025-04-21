@@ -598,11 +598,10 @@ useSeoMeta({
 										:src="painting.image"
 										:alt="painting.name"
 										loading="lazy"
-										fit="cover"
 										format="webp"
 										provider="cloudinary"
 										@contextmenu.prevent
-										class="w-16 h-16 min-w-[64px] rounded-lg" />
+										class="w-16 h-16 object-cover min-w-[64px] rounded-lg" />
 									<div class="overflow-hidden">
 										<h3
 											class="font-apercuMedium truncate text-gray-800 max-w-full">

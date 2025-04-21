@@ -71,7 +71,6 @@ onUnmounted(() => {
 				<NuxtImg
 					src="/img/logo.png"
 					alt="Logo"
-					fit="cover"
 					format="webp"
 					class="w-10 sm:w-15 md:w-20 h-auto" />
 			</div>
@@ -115,12 +114,11 @@ onUnmounted(() => {
 						:src="painting.image"
 						:alt="painting.name"
 						format="webp"
-						fit="cover"
 						quality="50"
 						loading="lazy"
 						provider="cloudinary"
 						@contextmenu.prevent
-						class="w-full h-full transition-all duration-500 group-hover:scale-105 group-hover:filter group-hover:grayscale" />
+						class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:filter group-hover:grayscale" />
 					<div
 						class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 				</div>

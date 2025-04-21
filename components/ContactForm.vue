@@ -178,12 +178,11 @@
 								<NuxtImg
 									:src="preSelectedArtwork.image"
 									:alt="preSelectedArtwork.name"
-									fit="cover"
 									provider="cloudinary"
 									format="webp"
 									quality="50"
 									@contextmenu.prevent
-									class="w-full h-auto" />
+									class="w-full object-cover h-auto" />
 								<span
 									v-if="preSelectedArtwork.state === 'OFF_SALE'"
 									class="absolute top-4 flex items-center right-4 bg-[#B60071]/60 text-white text-xs px-2 py-1 rounded-full">
@@ -236,12 +235,11 @@
 											:alt="result.name"
 											width="40"
 											height="40"
-											fit="cover"
 											provider="cloudinary"
 											@contextmenu.prevent
 											format="webp"
 											quality="50"
-											class="rounded-md" />
+											class="rounded-md object-cover" />
 										<div class="flex">
 											<span class="text-white">{{ result.name }}</span>
 											<span
@@ -286,10 +284,9 @@
 											:alt="artwork.name"
 											provider="cloudinary"
 											@contextmenu.prevent
-											fit="cover"
 											format="webp"
 											quality="50"
-											class="w-full rounded-lg aspect-square" />
+											class="w-full object-cover rounded-lg aspect-square" />
 										<span
 											v-if="artwork.state === 'OFF_SALE'"
 											class="absolute top-2 flex items-center right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">
@@ -383,11 +380,10 @@
 									provider="cloudinary"
 									width="40"
 									height="40"
-									fit="cover"
 									format="webp"
 									quality="50"
 									@contextmenu.prevent
-									class="rounded-md" />
+									class="rounded-md object-cover" />
 								<div class="flex">
 									<span class="text-white">{{ result.name }}</span>
 									<span
@@ -431,11 +427,10 @@
 									:src="artwork.image"
 									:alt="artwork.name"
 									provider="cloudinary"
-									fit="cover"
 									format="webp"
 									quality="50"
 									@contextmenu.prevent
-									class="w-full rounded-lg aspect-square" />
+									class="w-full rounded-lg object-cover aspect-square" />
 								<span
 									v-if="artwork.state === 'OFF_SALE'"
 									class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 flex items-center rounded-full">
@@ -504,11 +499,10 @@
 								:src="artwork.image"
 								:alt="artwork.name"
 								provider="cloudinary"
-								fit="cover"
 								format="webp"
 								quality="50"
 								@contextmenu.prevent
-								class="w-full rounded-lg aspect-square" />
+								class="w-full object-cover rounded-lg aspect-square" />
 							<span
 								v-if="artwork.state === 'OFF_SALE'"
 								class="absolute top-2 right-2 bg-[#B60071]/60 text-white text-xs px-2 py-0.5 rounded-full">

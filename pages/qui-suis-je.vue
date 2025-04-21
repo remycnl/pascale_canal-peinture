@@ -53,9 +53,8 @@ useSchemaOrg([
 				<NuxtImg
 					src="/img/pascalecanal.jpg"
 					alt="Une photo de moi (Pascale Canal)"
-					fit="cover"
 					format="webp"
-					class="grayscale pointer-events-none brightness-70 contrast-110 shadow-custom w-full h-full rounded-2xl" />
+					class="grayscale object-cover pointer-events-none brightness-70 contrast-110 shadow-custom w-full h-full rounded-2xl" />
 			</div>
 		</div>
 		<ZigzagLine>
@@ -67,9 +66,8 @@ useSchemaOrg([
 				<NuxtImg
 					src="/img/pascalecanal.jpg"
 					alt="Une photo de moi (Pascale Canal)"
-					fit="cover"
 					format="webp"
-					class="grayscale brightness-70 pointer-events-none contrast-110 w-full max-w-md h-full rounded-lg md:rounded-2xl" />
+					class="grayscale brightness-70 object-cover pointer-events-none contrast-110 w-full max-w-md h-full rounded-lg md:rounded-2xl" />
 			</div>
 			<div class="relative">
 				<p

@@ -222,14 +222,13 @@ useSchemaOrg([
 					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
-						fit="cover"
 						format="webp"
 						loading="lazy"
 						quality="50"
 						provider="cloudinary"
 						@contextmenu.prevent
 						@load="handleImageLoad(painting.id)"
-						class="w-full h-full rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
+						class="w-full h-full object-cover rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 					<div
 						v-if="painting.state === 'OFF_SALE'"
 						class="absolute select-none inset-0 flex items-center justify-center scale:100 lg:scale-50 group-hover:scale-100 lg:opacity-0 group-hover:opacity-100 transition-all duration-400">

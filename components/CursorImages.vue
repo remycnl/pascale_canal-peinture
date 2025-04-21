@@ -156,9 +156,8 @@ const updateImagePositions = () => {
 				:alt="painting.name"
 				format="webp"
 				quality="50"
-				fit="contain"
 				provider="cloudinary"
-				class="cursor-picture absolute w-70 rounded-2xl select-none"
+				class="cursor-picture absolute object-contain w-70 rounded-2xl select-none"
 				@load="(e) => e.target && setImageStyles(e.target)" />
 		</div>
 	</div>

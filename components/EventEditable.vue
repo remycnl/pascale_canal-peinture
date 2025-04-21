@@ -344,9 +344,8 @@ const initializeTextareas = () => {
 										:alt="event.title"
 										loading="lazy"
 										provider="cloudinary"
-										fit="cover"
 										format="webp"
-										class="w-full h-full" />
+										class="w-full object-cover h-full" />
 
 									<div
 										v-else
