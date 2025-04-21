@@ -1,6 +1,6 @@
 import { defineSitemapEventHandler, createError } from "#imports";
 import type { SitemapUrlInput } from "#sitemap/types";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 const fetchSlugs = async () => {
 	try {
