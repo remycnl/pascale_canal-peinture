@@ -3,7 +3,7 @@ import { definePerson } from "nuxt-schema-org/schema";
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
-	compatibilityDate: "2025-04-21",
+	compatibilityDate: '2024-04-03',
 	devtools: { enabled: true },
 	css: [
 		"@/assets/css/main.css",
