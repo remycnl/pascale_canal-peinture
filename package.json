@@ -11,8 +11,7 @@
 		"clean": "rimraf .nuxt dist node_modules package-lock.json",
 		"prisma:generate": "prisma generate",
 		"prisma:studio": "prisma studio",
-		"prisma:deploy": "prisma migrate deploy",
-		"vercel-build": "prisma generate && prisma migrate deploy && nuxt build"
+		"prisma:deploy": "prisma migrate deploy"
 	},
 	"dependencies": {
 		"@nuxt/image": "^1.10.0",
