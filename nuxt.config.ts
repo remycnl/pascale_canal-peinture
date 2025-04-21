@@ -23,35 +23,16 @@ export default defineNuxtConfig({
 	],
 	vite: {
 		plugins: [tailwindcss()],
-		resolve: {
-			alias: {
-				".prisma/client/index-browser":
-					"./node_modules/.prisma/client/index-browser.js",
-			},
-		},
-		optimizeDeps: {
-			exclude: ["@prisma/client"],
-		},
+
+
 	},
 	nitro: {
 		preset: "vercel",
-		compressPublicAssets: true,
-		moduleSideEffects: ["@prisma/client"],
 		prerender: {
 			crawlLinks: true,
 			routes: ["/"],
 		},
-		esbuild: {
-			options: {
-				target: "es2020",
-			},
-		},
-	},
-	site: {
-		url: process.env.NUXT_SITE_URL || "http://localhost:3000",
-		name:
-			process.env.NUXT_SITE_NAME ||
-			"Pascale Canal | Artiste Peintre • Exposition en ligne",
+
 	},
 	robots: {
 		disallow: ["/secret"],
@@ -73,9 +54,6 @@ export default defineNuxtConfig({
 			url: process.env.NUXT_SITE_URL || "http://localhost:3000",
 			sameAs: ["https://www.linkedin.com/in/pascale-canal"],
 		}),
-	},
-	routeRules: {
-		"/secret/**": { robots: false },
 	},
 	image: {
 		providers: {
