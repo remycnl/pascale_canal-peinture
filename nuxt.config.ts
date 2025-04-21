@@ -1,6 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import { definePerson } from "nuxt-schema-org/schema";
-import { defineNuxtConfig } from 'nuxt/config';
+import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
 	compatibilityDate: "2025-04-21",
@@ -29,9 +29,18 @@ export default defineNuxtConfig({
 					"./node_modules/.prisma/client/index-browser.js",
 			},
 		},
+		optimizeDeps: {
+			exclude: ["@prisma/client"],
+		},
 	},
 	nitro: {
 		preset: "vercel",
+		esbuild: {
+			options: {
+				target: "es2020",
+			},
+		},
+		compressPublicAssets: true,
 		moduleSideEffects: ["@prisma/client"],
 		prerender: {
 			crawlLinks: true,
