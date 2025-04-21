@@ -3,7 +3,7 @@ import { definePerson } from "nuxt-schema-org/schema";
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
-	compatibilityDate: "2025-04-21",
+	compatibilityDate: "2024-04-21",
 	devtools: { enabled: true },
 	css: [
 		"@/assets/css/main.css",
@@ -23,16 +23,29 @@ export default defineNuxtConfig({
 	],
 	vite: {
 		plugins: [tailwindcss()],
-
-
+		resolve: {
+			alias: {
+				".prisma/client/index-browser":
+					"./node_modules/.prisma/client/index-browser.js",
+			},
+		},
+		optimizeDeps: {
+			exclude: ["@prisma/client"],
+		},
 	},
 	nitro: {
 		preset: "vercel",
+		compressPublicAssets: true,
+		moduleSideEffects: ["@prisma/client"],
 		prerender: {
 			crawlLinks: true,
 			routes: ["/"],
 		},
-
+		esbuild: {
+			options: {
+				target: "es2020",
+			},
+		},
 	},
 	robots: {
 		disallow: ["/secret"],
