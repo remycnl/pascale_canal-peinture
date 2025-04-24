@@ -22,21 +22,10 @@ const {
 
 const activeTab = ref("upcoming");
 
-const upcomingBtn = ref(null);
-const pastBtn = ref(null);
-
-const indicatorWidth = ref(0);
-const indicatorLeft = ref(0);
-
-const updateIndicatorPosition = () => {
-	if (activeTab.value === "upcoming" && upcomingBtn.value) {
-		indicatorWidth.value = upcomingBtn.value.offsetWidth;
-		indicatorLeft.value = upcomingBtn.value.offsetLeft;
-	} else if (activeTab.value === "past" && pastBtn.value) {
-		indicatorWidth.value = pastBtn.value.offsetWidth;
-		indicatorLeft.value = pastBtn.value.offsetLeft;
-	}
-};
+const eventTabs = [
+	{ id: "upcoming", label: "À venir" },
+	{ id: "past", label: "Passés" },
+];
 
 const displayedEvents = computed(() => {
 	return activeTab.value === "upcoming"
@@ -73,23 +62,16 @@ const loadEvents = async () => {
 	}
 };
 
+const handleTabChange = (tabId) => {
+	activeTab.value = tabId;
+};
+
 watch(activeTab, () => {
 	loadEvents();
-	nextTick(() => {
-		updateIndicatorPosition();
-	});
 });
 
 onMounted(() => {
 	loadEvents();
-	nextTick(() => {
-		updateIndicatorPosition();
-		window.addEventListener("resize", updateIndicatorPosition);
-	});
-});
-
-onUnmounted(() => {
-	window.removeEventListener("resize", updateIndicatorPosition);
 });
 
 const skeletonItems = computed(() => {
@@ -141,42 +123,10 @@ useSchemaOrg([
 		<div class="mt-10 md:mt-20 lg:mt-30">
 			<!-- Event tabs -->
 			<div class="flex justify-end mb-8 md:mb-12">
-				<div class="relative inline-flex bg-black rounded-full shadow-md p-1.5">
-					<!-- Sliding indicator -->
-					<div
-						class="absolute shadow-sm bg-white rounded-full transition-all duration-300 ease-in-out z-0"
-						:style="{
-							left: indicatorLeft + 'px',
-							width: indicatorWidth + 'px',
-							top: '6px',
-							bottom: '6px',
-						}"></div>
-					<!-- Buttons -->
-					<button
-						ref="upcomingBtn"
-						@click="activeTab = 'upcoming'"
-						class="relative z-10 rounded-full px-6 py-3 text-base md:text-lg font-apercuMedium transition-all duration-200"
-						:class="
-							activeTab === 'upcoming'
-								? 'text-black'
-								: 'text-white hover:text-gray-200 active:scale-95'
-						"
-						aria-label="Voir les événements à venir">
-						À venir
-					</button>
-					<button
-						ref="pastBtn"
-						@click="activeTab = 'past'"
-						class="relative z-10 rounded-full px-6 py-3 text-base md:text-lg font-apercuMedium transition-all duration-200"
-						:class="
-							activeTab === 'past'
-								? 'text-black'
-								: 'text-white hover:text-gray-200 active:scale-95'
-						"
-						aria-label="Voir les événements passés">
-						Passés
-					</button>
-				</div>
+				<TabSwitcher
+					:tabs="eventTabs"
+					:initial-tab="activeTab"
+					@tab-change="handleTabChange" />
 			</div>
 
 			<!-- Error state -->
@@ -328,7 +278,7 @@ useSchemaOrg([
 						:key="event.id"
 						tabindex="0"
 						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden"
-						:class="{'bg-yellow': !event.imageUrl}">
+						:class="{ 'bg-yellow': !event.imageUrl }">
 						<NuxtImg
 							v-if="event.imageUrl"
 							:src="event.imageUrl"
@@ -337,7 +287,9 @@ useSchemaOrg([
 							provider="cloudinary"
 							@contextmenu.prevent
 							class="w-full h-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
-							:class="{ 'opacity-70 brightness-110 contrast-90': activeTab === 'past' }"
+							:class="{
+								'opacity-70 brightness-110 contrast-90': activeTab === 'past',
+							}"
 							loading="lazy" />
 
 						<!-- Price tag - now positioned differently on mobile -->
@@ -398,7 +350,7 @@ useSchemaOrg([
 										<div
 											class="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-white border-r border-gray-200 text-gray-800 font-apercuBold text-sm sm:text-lg leading-none">
 											{{ new Date(event.startDate).getDate() }}
-									</div>
+										</div>
 									</div>
 									<!-- End date -->
 									<div class="text-center">

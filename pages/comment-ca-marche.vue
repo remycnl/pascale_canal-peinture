@@ -1,12 +1,24 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
+import { ref, reactive } from "vue";
 
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
-const sections = [
+const activeTab = ref("standard");
+
+const processTabs = [
+	{ id: "standard", label: "Achat Standard" },
+	{ id: "custom", label: "Commande Personnalisée" },
+];
+
+const handleTabChange = (tabId) => {
+	activeTab.value = tabId;
+};
+
+const standardSections = [
 	{
 		number: "01",
 		title: "Découvre ma collection",
@@ -46,24 +58,88 @@ const sections = [
 		number: "06",
 		title: "Préparation et expédition",
 		description: {
-			text: "Dès réception du paiement, je prépare soigneusement ton tableau pour l’expédition. Il sera emballé avec précaution afin d’assurer sa protection lors du transport.",
+			text: "Dès réception du paiement, je prépare soigneusement ton tableau pour l'expédition. Il sera emballé avec précaution afin d'assurer sa protection lors du transport.",
 		},
 	},
 	{
 		number: "07",
 		title: "Livraison",
 		description: {
-			text: "Ton tableau sera expédié à l’adresse indiquée selon le mode de livraison choisi. Un numéro de suivi te sera communiqué pour suivre son acheminement.",
+			text: "Ton tableau sera expédié à l'adresse indiquée selon le mode de livraison choisi. Un numéro de suivi te sera communiqué pour suivre son acheminement.",
 		},
 	},
 	{
 		number: "08",
 		title: "Réception et satisfaction",
 		description: {
-			text: "Une fois ton tableau reçu, assure-toi qu’il est en parfait état. Si tout est conforme, profite pleinement de ton œuvre ! En cas de problème, contacte-moi pour trouver une solution.",
+			text: "Une fois ton tableau reçu, assure-toi qu'il est en parfait état. Si tout est conforme, profite pleinement de ton œuvre ! En cas de problème, contacte-moi pour trouver une solution.",
 		},
 	},
 ];
+
+const customSections = [
+	{
+		number: "01",
+		title: "Prends contact avec moi",
+		description: {
+			text: "Clique sur le bouton {link:Contact:/contact} pour me faire part de ton projet de portrait personnalisé. Précise qu'il s'agit d'une commande pour un portrait d'animal de compagnie.",
+		},
+	},
+	{
+		number: "02",
+		title: "Partage des photos",
+		description: {
+			text: "Envoie-moi plusieurs photos de qualité de ton animal sous différents angles. Plus les photos sont nettes et représentatives, meilleur sera le résultat final.",
+		},
+	},
+	{
+		number: "03",
+		title: "Discussion sur le style",
+		description: {
+			text: "Nous échangerons sur le style souhaité, le format du tableau, les couleurs dominantes et tout autre élément que tu souhaiterais voir apparaître dans l'œuvre.",
+		},
+	},
+	{
+		number: "04",
+		title: "Proposition et devis",
+		description: {
+			text: "Je te proposerai un concept et un devis détaillé en fonction de tes attentes et du temps nécessaire à la réalisation. Tu pourras demander des ajustements à ce stade.",
+		},
+	},
+	{
+		number: "05",
+		title: "Validation et acompte",
+		description: {
+			text: "Une fois le projet validé, un acompte de 30% du montant total sera demandé pour commencer le travail. Le paiement peut se faire par virement bancaire ou PayPal.",
+		},
+	},
+	{
+		number: "06",
+		title: "Création de l'œuvre",
+		description: {
+			text: "Je réalise ton portrait personnalisé en te tenant informé de l'avancement. Une ébauche intermédiaire te sera envoyée pour validation avant la finalisation.",
+		},
+	},
+	{
+		number: "07",
+		title: "Validation finale",
+		description: {
+			text: "Une photo de l'œuvre terminée te sera envoyée pour approbation finale. À ce stade, des retouches mineures sont encore possibles pour parfaire le résultat.",
+		},
+	},
+	{
+		number: "08",
+		title: "Solde et livraison",
+		description: {
+			text: "Après validation, le solde du paiement sera à régler. Ton portrait sera ensuite soigneusement emballé et expédié avec un suivi de livraison pour une réception en toute sécurité.",
+		},
+	},
+];
+
+const sections = reactive({
+	standard: standardSections,
+	custom: customSections,
+});
 
 const isEven = (index) => (index + 1) % 2 === 0;
 
@@ -104,14 +180,14 @@ function renderDescription(description) {
 useSeoMeta({
 	title: () => `Comment ça marche ? | ${siteName}`,
 	description: () =>
-		`Découvrez le processus d'achat pour acquérir une œuvre originale de Pascale Canal. De la sélection à la livraison de votre tableau, suivez notre guide en ${sections.length} étapes.`,
+		`Découvrez le processus d'achat pour acquérir une œuvre originale de Pascale Canal. De la sélection à la livraison de votre tableau, suivez notre guide en ${standardSections.length} étapes.`,
 	ogTitle: () => `Comment ça marche ? | ${siteName}`,
 	ogDescription: () =>
-		`Découvrez le processus d'achat pour acquérir une œuvre originale de Pascale Canal. De la sélection à la livraison de votre tableau, suivez notre guide en ${sections.length} étapes.`,
+		`Découvrez le processus d'achat pour acquérir une œuvre originale de Pascale Canal. De la sélection à la livraison de votre tableau, suivez notre guide en ${standardSections.length} étapes.`,
 	ogUrl: () => `${baseUrl}/comment-ca-marche`,
 	twitterTitle: () => `Comment ça marche ? | ${siteName}`,
 	twitterDescription: () =>
-		`Découvrez le processus d'achat pour acquérir une œuvre originale de Pascale Canal. De la sélection à la livraison de votre tableau, suivez notre guide en ${sections.length} étapes.`,
+		`Découvrez le processus d'achat pour acquérir une œuvre originale de Pascale Canal. De la sélection à la livraison de votre tableau, suivez notre guide en ${standardSections.length} étapes.`,
 	twitterUrl: () => `${baseUrl}/comment-ca-marche`,
 });
 
@@ -138,10 +214,18 @@ useSchemaOrg([
 			Comment ça marche ?
 		</h1>
 
+		<!-- Tab selector -->
+		<div class="flex justify-end mt-10 md:mt-20 lg:mt-30">
+			<TabSwitcher
+				:tabs="processTabs"
+				:initial-tab="activeTab"
+				@tab-change="handleTabChange" />
+		</div>
+
 		<div
 			class="my-20 md:my-30 lg:my-50 flex flex-col items-center gap-y-10 sm:gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50">
 			<div
-				v-for="(section, index) in sections"
+				v-for="(section, index) in sections[activeTab]"
 				:key="section.number"
 				:class="`flex ${
 					isEven(index) ? 'lg:flex-row-reverse' : 'lg:flex-row'
