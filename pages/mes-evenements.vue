@@ -1,6 +1,6 @@
 <script setup>
 import { useEvents } from "@/composables/useEvents";
-import { ref, computed, watch, onMounted, nextTick } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useSchemaOrg } from "#imports";
 
 const config = useRuntimeConfig();
@@ -277,7 +277,7 @@ useSchemaOrg([
 						v-for="event in displayedEvents"
 						:key="event.id"
 						tabindex="0"
-						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden"
+						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden min-h-[320px]"
 						:class="{ 'bg-yellow': !event.imageUrl }">
 						<NuxtImg
 							v-if="event.imageUrl"
@@ -292,18 +292,18 @@ useSchemaOrg([
 							}"
 							loading="lazy" />
 
-						<!-- Price tag - now positioned differently on mobile -->
+						<!-- Price tag - corrigé pour mobile -->
 						<div
-							class="absolute top-13 sm:top-4 right-4 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium shadow-md">
+							class="absolute sm:top-4 top-13 right-4 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium shadow-md">
 							{{ formatPrice(event.price) }}
 						</div>
 
-						<!-- Location tag - now positioned differently on mobile -->
+						<!-- Location tag - positionné pour fonctionner sur mobile -->
 						<div
-							class="absolute top-4 right-4 sm:left-1/2 sm:right-auto max-w-4/6 sm:transform sm:-translate-x-1/2 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium shadow-md flex items-center">
+							class="absolute top-4 right-4 sm:left-1/2 sm:right-auto sm:max-w-xs max-w-[150px] overflow-hidden sm:transform sm:-translate-x-1/2 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-apercuMedium shadow-md flex items-center">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								class="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-gray-700"
+								class="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-gray-700 flex-shrink-0"
 								viewBox="0 0 20 20"
 								fill="currentColor">
 								<path
@@ -328,7 +328,7 @@ useSchemaOrg([
 
 						<!-- Date badge -->
 						<div
-							class="absolute left-4 top-4 overflow-hidden rounded-lg shadow-md">
+							class="absolute left-4 top-4 overflow-hidden rounded-lg shadow-md z-10">
 							<!-- If event has both start and end dates on different days -->
 							<template
 								v-if="
@@ -385,7 +385,8 @@ useSchemaOrg([
 								</div>
 							</template>
 						</div>
-						<!-- Hover overlay with event info -->
+
+						<!-- Info card corrigé pour mobile -->
 						<div class="absolute inset-0 flex items-end p-3 sm:p-4">
 							<div
 								class="flex bg-white shadow-md w-full p-3 sm:p-4 rounded-lg flex-col">

@@ -8,6 +8,7 @@ const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
 const activeTab = ref("standard");
+const isTransitioning = ref(false);
 
 const processTabs = [
 	{ id: "standard", label: "Achat Standard" },
@@ -15,7 +16,18 @@ const processTabs = [
 ];
 
 const handleTabChange = (tabId) => {
-	activeTab.value = tabId;
+	// Active la transition
+	isTransitioning.value = true;
+
+	// Après un court délai, change l'onglet actif
+	setTimeout(() => {
+		activeTab.value = tabId;
+
+		// Puis après un autre délai, désactive la transition
+		setTimeout(() => {
+			isTransitioning.value = false;
+		}, 300); // Temps pour revenir à l'état normal
+	}, 300); // Temps pour le flou complet
 };
 
 const standardSections = [
@@ -37,7 +49,7 @@ const standardSections = [
 		number: "03",
 		title: "Remplis le formulaire",
 		description: {
-			text: "Suis les étapes du formulaire pour renseigner tes informations de contact, choisir ton mode de paiement et préciser tes préférences de livraison. Si tu as des demandes spécifiques, tu peux les mentionner dans la section prévue à cet effet.",
+			text: "Suis les étapes du formulaire pour renseigner tes informations de contact. Si tu as des demandes spécifiques, tu peux les mentionner dans la section prévue à cet effet.",
 		},
 	},
 	{
@@ -82,21 +94,21 @@ const customSections = [
 		number: "01",
 		title: "Prends contact avec moi",
 		description: {
-			text: "Clique sur le bouton {link:Contact:/contact} pour me faire part de ton projet de portrait personnalisé. Précise qu'il s'agit d'une commande pour un portrait d'animal de compagnie.",
+			text: "Rends-toi sur la page {link:Commande personnalisée:/commande-personnalisee} et décris-moi ton projet. Plus tu seras précis(e) dans tes attentes et inspirations, plus je pourrai créer une œuvre qui te ressemble.",
 		},
 	},
 	{
 		number: "02",
-		title: "Partage des photos",
+		title: "Partage tes inspirations",
 		description: {
-			text: "Envoie-moi plusieurs photos de qualité de ton animal sous différents angles. Plus les photos sont nettes et représentatives, meilleur sera le résultat final.",
+			text: "Envoie-moi les photos ou références qui t'inspirent. Pour un portrait, une image en haute résolution et dans un bon éclairage naturel permettront d'obtenir un résultat plus fidèle et expressif.",
 		},
 	},
 	{
 		number: "03",
 		title: "Discussion sur le style",
 		description: {
-			text: "Nous échangerons sur le style souhaité, le format du tableau, les couleurs dominantes et tout autre élément que tu souhaiterais voir apparaître dans l'œuvre.",
+			text: "Nous échangerons sur le style souhaité, le format du tableau et tout autre élément que tu souhaiterais voir apparaître dans l'œuvre.",
 		},
 	},
 	{
@@ -117,7 +129,7 @@ const customSections = [
 		number: "06",
 		title: "Création de l'œuvre",
 		description: {
-			text: "Je réalise ton portrait personnalisé en te tenant informé de l'avancement. Une ébauche intermédiaire te sera envoyée pour validation avant la finalisation.",
+			text: "Je réalise ton tableau personnalisé en te tenant informé de l'avancement. Une ébauche intermédiaire te sera envoyée pour validation avant la finalisation.",
 		},
 	},
 	{
@@ -131,7 +143,7 @@ const customSections = [
 		number: "08",
 		title: "Solde et livraison",
 		description: {
-			text: "Après validation, le solde du paiement sera à régler. Ton portrait sera ensuite soigneusement emballé et expédié avec un suivi de livraison pour une réception en toute sécurité.",
+			text: "Après validation, le solde du paiement sera à régler. Ton portrait sera ensuite soigneusement emballé et expédié à l'adresse de ton choix. Un numéro de suivi te sera fourni pour suivre l'acheminement.",
 		},
 	},
 ];
@@ -211,7 +223,8 @@ useSchemaOrg([
 	<div class="relative min-h-screen pt-10 md:pt-20">
 		<h1
 			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
-			Comment ça marche ?
+			<span class="block xs:inline">Comment</span>
+			<span class="block xs:inline"> ça marche ?</span>
 		</h1>
 
 		<!-- Tab selector -->
@@ -223,10 +236,10 @@ useSchemaOrg([
 		</div>
 
 		<div
-			class="my-20 md:my-30 lg:my-50 flex flex-col items-center gap-y-10 sm:gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50">
+			class="my-10 sm:my-20 md:my-30 lg:my-40 flex flex-col items-center gap-y-10 sm:gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50">
 			<div
 				v-for="(section, index) in sections[activeTab]"
-				:key="section.number"
+				:key="`${activeTab}-${section.number}`"
 				:class="`flex ${
 					isEven(index) ? 'lg:flex-row-reverse' : 'lg:flex-row'
 				} flex-col justify-between w-full h-fit lg:h-80 rounded-2xl bg-black text-white`">
@@ -241,11 +254,17 @@ useSchemaOrg([
 				<div
 					class="flex flex-col justify-center gap-y-5 w-full lg:w-1/2 p-5 sm:p-10">
 					<h2
-						class="text-xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-apercuBold">
+						class="text-xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-apercuBold transition-all duration-300 ease-in-out"
+						:class="
+							isTransitioning ? 'blur-md opacity-50' : 'blur-0 opacity-100'
+						">
 						{{ section.title }}
 					</h2>
-					<p
-						class="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-500">
+					<div
+						class="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-500 transition-all duration-300 ease-in-out"
+						:class="
+							isTransitioning ? 'blur-md opacity-50' : 'blur-0 opacity-100'
+						">
 						<template
 							v-for="(part, i) in renderDescription(section.description)">
 							<NuxtLink
@@ -259,7 +278,7 @@ useSchemaOrg([
 								{{ part.text }}
 							</template>
 						</template>
-					</p>
+					</div>
 				</div>
 			</div>
 		</div>
