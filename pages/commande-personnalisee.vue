@@ -50,10 +50,6 @@ const heroElement = ref(null);
 
 <template>
 	<div ref="heroElement" class="relative min-h-screen pt-10 md:pt-20">
-		<!-- <cursor-images
-			:paintings="personalizedPaintings"
-			:container="heroElement" /> -->
-
 		<h1
 			class="flex flex-col text-shadow text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
 			Commande personnalisée
@@ -68,8 +64,7 @@ const heroElement = ref(null);
 		</div>
 
 		<div class="pb-16 pt-16 md:py-32">
-			<infinite-carousel
-				:paintings="personalizedPaintings" />
+			<infinite-carousel :paintings="personalizedPaintings" />
 			<div class="my-16 md:my-36 md:ml-[40vw]">
 				<p
 					class="text-xl rounded-xl backdrop-blur-sm lg:p-10 text-shadow md:text-2xl lg:text-4xl mb-16 leading-relaxed">
