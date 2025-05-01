@@ -42,7 +42,7 @@ const standardSections = [
 		number: "02",
 		title: "Sélectionne ton tableau",
 		description: {
-			text: 'Une fois ton tableau préféré trouvé, clique sur le bouton "Acheter" présent sur sa page pour débuter le processus d\'achat.',
+			text: 'Une fois ton tableau préféré trouvé, clique sur le bouton "Contacter pour acheter" présent sur sa page pour débuter le processus d\'achat.',
 		},
 	},
 	{

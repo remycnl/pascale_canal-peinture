@@ -455,7 +455,7 @@ const submitForm = async () => {
 				</div>
 
 				<!-- Required fields info -->
-				<div class="md:col-span-3 md:col-start-3 lg:mx-6">
+				<div class="md:col-span-3 md:col-start-3 mx-6">
 					<p class="text-sm rounded-xl w-fit backdrop-blur-sm lg:p-8 md:text-base text-white/60">
 						<span class="text-yellow">*</span> Champs obligatoires
 					</p>

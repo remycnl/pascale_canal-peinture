@@ -369,7 +369,7 @@ useSchemaOrg([
 							v-else
 							@click="openContactOverlay('achat')"
 							class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center">
-							Acheter
+							Contacter pour acheter
 						</button>
 						<ShareButton
 							:title="`Découvre '${painting.name}' peint par ${painting.artist}`"
@@ -384,7 +384,7 @@ useSchemaOrg([
 						<li v-if="painting.state === 'OFF_SALE'">
 							<span
 								class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-								Ce tableau n'est plus disponible à la vente et est présentée
+								Ce tableau pas disponible à la vente et est présentée
 								uniquement à titre d'exposition. Si vous souhaitez acquérir une
 								œuvre, vous avez la possibilité de
 								<NuxtLink

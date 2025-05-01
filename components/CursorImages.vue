@@ -149,7 +149,7 @@ const updateImagePositions = () => {
 </script>
 
 <template>
-	<div>
+	<div class="absolute inset-0 -z-1">
 		<div v-for="painting in paintings" :key="painting.id">
 			<NuxtImg
 				:src="painting.image"
