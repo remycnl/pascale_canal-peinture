@@ -180,7 +180,7 @@ const submitForm = async () => {
 	<div>
 		<div
 			v-if="formSubmitted"
-			class="bg-white/5 backdrop-blur-sm p-8 md:p-16 lg:p-24 rounded-xl border border-white/10 lg:mx-6">
+			class="bg-white/5 backdrop-blur-sm p-8 md:p-16 lg:p-24 md:mt-10 rounded-xl border border-white/10 lg:mx-6">
 			<h2
 				class="text-3xl md:text-4xl lg:text-6xl font-apercuBold mb-8 md:mb-16">
 				Merci pour votre demande
@@ -200,7 +200,7 @@ const submitForm = async () => {
 
 		<form v-else @submit.prevent="submitForm" novalidate>
 			<h2
-				class="text-3xl text-shadow md:text-4xl lg:text-6xl font-apercuBold mb-16 md:mb-32 md:ml-24 lg:ml-14 lg:p-10 backdrop-blur-sm rounded-xl w-fit">
+				class="text-3xl text-shadow md:text-4xl md:mt-10 lg:text-6xl font-apercuBold mb-16 md:mb-32 md:ml-24 lg:ml-14 lg:p-10 backdrop-blur-sm rounded-xl w-fit">
 				Votre projet
 			</h2>
 

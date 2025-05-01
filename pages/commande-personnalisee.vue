@@ -63,16 +63,16 @@ const heroElement = ref(null);
 			</p>
 		</div>
 
-		<div class="pb-16 pt-16 md:py-32">
-			<infinite-carousel :paintings="personalizedPaintings" />
-			<div class="my-16 md:my-36 md:ml-[40vw]">
+		<div class="pb-16 md:pb-32">
+			<div class="mt-16 md:mt-36 md:ml-[40vw]">
 				<p
-					class="text-xl rounded-xl backdrop-blur-sm lg:p-10 text-shadow md:text-2xl lg:text-4xl mb-16 leading-relaxed">
-					Commandez une œuvre d'art unique qui vous ressemble. Que ce soit votre
-					animal de compagnie, un paysage qui vous est cher, un portrait ou une
-					composition abstraite.
-				</p>
-			</div>
+				class="text-xl rounded-xl backdrop-blur-sm lg:p-10 text-shadow md:text-2xl lg:text-4xl md:mb-10 leading-relaxed">
+				Commandez une œuvre d'art unique qui vous ressemble. Que ce soit votre
+				animal de compagnie, un paysage qui vous est cher, un portrait ou une
+				composition abstraite.
+			</p>
+		</div>
+		<infinite-carousel :paintings="personalizedPaintings" />
 
 			<CustomOrderForm />
 		</div>

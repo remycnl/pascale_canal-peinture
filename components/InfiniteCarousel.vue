@@ -82,7 +82,7 @@ onMounted(() => {
 <template>
   <div 
     ref="containerRef" 
-    class="scroller select-none relative z-20 overflow-hidden mx-auto"
+    class="scroller select-none relative py-16 lg:py-30 z-20 overflow-hidden mx-auto"
     :class="[
       'mask-linear'
     ]"
