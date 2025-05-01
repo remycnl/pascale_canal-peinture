@@ -57,8 +57,8 @@ const heroElement = ref(null);
 		</div>
 
 		<h1
-			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
-			Commande personalisée
+			class="flex flex-col text-shadow text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
+			Commande personnalisée
 		</h1>
 
 		<div
@@ -71,7 +71,7 @@ const heroElement = ref(null);
 
 		<div class="pb-16 md:py-32">
 			<div class="my-16 md:my-36 md:ml-[40vw]">
-				<p class="text-xl md:text-2xl lg:text-4xl mb-16 leading-relaxed">
+				<p class="text-xl rounded-xl backdrop-blur-sm lg:p-10 text-shadow md:text-2xl lg:text-4xl mb-16 leading-relaxed">
 					Commandez une œuvre d'art unique qui vous ressemble. Que ce soit votre
 					animal de compagnie, un paysage qui vous est cher, un portrait ou une
 					composition abstraite.

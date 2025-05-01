@@ -47,7 +47,7 @@
 							<NuxtLink
 								to="/commande-personnalisee"
 								class="w-fit text-gray-300 hover:text-yellow transition-colors">
-								Commande personalisée
+								Commande personnalisée
 							</NuxtLink>
 							<NuxtLink
 								to="/qui-suis-je"

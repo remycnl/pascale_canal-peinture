@@ -80,7 +80,7 @@ watch(isOpen, (newValue) => {
 					<NuxtLink
 						to="/commande-personnalisee"
 						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
-						>Commande personalisée</NuxtLink
+						>Commande personnalisée</NuxtLink
 					>
 					<NuxtLink
 						to="/qui-suis-je"
@@ -153,7 +153,7 @@ watch(isOpen, (newValue) => {
 								@click="isOpen = false"
 								to="/commande-personnalisee"
 								class="w-fit active:scale-90 transition-transform duration-200">
-								Commande personalisée
+								Commande personnalisée
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"

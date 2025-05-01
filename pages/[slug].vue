@@ -17,6 +17,9 @@ const imageLoaded = ref(false);
 const showContactOverlay = ref(false);
 const contactType = ref("");
 const formLoaded = ref(false);
+const modalRef = ref(null);
+
+const realViewportHeight = ref(0);
 
 const { data: painting, error } = await useFetch(
 	`/api/paintings/${route.params.slug}`
@@ -25,6 +28,21 @@ const { data: painting, error } = await useFetch(
 if (error.value) {
 	console.error("Erreur lors de la récupération de la peinture :", error.value);
 }
+
+const updateViewportHeight = () => {
+	realViewportHeight.value = window.innerHeight;
+	if (showContactOverlay.value && modalRef.value) {
+		updateModalHeight();
+	}
+};
+
+const updateModalHeight = () => {
+	if (modalRef.value) {
+		modalRef.value.style.maxHeight = `calc(${
+			realViewportHeight.value * 0.9
+		}px - env(safe-area-inset-bottom, 0px))`;
+	}
+};
 
 const handleImageLoad = () => {
 	imageLoaded.value = true;
@@ -77,6 +95,9 @@ const openContactOverlay = (type) => {
 	contactType.value = type;
 	showContactOverlay.value = true;
 	document.body.style.overflow = "hidden";
+	nextTick(() => {
+		updateModalHeight();
+	});
 };
 
 const closeContactOverlay = () => {
@@ -86,6 +107,14 @@ const closeContactOverlay = () => {
 };
 
 onMounted(() => {
+	// Now it's safe to access window object
+	realViewportHeight.value = window.innerHeight;
+	updateViewportHeight();
+
+	window.addEventListener("resize", updateViewportHeight);
+	window.addEventListener("orientationchange", updateViewportHeight);
+	window.addEventListener("scroll", updateViewportHeight);
+
 	window.addEventListener("keydown", (e) => {
 		if (e.key === "Escape" && showContactOverlay.value) {
 			closeContactOverlay();
@@ -95,6 +124,9 @@ onMounted(() => {
 
 onUnmounted(() => {
 	document.body.style.overflow = "";
+	window.removeEventListener("resize", updateViewportHeight);
+	window.removeEventListener("orientationchange", updateViewportHeight);
+	window.removeEventListener("scroll", updateViewportHeight);
 });
 
 useSeoMeta({
@@ -352,7 +384,7 @@ useSchemaOrg([
 						<li v-if="painting.state === 'OFF_SALE'">
 							<span
 								class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-								Ce tableau n’est plus disponible à la vente et est présentée
+								Ce tableau n'est plus disponible à la vente et est présentée
 								uniquement à titre d'exposition. Si vous souhaitez acquérir une
 								œuvre, vous avez la possibilité de
 								<NuxtLink
@@ -365,7 +397,7 @@ useSchemaOrg([
 									to="/galerie?state=FOR_SALE"
 									class="text-[#B60071] underline"
 									>découvrir les œuvres actuellement disponibles à
-									l’achat</NuxtLink
+									l'achat</NuxtLink
 								>.
 							</span>
 						</li>
@@ -423,7 +455,8 @@ useSchemaOrg([
 
 					<!-- Modal -->
 					<div
-						class="relative bg-black rounded-4xl w-fit m-1 sm:m-3 md:m-10 max-h-[85vh] xs:max-h-[90vh] md:max-h-[90vh] z-10 pt-6 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col overflow-y-auto transform transition-all duration-400 ease-out"
+						ref="modalRef"
+						class="relative bg-black rounded-2xl lg:rounded-4xl w-fit m-1 sm:m-3 md:m-10 z-10 pt-6 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col overflow-hidden transform transition-all duration-400 ease-out"
 						:class="{
 							'translate-y-8 opacity-0 scale-95': !formLoaded,
 							'translate-y-0 opacity-100 scale-100': formLoaded,
@@ -431,7 +464,7 @@ useSchemaOrg([
 						<!-- Bouton de fermeture -->
 						<button
 							@click="closeContactOverlay"
-							class="cross-button absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200">
+							class="cross-button absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200 z-20">
 							<svg
 								class="h-10 w-10 md:h-12 md:w-12 lg:h-15 lg:w-15"
 								viewBox="0 0 24 24"
@@ -454,26 +487,60 @@ useSchemaOrg([
 									: "Demander une réédition"
 							}}
 						</h2>
-						<p class="mb-6 max-w-5xl text-gray-400">
+
+						<!-- Texte d'intro pour tablette et desktop -->
+						<p class="mb-6 max-w-5xl text-gray-400 hidden md:block">
 							<span v-if="contactType === 'achat'">
 								Vous êtes intéressé(e) par l'achat de "{{ painting.name }}" ?
 								Remplissez ce formulaire et je vous contacterai rapidement pour
 								discuter des détails.
 							</span>
 							<span v-else>
-								Vous souhaitez une réédition de "{{ painting.name }}" ?
-								<span class="hidden md:inline">
-									Chaque œuvre étant unique, la nouvelle version sera inspirée
-									de l'originale mais présentera ses propres particularités.
-								</span>
+								Vous souhaitez une réédition de "{{ painting.name }}" ? Chaque
+								œuvre étant unique, la nouvelle version sera inspirée de
+								l'originale mais présentera ses propres particularités.
 								Remplissez ce formulaire et je vous contacterai rapidement pour
 								discuter du projet.
 							</span>
 						</p>
-						<div class="flex-grow overflow-auto">
+
+						<!-- Version mobile avec le texte dans le scroll -->
+						<div class="relative flex-grow overflow-auto md:hidden">
+							<div
+								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
+
+							<p class="mb-6 max-w-5xl text-gray-400">
+								<span v-if="contactType === 'achat'">
+									Vous êtes intéressé(e) par l'achat de "{{ painting.name }}" ?
+									Remplissez ce formulaire et je vous contacterai rapidement
+									pour discuter des détails.
+								</span>
+								<span v-else>
+									Vous souhaitez une réédition de "{{ painting.name }}" ?
+									Remplissez ce formulaire et je vous contacterai rapidement
+									pour discuter du projet.
+								</span>
+							</p>
+
 							<ContactForm
 								:pre-selected-artwork-id="painting.id"
 								@form-loaded="formLoaded = true" />
+
+							<div
+								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+						</div>
+
+						<!-- Version tablette et desktop avec le formulaire seul dans le scroll -->
+						<div class="relative flex-grow overflow-auto hidden md:block">
+							<div
+								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
+
+							<ContactForm
+								:pre-selected-artwork-id="painting.id"
+								@form-loaded="formLoaded = true" />
+
+							<div
+								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
 						</div>
 					</div>
 				</div>
