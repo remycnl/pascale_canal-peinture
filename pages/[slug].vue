@@ -384,7 +384,7 @@ useSchemaOrg([
 						<li v-if="painting.state === 'OFF_SALE'">
 							<span
 								class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-								Ce tableau pas disponible à la vente et est présentée
+								Ce tableau n'est pas disponible à la vente et est présentée
 								uniquement à titre d'exposition. Si vous souhaitez acquérir une
 								œuvre, vous avez la possibilité de
 								<NuxtLink
@@ -394,7 +394,7 @@ useSchemaOrg([
 								>
 								ou de
 								<NuxtLink
-									to="/galerie?state=FOR_SALE"
+									to="/?state=FOR_SALE"
 									class="text-[#B60071] underline"
 									>découvrir les œuvres actuellement disponibles à
 									l'achat</NuxtLink
