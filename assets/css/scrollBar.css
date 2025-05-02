@@ -1,25 +1,27 @@
-/* WebKit-based browsers */
+/* WebKit (Chrome, Safari, Opera) */
 ::-webkit-scrollbar {
-	width: 12px;
+	width: 10px;
+	height: 10px;
 }
 
 ::-webkit-scrollbar-track {
 	background: var(--color-black);
+	transition: background-color 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb {
 	background: var(--color-yellow);
 	border-radius: 10px;
-	border: 3px solid var(--color-black);
-	transition: filter 0.3s;
+	transition: background-color 0.3s ease;
+	border: 2px solid transparent;
+	background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	filter: saturate(3);
+	background: var(--color-yellow);
+	background-clip: padding-box;
 }
 
-/* Firefox */
-body {
-	scrollbar-width: thin;
-	scrollbar-color: var(--color-yellow) var(--color-black);
+::-webkit-scrollbar-button {
+	display: none;
 }

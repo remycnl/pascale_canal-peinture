@@ -147,10 +147,3 @@ onMounted(() => {
 		<Bubble />
 	</div>
 </template>
-
-<style>
-/* Style global pour éviter le flash initial */
-html {
-	background-color: var(--color-white);
-}
-</style>

@@ -63,6 +63,11 @@ html {
 	color: var(--color-white);
 }
 
+html {
+	background-color: var(--color-white);
+	@apply overflow-x-hidden scroll-smooth
+}
+
 body {
 	font-family: var(--font-apercuRegular);
 }

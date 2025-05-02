@@ -1,10 +1,10 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 
 const props = defineProps({
 	url: {
 		type: String,
-		default: () => "",
+		default: "",
 	},
 	title: {
 		type: String,
@@ -18,6 +18,16 @@ const props = defineProps({
 	position: {
 		type: String,
 		default: "bottom-right", // 'bottom-right', 'bottom-left', 'top-right', 'top-left'
+		validator: (value) =>
+			["bottom-right", "bottom-left", "top-right", "top-left"].includes(value),
+	},
+	buttonText: {
+		type: String,
+		default: "Partager",
+	},
+	closeText: {
+		type: String,
+		default: "Fermer",
 	},
 });
 
@@ -25,8 +35,9 @@ const isOpen = ref(false);
 const copied = ref(false);
 const shareUrl = ref("");
 const searchNetwork = ref("");
+const shareMenuRef = ref(null);
+const buttonRef = ref(null);
 
-// Liste complète des réseaux sociaux
 const networks = ref([
 	{ id: "email", name: "Email" },
 	{ id: "facebook", name: "Facebook" },
@@ -46,28 +57,23 @@ const networks = ref([
 	{ id: "threads", name: "Threads" },
 ]);
 
-// Filtrer les réseaux selon la recherche
 const filteredNetworks = computed(() => {
-	let result = networks.value;
-
-	// Filtrer par recherche
-	if (searchNetwork.value) {
-		result = result.filter((network) =>
-			network.name.toLowerCase().includes(searchNetwork.value.toLowerCase())
-		);
+	if (!searchNetwork.value) {
+		return networks.value;
 	}
 
-	return result;
+	const searchTerm = searchNetwork.value.toLowerCase().trim();
+	return networks.value.filter((network) =>
+		network.name.toLowerCase().includes(searchTerm)
+	);
 });
 
-// Réinitialiser le copied après un délai
 const resetCopyStatus = () => {
 	setTimeout(() => {
 		copied.value = false;
 	}, 2000);
 };
 
-// Détermine la position du menu
 const shareMenuPosition = computed(() => {
 	switch (props.position) {
 		case "bottom-left":
@@ -82,59 +88,89 @@ const shareMenuPosition = computed(() => {
 	}
 });
 
-// Obtenir l'URL actuelle si aucune n'est fournie
-onMounted(() => {
-	if (import.meta.client) {
-		shareUrl.value = props.url || window.location.href;
-
-		// Fermer le menu si on clique en dehors
-		document.addEventListener("click", handleClickOutside);
-	}
-});
-
-onUnmounted(() => {
-	if (import.meta.client) {
-		document.removeEventListener("click", handleClickOutside);
-	}
-});
-
 const handleClickOutside = (event) => {
-	const element = event.target;
+	if (!isOpen.value) return;
+
+	const buttonElement = buttonRef.value;
+	const menuElement = shareMenuRef.value;
+
 	if (
-		isOpen.value &&
-		!event
-			.composedPath()
-			.includes(document.querySelector(".relative.inline-block"))
+		buttonElement &&
+		menuElement &&
+		!buttonElement.contains(event.target) &&
+		!menuElement.contains(event.target)
 	) {
 		isOpen.value = false;
 	}
 };
 
-const toggleShareMenu = () => {
-	isOpen.value = !isOpen.value;
-
-	// Réinitialiser la recherche à l'ouverture
-	if (isOpen.value) {
-		searchNetwork.value = "";
+const handleEscapeKey = (event) => {
+	if (isOpen.value && event.key === "Escape") {
+		isOpen.value = false;
 	}
 };
 
-const copyLink = () => {
-	if (import.meta.client) {
-		navigator.clipboard
-			.writeText(shareUrl.value)
-			.then(() => {
-				copied.value = true;
-				resetCopyStatus();
-			})
-			.catch((err) => {
-				console.error("Erreur lors de la copie du lien:", err);
-			});
+const isClient = typeof window !== "undefined";
+
+onMounted(() => {
+	if (isClient) {
+		shareUrl.value = props.url || window.location.href;
+
+		document.addEventListener("click", handleClickOutside);
+		document.addEventListener("keydown", handleEscapeKey);
+	}
+});
+
+onUnmounted(() => {
+	if (isClient) {
+		document.removeEventListener("click", handleClickOutside);
+		document.removeEventListener("keydown", handleEscapeKey);
+	}
+});
+
+const toggleShareMenu = () => {
+	isOpen.value = !isOpen.value;
+
+	if (isOpen.value) {
+		searchNetwork.value = "";
+		setTimeout(() => {
+			const searchInput = shareMenuRef.value?.querySelector("input");
+			if (searchInput) {
+				searchInput.focus();
+			}
+		}, 0);
+	}
+};
+
+const copyLink = async () => {
+	if (!isClient) return;
+
+	try {
+		await navigator.clipboard.writeText(shareUrl.value);
+		copied.value = true;
+		resetCopyStatus();
+	} catch (err) {
+		console.error("Erreur lors de la copie du lien:", err);
+		try {
+			const tempInput = document.createElement("input");
+			tempInput.value = shareUrl.value;
+			document.body.appendChild(tempInput);
+			tempInput.select();
+			document.execCommand("copy");
+			document.body.removeChild(tempInput);
+			copied.value = true;
+			resetCopyStatus();
+		} catch (fallbackErr) {
+			console.error("Échec de la méthode de secours:", fallbackErr);
+			alert(
+				"Impossible de copier le lien. Votre navigateur ne prend pas en charge cette fonctionnalité."
+			);
+		}
 	}
 };
 
 const share = (platform) => {
-	if (!import.meta.client) return;
+	if (!isClient) return;
 
 	const encodedUrl = encodeURIComponent(shareUrl.value);
 	const encodedTitle = encodeURIComponent(props.title);
@@ -179,11 +215,12 @@ const share = (platform) => {
 		case "slack":
 			shareLink = `https://slack.com/share?text=${encodedTitle}%20${encodedUrl}`;
 			break;
+		// Cas spéciaux pour les plateformes qui nécessitent le Web Share API
 		case "threads":
 		case "instagram":
 		case "tiktok":
 		case "snapchat":
-			if (navigator.share) {
+			if (isClient && "share" in navigator) {
 				navigator
 					.share({
 						title: props.title,
@@ -191,18 +228,24 @@ const share = (platform) => {
 						url: shareUrl.value,
 					})
 					.catch((error) => console.error("Erreur de partage:", error));
-				return;
+			} else {
+				copyLink();
+				alert(
+					`Le partage direct avec ${platform} n'est pas disponible. Le lien a été copié dans votre presse-papiers.`
+				);
 			}
-			alert("Le partage natif n’est pas disponible sur ce navigateur.");
+			isOpen.value = false;
 			return;
 		default:
 			return;
 	}
 
-	// Ouvrir le lien dans une nouvelle fenêtre
-	window.open(shareLink, "_blank", "width=600,height=400");
+	window.open(
+		shareLink,
+		"_blank",
+		"width=600,height=500,location=yes,toolbar=no"
+	);
 
-	// Fermer le menu après le partage
 	isOpen.value = false;
 };
 </script>
@@ -211,24 +254,31 @@ const share = (platform) => {
 	<div class="relative inline-block">
 		<!-- Bouton principal de partage -->
 		<button
+			ref="buttonRef"
 			@click="toggleShareMenu"
-			class="border border-black text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-apercuBold hover:bg-black hover:text-white transition duration-200">
-			{{ isOpen ? "Fermer" : "Partager" }}
+			class="border border-black text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-apercuBold hover:bg-black hover:text-white transition duration-200 focus:ring-opacity-50"
+			:aria-expanded="isOpen"
+			aria-haspopup="true">
+			{{ isOpen ? props.closeText : props.buttonText }}
 		</button>
 
 		<!-- Menu de partage avec transition -->
 		<transition name="fade">
 			<div
 				v-if="isOpen"
+				ref="shareMenuRef"
 				class="absolute z-50 bg-white shadow-lg rounded-lg p-3 mt-2 border border-gray-200 w-80"
-				:class="shareMenuPosition">
+				:class="shareMenuPosition"
+				role="dialog"
+				aria-label="Options de partage">
 				<!-- Recherche de réseau social -->
 				<div class="mb-3">
 					<input
 						v-model="searchNetwork"
 						type="text"
 						placeholder="Rechercher un réseau..."
-						class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" />
+						class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+						aria-label="Rechercher un réseau social" />
 				</div>
 
 				<div
@@ -243,18 +293,28 @@ const share = (platform) => {
 					<!-- Copier le lien -->
 					<button
 						@click="copyLink"
-						class="flex items-center space-x-2 p-2 rounded-md hover:bg-blue-100 transition duration-200">
+						class="flex items-center space-x-2 p-2 rounded-md active:scale-97 hover:bg-blue-100 transition duration-200"
+						aria-label="Copier le lien">
 						<span class="ml-0.5 flex items-center justify-center">
-							<NuxtImg
-								v-if="!copied"
-								src="/svg/copy.svg"
-								alt="copy link"
-								@contextmenu.prevent
-								class="w-6 h-6" />
+							<template v-if="!copied">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="w-5 h-5"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round">
+									<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+									<path
+										d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+								</svg>
+							</template>
 							<svg
 								v-else
 								xmlns="http://www.w3.org/2000/svg"
-								class="w-5 h-5"
+								class="w-5 h-5 text-green-600"
 								viewBox="0 0 24 24"
 								fill="none"
 								stroke="currentColor"
@@ -266,18 +326,22 @@ const share = (platform) => {
 						</span>
 						<span>{{ copied ? "Copié !" : "Copier" }}</span>
 					</button>
+
 					<!-- Réseaux sociaux -->
 					<button
 						v-for="network in filteredNetworks"
 						:key="network.id"
 						@click="share(network.id)"
-						class="flex items-center space-x-2 p-2 rounded-md hover:bg-blue-100 transition duration-200">
+						class="flex items-center space-x-2 p-2 rounded-md hover:bg-blue-100 active:scale-97 transition duration-200"
+						:aria-label="`Partager sur ${network.name}`">
 						<span class="flex items-center justify-center">
-							<NuxtImg
+							<!-- Fallback en cas d'échec de chargement de l'image -->
+							<img
 								:src="`/svg/logos/${network.id}.svg`"
 								:alt="network.name"
-								@contextmenu.prevent
-								class="w-7 h-7" />
+								@error="$event.target.style.display = 'none'"
+								class="w-6 h-6"
+								loading="lazy" />
 						</span>
 						<span>{{ network.name }}</span>
 					</button>
@@ -297,5 +361,9 @@ const share = (platform) => {
 .fade-leave-to {
 	opacity: 0;
 	transform: translateY(-10px);
+}
+
+::-webkit-scrollbar-track {
+	border-radius: 10px;
 }
 </style>

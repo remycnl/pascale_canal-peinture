@@ -393,9 +393,7 @@ useSchemaOrg([
 									>commander une création personnalisée</NuxtLink
 								>
 								ou de
-								<NuxtLink
-									to="/?state=FOR_SALE"
-									class="text-[#B60071] underline"
+								<NuxtLink to="/?state=FOR_SALE" class="text-[#B60071] underline"
 									>découvrir les œuvres actuellement disponibles à
 									l'achat</NuxtLink
 								>.
@@ -488,7 +486,6 @@ useSchemaOrg([
 							}}
 						</h2>
 
-						<!-- Texte d'intro pour tablette et desktop -->
 						<p class="mb-6 max-w-5xl text-gray-400 hidden md:block">
 							<span v-if="contactType === 'achat'">
 								Vous êtes intéressé(e) par l'achat de "{{ painting.name }}" ?
@@ -504,12 +501,10 @@ useSchemaOrg([
 							</span>
 						</p>
 
-						<!-- Version mobile avec le texte dans le scroll -->
-						<div class="relative flex-grow overflow-auto md:hidden">
-							<div
-								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
-
-							<p class="mb-6 max-w-5xl text-gray-400">
+						<div class="relative flex-grow overflow-auto">
+							<div class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
+							
+							<p class="mb-6 max-w-5xl text-gray-400 md:hidden">
 								<span v-if="contactType === 'achat'">
 									Vous êtes intéressé(e) par l'achat de "{{ painting.name }}" ?
 									Remplissez ce formulaire et je vous contacterai rapidement
@@ -521,26 +516,12 @@ useSchemaOrg([
 									pour discuter du projet.
 								</span>
 							</p>
-
+							
 							<ContactForm
 								:pre-selected-artwork-id="painting.id"
 								@form-loaded="formLoaded = true" />
-
-							<div
-								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
-						</div>
-
-						<!-- Version tablette et desktop avec le formulaire seul dans le scroll -->
-						<div class="relative flex-grow overflow-auto hidden md:block">
-							<div
-								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
-
-							<ContactForm
-								:pre-selected-artwork-id="painting.id"
-								@form-loaded="formLoaded = true" />
-
-							<div
-								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+							
+							<div class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
 						</div>
 					</div>
 				</div>
