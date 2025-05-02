@@ -235,7 +235,7 @@ useSchemaOrg([
 						<div
 							:style="{
 								fontSize: `${cardSize * 0.28}px`,
-								lineHeight: `${cardSize * 0.28}px`
+								lineHeight: `${cardSize * 0.28}px`,
 							}"
 							class="-rotate-45 flex items-center justify-center text-center uppercase font-apercuBold text-white/50 origin-center">
 							Hors vente
@@ -265,7 +265,9 @@ useSchemaOrg([
 							<span
 								v-if="painting.state !== 'OFF_SALE'"
 								:class="
-									painting.state === 'OFF_SALE' ? 'line-through' : 'no-underline'
+									painting.state === 'OFF_SALE'
+										? 'line-through'
+										: 'no-underline'
 								">
 								{{ painting.price + " €" }}
 							</span>
@@ -335,7 +337,8 @@ useSchemaOrg([
 			v-if="!hasMore && !isLoading"
 			class="text-center mt-20 md:mt-30 lg:mt-40">
 			<div
-				class="inline-block relative overflow-hidden px-8 py-4 border border-black rounded-xl bg-white/80 shadow-sm animate-float">
+				class="inline-block relative overflow-hidden px-8 py-4 border border-black rounded-xl bg-white shadow-sm"
+				style="animation-delay: 0s">
 				<div
 					class="absolute -top-10 -left-10 w-16 h-16 bg-yellow rounded-full blur-md animate-pulse"></div>
 				<div
@@ -349,11 +352,13 @@ useSchemaOrg([
 				<div class="mt-2 flex justify-center">
 					<NuxtLink
 						to="/contact"
-						class="text-sm active:scale-95 hover:text-yellow transition-all duration-200 hover:scale-105">
+						class="text-sm active:scale-95 hover:text-black/60 transition-all duration-200 hover:scale-105">
 						Contactez l'artiste
 					</NuxtLink>
 				</div>
 			</div>
+
+			<Banner class="mt-20 md:mt-30 lg:mt-40" />
 		</div>
 	</div>
 </template>
@@ -366,27 +371,5 @@ useSchemaOrg([
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
-}
-
-.animate-float {
-	animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-	0% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(-10px);
-	}
-	100% {
-		transform: translateY(0);
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.animate-float {
-		animation: none;
-	}
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
-import { ref, onMounted, computed } from "vue";
+import { computed } from "vue";
 import CustomOrderForm from "@/components/CustomOrderForm.vue";
 
 const config = useRuntimeConfig();
@@ -44,12 +44,10 @@ const { data: personalizedPaintings } = await useFetch("/api/tagPaintings", {
 	params: { tag: "COMMANDE_PERSONNALISEE" },
 	transform: (data) => data || [],
 });
-
-const heroElement = ref(null);
 </script>
 
 <template>
-	<div ref="heroElement" class="relative min-h-screen pt-10 md:pt-20">
+	<div class="relative min-h-screen pt-10 md:pt-20">
 		<h1
 			class="flex flex-col text-shadow text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
 			Commande personnalisée
@@ -63,19 +61,20 @@ const heroElement = ref(null);
 			</p>
 		</div>
 
-		<div class="pb-16 md:pb-32">
+		<div class="pb-5 md:pb-25">
 			<div class="mt-16 md:mt-36 md:ml-[40vw]">
 				<p
-				class="text-xl rounded-xl backdrop-blur-sm lg:p-10 text-shadow md:text-2xl lg:text-4xl md:mb-10 leading-relaxed">
-				Commandez une œuvre d'art unique qui vous ressemble. Que ce soit votre
-				animal de compagnie, un paysage qui vous est cher, un portrait ou une
-				composition abstraite.
-			</p>
-		</div>
-		<infinite-carousel :paintings="personalizedPaintings" />
+					class="text-xl rounded-xl backdrop-blur-sm lg:p-10 text-shadow md:text-2xl lg:text-4xl md:mb-10 leading-relaxed">
+					Commandez une œuvre d'art unique qui vous ressemble. Que ce soit votre
+					animal de compagnie, un paysage qui vous est cher, un portrait ou une
+					composition abstraite.
+				</p>
+			</div>
+			<infinite-carousel :paintings="personalizedPaintings" />
 
 			<CustomOrderForm />
 		</div>
+		<Banner />
 	</div>
 </template>
 
