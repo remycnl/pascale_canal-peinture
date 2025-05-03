@@ -615,7 +615,7 @@
 					</div>
 					<label
 						for="rgpdConsent"
-						class="cursor-pointer text-white text-sm mt-1.5">
+						class="cursor-pointer text-white text-sm">
 						J'accepte l'utilisation de mes données personnelles pour le
 						traitement de ma demande et pour être recontacté(e)*
 					</label>

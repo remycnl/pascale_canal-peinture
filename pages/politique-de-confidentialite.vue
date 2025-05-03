@@ -33,8 +33,8 @@ useSeoMeta({
 			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">1. Introduction</h2>
 			<p class="text-sm md:text-base">
 				Cette politique de confidentialité a pour but d'informer les
-				utilisateurs du site sur la collecte, l'utilisation et la protection de
-				leurs données personnelles.
+				visiteurs du site d'exposition en ligne des œuvres de Pascale Canal sur la collecte,
+				l'utilisation et la protection de leurs données personnelles.
 			</p>
 		</section>
 
@@ -43,14 +43,15 @@ useSeoMeta({
 				2. Données Collectées
 			</h2>
 			<p class="text-sm md:text-base mb-3">
-				Le site ne collecte pas automatiquement de données personnelles.
-				Toutefois, lorsque vous utilisez le formulaire de contact, les
-				informations suivantes peuvent être collectées :
+				Lorsque vous utilisez notre formulaire de contact pour vous renseigner sur les œuvres
+				ou initier un processus d'achat, les informations suivantes peuvent être collectées :
 			</p>
 			<ul class="list-disc ml-6 text-sm md:text-base mb-3">
 				<li class="mb-1">Nom et prénom</li>
 				<li class="mb-1">Adresse e-mail</li>
-				<li class="mb-1">Message envoyé via le formulaire</li>
+				<li class="mb-1">Numéro de téléphone (facultatif)</li>
+				<li class="mb-1">Message concernant votre intérêt pour les œuvres</li>
+				<li class="mb-1">Informations relatives à votre demande d'exposition ou d'achat</li>
 			</ul>
 		</section>
 
@@ -59,9 +60,9 @@ useSeoMeta({
 				3. Utilisation des Données
 			</h2>
 			<p class="text-sm md:text-base">
-				Les données collectées sont uniquement destinées à répondre aux demandes
-				envoyées via le formulaire de contact. Elles ne sont ni revendues, ni
-				partagées avec des tiers.
+				Les données collectées sont utilisées pour répondre à vos demandes d'information sur les œuvres de
+				Pascale Canal, faciliter le processus d'achat et organiser d'éventuelles expositions. 
+				Ces informations ne sont ni revendues, ni partagées avec des tiers sans votre consentement explicite.
 			</p>
 		</section>
 
@@ -71,8 +72,9 @@ useSeoMeta({
 			</h2>
 			<p class="text-sm md:text-base">
 				Les données personnelles transmises via le formulaire de contact sont
-				conservées pendant une durée maximale de 12 mois, sauf obligation légale
-				contraire.
+				conservées pendant une durée maximale de 3 ans après le dernier contact, 
+				conformément aux recommandations de la CNIL, sauf obligation légale contraire.
+				Les données relatives aux transactions sont conservées conformément aux obligations légales.
 			</p>
 		</section>
 
@@ -91,13 +93,14 @@ useSeoMeta({
 				</li>
 				<li class="mb-1">Droit d'opposition au traitement de vos données</li>
 				<li class="mb-1">Droit à la portabilité des données</li>
+				<li class="mb-1">Droit de retirer votre consentement à tout moment</li>
 			</ul>
 			<p class="text-sm md:text-base">
 				Pour exercer ces droits, contactez-nous à
 				<a
-					href="mailto:contact@remycanal.me"
+					href="mailto:contact@pascalecanal.art"
 					class="text-primary hover:underline"
-					>contact@remycanal.me</a
+					>contact@pascalecanal.art</a
 				>.
 			</p>
 		</section>
@@ -107,18 +110,19 @@ useSeoMeta({
 				6. Sécurité des Données
 			</h2>
 			<p class="text-sm md:text-base">
-				Nous mettons en place des mesures de sécurité afin de protéger vos
-				données personnelles contre tout accès non autorisé, altération ou
+				Nous mettons en place des mesures de sécurité appropriées afin de protéger vos
+				données personnelles contre tout accès non autorisé, altération, divulgation ou
 				destruction.
 			</p>
 		</section>
 
 		<section class="mb-6 md:mb-8">
 			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
-				7. Absence de Cookies
+				7. Cookies et Suivi
 			</h2>
 			<p class="text-sm md:text-base">
-				Ce site ne dépose pas de cookies sur votre navigateur.
+				Ce site utilise uniquement des cookies techniques essentiels au fonctionnement du site.
+				Aucun cookie publicitaire ou de suivi n'est utilisé sur ce site d'exposition artistique.
 			</p>
 		</section>
 
@@ -127,8 +131,8 @@ useSeoMeta({
 				8. Modifications de la Politique de Confidentialité
 			</h2>
 			<p class="text-sm md:text-base">
-				Nous nous réservons le droit de modifier cette politique à tout moment.
-				La date de la dernière mise à jour sera indiquée ci-dessous.
+				Nous nous réservons le droit de modifier cette politique à tout moment pour refléter les évolutions
+				légales ou celles de nos pratiques. La date de la dernière mise à jour sera indiquée ci-dessous.
 			</p>
 		</section>
 

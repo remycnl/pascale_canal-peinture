@@ -136,8 +136,6 @@ onMounted(() => {
           @contextmenu.prevent
           class="h-full w-full pointer-events-none select-none object-cover"
           loading="lazy"
-          fetchpriority="low"
-          decoding="async"
         />
       </li>
     </ul>

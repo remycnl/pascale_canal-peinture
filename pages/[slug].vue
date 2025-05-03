@@ -291,19 +291,22 @@ useSchemaOrg([
 </script>
 
 <template>
-	<div class="relative min-h-screen pt-10">
+	<main class="relative min-h-screen pt-10">
 		<div v-if="painting">
-			<button
-				@click="$router.back() || $router.push('/')"
-				title="Go to the previous page"
-				class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 pointer-cursor hover:-translate-x-2 transition-transform duration-200">
-				<NuxtImg
-					src="/svg/arrow-black.svg"
-					alt="Retour"
-					title="Retour"
-					@contextmenu.prevent />
-			</button>
-			<div class="text-end mb-10">
+			<nav aria-label="Navigation">
+				<button
+					@click="$router.back() || $router.push('/')"
+					title="Retour à la page précédente"
+					class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 pointer-cursor hover:-translate-x-2 transition-transform duration-200">
+					<NuxtImg
+						src="/svg/arrow-black.svg"
+						alt="Retour"
+						width="100%"
+						height="100%"
+						@contextmenu.prevent />
+				</button>
+			</nav>
+			<header class="text-end mb-10">
 				<h1
 					class="text-[clamp(3rem,15vw,18rem)] leading-[clamp(3rem,16vw,19rem)] font-apercuBold tracking-wide text-black">
 					{{ painting.name }}
@@ -312,10 +315,9 @@ useSchemaOrg([
 					<span class="text-xs md:text-sm lg:text-lg">peint par</span>
 					{{ painting.artist }}
 				</p>
-			</div>
-			<div
-				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
-				<div
+			</header>
+			<section class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
+				<figure
 					class="relative overflow-hidden rounded-2xl"
 					:class="[
 						painting.width === painting.height
@@ -330,7 +332,8 @@ useSchemaOrg([
 					}">
 					<div
 						v-if="!imageLoaded"
-						class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center">
+						class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center"
+						aria-hidden="true">
 						<div class="w-16 h-16 text-gray-400">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -347,7 +350,7 @@ useSchemaOrg([
 					</div>
 					<NuxtImg
 						:src="painting.image"
-						:alt="painting.name"
+						:alt="`Tableau '${painting.name}' peint par ${painting.artist}`"
 						:title="painting.name"
 						format="webp"
 						ref="imageRef"
@@ -359,8 +362,13 @@ useSchemaOrg([
 							transition: isZoomed ? 'none' : 'all 0.3s ease',
 							opacity: imageLoaded ? 1 : 0,
 						}"
+						width="800"
+						height="600"
+						:sizes="'(max-width: 768px) 100vw, 50vw'"
+						loading="eager"
 						class="rounded-2xl object-cover w-full h-full object-center" />
-				</div>
+					<figcaption class="sr-only">{{ painting.name }} - {{ painting.description }}</figcaption>
+				</figure>
 				<div class="relative prose max-w-none text-grayDark">
 					<div
 						class="lg:absolute -mt-7 lg:mt-0 -top-20 right-0 text-end will-change-scroll flex flex-col lg:flex-row gap-4">
@@ -381,61 +389,66 @@ useSchemaOrg([
 							:description="painting.description"
 							position="bottom-right" />
 					</div>
-					<h2
-						class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-apercuBold text-black">
-						Détails
-					</h2>
-					<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2">
-						<li v-if="painting.state === 'OFF_SALE'">
-							<span
-								class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-								Ce tableau n'est pas disponible à la vente et est présentée
-								uniquement à titre d'exposition. Si vous souhaitez acquérir une
-								œuvre, vous avez la possibilité de
-								<NuxtLink
-									to="/commande-personnalisee"
-									class="text-[#B60071] underline"
-									>commander une création personnalisée</NuxtLink
-								>
-								ou de
-								<NuxtLink to="/?state=FOR_SALE" class="text-[#B60071] underline"
-									>découvrir les œuvres actuellement disponibles à
-									l'achat</NuxtLink
-								>.
-							</span>
-						</li>
-						<li v-if="painting.state === 'FOR_SALE'">
-							<span class="font-apercuBold">Prix:</span>
-							{{ formatPrice(painting.price) }} €
-						</li>
-						<li>
-							<span class="font-apercuBold">Dimensions:</span>
-							{{ painting.width }} cm x {{ painting.height }} cm
-						</li>
-						<li>
-							<span class="font-apercuBold">Type de peinture:</span>
-							{{ painting.paintingType }}
-						</li>
-						<li>
-							<span class="font-apercuBold">Date: </span>
-							<time>
-								{{ formatDate(painting.date) }}
-							</time>
-						</li>
-					</ul>
+					<section>
+						<h2
+							class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-apercuBold text-black">
+							Détails
+						</h2>
+						<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2" itemscope itemtype="https://schema.org/Product">
+							<meta itemprop="name" content="painting.name" />
+							<li v-if="painting.state === 'OFF_SALE'">
+								<span
+									class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
+									Ce tableau n'est pas disponible à la vente et est présentée
+									uniquement à titre d'exposition. Si vous souhaitez acquérir une
+									œuvre, vous avez la possibilité de
+									<NuxtLink
+										to="/commande-personnalisee"
+										class="text-[#B60071] underline"
+										>commander une création personnalisée</NuxtLink
+									>
+									ou de
+									<NuxtLink to="/?state=FOR_SALE" class="text-[#B60071] underline"
+										>découvrir les œuvres actuellement disponibles à
+										l'achat</NuxtLink
+									>.
+								</span>
+							</li>
+							<li v-if="painting.state === 'FOR_SALE'" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+								<meta itemprop="priceCurrency" content="EUR" />
+								<meta itemprop="price" :content="painting.price" />
+								<meta itemprop="availability" content="https://schema.org/InStock" />
+								<span class="font-apercuBold">Prix:</span>
+								{{ formatPrice(painting.price) }} €
+							</li>
+							<li>
+								<span class="font-apercuBold">Dimensions:</span>
+								<span itemprop="width">{{ painting.width }} cm</span> x <span itemprop="height">{{ painting.height }} cm</span>
+							</li>
+							<li itemprop="material">
+								<span class="font-apercuBold">Type de peinture:</span>
+								{{ painting.paintingType }}
+							</li>
+							<li>
+								<span class="font-apercuBold">Date: </span>
+								<time itemprop="dateCreated" :datetime="painting.date">
+									{{ formatDate(painting.date) }}
+								</time>
+							</li>
+						</ul>
+					</section>
 				</div>
 				<div class="hidden lg:block"></div>
 
-				<div
-					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
+				<article class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
 					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 						Son histoire
 					</h2>
-					<p class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed">
+					<p class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed" itemprop="description">
 						{{ painting.description }}
 					</p>
-				</div>
-			</div>
+				</article>
+			</section>
 		</div>
 
 		<div v-else class="text-center py-12">
@@ -463,11 +476,15 @@ useSchemaOrg([
 						:class="{
 							'translate-y-8 opacity-0 scale-95': !formLoaded,
 							'translate-y-0 opacity-100 scale-100': formLoaded,
-						}">
+						}"
+						role="dialog"
+						aria-modal="true"
+						:aria-label="contactType === 'achat' ? 'Acheter cette œuvre' : 'Demander une réédition'">
 						<!-- Bouton de fermeture -->
 						<button
 							@click="closeContactOverlay"
-							class="cross-button absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200 z-20">
+							class="cross-button absolute top-4 right-4 text-gray-400 active:scale-90 hover:text-white transition-colors duration-200 z-20"
+							aria-label="Fermer">
 							<svg
 								class="h-10 w-10 md:h-12 md:w-12 lg:h-15 lg:w-15"
 								viewBox="0 0 24 24"
@@ -508,7 +525,8 @@ useSchemaOrg([
 
 						<div class="relative flex-grow overflow-auto">
 							<div
-								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
+								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"
+								aria-hidden="true"></div>
 
 							<p class="mb-6 max-w-5xl text-gray-400 md:hidden">
 								<span v-if="contactType === 'achat'">
@@ -528,13 +546,14 @@ useSchemaOrg([
 								@form-loaded="formLoaded = true" />
 
 							<div
-								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"
+								aria-hidden="true"></div>
 						</div>
 					</div>
 				</div>
 			</Transition>
 		</Teleport>
-	</div>
+	</main>
 </template>
 
 <style scoped>

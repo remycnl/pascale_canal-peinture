@@ -33,36 +33,36 @@ useSeoMeta({
 			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
 				1. Informations Générales
 			</h2>
-			<p class="mb-2"><strong>Propriétaire du site :</strong> Pascale Canal</p>
+			<p class="mb-2"><strong>Éditeur du site :</strong> Pascale Canal</p>
 			<p class="mb-2"><strong>Statut :</strong> Artiste indépendante</p>
 			<p class="mb-2">
-				<strong>Email :</strong>
+				<strong>Email : </strong>
 				<a
-					href="mailto:contact@remycanal.me"
+					href="mailto:contact@pascalecanal-art.com"
 					class="text-primary hover:underline"
-					>contact@remycanal.me</a
+					>contact@pascalecanal-art.com</a
 				>
 			</p>
 			<p class="mb-2">
-				<strong>Hébergeur :</strong> Vercel -
+				<strong>Hébergeur :</strong> Vercel Inc. - 340 S Lemon Ave #4133, Walnut, CA 91789, USA -
 				<a href="https://vercel.com" class="text-primary hover:underline"
 					>vercel.com</a
 				>
 			</p>
 			<p class="mb-2">
-				<strong>Responsable de la publication :</strong> Pascale Canal
+				<strong>Directrice de la publication :</strong> Pascale Canal
 			</p>
 		</section>
 
 		<section class="mb-6 md:mb-8">
 			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
-				2. Propriété Intellectuelle
+				2. Propriété Intellectuelle et Droits d'Auteur
 			</h2>
 			<p class="text-sm md:text-base">
-				L'ensemble des œuvres présentées sur ce site (images, textes,
-				illustrations) sont la propriété exclusive de Pascale Canal, sauf
-				mention contraire. Toute reproduction, distribution ou utilisation sans
-				autorisation écrite est strictement interdite.
+				L'ensemble des œuvres d'art, images, photographies et contenus présentés sur ce site sont la propriété exclusive de Pascale Canal et sont protégés par les lois françaises et internationales relatives à la propriété intellectuelle. Toute reproduction, représentation, modification, publication ou adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite sans autorisation préalable écrite de Pascale Canal.
+			</p>
+			<p class="text-sm md:text-base mt-2">
+				Les images des œuvres d'art présentées servent uniquement à des fins de présentation et ne peuvent être utilisées à des fins commerciales par des tiers.
 			</p>
 		</section>
 
@@ -71,50 +71,54 @@ useSeoMeta({
 				3. Protection des Données Personnelles
 			</h2>
 			<p class="text-sm md:text-base mb-3">
-				Conformément au RGPD, les informations collectées via le formulaire de
-				contact sont utilisées uniquement pour répondre aux demandes et ne sont
-				en aucun cas revendues à des tiers.
+				Conformément au Règlement Général sur la Protection des Données (RGPD), les informations collectées via le formulaire de contact sont utilisées uniquement pour répondre aux demandes d'information, faciliter les transactions d'achat des œuvres d'art et organiser des expositions. Ces données ne sont en aucun cas cédées ou vendues à des tiers.
+			</p>
+			<p class="text-sm md:text-base mb-3">
+				Les données personnelles recueillies peuvent inclure : nom, prénom, adresse email, numéro de téléphone et adresse postale pour la livraison des œuvres.
 			</p>
 			<ul class="list-disc ml-6 text-sm md:text-base mb-3">
 				<li class="mb-1">
-					Accès, rectification ou suppression des données personnelles
+					Vous disposez d'un droit d'accès, de rectification et de suppression de vos données
 				</li>
-				<li class="mb-1">Opposition au traitement des données</li>
-				<li class="mb-1">Demande de portabilité des données</li>
+				<li class="mb-1">Vous pouvez vous opposer au traitement de vos données</li>
+				<li class="mb-1">Vous pouvez demander la portabilité de vos données</li>
+				<li class="mb-1">Vous avez le droit de retirer votre consentement à tout moment</li>
 			</ul>
 			<p class="text-sm md:text-base">
-				Pour exercer ces droits, contactez-nous à
+				Pour exercer ces droits ou pour toute question relative à vos données personnelles, contactez-nous à
 				<a
-					href="mailto:contact@remycanal.me"
+					href="mailto:contact@pascalecanal-art.com"
 					class="text-primary hover:underline"
-					>contact@remycanal.me</a
+					>contact@pascalecanal-art.com</a
 				>.
 			</p>
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">4. Responsabilités</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">4. Transactions et Ventes d'Œuvres</h2>
 			<p class="text-sm md:text-base">
-				Le propriétaire du site s'efforce d'assurer l'exactitude et la mise à
-				jour des informations, mais ne saurait être tenu responsable des erreurs
-				ou omissions.
+				Ce site facilite la mise en relation entre l'artiste et les acheteurs potentiels. Les modalités précises de vente, incluant prix, conditions de livraison, et modalités de paiement sont convenues directement avec l'artiste et feront l'objet d'un contrat séparé. Les transactions sont soumises à la législation française en vigueur.
 			</p>
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">5. Liens Externes</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">5. Responsabilités</h2>
 			<p class="text-sm md:text-base">
-				Le site peut contenir des liens vers des sites tiers. Pascale Canal ne
-				peut être tenue responsable du contenu de ces sites ni des éventuels
-				dommages qu'ils pourraient causer.
+				Pascale Canal s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site, mais ne peut garantir l'exactitude, la précision ou l'exhaustivité des informations mises à disposition. En conséquence, l'utilisateur reconnaît utiliser ces informations sous sa responsabilité exclusive.
 			</p>
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">6. Droit Applicable</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">6. Liens Externes</h2>
 			<p class="text-sm md:text-base">
-				Les présentes mentions légales sont soumises au droit français. En cas
-				de litige, les tribunaux français seront seuls compétents.
+				Le site peut contenir des liens vers d'autres sites internet ou ressources externes. Pascale Canal n'exerce aucun contrôle sur ces sites et ressources et décline toute responsabilité quant à leur contenu.
+			</p>
+		</section>
+
+		<section class="mb-6 md:mb-8">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">7. Droit Applicable et Juridiction</h2>
+			<p class="text-sm md:text-base">
+				Les présentes mentions légales sont soumises au droit français. En cas de litige relatif à l'interprétation ou l'exécution des présentes, les tribunaux français seront seuls compétents.
 			</p>
 		</section>
 

@@ -304,10 +304,10 @@ useSeoMeta({
 				class="flex flex-col lg:flex-row justify-center items-start gap-20 max-w-7xl mt-20 md:mt-40 mx-auto">
 				<!-- Formulaire (côté gauche) -->
 				<div class="lg:w-1/2 w-full">
-					<h1
+					<h2
 						class="text-lg md:text-xl lg:text-3xl font-apercuBold mb-8 text-gray-800 text-center">
 						{{ isEditMode ? "Modifier la peinture" : "Ajouter une peinture" }}
-					</h1>
+					</h2>
 
 					<form
 						@submit.prevent="submitPainting"

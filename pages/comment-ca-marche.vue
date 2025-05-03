@@ -220,24 +220,27 @@ useSchemaOrg([
 </script>
 
 <template>
-	<div class="relative min-h-screen pt-10 md:pt-20">
-		<h1
-			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
-			<span class="block xs:inline">Comment</span>
-			<span class="block xs:inline"> ça marche ?</span>
-		</h1>
+	<main class="relative min-h-screen pt-10 md:pt-20">
+		<header>
+			<h1
+				class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
+				<span class="block xs:inline">Comment</span>
+				<span class="block xs:inline"> ça marche ?</span>
+			</h1>
+		</header>
 
 		<!-- Tab selector -->
-		<div class="flex justify-end mt-10 md:mt-20 lg:mt-30">
+		<nav class="flex justify-end mt-20 lg:mt-30" aria-label="Types de commandes">
 			<TabSwitcher
 				:tabs="processTabs"
 				:initial-tab="activeTab"
 				@tab-change="handleTabChange" />
-		</div>
+		</nav>
 
-		<div
-			class="my-10 sm:my-20 md:my-30 lg:my-40 flex flex-col items-center gap-y-10 sm:gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50">
-			<div
+		<section 
+			class="my-10 sm:my-20 md:my-30 lg:my-40 flex flex-col items-center gap-y-10 sm:gap-y-20 md:gap-y-30 lg:gap-y-40 2xl:gap-y-50"
+			:aria-label="`Processus pour ${activeTab === 'standard' ? 'achat standard' : 'commande personnalisée'}`">
+			<article
 				v-for="(section, index) in sections[activeTab]"
 				:key="`${activeTab}-${section.number}`"
 				:class="`flex ${
@@ -248,7 +251,8 @@ useSchemaOrg([
 						isEven(index)
 							? 'text-end -mr-2 sm:-mr-4 md:-mr-6 lg:-mr-10'
 							: 'text-start -ml-3 sm:-ml-6 md:-ml-9 lg:-ml-30'
-					} font-apercuBold select-none`">
+					} font-apercuBold select-none`"
+					aria-hidden="true">
 					{{ section.number }}
 				</span>
 				<div
@@ -260,7 +264,7 @@ useSchemaOrg([
 						">
 						{{ section.title }}
 					</h2>
-					<div
+					<p
 						class="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-500 transition-all duration-300 ease-in-out"
 						:class="
 							isTransitioning ? 'blur-md opacity-50' : 'blur-0 opacity-100'
@@ -278,11 +282,11 @@ useSchemaOrg([
 								{{ part.text }}
 							</template>
 						</template>
-					</div>
+					</p>
 				</div>
-			</div>
-		</div>
-	</div>
+			</article>
+		</section>
+	</main>
 </template>
 
 <style scoped>

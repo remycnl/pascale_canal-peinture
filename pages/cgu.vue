@@ -29,11 +29,18 @@ useSeoMeta({
 			Conditions Générales d'Utilisation
 		</h1>
 
+		<div class="mb-6 md:mb-8">
+			<p class="text-sm md:text-base italic mb-4">
+				Ce document définit les conditions d'utilisation du site de l'artiste Pascale Canal, galerie d'art en ligne présentant ses œuvres.
+			</p>
+		</div>
+
 		<section class="mb-6 md:mb-8">
 			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">1. Introduction</h2>
 			<p class="text-sm md:text-base">
 				Les présentes Conditions Générales d'Utilisation (CGU) définissent les
-				règles et obligations liées à l'utilisation du site web.
+				règles et obligations liées à l'utilisation du site web de l'artiste Pascale Canal,
+				plateforme dédiée à l'exposition et la promotion de ses œuvres d'art.
 			</p>
 		</section>
 
@@ -49,11 +56,11 @@ useSeoMeta({
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">3. Accès au Site</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">3. Contenu et Œuvres</h2>
 			<p class="text-sm md:text-base">
-				Le site est accessible gratuitement à tout utilisateur disposant d'un
-				accès à Internet. L'utilisateur est responsable de son matériel
-				informatique et de sa connexion.
+				Les images et descriptions des œuvres d'art présentées sur ce site sont la propriété
+				exclusive de Pascale Canal. Elles sont présentées à titre informatif et pour faciliter
+				la prise de contact en vue d'achat ou d'exposition.
 			</p>
 		</section>
 
@@ -62,27 +69,29 @@ useSeoMeta({
 				4. Propriété Intellectuelle
 			</h2>
 			<p class="text-sm md:text-base">
-				L'ensemble du contenu du site (textes, images, logos, etc.) est protégé
-				par les lois sur la propriété intellectuelle. Toute reproduction ou
-				utilisation non autorisée est interdite.
+				L'ensemble du contenu du site (œuvres, textes, images, logos, etc.) est protégé
+				par les lois sur la propriété intellectuelle et les droits d'auteur. Toute reproduction,
+				représentation ou utilisation non autorisée des œuvres de Pascale Canal est strictement interdite.
 			</p>
 		</section>
 
 		<section class="mb-6 md:mb-8">
-			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">5. Responsabilités</h2>
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">5. Processus d'Achat</h2>
 			<p class="text-sm md:text-base">
-				L'éditeur du site ne saurait être tenu responsable des erreurs,
-				omissions ou indisponibilités du site.
+				Ce site permet d'initier un processus d'achat par prise de contact. Aucune transaction
+				n'est réalisée directement sur le site. Tout achat fera l'objet d'un contrat séparé
+				entre l'artiste et l'acheteur selon les modalités convenues.
 			</p>
 		</section>
 
 		<section class="mb-6 md:mb-8">
 			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
-				6. Liens Hypertextes
+				6. Expositions et Collaborations
 			</h2>
 			<p class="text-sm md:text-base">
-				Le site peut contenir des liens vers d'autres sites. L'éditeur ne peut
-				être tenu responsable du contenu de ces sites externes.
+				Les demandes concernant l'exposition des œuvres de Pascale Canal dans des galeries,
+				événements ou autres lieux peuvent être soumises via le formulaire de contact.
+				Chaque demande sera étudiée individuellement.
 			</p>
 		</section>
 
@@ -93,6 +102,18 @@ useSeoMeta({
 			<p class="text-sm md:text-base">
 				Les présentes CGU peuvent être modifiées à tout moment. L'utilisateur
 				est invité à les consulter régulièrement.
+			</p>
+		</section>
+
+		<section class="mb-6 md:mb-8">
+			<h2 class="text-lg md:text-xl font-apercuMediumbold mb-3">
+				8. Protection des Données
+			</h2>
+			<p class="text-sm md:text-base">
+				Les informations recueillies via le formulaire de contact sont utilisées uniquement
+				pour répondre aux demandes concernant les œuvres, les achats potentiels ou les expositions.
+				Aucune donnée n'est partagée avec des tiers. Conformément au RGPD, vous disposez d'un droit
+				d'accès, de rectification et de suppression de vos données.
 			</p>
 		</section>
 

@@ -95,25 +95,30 @@ useSchemaOrg([
 </script>
 
 <template>
-	<div class="relative min-h-screen pt-10 md:pt-20">
-		<h1
-			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
-			Frequently
-			<div></div>
-			Asked Questions
-		</h1>
+	<main class="relative min-h-screen pt-10 md:pt-20">
+		<header>
+			<h1 class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
+				<span>Frequently</span>
+				<span>Asked Questions</span>
+			</h1>
+		</header>
 
-		<div class="mt-10 md:mt-20 lg:mt-30 space-y-5 md:space-y-10">
-			<div
+		<section class="mt-20 lg:mt-30 space-y-5 md:space-y-10" aria-label="FAQ Section">
+			<article
 				v-for="(faq, index) in sortedFAQs"
 				:key="faq.id"
 				class="bg-black active:scale-99 transition-transform border-4 md:border-5 border-black text-white rounded-2xl overflow-hidden opacity-0 animate-fade-in"
-				:class="`delay-[${index * 150}ms]`">
-				<div
+				:class="`delay-[${index * 150}ms]`"
+				itemscope
+				itemtype="https://schema.org/Question">
+				<button
 					@click="toggleFAQ(faq)"
-					class="flex justify-between items-center gap-x-5 p-3 sm:p-4 md:p-6 lg:p-8 cursor-pointer transition-colors">
+					class="flex justify-between items-center gap-x-5 p-3 sm:p-4 md:p-6 lg:p-8 cursor-pointer transition-colors w-full text-left"
+					:aria-expanded="faq.isOpen ? 'true' : 'false'"
+					:aria-controls="`faq-answer-${faq.id}`">
 					<h2
-						class="w-11/12 text-base sm:text-lg md:text-xl lg:text-4xl font-aperçuBold">
+						class="w-11/12 text-base sm:text-lg md:text-xl lg:text-4xl font-aperçuBold"
+						itemprop="name">
 						{{ faq.question }}
 					</h2>
 					<svg
@@ -122,23 +127,28 @@ useSchemaOrg([
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg">
+						xmlns="http://www.w3.org/2000/svg"
+						aria-hidden="true">
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
 							d="M19 9l-7 7-7-7"></path>
 					</svg>
-				</div>
+				</button>
 
 				<div
 					v-if="faq.isOpen"
-					class="p-3 sm:p-4 md:p-6 lg:p-8 bg-white text-sm sm:text-base md:text-lg lg:text-2xl text-gray-700">
-					{{ faq.answer }}
+					:id="`faq-answer-${faq.id}`"
+					class="p-3 sm:p-4 md:p-6 lg:p-8 bg-white text-sm sm:text-base md:text-lg lg:text-2xl text-gray-700"
+					itemprop="acceptedAnswer"
+					itemscope
+					itemtype="https://schema.org/Answer">
+					<div itemprop="text">{{ faq.answer }}</div>
 				</div>
-			</div>
-		</div>
-	</div>
+			</article>
+		</section>
+	</main>
 </template>
 
 <style>

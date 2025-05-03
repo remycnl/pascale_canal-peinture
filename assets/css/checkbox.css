@@ -1,38 +1,18 @@
 .cbx {
 	position: relative;
 	top: 1px;
-	width: 27px;
-	height: 27px;
-	border-radius: 10px;
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
 	transition: background 0.2s ease;
 	cursor: pointer;
 	display: block;
-}
-
-.cbx:after {
-	content: "";
-	position: absolute;
-	top: 3px;
-	left: 8px;
-	width: 8px;
-	height: 15px;
-	opacity: 0;
-	transform: rotate(45deg) scale(0);
-	border-right: 2px solid var(--color-black);
-	border-bottom: 2px solid var(--color-black);
-	transition: all 0.3s ease;
-	transition-delay: 0.15s;
 }
 
 #rgpdConsent:checked ~ .cbx {
 	border-color: transparent;
 	background: var(--color-yellow);
 	animation: jelly 0.4s ease;
-}
-
-#rgpdConsent:checked ~ .cbx:after {
-	opacity: 1;
-	transform: rotate(45deg) scale(1);
 }
 
 @keyframes jelly {
