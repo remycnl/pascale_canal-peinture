@@ -597,6 +597,7 @@ useSeoMeta({
 									<NuxtImg
 										:src="painting.image"
 										:alt="painting.name"
+										:title="painting.name"
 										loading="lazy"
 										format="webp"
 										provider="cloudinary"
@@ -626,6 +627,7 @@ useSeoMeta({
 											loading="lazy"
 											@contextmenu.prevent
 											alt="edit icon for editing painting"
+											title="Modifier"
 											class="w-7 h-7" />
 									</button>
 									<button
@@ -636,6 +638,7 @@ useSeoMeta({
 											loading="lazy"
 											@contextmenu.prevent
 											alt="trash icon for deleting painting"
+											title="Supprimer"
 											class="w-7 h-7" />
 									</button>
 								</div>
@@ -676,12 +679,16 @@ useSeoMeta({
 							<NuxtImg
 								v-if="!showPassword"
 								src="/svg/eye-open.svg"
+								alt="eye icon for showing password"
+								title="Afficher le mot de passe"
 								loading="lazy"
 								@contextmenu.prevent
 								class="w-5 h-5" />
 							<NuxtImg
 								v-else
 								src="/svg/eye-closed.svg"
+								alt="eye icon for hiding password"
+								title="Masquer le mot de passe"
 								class="w-5 h-5"
 								@contextmenu.prevent />
 						</button>

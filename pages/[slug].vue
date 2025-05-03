@@ -297,7 +297,11 @@ useSchemaOrg([
 				@click="$router.back() || $router.push('/')"
 				title="Go to the previous page"
 				class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 pointer-cursor hover:-translate-x-2 transition-transform duration-200">
-				<NuxtImg src="/svg/arrow-black.svg" @contextmenu.prevent />
+				<NuxtImg
+					src="/svg/arrow-black.svg"
+					alt="Retour"
+					title="Retour"
+					@contextmenu.prevent />
 			</button>
 			<div class="text-end mb-10">
 				<h1
@@ -344,6 +348,7 @@ useSchemaOrg([
 					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
+						:title="painting.name"
 						format="webp"
 						ref="imageRef"
 						@contextmenu.prevent
@@ -502,8 +507,9 @@ useSchemaOrg([
 						</p>
 
 						<div class="relative flex-grow overflow-auto">
-							<div class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
-							
+							<div
+								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
+
 							<p class="mb-6 max-w-5xl text-gray-400 md:hidden">
 								<span v-if="contactType === 'achat'">
 									Vous êtes intéressé(e) par l'achat de "{{ painting.name }}" ?
@@ -516,12 +522,13 @@ useSchemaOrg([
 									pour discuter du projet.
 								</span>
 							</p>
-							
+
 							<ContactForm
 								:pre-selected-artwork-id="painting.id"
 								@form-loaded="formLoaded = true" />
-							
-							<div class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+
+							<div
+								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
 						</div>
 					</div>
 				</div>

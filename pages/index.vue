@@ -182,11 +182,16 @@ useSchemaOrg([
 			<NuxtImg
 				src="/svg/blob-right.svg"
 				alt="Blob right"
+				title="Blob right"
 				@contextmenu.prevent />
 		</div>
 		<div
 			class="select-none pointer-events-none absolute top-[20vh] -left-200 w-full h-auto opacity-90 blur-2xl">
-			<NuxtImg src="/svg/blob-left.svg" alt="Blob left" @contextmenu.prevent />
+			<NuxtImg
+				src="/svg/blob-left.svg"
+				alt="Blob left"
+				title="Blob left"
+				@contextmenu.prevent />
 		</div>
 		<h1
 			class="flex flex-col gap-y-1 text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-[80px] leading-tight 2xl:leading-[90px] text-left lg:w-2/3 lg:pb-40 pt-15 lg:pt-20">
@@ -222,6 +227,7 @@ useSchemaOrg([
 					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
+						:title="painting.name"
 						format="webp"
 						loading="lazy"
 						quality="50"
@@ -253,6 +259,7 @@ useSchemaOrg([
 							<NuxtImg
 								src="/svg/arrow-white.svg"
 								alt="right arrow"
+								title="right arrow"
 								@contextmenu.prevent
 								class="w-6 h-6 translate-x-1 origin-left will-change-auto group-hover:translate-x-0 scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400 flex-shrink-0" />
 							<span

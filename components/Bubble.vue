@@ -131,6 +131,7 @@ onMounted(() => {
 				<NuxtImg
 					src="/img/logo-reversed.png"
 					alt="Logo"
+					title="Logo"
 					format="webp"
 					class="w-auto ml-2 md:ml-0 h-6 md:h-7"
 					:class="{ hidden: isMobile && isInputFocused }" />
@@ -162,6 +163,7 @@ onMounted(() => {
 										v-show="!imageLoading[suggestion.id]"
 										:src="suggestion.image"
 										:alt="suggestion.name"
+										:title="suggestion.name"
 										provider="cloudinary"
 										format="webp"
 										quality="50"

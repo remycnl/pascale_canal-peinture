@@ -214,6 +214,7 @@ const initializeTextareas = () => {
 				<NuxtImg
 					src="/img/logo.png"
 					alt="Logo"
+					title="Logo"
 					format="webp"
 					class="w-16 sm:w-20 md:w-28 h-auto" />
 			</div>
@@ -342,6 +343,7 @@ const initializeTextareas = () => {
 										v-if="event.imageUrl"
 										:src="event.imageUrl"
 										:alt="event.title"
+										:title="event.title"
 										loading="lazy"
 										provider="cloudinary"
 										format="webp"

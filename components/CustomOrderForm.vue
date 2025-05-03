@@ -387,7 +387,11 @@ const submitForm = async () => {
 							v-for="photo in uploadedPhotos"
 							:key="photo.id"
 							class="relative rounded-lg overflow-hidden aspect-square shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
-							<img :src="photo.preview" class="w-full h-full object-cover" />
+							<NuxtImg
+								:src="photo.preview"
+								:alt="`Aperçu de la photo ${photo.id}`"
+								:title="`Aperçu de la photo ${photo.id}`"
+								class="w-full h-full object-cover" />
 							<button
 								@click="removePhoto(photo.id)"
 								type="button"
@@ -456,7 +460,8 @@ const submitForm = async () => {
 
 				<!-- Required fields info -->
 				<div class="md:col-span-3 md:col-start-3 mx-6">
-					<p class="text-sm rounded-xl w-fit backdrop-blur-sm lg:p-8 md:text-base text-white/60">
+					<p
+						class="text-sm rounded-xl w-fit backdrop-blur-sm lg:p-8 md:text-base text-white/60">
 						<span class="text-yellow">*</span> Champs obligatoires
 					</p>
 				</div>

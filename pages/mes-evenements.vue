@@ -283,6 +283,7 @@ useSchemaOrg([
 							v-if="event.imageUrl"
 							:src="event.imageUrl"
 							:alt="event.title"
+							:title="event.title"
 							format="webp"
 							provider="cloudinary"
 							@contextmenu.prevent

@@ -107,6 +107,7 @@ const initializeTextareas = () => {
 				<NuxtImg
 					src="/img/logo.png"
 					alt="Logo"
+					title="Logo"
 					format="webp"
 					class="w-16 sm:w-20 md:w-28 h-auto" />
 			</div>

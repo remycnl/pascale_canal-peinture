@@ -178,6 +178,7 @@
 								<NuxtImg
 									:src="preSelectedArtwork.image"
 									:alt="preSelectedArtwork.name"
+									:title="preSelectedArtwork.name"
 									provider="cloudinary"
 									format="webp"
 									quality="50"
@@ -233,6 +234,7 @@
 										<NuxtImg
 											:src="result.image"
 											:alt="result.name"
+											:title="result.name"
 											width="40"
 											height="40"
 											provider="cloudinary"
@@ -282,6 +284,7 @@
 										<NuxtImg
 											:src="artwork.image"
 											:alt="artwork.name"
+											:title="artwork.name"
 											provider="cloudinary"
 											@contextmenu.prevent
 											format="webp"
@@ -377,6 +380,7 @@
 								<NuxtImg
 									:src="result.image"
 									:alt="result.name"
+									:title="result.name"
 									provider="cloudinary"
 									width="40"
 									height="40"
@@ -426,6 +430,7 @@
 								<NuxtImg
 									:src="artwork.image"
 									:alt="artwork.name"
+									:title="artwork.name"
 									provider="cloudinary"
 									format="webp"
 									quality="50"
@@ -498,6 +503,7 @@
 							<NuxtImg
 								:src="artwork.image"
 								:alt="artwork.name"
+								:title="artwork.name"
 								provider="cloudinary"
 								format="webp"
 								quality="50"

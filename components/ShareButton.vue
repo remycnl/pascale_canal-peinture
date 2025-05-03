@@ -336,9 +336,10 @@ const share = (platform) => {
 						:aria-label="`Partager sur ${network.name}`">
 						<span class="flex items-center justify-center">
 							<!-- Fallback en cas d'échec de chargement de l'image -->
-							<img
+							<NuxtImg
 								:src="`/svg/logos/${network.id}.svg`"
 								:alt="network.name"
+								:title="network.name"
 								@error="$event.target.style.display = 'none'"
 								class="w-6 h-6"
 								loading="lazy" />

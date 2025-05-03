@@ -71,6 +71,7 @@ onUnmounted(() => {
 				<NuxtImg
 					src="/img/logo.png"
 					alt="Logo"
+					title="Logo"
 					format="webp"
 					class="w-10 sm:w-15 md:w-20 h-auto" />
 			</div>
@@ -113,6 +114,7 @@ onUnmounted(() => {
 					<NuxtImg
 						:src="painting.image"
 						:alt="painting.name"
+						:title="painting.name"
 						format="webp"
 						quality="50"
 						loading="lazy"

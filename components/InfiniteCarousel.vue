@@ -101,6 +101,7 @@ onMounted(() => {
         <NuxtImg
           :src="painting.image"
           :alt="painting.title || 'Preview Image'"
+          :title="painting.title || 'Preview Image'"
           format="webp"
           provider="cloudinary"
           @contextmenu.prevent
@@ -129,6 +130,7 @@ onMounted(() => {
         <NuxtImg
           :src="painting.image"
           :alt="painting.title || 'Image'"
+          :title="painting.title || 'Image'"
           format="webp"
           provider="cloudinary"
           @contextmenu.prevent

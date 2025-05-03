@@ -8,6 +8,7 @@
 					<NuxtImg
 						src="/img/logo-reversed.png"
 						alt="Logo"
+						title="Logo"
 						format="webp"
 						class="w-15 md:w-20 h-auto" />
 					<div>
