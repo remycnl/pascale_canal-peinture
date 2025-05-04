@@ -222,7 +222,7 @@ useSchemaOrg([
 				:key="painting.id"
 				:class="[getImageClass(painting.id, index)]"
 				:style="`width: ${cardSize}px`"
-				class="z-10 group bg-gradient-to-tr active:scale-95 from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none will-change-transform transition-all duration-500">
+				class="z-10 group bg-gradient-to-tr active:scale-98 from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none will-change-transform transition-all duration-500">
 				<NuxtLink
 					:to="`/${painting.slug}`"
 					:aria-label="`Voir les détails de l'œuvre: ${painting.name} ${painting.state === 'OFF_SALE' ? '(Hors vente)' : `(${painting.price} €)`}`">
