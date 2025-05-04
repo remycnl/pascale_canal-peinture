@@ -35,7 +35,7 @@ const standardSections = [
 		number: "01",
 		title: "Découvre ma collection",
 		description: {
-			text: "Parcoures ma galerie de tableaux en cliquant {link:ici:/}. Prends ton temps pour explorer les œuvres et trouver celle qui te correspond le mieux.",
+			text: "Parcoures ma galerie de tableaux en vente en cliquant {link:ici:/?forSale=true}. Prends ton temps pour explorer les œuvres et trouver celle qui te correspond le mieux.",
 		},
 	},
 	{
@@ -129,7 +129,7 @@ const customSections = [
 		number: "06",
 		title: "Création de l'œuvre",
 		description: {
-			text: "Je réalise ton tableau personnalisé en te tenant informé de l'avancement. Une ébauche intermédiaire te sera envoyée pour validation avant la finalisation.",
+			text: "Je réalise ton tableau personnalisé en te tenant informé de l'avancement.",
 		},
 	},
 	{

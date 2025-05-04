@@ -377,7 +377,7 @@ useSchemaOrg([
 									>
 									ou de
 									<NuxtLink
-										to="/?state=FOR_SALE"
+										to="/?forSale=true"
 										class="text-[#B60071] underline"
 										>découvrir les œuvres actuellement disponibles à
 										l'achat</NuxtLink

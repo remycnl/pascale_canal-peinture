@@ -10,6 +10,9 @@ export default defineEventHandler(async (event) => {
     const paintings = await prisma.painting.findMany({
       skip,
       take: limit,
+      include: {
+        tags: true,
+      },
       orderBy: {
         date: "desc",
       }
