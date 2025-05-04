@@ -326,7 +326,10 @@ useSchemaOrg([
 						height="600"
 						:sizes="'(max-width: 768px) 100vw, 50vw'"
 						loading="eager"
-						class="rounded-2xl object-cover w-full h-full object-center" />
+						class="rounded-2xl object-cover w-full h-full object-center"
+						itemprop="image"
+						itemscope
+						itemtype="https://schema.org/ImageObject" />
 					<figcaption class="sr-only">
 						{{ painting.name }} - {{ painting.description }}
 					</figcaption>
@@ -421,7 +424,7 @@ useSchemaOrg([
 					</h2>
 					<p
 						class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed"
-						itemprop="description" :content="painting.description" >
+						itemprop="description">
 						{{ painting.description }}
 					</p>
 				</article>
