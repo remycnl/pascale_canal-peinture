@@ -183,7 +183,7 @@ useSchemaOrg([
 		description:
 			painting.value?.description ||
 			`Œuvre originale créée par ${painting.value?.artist || "Pascale Canal"}`,
-		image: painting.value?.image,
+		image: painting.value?.image ? [painting.value.image] : undefined,
 		brand: {
 			"@type": "Brand",
 			name: "Pascale Canal",
@@ -418,13 +418,13 @@ useSchemaOrg([
 				<div class="hidden lg:block"></div>
 
 				<article
-					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
+					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1" 
+					itemprop="description">
 					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 						Son histoire
 					</h2>
 					<p
-						class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed"
-						itemprop="description">
+						class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed">
 						{{ painting.description }}
 					</p>
 				</article>
