@@ -22,54 +22,53 @@ useSeoMeta({
 
 useSchemaOrg([
 	defineWebPage({
-		name: `Contact | ${siteName}`,
+		"@type": "ContactPage",
+		url: () => `${baseUrl}/contact`,
+		name: () => `Contact | ${siteName}`,
 		description:
 			"Contactez Pascale Canal, artiste peintre. N'hésitez pas à me faire part de vos questions, demandes de commission ou simplement pour échanger sur l'art.",
-		url: `${baseUrl}/contact`,
 		inLanguage: "fr-FR",
 		datePublished: "2023-09-15T08:00:00+02:00",
 		dateModified: new Date().toISOString(),
-	}),
-	
-	defineOrganization({
-		name: "Pascale Canal",
-		url: baseUrl,
-		logo: `${baseUrl}/img/logo.png`,
-		sameAs: [
-			"https://facebook.com/pascalecanal",
-			"https://instagram.com/pascalecanal",
-			"https://linkedin.com/in/pascalecanal"
-		],
-		contactPoint: {
+		mainEntity: {
 			"@type": "ContactPoint",
-			telephone: "+33686596029",
+			contactType: "Customer Service",
 			email: "pascalecanal@gmail.com",
-			contactType: "Customer Support",
+			telephone: "+33686596029",
 			availableLanguage: ["French", "English"],
 			areaServed: ["FR", "EU", "US"],
-		}
-	}),
-
-	definePerson({
-		name: "Pascale Canal",
-		url: baseUrl,
-		jobTitle: "Artiste peintre",
-		sameAs: [
-			"https://facebook.com/pascalecanal",
-			"https://instagram.com/pascalecanal",
-			"https://linkedin.com/in/pascalecanal"
-		],
+		},
+		author: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+			jobTitle: "Artiste peintre",
+		},
+		publisher: {
+			"@type": "Person",
+			name: "Pascale Canal",
+			url: () => baseUrl,
+		},
+		isPartOf: {
+			"@type": "WebSite",
+			name: () => siteName,
+			url: () => baseUrl,
+		},
+		potentialAction: {
+			"@type": "ContactAction",
+			target: () => `${baseUrl}/contact`,
+		},
 	}),
 
 	defineBreadcrumb({
 		itemListElement: [
 			{
 				name: "Accueil",
-				item: baseUrl,
+				item: "/",
 			},
 			{
 				name: "Contact",
-				item: `${baseUrl}/contact`,
+				item: "/contact",
 			},
 		],
 	}),
