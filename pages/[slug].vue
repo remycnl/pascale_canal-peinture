@@ -180,7 +180,8 @@ useSeoMeta({
 useSchemaOrg([
 	defineProduct({
 		name: painting.value?.name || "Œuvre d'art",
-		description: painting.value?.description || 
+		description:
+			painting.value?.description ||
 			`Œuvre originale créée par ${painting.value?.artist || "Pascale Canal"}`,
 		image: painting.value?.image,
 		brand: {
@@ -207,12 +208,13 @@ useSchemaOrg([
 			price: painting.value?.price || 0,
 			priceCurrency: "EUR",
 			url: `${baseUrl}/${route.params.slug}`,
-			availability: painting.value?.state === "FOR_SALE"
-				? "http://schema.org/InStock"
-				: "http://schema.org/SoldOut",
+			availability:
+				painting.value?.state === "FOR_SALE"
+					? "http://schema.org/InStock"
+					: "http://schema.org/SoldOut",
 			seller: {
 				"@type": "Person",
-				name: "Pascale Canal"
+				name: "Pascale Canal",
 			},
 			itemCondition: "https://schema.org/NewCondition",
 			priceValidUntil: new Date(
@@ -220,65 +222,15 @@ useSchemaOrg([
 			)
 				.toISOString()
 				.split("T")[0],
-			shippingDetails: {
-				"@type": "OfferShippingDetails",
-				shippingRate: {
-					"@type": "MonetaryAmount",
-					value: 0,
-					currency: "EUR",
-				},
-				shippingDestination: {
-					"@type": "DefinedRegion",
-					addressCountry: "FR",
-				},
-				shippingLabel: "Livraison en France",
-			},
-			hasMerchantReturnPolicy: {
-				"@type": "MerchantReturnPolicy",
-				applicableCountry: "FR",
-				returnPolicyCategory:
-					"https://schema.org/MerchantReturnFiniteReturnWindow",
-				merchantReturnDays: 14,
-				returnMethod: "https://schema.org/ReturnByMail",
-				returnFees: "https://schema.org/FreeReturn",
-			}
 		},
 		creator: {
 			"@type": "Person",
 			name: painting.value?.artist || "Pascale Canal",
 		},
-		keywords: `art, peinture, tableau, ${painting.value?.paintingType || ""}, ${
-			painting.value?.name || ""
-		}, ${painting.value?.artist || "Pascale Canal"}`,
-		dateCreated: painting.value?.date || new Date().toISOString()
-	}),
-
-	defineWebPage({
-		name: `${painting.value?.name || "Œuvre"} | ${siteName}`,
-		description: (painting.value?.description
-			? painting.value.description.substring(0, 150) + "..."
-			: null) ||
-		`Œuvre originale par ${painting.value?.artist || "Pascale Canal"}`,
-		image: painting.value?.image,
-		inLanguage: "fr-FR",
-		datePublished: painting.value?.date || new Date().toISOString(),
-		dateModified: new Date().toISOString(),
-		url: `${baseUrl}/${route.params.slug}`,
-		sameAs: [
-			"https://www.facebook.com/pascale.canal.art/",
-		],
-		publisher: {
-			name: "Pascale Canal",
-			url: baseUrl,
-		},
-		isPartOf: {
-			"@type": "WebSite",
-			name: siteName,
-			url: baseUrl,
-		},
-		potentialAction: {
-			"@type": "BuyAction",
-			target: `${baseUrl}/${route.params.slug}`,
+		dateCreated: painting.value?.date || new Date().toISOString(),
+		mainEntityOfPage: {
+			"@type": "WebPage",
+			"@id": `${baseUrl}/${route.params.slug}`,
 		},
 	}),
 
@@ -286,11 +238,11 @@ useSchemaOrg([
 		itemListElement: [
 			{
 				name: "Accueil",
-				item: "/",
+				item: baseUrl,
 			},
 			{
 				name: () => painting.value?.name || "Œuvre",
-				item: () => `/${route.params.slug}`,
+				item: () => `${baseUrl}/${route.params.slug}`,
 			},
 		],
 	}),
