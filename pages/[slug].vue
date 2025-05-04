@@ -176,45 +176,44 @@ useSeoMeta({
 		painting.value?.image ? `${painting.value.image}` : null,
 	twitterUrl: () => `${baseUrl}/${route.params.slug}`,
 });
-
 useSchemaOrg([
 	defineProduct({
-		name: () => painting.value?.name,
-		description: () =>
-			painting.value?.description ||
+		name: () => painting.value?.name || "Œuvre d'art",
+		description: () => 
+			painting.value?.description || 
 			`Œuvre originale créée par ${painting.value?.artist || "Pascale Canal"}`,
-		image: () => painting.value?.image,
+		image: () => painting.value?.image || `${baseUrl}/img/default-painting.jpg`,
 		brand: {
 			"@type": "Brand",
 			name: "Pascale Canal",
-			logo: () => `${baseUrl}/img/fullLogo.png`,
+			logo: `${baseUrl}/img/fullLogo.png`,
 		},
-		sku: () => painting.value?.id?.toString(),
-		productID: () => `painting:${painting.value?.id}`,
+		sku: () => painting.value?.id?.toString() || "",
+		productID: () => `painting:${painting.value?.id || "unknown"}`,
 		category: "Art/Painting",
-		material: () => painting.value?.paintingType,
+		material: () => painting.value?.paintingType || "Peinture sur toile",
 		width: {
 			"@type": "QuantitativeValue",
-			value: () => painting.value?.width,
+			value: () => painting.value?.width || 0,
 			unitCode: "CMT",
 		},
 		height: {
 			"@type": "QuantitativeValue",
-			value: () => painting.value?.height,
+			value: () => painting.value?.height || 0,
 			unitCode: "CMT",
 		},
 		offers: {
 			"@type": "Offer",
-			price: () => painting.value?.price,
+			price: () => painting.value?.price || 0,
 			priceCurrency: "EUR",
 			url: () => `${baseUrl}/${route.params.slug}`,
 			availability: () =>
 				painting.value?.state === "FOR_SALE"
-					? "https://schema.org/InStock"
-					: "https://schema.org/SoldOut",
+					? "http://schema.org/InStock"
+					: "http://schema.org/SoldOut",
 			seller: {
 				"@type": "Person",
-				name: () => painting.value?.artist || "Pascale Canal",
+				name: "Pascale Canal",
 			},
 			itemCondition: "https://schema.org/NewCondition",
 			priceValidUntil: new Date(
@@ -222,6 +221,27 @@ useSchemaOrg([
 			)
 				.toISOString()
 				.split("T")[0],
+			shippingDetails: {
+				"@type": "OfferShippingDetails",
+				shippingRate: {
+					"@type": "MonetaryAmount",
+					value: 0,
+					currency: "EUR"
+				},
+				shippingDestination: {
+					"@type": "DefinedRegion",
+					addressCountry: "FR"
+				},
+				shippingLabel: "Livraison en France",
+			},
+			hasMerchantReturnPolicy: {
+				"@type": "MerchantReturnPolicy",
+				applicableCountry: "FR",
+				returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+				merchantReturnDays: 14,
+				returnMethod: "https://schema.org/ReturnByMail",
+				returnFees: "https://schema.org/FreeReturn"
+			}
 		},
 		creator: {
 			"@type": "Person",
@@ -231,7 +251,7 @@ useSchemaOrg([
 			`art, peinture, tableau, ${painting.value?.paintingType || ""}, ${
 				painting.value?.name || ""
 			}, ${painting.value?.artist || "Pascale Canal"}`,
-		dateCreated: () => painting.value?.date,
+		dateCreated: () => painting.value?.date || new Date().toISOString(),
 		award: "Original Artwork",
 		isAccessoryOrSparePartFor: {
 			"@type": "Product",
@@ -242,17 +262,17 @@ useSchemaOrg([
 	defineWebPage({
 		name: () => `${painting.value?.name || "Œuvre"} | ${siteName}`,
 		description: () =>
-			painting.value?.description?.substring(0, 150) + "..." ||
+			(painting.value?.description ? painting.value.description.substring(0, 150) + "..." : null) ||
 			`Œuvre originale par ${painting.value?.artist || "Pascale Canal"}`,
-		image: () => painting.value?.image,
+		image: () => painting.value?.image || `${baseUrl}/img/default-painting.jpg`,
 		inLanguage: "fr-FR",
-		datePublished: () => painting.value?.date,
+		datePublished: () => painting.value?.date || new Date().toISOString(),
 		dateModified: new Date().toISOString(),
 		url: () => `${baseUrl}/${route.params.slug}`,
 		author: {
 			"@type": "Person",
 			name: "Pascale Canal",
-			url: () => baseUrl,
+			url: baseUrl,
 			jobTitle: "Artiste peintre",
 			sameAs: [
 				"https://www.instagram.com/pascale.canal.art/",
@@ -262,12 +282,12 @@ useSchemaOrg([
 		publisher: {
 			"@type": "Person",
 			name: "Pascale Canal",
-			url: () => baseUrl,
+			url: baseUrl,
 		},
 		isPartOf: {
 			"@type": "WebSite",
-			name: () => siteName,
-			url: () => baseUrl,
+			name: siteName,
+			url: baseUrl,
 		},
 		potentialAction: {
 			"@type": "BuyAction",
