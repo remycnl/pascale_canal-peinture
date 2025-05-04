@@ -11,7 +11,8 @@ const route = useRoute();
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
-const inactiveTitle = ref("Tu me manques... 🥺");
+const inactiveTitle = ref("Psst... Reviens vite ! 🥺");
+
 const pageTitle = ref(
 	siteName || "Pascale Canal | Artiste Peintre • Exposition en ligne"
 );
