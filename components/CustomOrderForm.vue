@@ -178,10 +178,12 @@ const submitForm = async () => {
 
 <template>
 	<div>
-		<div
+		<section
 			v-if="formSubmitted"
+			aria-labelledby="confirmation-title"
 			class="bg-white/5 backdrop-blur-sm p-8 md:p-16 lg:p-24 md:mt-10 rounded-xl border border-white/10 lg:mx-6">
 			<h2
+				id="confirmation-title"
 				class="text-3xl md:text-4xl lg:text-6xl font-apercuBold mb-8 md:mb-16">
 				Merci pour votre demande
 			</h2>
@@ -196,10 +198,15 @@ const submitForm = async () => {
 					Nouvelle demande
 				</button>
 			</div>
-		</div>
+		</section>
 
-		<form v-else @submit.prevent="submitForm" novalidate>
+		<form
+			v-else
+			@submit.prevent="submitForm"
+			novalidate
+			aria-labelledby="form-title">
 			<h2
+				id="form-title"
 				class="text-3xl text-shadow md:text-4xl md:mt-10 lg:text-6xl font-apercuBold mb-16 md:mb-32 md:ml-24 lg:ml-14 lg:p-10 backdrop-blur-sm rounded-xl w-fit">
 				Votre projet
 			</h2>
@@ -207,12 +214,13 @@ const submitForm = async () => {
 			<div
 				class="grid grid-cols-1 md:grid-cols-12 gap-x-6 gap-y-16 md:gap-y-32">
 				<!-- Description du projet -->
-				<div
+				<section
 					class="md:col-span-7 md:col-start-4 bg-white/5 backdrop-blur-sm p-6 md:p-10 lg:p-16 rounded-xl border border-white/10 lg:mx-6">
 					<label
 						for="description"
 						class="block text-xl md:text-2xl font-apercuBold mb-4 md:mb-6">
-						Votre vision <span class="text-yellow">*</span>
+						Votre vision <span class="text-yellow" aria-hidden="true">*</span
+						><span class="sr-only">(requis)</span>
 					</label>
 					<textarea
 						id="description"
@@ -220,32 +228,41 @@ const submitForm = async () => {
 						v-model="formData.description"
 						rows="6"
 						required
+						aria-required="true"
+						aria-describedby="description-error"
 						placeholder="Décrivez votre projet, sujet, style souhaité, ambiance, couleurs..."
 						class="w-full bg-transparent border-b border-white/30 px-4 py-4 md:py-6 focus:outline-none focus:border-white text-white text-lg md:text-2xl resize-none overflow-hidden"></textarea>
 					<p
 						v-if="showErrors && formErrors.description"
+						id="description-error"
 						class="error-message text-yellow mt-2 text-sm md:text-base">
 						{{ formErrors.description }}
 					</p>
-				</div>
+				</section>
 
 				<!-- Coordonnées -->
-				<div
-					class="md:col-span-5 md:col-start-2 bg-white/5 backdrop-blur-sm p-6 md:p-10 lg:p-16 rounded-xl border border-white/10 lg:mx-6">
+				<section
+					class="md:col-span-5 md:col-start-2 bg-white/5 backdrop-blur-sm p-6 md:p-10 lg:p-16 rounded-xl border border-white/10 lg:mx-6"
+					aria-labelledby="contact-info">
+					<h3 id="contact-info" class="sr-only">Vos coordonnées</h3>
 					<div class="mb-8 md:mb-12">
 						<label
 							for="name"
 							class="block text-xl md:text-2xl font-apercuBold mb-4 md:mb-6">
-							Nom complet <span class="text-yellow">*</span>
+							Nom complet <span class="text-yellow" aria-hidden="true">*</span
+							><span class="sr-only">(requis)</span>
 						</label>
 						<input
 							id="name"
 							v-model="formData.name"
 							type="text"
 							required
+							aria-required="true"
+							aria-describedby="name-error"
 							class="w-full bg-transparent border-b border-white/30 px-4 py-4 md:py-6 focus:outline-none focus:border-white text-white text-lg md:text-2xl" />
 						<p
 							v-if="showErrors && formErrors.name"
+							id="name-error"
 							class="error-message text-yellow mt-2 text-sm md:text-base">
 							{{ formErrors.name }}
 						</p>
@@ -255,16 +272,20 @@ const submitForm = async () => {
 						<label
 							for="email"
 							class="block text-xl md:text-2xl font-apercuBold mb-4 md:mb-6">
-							Email <span class="text-yellow">*</span>
+							Email <span class="text-yellow" aria-hidden="true">*</span
+							><span class="sr-only">(requis)</span>
 						</label>
 						<input
 							id="email"
 							v-model="formData.email"
 							type="email"
 							required
+							aria-required="true"
+							aria-describedby="email-error"
 							class="w-full bg-transparent border-b border-white/30 px-4 py-4 md:py-6 focus:outline-none focus:border-white text-white text-lg md:text-2xl" />
 						<p
 							v-if="showErrors && formErrors.email"
+							id="email-error"
 							class="error-message text-yellow mt-2 text-sm md:text-base">
 							{{ formErrors.email }}
 						</p>
@@ -280,20 +301,25 @@ const submitForm = async () => {
 							id="phone"
 							v-model="formData.phone"
 							type="tel"
+							autocomplete="tel"
 							class="w-full bg-transparent border-b border-white/30 px-4 py-4 md:py-6 focus:outline-none focus:border-white text-white text-lg md:text-2xl" />
 					</div>
-				</div>
+				</section>
 
 				<!-- Comment ça marche -->
-				<div
-					class="md:col-span-6 text-shadow md:col-start-6 py-6 md:py-10 backdrop-blur-sm rounded-xl 2xl:ml-10 lg:px-10">
-					<h3 class="text-2xl md:text-3xl font-apercuBold mb-8 md:mb-12">
+				<section
+					class="md:col-span-6 text-shadow md:col-start-6 py-6 md:py-10 backdrop-blur-sm rounded-xl 2xl:ml-10 lg:px-10"
+					aria-labelledby="process-title">
+					<h3
+						id="process-title"
+						class="text-2xl md:text-3xl font-apercuBold mb-8 md:mb-12">
 						Comment ça fonctionne
 					</h3>
 					<ol class="space-y-6 md:space-y-8 text-lg md:text-2xl">
 						<li class="flex gap-4 md:gap-6">
 							<span
 								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								aria-hidden="true"
 								>1</span
 							>
 							<span>Envoyez votre demande via ce formulaire</span>
@@ -301,6 +327,7 @@ const submitForm = async () => {
 						<li class="flex gap-4 md:gap-6">
 							<span
 								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								aria-hidden="true"
 								>2</span
 							>
 							<span
@@ -311,6 +338,7 @@ const submitForm = async () => {
 						<li class="flex gap-4 md:gap-6">
 							<span
 								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								aria-hidden="true"
 								>3</span
 							>
 							<span
@@ -320,6 +348,7 @@ const submitForm = async () => {
 						<li class="flex gap-4 md:gap-6">
 							<span
 								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								aria-hidden="true"
 								>4</span
 							>
 							<span
@@ -327,14 +356,19 @@ const submitForm = async () => {
 							>
 						</li>
 					</ol>
-				</div>
+				</section>
 
 				<!-- Upload de photos -->
-				<div
-					class="md:col-span-10 md:col-start-1 bg-white/5 backdrop-blur-sm p-6 md:p-10 lg:p-16 rounded-xl border border-white/10 lg:mx-6">
-					<p class="text-xl md:text-2xl font-apercuBold mb-6 md:mb-10">
-						Photos de référence <span class="text-yellow">*</span>
-					</p>
+				<section
+					class="md:col-span-10 md:col-start-1 bg-white/5 backdrop-blur-sm p-6 md:p-10 lg:p-16 rounded-xl border border-white/10 lg:mx-6"
+					aria-labelledby="photos-title">
+					<h3
+						id="photos-title"
+						class="text-xl md:text-2xl font-apercuBold mb-6 md:mb-10">
+						Photos de référence
+						<span class="text-yellow" aria-hidden="true">*</span
+						><span class="sr-only">(requis)</span>
+					</h3>
 
 					<div
 						class="border-2 border-dashed border-white/30 rounded-xl text-center transition-colors duration-300 hover:border-white/60"
@@ -345,6 +379,8 @@ const submitForm = async () => {
 							multiple
 							@change="handleFileUpload"
 							accept="image/*"
+							aria-describedby="photos-error"
+							aria-required="true"
 							class="hidden" />
 
 						<label
@@ -355,7 +391,8 @@ const submitForm = async () => {
 								class="h-14 w-14 md:h-20 md:w-20 mb-4 md:mb-8 transition-transform duration-300 group-hover:scale-110 group-active:scale-95"
 								fill="none"
 								viewBox="0 0 24 24"
-								stroke="currentColor">
+								stroke="currentColor"
+								aria-hidden="true">
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
@@ -373,6 +410,7 @@ const submitForm = async () => {
 
 					<p
 						v-if="showErrors && formErrors.photos"
+						id="photos-error"
 						class="error-message text-yellow mt-2 text-sm md:text-base">
 						{{ formErrors.photos }}
 					</p>
@@ -382,25 +420,28 @@ const submitForm = async () => {
 						mode="out-in"
 						name="photo-grid"
 						tag="div"
-						class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-8 mt-8 md:mt-12">
+						class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-8 mt-8 md:mt-12"
+						aria-live="polite">
 						<div
 							v-for="photo in uploadedPhotos"
 							:key="photo.id"
 							class="relative rounded-lg overflow-hidden aspect-square shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
 							<NuxtImg
 								:src="photo.preview"
-								:alt="`Aperçu de la photo ${photo.id}`"
-								:title="`Aperçu de la photo ${photo.id}`"
+								:alt="`Photo de référence téléchargée`"
+								loading="lazy"
 								class="w-full h-full object-cover" />
 							<button
 								@click="removePhoto(photo.id)"
 								type="button"
+								aria-label="Supprimer cette photo"
 								class="absolute top-2 right-2 md:top-4 md:right-4 bg-black/60 p-1 md:p-2 rounded-full hover:bg-black/90 hover:rotate-90 transition-all duration-200 active:scale-95 transform">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									class="h-4 w-4 md:h-6 md:w-6"
 									viewBox="0 0 20 20"
-									fill="currentColor">
+									fill="currentColor"
+									aria-hidden="true">
 									<path
 										fill-rule="evenodd"
 										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -409,10 +450,10 @@ const submitForm = async () => {
 							</button>
 						</div>
 					</transition-group>
-				</div>
+				</section>
 
 				<!-- RGPD -->
-				<div
+				<section
 					class="md:col-span-9 lg:col-span-8 2xl:col-span-6 md:col-start-3 rounded-xl backdrop-blur-sm lg:p-6 mt-4 md:mt-8">
 					<div class="flex gap-x-3 items-start">
 						<div class="relative mt-1">
@@ -421,10 +462,13 @@ const submitForm = async () => {
 								id="rgpd"
 								type="checkbox"
 								v-model="formData.rgpdConsent"
-								required />
+								required
+								aria-required="true"
+								aria-describedby="rgpd-error" />
 							<label
 								class="block w-6 h-6 md:w-8 md:h-8 border-2 rounded-md bg-white/5 border-white/30 cursor-pointer transition-all relative"
-								for="rgpd">
+								for="rgpd"
+								aria-hidden="true">
 								<span
 									class="absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity"
 									:class="{ 'opacity-100': formData.rgpdConsent }">
@@ -432,7 +476,8 @@ const submitForm = async () => {
 										xmlns="http://www.w3.org/2000/svg"
 										class="h-4 w-4 md:h-5 md:w-5"
 										viewBox="0 0 20 20"
-										fill="currentColor">
+										fill="currentColor"
+										aria-hidden="true">
 										<path
 											fill-rule="evenodd"
 											d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -448,21 +493,24 @@ const submitForm = async () => {
 							dans le cadre de ma demande de commande personnalisée. Ces données
 							ne seront pas partagées avec des tiers et seront conservées selon
 							la politique de confidentialité.
-							<span class="text-yellow">*</span>
+							<span class="text-yellow" aria-hidden="true">*</span
+							><span class="sr-only">(requis)</span>
 						</label>
 					</div>
 					<p
 						v-if="showErrors && formErrors.rgpdConsent"
+						id="rgpd-error"
 						class="error-message text-yellow mt-2 ml-9 text-sm md:text-base">
 						{{ formErrors.rgpdConsent }}
 					</p>
-				</div>
+				</section>
 
 				<!-- Required fields info -->
 				<div class="md:col-span-3 md:col-start-3 mx-6">
 					<p
 						class="text-sm rounded-xl w-fit backdrop-blur-sm lg:p-8 md:text-base text-white/60">
-						<span class="text-yellow">*</span> Champs obligatoires
+						<span class="text-yellow" aria-hidden="true">*</span> Champs
+						obligatoires
 					</p>
 				</div>
 
@@ -491,7 +539,9 @@ const submitForm = async () => {
 
 			<div
 				v-if="formError"
-				class="mt-8 md:mt-16 p-6 md:p-10 bg-red-500/10 border border-red-500/30 rounded-md text-center lg:mx-6 text-lg md:text-xl">
+				class="mt-8 md:mt-16 p-6 md:p-10 bg-red-500/10 border border-red-500/30 rounded-md text-center lg:mx-6 text-lg md:text-xl"
+				role="alert"
+				aria-live="assertive">
 				{{ formError }}
 			</div>
 		</form>

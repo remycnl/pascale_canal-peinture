@@ -335,13 +335,18 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<div ref="zigzagContainer" class="z-10 relative w-full overflow-visible">
+	<section
+		ref="zigzagContainer"
+		class="z-10 relative w-full overflow-visible"
+		aria-label="Content with animated path">
 		<svg
 			v-if="isDesktop"
 			class="absolute top-0 left-0 pointer-events-none w-full h-full overflow-visible"
 			:viewBox="`0 0 ${svgWidth} ${totalHeight}`"
 			xmlns="http://www.w3.org/2000/svg"
-			preserveAspectRatio="none">
+			preserveAspectRatio="none"
+			aria-hidden="true"
+			role="presentation">
 			<path
 				ref="path"
 				:d="pathData"
@@ -353,8 +358,9 @@ onBeforeUnmount(() => {
 				:stroke-linecap="'round'"
 				:stroke-linejoin="'round'" />
 		</svg>
-		<div class="relative mt-20 lg:-mt-30 flex flex-col gap-20 md:gap-50 lg:gap-140">
+		<div
+			class="relative mt-20 lg:-mt-30 flex flex-col gap-20 md:gap-50 lg:gap-140">
 			<slot></slot>
 		</div>
-	</div>
+	</section>
 </template>

@@ -15,14 +15,17 @@ onMounted(() => {
 	<div
 		v-if="isVisible"
 		class="splash-screen"
-		:class="{ 'fade-out': !isVisible }">
+		:class="{ 'fade-out': !isVisible }"
+		role="status"
+		aria-label="Loading">
 		<NuxtImg
 			src="/img/logo.png"
-			alt="Logo"
-			title="Logo"
+			alt="Pascale Canal Peinture - Logo"
+			title="Pascale Canal Peinture"
 			format="webp"
 			class="w-40 h-auto logo-animation"
-			:class="{ 'scale-active': isVisible }" />
+			:class="{ 'scale-active': isVisible }"
+			fetchpriority="high" />
 	</div>
 </template>
 

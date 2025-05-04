@@ -54,7 +54,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="relative inline-flex bg-black rounded-full shadow-md p-1.5">
+	<nav
+		class="relative inline-flex bg-black rounded-full shadow-md p-1.5"
+		aria-label="Content tabs">
 		<!-- Sliding indicator -->
 		<div
 			class="absolute shadow-sm bg-white rounded-full transition-all duration-300 ease-in-out z-0"
@@ -63,26 +65,32 @@ onUnmounted(() => {
 				width: indicatorWidth + 'px',
 				top: '6px',
 				bottom: '6px',
-			}"></div>
+			}"
+			aria-hidden="true"></div>
 
 		<!-- Buttons -->
-		<button
-			v-for="tab in tabs"
-			:key="tab.id"
-			:ref="
-				(el) => {
-					if (el) tabRefs[tab.id] = el;
-				}
-			"
-			@click="setActiveTab(tab.id)"
-			class="relative z-10 rounded-full px-6 py-3 text-base md:text-lg font-apercuMedium transition-all duration-200"
-			:class="
-				activeTabId === tab.id
-					? 'text-black'
-					: 'text-white hover:text-gray-200 active:scale-95'
-			"
-			:aria-label="`Voir ${tab.label}`">
-			{{ tab.label }}
-		</button>
-	</div>
+		<div role="tablist">
+			<button
+				v-for="tab in tabs"
+				:key="tab.id"
+				:ref="
+					(el) => {
+						if (el) tabRefs[tab.id] = el;
+					}
+				"
+				@click="setActiveTab(tab.id)"
+				class="relative z-10 rounded-full px-6 py-3 text-base md:text-lg font-apercuMedium transition-all duration-200"
+				:class="
+					activeTabId === tab.id
+						? 'text-black'
+						: 'text-white hover:text-gray-200 active:scale-95'
+				"
+				:aria-selected="activeTabId === tab.id"
+				role="tab"
+				:id="`tab-${tab.id}`"
+				:aria-controls="`panel-${tab.id}`">
+				{{ tab.label }}
+			</button>
+		</div>
+	</nav>
 </template>

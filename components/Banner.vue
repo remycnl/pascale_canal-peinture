@@ -42,19 +42,26 @@ export default {
 </script>
 
 <template>
-	<div
+	<section
+		aria-label="Banner"
 		class="relative text-start animate-float my-16 overflow-hidden rounded-2xl">
-		<div class="absolute inset-0 bg-[#000000] opacity-95"></div>
+		<div
+			class="absolute inset-0 bg-[#000000] opacity-95"
+			aria-hidden="true"></div>
 
 		<div
-			class="absolute top-0 left-0 w-40 h-40 bg-yellow/50 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+			class="absolute top-0 left-0 w-40 h-40 bg-yellow/50 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
+			aria-hidden="true"></div>
 		<div
-			class="absolute bottom-0 right-0 w-40 h-40 bg-yellow/50 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+			class="absolute bottom-0 right-0 w-40 h-40 bg-yellow/50 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"
+			aria-hidden="true"></div>
 
 		<div
-			class="absolute top-6 left-6 right-6 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent"></div>
+			class="absolute top-6 left-6 right-6 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent"
+			aria-hidden="true"></div>
 		<div
-			class="absolute bottom-6 left-6 right-6 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent"></div>
+			class="absolute bottom-6 left-6 right-6 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent"
+			aria-hidden="true"></div>
 
 		<div
 			class="relative z-10 grid gap-10 px-8 py-12 md:grid-cols-5 md:px-12 lg:px-16">
@@ -70,10 +77,12 @@ export default {
 					</span>
 				</div>
 
-				<h3 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+				<h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
 					{{ title }}
-					<div class="mt-2 h-1 w-16 bg-yellow/70 rounded-full"></div>
-				</h3>
+					<div
+						class="mt-2 h-1 w-16 bg-yellow/70 rounded-full"
+						aria-hidden="true"></div>
+				</h2>
 
 				<p
 					class="text-gray-300/90 font-normal text-lg leading-relaxed max-w-lg">
@@ -84,9 +93,11 @@ export default {
 			<div class="md:col-span-2 flex items-center justify-start md:justify-end">
 				<NuxtLink
 					:to="targetRoute"
+					:aria-label="buttonText"
 					class="group relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-medium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden">
 					<span
-						class="absolute inset-0 w-0 bg-gradient-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out group-hover:w-full"></span>
+						class="absolute inset-0 w-0 bg-gradient-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out group-hover:w-full"
+						aria-hidden="true"></span>
 					<span class="relative inline-flex items-center">
 						<span class="lg:hidden">{{ buttonText.split(" ")[0] }}</span>
 						<span class="hidden lg:inline">{{ buttonText }}</span>
@@ -95,7 +106,8 @@ export default {
 							class="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1.5"
 							fill="none"
 							viewBox="0 0 24 24"
-							stroke="currentColor">
+							stroke="currentColor"
+							aria-hidden="true">
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
@@ -106,7 +118,7 @@ export default {
 				</NuxtLink>
 			</div>
 		</div>
-	</div>
+	</section>
 </template>
 
 <style scoped>

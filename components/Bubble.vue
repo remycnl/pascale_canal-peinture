@@ -115,7 +115,7 @@ onMounted(() => {
 
 <template>
 	<div class="flex justify-center w-full">
-		<div
+		<nav
 			:class="[
 				bubbleWidthClass,
 				bubblePaddingClass,
@@ -125,29 +125,41 @@ onMounted(() => {
 					'max-w-screen-sm mx-4': isMobile,
 				},
 			]"
-			class="z-50 h-fit origin-center bg-[#000000] rounded-full fixed bottom-5 py-1.5 md:py-2 pr-1.5 md:pr-2 transition-all duration-500">
+			class="z-50 h-fit origin-center bg-[#000000] rounded-full fixed bottom-5 py-1.5 md:py-2 pr-1.5 md:pr-2 transition-all duration-500"
+			aria-label="Navigation et recherche">
 			<div
 				class="flex justify-between items-center gap-x-5 sm:gap-x-10 md:gap-x-8">
 				<NuxtImg
 					src="/img/logo-reversed.png"
-					alt="Logo"
-					title="Logo"
+					alt="Pascale Canal Peintures Logo"
+					title="Logo Pascale Canal Peintures"
 					format="webp"
 					class="w-auto ml-2 md:ml-0 h-6 md:h-7"
 					:class="{ hidden: isMobile && isInputFocused }" />
 				<div
 					class="relative flex justify-between items-center gap-x-2 flex-grow">
 					<div class="relative flex-grow">
-						<input
-							v-model="searchQuery"
-							@keyup.enter="navigateToTable"
-							@input="searchTables"
-							@focus="isInputFocused = true"
-							@blur="handleBlur"
-							placeholder="Rechercher un tableau..."
-							class="w-full px-3 py-1.5 md:py-2 text-sm text-gray-200 bg-black rounded-full focus:outline-none" />
+						<form role="search" @submit.prevent="navigateToTable">
+							<label for="painting-search" class="sr-only"
+								>Rechercher un tableau</label
+							>
+							<input
+								id="painting-search"
+								v-model="searchQuery"
+								@keyup.enter="navigateToTable"
+								@input="searchTables"
+								@focus="isInputFocused = true"
+								@blur="handleBlur"
+								placeholder="Rechercher un tableau..."
+								aria-expanded="isInputFocused"
+								aria-autocomplete="list"
+								aria-controls="search-results"
+								class="w-full px-3 py-1.5 md:py-2 text-sm text-gray-200 bg-black rounded-full focus:outline-none" />
+						</form>
 						<div
 							v-if="suggestions.length > 0"
+							id="search-results"
+							role="listbox"
 							class="absolute w-full bottom-full p-2 mb-3 bg-[#000000] rounded-2xl z-10">
 							<ul>
 								<li
@@ -155,10 +167,16 @@ onMounted(() => {
 									:key="suggestion.id"
 									@click="selectSuggestion(suggestion)"
 									@mousedown="preventBlur"
+									role="option"
+									:aria-selected="
+										normalizeText(searchQuery) ===
+										normalizeText(suggestion.name)
+									"
 									class="p-1 text-sm text-white hover:bg-black transition-all duration-200 active:scale-99 rounded-lg cursor-pointer flex items-center gap-3">
 									<div
 										v-if="imageLoading[suggestion.id]"
-										class="w-10 h-10 rounded-md bg-gray-700 animate-pulse"></div>
+										class="w-10 h-10 rounded-md bg-gray-700 animate-pulse"
+										aria-hidden="true"></div>
 									<NuxtImg
 										v-show="!imageLoading[suggestion.id]"
 										:src="suggestion.image"
@@ -176,15 +194,17 @@ onMounted(() => {
 						</div>
 					</div>
 
-					<div
+					<button
+						type="button"
 						class="hidden md:block text-black md:text-sm px-3 md:px-5 py-2 bg-yellow hover:bg-yellow/85 active:scale-95 rounded-full cursor-pointer transition-all duration-200 whitespace-nowrap"
 						:class="{ hidden: isMobile && isInputFocused }"
-						@click="scrollToTop">
+						@click="scrollToTop"
+						aria-label="Retour en haut de page">
 						Retour en haut
-					</div>
+					</button>
 				</div>
 			</div>
-		</div>
+		</nav>
 	</div>
 </template>
 

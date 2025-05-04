@@ -258,8 +258,10 @@ const share = (platform) => {
 			@click="toggleShareMenu"
 			class="border border-black text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-apercuBold hover:bg-black hover:text-white transition duration-200 focus:ring-opacity-50"
 			:aria-expanded="isOpen"
-			aria-haspopup="true">
-			{{ isOpen ? props.closeText : props.buttonText }}
+			:aria-controls="'share-menu'"
+			aria-haspopup="true"
+			title="Ouvrir les options de partage">
+			<span>{{ isOpen ? props.closeText : props.buttonText }}</span>
 		</button>
 
 		<!-- Menu de partage avec transition -->
@@ -267,34 +269,43 @@ const share = (platform) => {
 			<div
 				v-if="isOpen"
 				ref="shareMenuRef"
+				id="share-menu"
 				class="absolute z-50 bg-white shadow-lg rounded-lg p-3 mt-2 border border-gray-200 w-80"
 				:class="shareMenuPosition"
 				role="dialog"
-				aria-label="Options de partage">
+				aria-labelledby="share-title">
+				<h2 id="share-title" class="sr-only">Options de partage</h2>
+
 				<!-- Recherche de réseau social -->
 				<div class="mb-3">
+					<label for="search-network" class="sr-only"
+						>Rechercher un réseau social</label
+					>
 					<input
 						v-model="searchNetwork"
 						type="text"
+						id="search-network"
 						placeholder="Rechercher un réseau..."
 						class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-						aria-label="Rechercher un réseau social" />
+						autocomplete="off" />
 				</div>
 
-				<div
+				<p
 					v-if="filteredNetworks.length === 0"
 					class="text-center py-2 text-gray-500">
 					Aucun réseau trouvé
-				</div>
+				</p>
 
 				<div
 					v-else
-					class="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto pr-2">
+					class="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto pr-2"
+					role="menu">
 					<!-- Copier le lien -->
 					<button
 						@click="copyLink"
 						class="flex items-center space-x-2 p-2 rounded-md active:scale-97 hover:bg-blue-100 transition duration-200"
-						aria-label="Copier le lien">
+						aria-label="Copier le lien"
+						role="menuitem">
 						<span class="ml-0.5 flex items-center justify-center">
 							<template v-if="!copied">
 								<svg
@@ -305,7 +316,8 @@ const share = (platform) => {
 									stroke="currentColor"
 									stroke-width="2"
 									stroke-linecap="round"
-									stroke-linejoin="round">
+									stroke-linejoin="round"
+									aria-hidden="true">
 									<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
 									<path
 										d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -320,7 +332,8 @@ const share = (platform) => {
 								stroke="currentColor"
 								stroke-width="2.5"
 								stroke-linecap="round"
-								stroke-linejoin="round">
+								stroke-linejoin="round"
+								aria-hidden="true">
 								<polyline points="20 6 9 17 4 12"></polyline>
 							</svg>
 						</span>
@@ -333,16 +346,17 @@ const share = (platform) => {
 						:key="network.id"
 						@click="share(network.id)"
 						class="flex items-center space-x-2 p-2 rounded-md hover:bg-blue-100 active:scale-97 transition duration-200"
-						:aria-label="`Partager sur ${network.name}`">
+						:aria-label="`Partager sur ${network.name}`"
+						role="menuitem">
 						<span class="flex items-center justify-center">
-							<!-- Fallback en cas d'échec de chargement de l'image -->
 							<NuxtImg
 								:src="`/svg/logos/${network.id}.svg`"
-								:alt="network.name"
-								:title="network.name"
+								:alt="`Icône ${network.name}`"
+								:title="`Partager sur ${network.name}`"
 								@error="$event.target.style.display = 'none'"
 								class="w-6 h-6"
-								loading="lazy" />
+								loading="lazy"
+								aria-hidden="true" />
 						</span>
 						<span>{{ network.name }}</span>
 					</button>
