@@ -360,7 +360,7 @@ useSchemaOrg([
 							class="mt-4 text-sm md:text-base lg:text-xl space-y-2"
 							itemscope
 							itemtype="https://schema.org/Product">
-							<meta itemprop="name" content="painting.name" />
+							<meta itemprop="name" :content="painting.name" />
 							<li v-if="painting.state === 'OFF_SALE'">
 								<span
 									class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
@@ -421,7 +421,7 @@ useSchemaOrg([
 					</h2>
 					<p
 						class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed"
-						itemprop="description">
+						itemprop="description" :content="painting.description" >
 						{{ painting.description }}
 					</p>
 				</article>
