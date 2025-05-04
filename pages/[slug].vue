@@ -176,44 +176,43 @@ useSeoMeta({
 		painting.value?.image ? `${painting.value.image}` : null,
 	twitterUrl: () => `${baseUrl}/${route.params.slug}`,
 });
+
 useSchemaOrg([
 	defineProduct({
-		name: () => painting.value?.name || "Œuvre d'art",
-		description: () => 
-			painting.value?.description || 
+		name: painting.value?.name || "Œuvre d'art",
+		description: painting.value?.description || 
 			`Œuvre originale créée par ${painting.value?.artist || "Pascale Canal"}`,
-		image: () => painting.value?.image || `${baseUrl}/img/default-painting.jpg`,
+		image: painting.value?.image,
 		brand: {
 			"@type": "Brand",
 			name: "Pascale Canal",
 			logo: `${baseUrl}/img/fullLogo.png`,
 		},
-		sku: () => painting.value?.id?.toString() || "",
-		productID: () => `painting:${painting.value?.id || "unknown"}`,
+		sku: painting.value?.id?.toString() || "",
+		productID: `painting:${painting.value?.id || "unknown"}`,
 		category: "Art/Painting",
-		material: () => painting.value?.paintingType || "Peinture sur toile",
+		material: painting.value?.paintingType || "Peinture sur toile",
 		width: {
 			"@type": "QuantitativeValue",
-			value: () => painting.value?.width || 0,
+			value: painting.value?.width || 0,
 			unitCode: "CMT",
 		},
 		height: {
 			"@type": "QuantitativeValue",
-			value: () => painting.value?.height || 0,
+			value: painting.value?.height || 0,
 			unitCode: "CMT",
 		},
 		offers: {
 			"@type": "Offer",
-			price: () => painting.value?.price || 0,
+			price: painting.value?.price || 0,
 			priceCurrency: "EUR",
-			url: () => `${baseUrl}/${route.params.slug}`,
-			availability: () =>
-				painting.value?.state === "FOR_SALE"
-					? "http://schema.org/InStock"
-					: "http://schema.org/SoldOut",
+			url: `${baseUrl}/${route.params.slug}`,
+			availability: painting.value?.state === "FOR_SALE"
+				? "http://schema.org/InStock"
+				: "http://schema.org/SoldOut",
 			seller: {
 				"@type": "Person",
-				name: "Pascale Canal",
+				name: "Pascale Canal"
 			},
 			itemCondition: "https://schema.org/NewCondition",
 			priceValidUntil: new Date(
@@ -226,61 +225,49 @@ useSchemaOrg([
 				shippingRate: {
 					"@type": "MonetaryAmount",
 					value: 0,
-					currency: "EUR"
+					currency: "EUR",
 				},
 				shippingDestination: {
 					"@type": "DefinedRegion",
-					addressCountry: "FR"
+					addressCountry: "FR",
 				},
 				shippingLabel: "Livraison en France",
 			},
 			hasMerchantReturnPolicy: {
 				"@type": "MerchantReturnPolicy",
 				applicableCountry: "FR",
-				returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+				returnPolicyCategory:
+					"https://schema.org/MerchantReturnFiniteReturnWindow",
 				merchantReturnDays: 14,
 				returnMethod: "https://schema.org/ReturnByMail",
-				returnFees: "https://schema.org/FreeReturn"
+				returnFees: "https://schema.org/FreeReturn",
 			}
 		},
 		creator: {
 			"@type": "Person",
-			name: () => painting.value?.artist || "Pascale Canal",
+			name: painting.value?.artist || "Pascale Canal",
 		},
-		keywords: () =>
-			`art, peinture, tableau, ${painting.value?.paintingType || ""}, ${
-				painting.value?.name || ""
-			}, ${painting.value?.artist || "Pascale Canal"}`,
-		dateCreated: () => painting.value?.date || new Date().toISOString(),
-		award: "Original Artwork",
-		isAccessoryOrSparePartFor: {
-			"@type": "Product",
-			name: "Home Decoration",
-		},
+		keywords: `art, peinture, tableau, ${painting.value?.paintingType || ""}, ${
+			painting.value?.name || ""
+		}, ${painting.value?.artist || "Pascale Canal"}`,
+		dateCreated: painting.value?.date || new Date().toISOString()
 	}),
 
 	defineWebPage({
-		name: () => `${painting.value?.name || "Œuvre"} | ${siteName}`,
-		description: () =>
-			(painting.value?.description ? painting.value.description.substring(0, 150) + "..." : null) ||
-			`Œuvre originale par ${painting.value?.artist || "Pascale Canal"}`,
-		image: () => painting.value?.image || `${baseUrl}/img/default-painting.jpg`,
+		name: `${painting.value?.name || "Œuvre"} | ${siteName}`,
+		description: (painting.value?.description
+			? painting.value.description.substring(0, 150) + "..."
+			: null) ||
+		`Œuvre originale par ${painting.value?.artist || "Pascale Canal"}`,
+		image: painting.value?.image,
 		inLanguage: "fr-FR",
-		datePublished: () => painting.value?.date || new Date().toISOString(),
+		datePublished: painting.value?.date || new Date().toISOString(),
 		dateModified: new Date().toISOString(),
-		url: () => `${baseUrl}/${route.params.slug}`,
-		author: {
-			"@type": "Person",
-			name: "Pascale Canal",
-			url: baseUrl,
-			jobTitle: "Artiste peintre",
-			sameAs: [
-				"https://www.instagram.com/pascale.canal.art/",
-				"https://www.facebook.com/pascale.canal.art/",
-			],
-		},
+		url: `${baseUrl}/${route.params.slug}`,
+		sameAs: [
+			"https://www.facebook.com/pascale.canal.art/",
+		],
 		publisher: {
-			"@type": "Person",
 			name: "Pascale Canal",
 			url: baseUrl,
 		},
@@ -336,7 +323,8 @@ useSchemaOrg([
 					{{ painting.artist }}
 				</p>
 			</header>
-			<section class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
+			<section
+				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
 				<figure
 					class="relative overflow-hidden rounded-2xl"
 					:class="[
@@ -387,7 +375,9 @@ useSchemaOrg([
 						:sizes="'(max-width: 768px) 100vw, 50vw'"
 						loading="eager"
 						class="rounded-2xl object-cover w-full h-full object-center" />
-					<figcaption class="sr-only">{{ painting.name }} - {{ painting.description }}</figcaption>
+					<figcaption class="sr-only">
+						{{ painting.name }} - {{ painting.description }}
+					</figcaption>
 				</figure>
 				<div class="relative prose max-w-none text-grayDark">
 					<div
@@ -414,36 +404,48 @@ useSchemaOrg([
 							class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-apercuBold text-black">
 							Détails
 						</h2>
-						<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2" itemscope itemtype="https://schema.org/Product">
+						<ul
+							class="mt-4 text-sm md:text-base lg:text-xl space-y-2"
+							itemscope
+							itemtype="https://schema.org/Product">
 							<meta itemprop="name" content="painting.name" />
 							<li v-if="painting.state === 'OFF_SALE'">
 								<span
 									class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
 									Ce tableau n'est pas disponible à la vente et est présentée
-									uniquement à titre d'exposition. Si vous souhaitez acquérir une
-									œuvre, vous avez la possibilité de
+									uniquement à titre d'exposition. Si vous souhaitez acquérir
+									une œuvre, vous avez la possibilité de
 									<NuxtLink
 										to="/commande-personnalisee"
 										class="text-[#B60071] underline"
 										>commander une création personnalisée</NuxtLink
 									>
 									ou de
-									<NuxtLink to="/?state=FOR_SALE" class="text-[#B60071] underline"
+									<NuxtLink
+										to="/?state=FOR_SALE"
+										class="text-[#B60071] underline"
 										>découvrir les œuvres actuellement disponibles à
 										l'achat</NuxtLink
 									>.
 								</span>
 							</li>
-							<li v-if="painting.state === 'FOR_SALE'" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+							<li
+								v-if="painting.state === 'FOR_SALE'"
+								itemprop="offers"
+								itemscope
+								itemtype="https://schema.org/Offer">
 								<meta itemprop="priceCurrency" content="EUR" />
 								<meta itemprop="price" :content="painting.price" />
-								<meta itemprop="availability" content="https://schema.org/InStock" />
+								<meta
+									itemprop="availability"
+									content="https://schema.org/InStock" />
 								<span class="font-apercuBold">Prix:</span>
 								{{ formatPrice(painting.price) }} €
 							</li>
 							<li>
 								<span class="font-apercuBold">Dimensions:</span>
-								<span itemprop="width">{{ painting.width }} cm</span> x <span itemprop="height">{{ painting.height }} cm</span>
+								<span itemprop="width">{{ painting.width }} cm</span> x
+								<span itemprop="height">{{ painting.height }} cm</span>
 							</li>
 							<li itemprop="material">
 								<span class="font-apercuBold">Type de peinture:</span>
@@ -460,11 +462,14 @@ useSchemaOrg([
 				</div>
 				<div class="hidden lg:block"></div>
 
-				<article class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
+				<article
+					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
 					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 						Son histoire
 					</h2>
-					<p class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed" itemprop="description">
+					<p
+						class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed"
+						itemprop="description">
 						{{ painting.description }}
 					</p>
 				</article>
@@ -499,7 +504,11 @@ useSchemaOrg([
 						}"
 						role="dialog"
 						aria-modal="true"
-						:aria-label="contactType === 'achat' ? 'Acheter cette œuvre' : 'Demander une réédition'">
+						:aria-label="
+							contactType === 'achat'
+								? 'Acheter cette œuvre'
+								: 'Demander une réédition'
+						">
 						<!-- Bouton de fermeture -->
 						<button
 							@click="closeContactOverlay"
