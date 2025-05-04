@@ -320,7 +320,7 @@ useSchemaOrg([
 						class="transition-transform duration-200 group-active:scale-98">
 						<div
 							:style="`height: ${cardSize}px`"
-							class="overflow-hidden relative w-full p-3 group-hover:p-0 transition-all duration-500">
+							class="overflow-hidden relative w-full px-3 pt-3 group-hover:p-0 transition-all duration-500">
 							<NuxtImg
 								:src="painting.image"
 								:alt="`Peinture: ${painting.name}`"
@@ -334,7 +334,7 @@ useSchemaOrg([
 								class="w-full h-full object-cover rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
 							<div
 								v-if="painting.state === 'OFF_SALE'"
-								class="absolute select-none inset-0 flex items-center justify-center scale:100 lg:scale-50 group-hover:scale-100 lg:opacity-0 group-hover:opacity-100 transition-all duration-400"
+								class="absolute hidden lg:flex select-none inset-0 items-center justify-center scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400"
 								aria-hidden="true">
 								<div
 									:style="{
@@ -381,7 +381,7 @@ useSchemaOrg([
 									</span>
 									<span
 										v-if="painting.state === 'OFF_SALE'"
-										class="ml-1 2xl:ml-2 hidden lg:inline">
+										class="ml-1 2xl:ml-2 inline">
 										Hors vente
 									</span>
 								</div>
