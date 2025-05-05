@@ -69,7 +69,7 @@ onUnmounted(() => {
 			aria-hidden="true"></div>
 
 		<!-- Buttons -->
-		<div role="tablist">
+		<div role="tablist" class="flex">
 			<button
 				v-for="tab in tabs"
 				:key="tab.id"
@@ -79,7 +79,7 @@ onUnmounted(() => {
 					}
 				"
 				@click="setActiveTab(tab.id)"
-				class="relative z-10 rounded-full px-6 py-3 text-base md:text-lg font-apercuMedium transition-all duration-200"
+				class="relative z-10 rounded-full px-6 py-3 text-sm sm:text-base md:text-lg font-apercuMedium transition-all duration-200"
 				:class="
 					activeTabId === tab.id
 						? 'text-black'
