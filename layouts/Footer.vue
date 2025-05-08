@@ -1,8 +1,3 @@
-
-<script setup>
-import { u } from '#app'
-</script>
-
 <template>
 	<footer class="border-t-4 border-dotted border-white" aria-label="Pied de page">
 		<div class="bg-black text-white flex flex-row md:flex-col">

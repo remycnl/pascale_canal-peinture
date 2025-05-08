@@ -5,21 +5,21 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const props = defineProps({
-	paintings: {
-		type: Array,
-		required: true,
-	},
 	allTags: {
 		type: Array,
 		default: () => [],
 	},
-	width: {
+	totalCount: {
 		type: Number,
-		default: null,
+		default: 0,
+	},
+	filteredCount: {
+		type: Number,
+		default: 0,
 	},
 });
 
-const emit = defineEmits(["update:filteredPaintings", "filter:applied"]);
+const emit = defineEmits(["filter:change", "filter:applied"]);
 
 const skipUrlUpdate = ref(true);
 
@@ -85,6 +85,7 @@ if (typeof window !== "undefined") {
 		skipUrlUpdate.value = true;
 		loadFiltersFromUrl();
 		skipUrlUpdate.value = false;
+		applyFilters();
 	});
 }
 
@@ -121,6 +122,8 @@ const clearFilters = () => {
 	const url = new URL(window.location);
 	url.search = "";
 	window.history.pushState({}, "", url);
+
+	applyFilters();
 };
 
 const activeFiltersCount = computed(() => {
@@ -131,48 +134,26 @@ const activeFiltersCount = computed(() => {
 	return count;
 });
 
-const filteredPaintings = computed(() => {
-	return props.paintings.filter((painting) => {
-		if (showOnlyForSale.value && painting.state === "OFF_SALE") {
-			return false;
-		}
-
-		if (selectedTags.value.length > 0) {
-			if (
-				!painting.tags ||
-				!painting.tags.some((tagObj) => selectedTags.value.includes(tagObj.tag))
-			) {
-				return false;
-			}
-		}
-
-		if (searchQuery.value.trim()) {
-			const query = searchQuery.value.toLowerCase();
-			return (
-				painting.name.toLowerCase().includes(query) ||
-				(painting.description &&
-					painting.description.toLowerCase().includes(query))
-			);
-		}
-
-		return true;
-	});
-});
-
 const applyFilters = () => {
 	updateUrlWithFilters();
-	emit("update:filteredPaintings", filteredPaintings.value);
+
+	emit("filter:change", {
+		forSale: showOnlyForSale.value,
+		tags: selectedTags.value,
+		search: searchQuery.value.trim(),
+	});
 };
 
-watch(filteredPaintings, (newFilteredPaintings) => {
-	emit("update:filteredPaintings", newFilteredPaintings);
-});
+const debounceTimer = ref(null);
+
+const debounce = (func, delay) => {
+	clearTimeout(debounceTimer.value);
+	debounceTimer.value = setTimeout(() => {
+		func();
+	}, delay);
+};
 
 watch(showOnlyForSale, () => {
-	if (!skipUrlUpdate.value) applyFilters();
-});
-
-watch(searchQuery, () => {
 	if (!skipUrlUpdate.value) applyFilters();
 });
 
@@ -184,27 +165,29 @@ watch(
 	{ deep: true }
 );
 
+watch(searchQuery, () => {
+	if (!skipUrlUpdate.value) {
+		debounce(() => applyFilters(), 300);
+	}
+});
+
 onMounted(() => {
 	nextTick(() => {
-		emit("update:filteredPaintings", filteredPaintings.value);
+		if (!skipUrlUpdate.value) {
+			applyFilters();
+		}
 	});
 });
 
-const containerStyle = computed(() => {
-	if (props.width) {
-		return {
-			maxWidth: `${props.width}px`,
-			width: "100%",
-		};
-	}
-	return {};
+onUnmounted(() => {
+	clearTimeout(debounceTimer.value);
 });
 </script>
 
 <template>
 	<div class="w-full z-20 flex flex-col items-end relative">
 		<!-- Filter button for all devices -->
-		<div class="mt-5 w-auto" :style="containerStyle">
+		<div class="mt-5 w-full">
 			<button
 				@click="toggleFilters"
 				class="flex items-center justify-between gap-x-4 w-full px-4 py-3 bg-white border border-black rounded-lg shadow-sm hover:bg-gray-100 active:scale-98 transition-all duration-200">
@@ -233,7 +216,7 @@ const containerStyle = computed(() => {
 		</div>
 
 		<!-- Filter container -->
-		<div class="relative w-auto" :style="containerStyle">
+		<div class="relative w-full">
 			<Transition
 				name="menu"
 				@before-enter="
@@ -333,9 +316,9 @@ const containerStyle = computed(() => {
 							<div class="mt-7 pt-4 border-t border-gray-200">
 								<div class="flex items-center justify-between">
 									<span class="text-sm text-gray-600">
-										{{ filteredPaintings.length }}
+										{{ filteredCount }}
 										<span class="text-gray-500"
-											>sur {{ props.paintings.length }} œuvres</span
+											>sur {{ totalCount }} œuvres</span
 										>
 									</span>
 									<button

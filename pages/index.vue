@@ -1,220 +1,366 @@
+// Fixed version of the script setup section
 <script setup>
 import { useSchemaOrg } from "#imports";
-import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
 
-const paintings = ref([]);
+// State variables
 const filteredPaintings = ref([]);
 const allTags = ref([]);
 const page = ref(1);
-const limit = 9;
+const limit = ref(9);
 const isLoading = ref(false);
 const hasMore = ref(true);
 const isImageLoaded = ref({});
 const cardSize = ref(0);
+const cardRefs = ref([]);
 const displayedCount = ref(0);
-const displayInterval = ref(null);
-const fetchedCount = ref(0);
+const totalCount = ref(0);
+const filteredTotalCount = ref(0);
+const observedItems = ref(new Set());
+const isInitialized = ref(false); // Flag to prevent multiple initial loads
+
+// Observer references
+const lastCardRef = ref(null);
+const observer = ref(null);
+const imageObserver = ref(null);
+
+// Error state
+const loadError = ref(false);
+
+const scrollBarWidth = ref(0);
+
+// Computed properties
 const noResultsFound = computed(
-	() => filteredPaintings.value.length === 0 && !isLoading.value
+	() => filteredTotalCount.value === 0 && !isLoading.value && !loadError.value
 );
-const isFilteringAll = ref(false);
 
-// Optimized filtering function
-const handleFilterApplied = async () => {
-	if (hasMore.value) {
-		isFilteringAll.value = true;
-		displayedCount.value = 0;
-		await loadPaintings(true);
-		startSequentialDisplay();
-		isFilteringAll.value = false;
-	}
-};
-
-// Handle updated filtered paintings
-const handleFilterUpdate = async (newFilteredPaintings) => {
-	if (hasMore.value && !isFilteringAll.value) {
-		await handleFilterApplied();
-		return;
-	}
-
-	filteredPaintings.value = newFilteredPaintings;
+// Handle filter changes from the Filter component
+const handleFilterChange = (newFilters) => {
+	// Reset state for new filter
+	page.value = 1;
+	filteredPaintings.value = [];
+	hasMore.value = true;
 	displayedCount.value = 0;
-	startSequentialDisplay();
+	observedItems.value.clear(); // Clear observed items when filters change
+	loadPaintings(true);
 };
 
-const loadPaintings = async (loadAll = false) => {
-	if (isLoading.value || (!hasMore.value && !loadAll)) return;
+// Function to load paintings with API filtering
+const loadPaintings = async (reset = false) => {
+	// Prevent duplicate loading
+	if (isLoading.value || (!hasMore.value && !reset)) return;
+
 	isLoading.value = true;
+	loadError.value = false;
 
 	try {
-		const endpoint = loadAll
-			? `/api/paintings?limit=1000`
-			: `/api/paintings?page=${page.value}&limit=${limit}`;
+		// Get current filter values from URL
+		const currentUrl = new URL(window.location);
+		const forSale = currentUrl.searchParams.get("forSale") || "";
+		const tags = currentUrl.searchParams.get("tags") || "";
+		const search = currentUrl.searchParams.get("search") || "";
 
-		const data = await $fetch(endpoint);
+		// Construct query parameters
+		const queryParams = new URLSearchParams();
+		queryParams.append("page", page.value);
+		queryParams.append("limit", limit.value);
 
-		if (Array.isArray(data)) {
-			fetchedCount.value = data.length;
+		if (forSale === "true") {
+			queryParams.append("forSale", "true");
+		}
 
-			if (data.length < limit && !loadAll) {
-				hasMore.value = false;
-			}
+		if (tags) {
+			queryParams.append("tags", tags);
+		}
 
-			if (loadAll) {
-				paintings.value = data;
-				hasMore.value = false;
+		if (search) {
+			queryParams.append("search", search);
+		}
+
+		// API request
+		const endpoint = `/api/paintings?${queryParams.toString()}`;
+		const response = await $fetch(endpoint);
+
+		if (response && response.paintings) {
+			const { paintings: newPaintings, meta } = response;
+
+			// Update counters and state
+			totalCount.value = meta.totalInDb;
+			filteredTotalCount.value = meta.totalCount;
+			hasMore.value = page.value < meta.totalPages;
+
+			// Update paintings array based on reset flag
+			if (reset) {
+				filteredPaintings.value = [...newPaintings];
+				displayedCount.value = 0;
+				// Reset the observation tracking when filters change
+				observedItems.value.clear();
 			} else {
-				paintings.value = [...paintings.value, ...data];
+				// Check for duplicates before adding new paintings
+				const currentIds = new Set(filteredPaintings.value.map((p) => p.id));
+				const uniqueNewPaintings = newPaintings.filter(
+					(p) => !currentIds.has(p.id)
+				);
+
+				filteredPaintings.value = [
+					...filteredPaintings.value,
+					...uniqueNewPaintings,
+				];
 			}
 
-			filteredPaintings.value = [...paintings.value];
-
-			// Hardcoded tags
-			allTags.value = [
-				{ value: "ANIMAL", label: "Animal" },
-				{ value: "PERSONNAGE", label: "Personnage" },
-				{ value: "PAYSAGE", label: "Paysage" },
-				{ value: "COMMANDE_PERSONNALISEE", label: "Commande Personnalisee" },
-			];
-
-			// Set image loading status
-			data.forEach((painting) => {
+			// Initialize image loading status
+			newPaintings.forEach((painting) => {
 				if (!isImageLoaded.value[painting.id]) {
 					isImageLoaded.value[painting.id] = false;
 				}
 			});
-		} else {
-			console.error("Réponse inattendue de l'API :", data);
+
+			// Hardcoded tags (to be moved to API later)
+			if (allTags.value.length === 0) {
+				allTags.value = [
+					{ value: "ANIMAL", label: "Animal" },
+					{ value: "PERSONNAGE", label: "Personnage" },
+					{ value: "PAYSAGE", label: "Paysage" },
+					{ value: "COMMANDE_PERSONNALISEE", label: "Commande Personnalisee" },
+				];
+			}
+
+			// Increment page for next load
+			if (!reset && hasMore.value) {
+				page.value++;
+			}
+
+			// Setup observers after DOM update
+			nextTick(() => {
+				setCardSize(); // Recalculate card size after data updates
+				setupIntersectionObserver();
+				setupImageObserver();
+				startSequentialDisplay();
+			});
 		}
 	} catch (err) {
 		console.error("Erreur lors du chargement des peintures :", err);
+		loadError.value = true;
 	} finally {
 		isLoading.value = false;
-		if (!loadAll) {
-			page.value++;
-		}
 	}
 };
 
+// Image loading handler
 const handleImageLoad = (paintingId) => {
 	isImageLoaded.value[paintingId] = true;
 };
 
+// Sequential display animation
 const startSequentialDisplay = () => {
 	if (import.meta.client) {
-		if (displayInterval.value) clearInterval(displayInterval.value);
+		let currentCount = displayedCount.value;
+		const interval = 100; // ms between each display
+		const batchSize = 3; // Number of items to display per batch
 
-		displayInterval.value = setInterval(() => {
-			if (displayedCount.value < filteredPaintings.value.length) {
-				displayedCount.value++;
-			} else {
-				clearInterval(displayInterval.value);
+		const incrementDisplayCount = () => {
+			if (currentCount < filteredPaintings.value.length) {
+				// Calculate new display count (by batch for performance)
+				const newCount = Math.min(
+					currentCount + batchSize,
+					filteredPaintings.value.length
+				);
+
+				displayedCount.value = newCount;
+				currentCount = newCount;
+
+				// Continue if not finished
+				if (currentCount < filteredPaintings.value.length) {
+					setTimeout(incrementDisplayCount, interval);
+				}
 			}
-		}, 150);
+		};
+
+		// Start sequential display
+		setTimeout(incrementDisplayCount, 50);
 	}
 };
 
-const shouldDisplayImage = (paintingId, index) => {
-	return isImageLoaded.value[paintingId] && index < displayedCount.value;
+// Check if an image should be displayed yet
+const shouldDisplayImage = (index) => {
+	return index < displayedCount.value;
 };
 
+// CSS class for image entrance animation
 const getImageClass = (paintingId, index) => {
-	return shouldDisplayImage(paintingId, index)
+	const isLoaded = isImageLoaded.value[paintingId];
+	const shouldDisplay = shouldDisplayImage(index);
+
+	return isLoaded && shouldDisplay
 		? "opacity-100 translate-y-0"
 		: "opacity-0 translate-y-8";
 };
 
-const handleScroll = () => {
-	if (isFilteringAll.value) return;
+// Set up refs for card elements
+const setCardRef = (el, index) => {
+	if (el) {
+		cardRefs.value[index] = el;
 
-	const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-	const screenWidth = window.innerWidth;
-	const threshold = screenWidth < 768 ? 1000 : 600;
-
-	if (scrollTop + clientHeight >= scrollHeight - threshold) {
-		loadPaintings();
+		// Use the first card to set our cardSize
+		if (index === 0) {
+			const { width } = el.getBoundingClientRect();
+			cardSize.value = width;
+		}
 	}
 };
 
-const calculateCardSize = () => {
-	const screenWidth = window.innerWidth;
-	const hasVerticalScrollbar =
-		document.documentElement.scrollHeight >
-		document.documentElement.clientHeight;
-	const scrollbarWidth = hasVerticalScrollbar
-		? window.innerWidth - document.documentElement.clientWidth
-		: 0;
+// Card reference handler
+const setLastCardRef = (el, index) => {
+	if (!el) return;
 
-	const containerPadding =
-		screenWidth < 768
-			? 24
-			: screenWidth < 1024
-			? 40
-			: screenWidth < 1280
-			? 56
-			: 120;
-
-	const maxWidth = 2560;
-	const availableWidth = Math.min(screenWidth, maxWidth) - scrollbarWidth;
-	const containerWidth = availableWidth - containerPadding;
-
-	const columns =
-		screenWidth < 768
-			? 1 // Mobile
-			: screenWidth < 1024
-			? 2 // Tablet
-			: 3; // Desktop
-
-	const gap =
-		screenWidth < 768
-			? 20
-			: screenWidth < 1024
-			? 40
-			: screenWidth < 1536
-			? 80
-			: 120;
-
-	cardSize.value = Math.floor((containerWidth - gap * (columns - 1)) / columns);
+	// Only set ref on the last few items to ensure we load more before reaching the end
+	const threshold = 3;
+	if (index >= filteredPaintings.value.length - threshold) {
+		lastCardRef.value = el;
+	}
 };
 
-// Watch for image loading to start sequential display
-watch(
-	() => Object.keys(isImageLoaded.value).length,
-	(newVal) => {
-		if (newVal >= Math.min(3, paintings.value.length)) {
-			startSequentialDisplay();
+// Setup IntersectionObserver for lazy loading when scrolling
+const setupIntersectionObserver = () => {
+	if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+		// Clean up previous observer if it exists
+		if (observer.value) {
+			observer.value.disconnect();
+		}
+
+		observer.value = new IntersectionObserver(
+			(entries) => {
+				// If last element is visible and we have more content to load
+				if (entries[0]?.isIntersecting && hasMore.value && !isLoading.value) {
+					loadPaintings();
+				}
+			},
+			{
+				rootMargin: "200px", // Load before element comes into view
+				threshold: 0.1, // Trigger when 10% of element is visible
+			}
+		);
+
+		// Observe the last element if it exists
+		if (lastCardRef.value) {
+			observer.value.observe(lastCardRef.value);
 		}
 	}
-);
+};
 
-// Watch for new paintings to continue sequential display
-watch(
-	() => paintings.value.length,
-	(newVal, oldVal) => {
-		if (newVal > oldVal && displayedCount.value >= oldVal) {
-			startSequentialDisplay();
+// Setup IntersectionObserver for lazy loading images
+const setupImageObserver = () => {
+	if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+		// Clean up previous observer if it exists
+		if (imageObserver.value) {
+			imageObserver.value.disconnect();
+		}
+
+		imageObserver.value = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const imgElement = entry.target;
+						const paintingId = imgElement.dataset.paintingId;
+
+						// Set image source from data attribute
+						if (imgElement.dataset.src) {
+							imgElement.src = imgElement.dataset.src;
+
+							// Stop observing this image
+							imageObserver.value.unobserve(imgElement);
+							observedItems.value.add(paintingId);
+						}
+					}
+				});
+			},
+			{
+				rootMargin: "300px", // Start loading when image is 300px away from viewport
+				threshold: 0.01,
+			}
+		);
+	}
+};
+
+// Observe image element for lazy loading
+const observeImage = (el, paintingId) => {
+	if (
+		!el ||
+		!paintingId ||
+		(observedItems.value && observedItems.value.has(paintingId))
+	)
+		return;
+
+	if (imageObserver.value) {
+		imageObserver.value.observe(el);
+	}
+};
+
+// Handle window resize to recalculate card size
+const setCardSize = () => {
+	// Find the first card ref and use it to calculate the size
+	if (cardRefs.value.length > 0 && cardRefs.value[0]) {
+		const { width } = cardRefs.value[0].getBoundingClientRect();
+		if (width > 0) {
+			cardSize.value = width;
 		}
 	}
-);
+};
 
+// Calculate scrollbar width
+const calculateScrollBarWidth = () => {
+	if (typeof window === "undefined") return;
+	scrollBarWidth.value =
+		window.innerWidth - document.documentElement.clientWidth;
+};
+
+// Debounced resize handler for performance
+const debounce = (fn, delay) => {
+	let timeoutId;
+	return function (...args) {
+		clearTimeout(timeoutId);
+		timeoutId = setTimeout(() => fn.apply(this, args), delay);
+	};
+};
+
+const debouncedResize = debounce(() => {
+	calculateScrollBarWidth();
+	setCardSize();
+}, 200);
+
+// Component lifecycle hooks
 onMounted(() => {
-	calculateCardSize();
-	window.addEventListener("resize", calculateCardSize);
-	window.addEventListener("scroll", handleScroll);
+	calculateScrollBarWidth();
+	window.addEventListener("resize", debouncedResize);
 
-	nextTick(() => {
-		calculateCardSize();
-	});
-
-	loadPaintings();
+	// Ensure we only load paintings once on initial mount
+	if (!isInitialized.value) {
+		isInitialized.value = true;
+		nextTick(() => {
+			calculateScrollBarWidth();
+			setCardSize();
+			loadPaintings();
+		});
+	}
 });
 
 onBeforeUnmount(() => {
-	window.removeEventListener("resize", calculateCardSize);
-	window.removeEventListener("scroll", handleScroll);
-	if (displayInterval.value) clearInterval(displayInterval.value);
+	// Clean up observers
+	if (observer.value) {
+		observer.value.disconnect();
+		observer.value = null;
+	}
+
+	if (imageObserver.value) {
+		imageObserver.value.disconnect();
+		imageObserver.value = null;
+	}
+
+	// Remove event listener
+	window.removeEventListener("resize", debouncedResize);
 });
 
+// Schema.org for SEO
 useSchemaOrg([
 	defineBreadcrumb({
 		itemListElement: [
@@ -226,9 +372,9 @@ useSchemaOrg([
 	}),
 ]);
 </script>
-
 <template>
 	<main class="relative min-h-screen">
+		<!-- Background blobs -->
 		<div
 			class="hidden lg:block select-none pointer-events-none absolute -top-250 -right-180 w-full h-auto opacity-90 blur-2xl"
 			aria-hidden="true">
@@ -249,6 +395,8 @@ useSchemaOrg([
 				data-speed="0.5"
 				@contextmenu.prevent />
 		</div>
+
+		<!-- Header -->
 		<h1
 			class="flex flex-col gap-y-1 text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-[80px] leading-tight 2xl:leading-[90px] text-left lg:w-2/3 lg:pb-20 pt-15 lg:pt-20">
 			<span
@@ -270,16 +418,34 @@ useSchemaOrg([
 			</span>
 		</h1>
 
-		<div class="mb-5 md:mb-10 lg:mb-20 2xl:mb-30">
-			<Filter
-				:paintings="paintings"
-				:allTags="allTags"
-				:width="cardSize"
-				@update:filteredPaintings="handleFilterUpdate" />
+		<!-- Filter component -->
+		<div
+			class="mb-5 md:mb-10 lg:mb-20 2xl:mb-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 lg:gap-20 2xl:gap-30"
+			:style="`width: calc(100% + ${scrollBarWidth}px)`">
+			<div class="md:col-start-2 lg:col-start-3 md:col-span-1">
+				<Filter
+					:all-tags="allTags"
+					:total-count="totalCount"
+					:filtered-count="filteredTotalCount"
+					@filter:change="handleFilterChange" />
+			</div>
 		</div>
 
+		<!-- Error state -->
+		<div v-if="loadError" class="text-center py-10">
+			<div
+				class="inline-block bg-red-50 text-red-600 px-6 py-4 rounded-lg border border-red-200">
+				<p>Une erreur est survenue lors du chargement des œuvres.</p>
+				<button
+					@click="loadPaintings(true)"
+					class="mt-3 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-md text-sm font-medium transition-colors">
+					Réessayer
+				</button>
+			</div>
+		</div>
+
+		<!-- No results state -->
 		<ClientOnly>
-			<!-- No results message -->
 			<div
 				v-if="noResultsFound"
 				class="flex flex-col items-center justify-center py-20 text-center">
@@ -304,38 +470,39 @@ useSchemaOrg([
 				</p>
 			</div>
 
+			<!-- Gallery grid -->
 			<section
 				v-else
 				class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 lg:gap-20 2xl:gap-30"
+				:style="`width: calc(100% + ${scrollBarWidth}px)`"
 				aria-label="Galerie de peintures">
 				<article
 					v-for="(painting, index) in filteredPaintings"
 					:key="painting.id"
+					:ref="(el) => setLastCardRef(el, index)"
 					:class="[getImageClass(painting.id, index)]"
-					:style="`width: ${cardSize}px`"
-					class="z-10 group bg-gradient-to-tr from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none transition-all duration-500 justify-self-center">
+					class="z-10 w-full h-auto group bg-gradient-to-tr from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none transition-all duration-500 justify-self-center active:ring-4 active:ring-black active:ring-offset-2 active:outline-none focus-within:ring-4 focus-within:ring-black focus-within:ring-offset-2 focus-within:outline-none">
 					<NuxtLink
 						:to="`/${painting.slug}`"
 						:aria-label="`Voir les détails de l'œuvre: ${painting.name} ${
 							painting.state === 'OFF_SALE'
 								? '(Hors vente)'
 								: `(${painting.price} €)`
-						}`"
-						class="transition-transform duration-200 group-active:scale-98">
+						}`">
 						<div
-							:style="`height: ${cardSize}px`"
-							class="overflow-hidden relative w-full px-3 pt-3 group-hover:p-0 transition-all duration-500">
-							<NuxtImg
-								:src="painting.image"
+							:ref="(el) => setCardRef(el, index)"
+							class="overflow-hidden relative w-full transition-all duration-500">
+							<!-- Using v-if to ensure we don't create duplicate images -->
+							<img
+								v-if="observedItems && !observedItems.has(painting.id)"
+								:ref="(el) => observeImage(el, painting.id)"
+								:data-src="painting.image"
+								:data-painting-id="painting.id"
 								:alt="`Peinture: ${painting.name}`"
 								:title="painting.name"
-								format="webp"
 								loading="lazy"
-								quality="50"
-								provider="cloudinary"
-								@contextmenu.prevent
 								@load="handleImageLoad(painting.id)"
-								class="w-full h-full object-cover rounded-2sm group-hover:rounded-none transition-all duration-500" />
+								class="w-full aspect-square object-cover rounded-2xl group-hover:rounded-none group-active:scale-105 transition-all duration-500 p-3 pt-3 pb-0 group-hover:p-0" />
 							<div
 								v-if="painting.state === 'OFF_SALE'"
 								class="absolute hidden lg:flex select-none inset-0 items-center justify-center scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400"
@@ -396,32 +563,35 @@ useSchemaOrg([
 			</section>
 		</ClientOnly>
 
+		<!-- Loading skeletons -->
 		<Transition name="fade" mode="out-in">
 			<div
 				v-if="isLoading"
-				class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 lg:gap-20 2xl:gap-30"
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 lg:gap-20 2xl:gap-30"
 				:class="[page > 1 ? 'mt-5 md:mt-10 lg:mt-20 2xl:mt-30' : '']"
+				:style="`width: calc(100% + ${scrollBarWidth}px)`"
 				aria-live="polite"
 				aria-busy="true">
 				<div
-					v-for="i in fetchedCount || limit"
+					v-for="i in limit"
 					:key="i"
-					:style="`width: ${cardSize}px; height: ${cardSize}px`"
-					class="z-10 backdrop-blur-sm bg-black/10 border border-black/20 p-3 rounded-2xl transition-all duration-500 justify-self-center"
-					aria-hidden="true">
+					class="z-10 w-full h-auto bg-gradient-to-tr from-black/10 via-black/10 to-black/5 rounded-2xl flex flex-col p-3">
+					<!-- Image skeleton -->
 					<div
-						class="animate-pulse"
-						:style="{ animationDelay: `${i * 150}ms` }">
-						<div
-							:style="`height: ${cardSize - 70}px`"
-							class="bg-black/20 rounded-lg"></div>
-						<div class="h-4 bg-black/20 rounded mt-2 w-3/4"></div>
-						<div class="h-3 bg-black/20 rounded mt-2 w-1/4"></div>
+						class="w-full aspect-square rounded-2sm bg-black/20 animate-pulse"></div>
+					<!-- Text skeletons -->
+					<div
+						class="relative flex justify-between items-end gap-x-4 pt-3 w-full">
+						<div class="flex justify-between gap-x-2 items-end w-full">
+							<div class="h-5 bg-black/20 rounded w-2/3 animate-pulse"></div>
+							<div class="h-5 bg-black/20 rounded w-1/4 animate-pulse"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</Transition>
 
+		<!-- Scroll hint -->
 		<div
 			v-if="hasMore && !isLoading && filteredPaintings.length > 0"
 			class="text-center mt-28 mb-16"
@@ -449,6 +619,7 @@ useSchemaOrg([
 			</div>
 		</div>
 
+		<!-- End of gallery message -->
 		<section
 			v-if="!hasMore && !isLoading && filteredPaintings.length > 0"
 			class="text-center mt-20 md:mt-30 lg:mt-40">
@@ -459,7 +630,6 @@ useSchemaOrg([
 					aria-hidden="true"></div>
 				<div
 					class="absolute -bottom-10 -right-10 w-16 h-16 bg-yellow rounded-full blur-md animate-pulse"
-					style="animation-delay: 0.5s"
 					aria-hidden="true"></div>
 				<p class="font-apercuMedium relative z-10">
 					Vous avez exploré toute la collection
