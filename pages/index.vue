@@ -449,7 +449,7 @@ useSchemaOrg([
 			</div>
 		</div>
 
-		<footer
+		<section
 			v-if="!hasMore && !isLoading && filteredPaintings.length > 0"
 			class="text-center mt-20 md:mt-30 lg:mt-40">
 			<div
@@ -477,7 +477,7 @@ useSchemaOrg([
 			</div>
 
 			<Banner class="mt-20 md:mt-30 lg:mt-40" />
-		</footer>
+		</section>
 	</main>
 </template>
 

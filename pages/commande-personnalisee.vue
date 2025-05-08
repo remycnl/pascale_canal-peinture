@@ -82,9 +82,9 @@ const { data: personalizedPaintings } = await useFetch("/api/tagPaintings", {
 				<CustomOrderForm />
 			</section>
 		</section>
-		<footer>
+		<section>
 			<Banner />
-		</footer>
+		</section>
 	</main>
 </template>
 

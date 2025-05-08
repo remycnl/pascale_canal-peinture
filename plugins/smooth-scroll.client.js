@@ -24,7 +24,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 			if (smoother) {
 				smoother.paused(false);
 				smoother.scrollTrigger.refresh(true);
-				setupDataLagElements();
 			}
 		},
 		resize: () => {
@@ -40,7 +39,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 				} else if (isDesktop && smoother) {
 					smoother.scrollTrigger.refresh();
 				}
-			}, 250);
+			}, 200);
 		},
 	};
 
@@ -108,34 +107,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 		});
 	};
 
-	const setupDataLagElements = () => {
-		ScrollTrigger.getAll()
-			.filter((st) => st.vars?.id?.includes("data-lag"))
-			.forEach((st) => st.kill());
-
-		if (!smoother) return;
-
-		const lagElements = document.querySelectorAll("[data-lag]");
-
-		lagElements.forEach((element, index) => {
-			const lagValue = parseFloat(element.getAttribute("data-lag"));
-
-			if (lagValue && !isNaN(lagValue)) {
-				smoother.effects(element, { lag: lagValue });
-
-				gsap.to(element, {
-					scrollTrigger: {
-						id: `data-lag-${index}`,
-						trigger: element,
-						start: "top bottom",
-						end: "bottom top",
-						toggleActions: "play none none none",
-					},
-				});
-			}
-		});
-	};
-
 	const initializeSmoothScroll = async (force = false) => {
 		if (initializationInProgress && !force) return;
 		initializationInProgress = true;
@@ -169,7 +140,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 			ignoreMobileResize: true,
 		});
 
-		setupDataLagElements();
 		setupInverseParallax();
 
 		requestAnimationFrame(() => {
@@ -215,7 +185,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 		init: () => {
 			if (smoother) {
 				smoother.scrollTrigger.refresh();
-				setupDataLagElements();
 			} else {
 				initializeSmoothScroll();
 			}
@@ -228,7 +197,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 		refresh: () => {
 			if (smoother) {
 				smoother.scrollTrigger.refresh();
-				setupDataLagElements();
 			}
 		},
 		applyInverseParallax: (target, speed) => {
@@ -264,35 +232,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 		},
 		pause: () => smoother?.paused(true),
 		resume: () => smoother?.paused(false),
-		setupLagElements: setupDataLagElements,
-		refreshFooterAnimations: () => {
-			const footer = document.querySelector("footer");
-			if (!footer || !smoother) return;
-
-			const lagElements = footer.querySelectorAll("[data-lag]");
-
-			lagElements.forEach((el) => {
-				gsap.killTweensOf(el);
-				gsap.set(el, { clearProps: "all" });
-			});
-
-			lagElements.forEach((el) => {
-				const lagValue = parseFloat(el.getAttribute("data-lag"));
-				if (lagValue && !isNaN(lagValue)) {
-					smoother.effects(el, { lag: lagValue });
-				}
-			});
-
-			gsap.to(footer, {
-				scrollTrigger: {
-					id: "footer-animation",
-					trigger: footer,
-					start: "top bottom",
-					end: "bottom top",
-					toggleActions: "play none none none",
-				},
-			});
-		},
 	};
 
 	const cleanup = () => {

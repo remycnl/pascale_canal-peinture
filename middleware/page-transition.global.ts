@@ -1,5 +1,5 @@
 import { useDarkMode } from "@/composables/useDarkMode";
-import { defineNuxtRouteMiddleware, navigateTo, useNuxtApp } from "#imports";
+import { defineNuxtRouteMiddleware, navigateTo } from "#imports";
 
 declare module "#app" {
 	interface NuxtApp {
@@ -9,7 +9,7 @@ declare module "#app" {
 	}
 }
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to) => {
 	if (import.meta.client) {
 		const transitionStartedEvent = new CustomEvent("wave-transition-started");
 		const transitionAlmostCompleteEvent = new CustomEvent(
@@ -72,7 +72,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
 				setTimeout(() => {
 					window.dispatchEvent(transitionAlmostCompleteEvent);
-				}, 50);
+				}, 100);
 			} catch (error) {
 				console.error("Navigation error:", error);
 			}
@@ -89,13 +89,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			document.body.classList.remove("page-transitioning");
 
 			window.dispatchEvent(transitionCompleteEvent);
-
-			const nuxtApp = useNuxtApp();
-			if (nuxtApp && nuxtApp.$scrollSmoother) {
-				setTimeout(() => {
-					nuxtApp.$scrollSmoother.refreshFooterAnimations();
-				}, 50);
-			}
 		}, animationDuration);
 	}
 });
