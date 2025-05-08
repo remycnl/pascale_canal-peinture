@@ -25,9 +25,3 @@
 ::-webkit-scrollbar-button {
 	display: none;
 }
-
-/* Marquer automatiquement les éléments comme scrollables */
-[data-scrollable="true"] {
-	overflow-y: auto;
-	overscroll-behavior: contain;
-}
