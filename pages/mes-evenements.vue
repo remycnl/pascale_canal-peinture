@@ -116,8 +116,9 @@ useSchemaOrg([
 <template>
 	<main class="relative min-h-screen pt-10 md:pt-20">
 		<h1
-			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
-			Mes évènements
+			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
+			<span data-lag="0.5" class="block xs:inline">Mes</span>
+			<span data-lag="0.3" class="block xs:inline"> évènements</span>
 		</h1>
 
 		<section class="mt-20 lg:mt-30" aria-label="Liste des évènements">

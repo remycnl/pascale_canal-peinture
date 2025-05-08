@@ -79,11 +79,12 @@ useSchemaOrg([
 	<main class="relative min-h-screen text-white pt-10 md:pt-20">
 		<header>
 			<h1
-				class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
+				data-lag="0.2"
+				class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
 				Contacte-moi
 			</h1>
-			<p class="mt-4 text-xl md:text-2xl text-white/80 max-w-2xl">
-				Pour toute question, commission ou simplement pour échanger sur l'art.
+			<p data-lag="0.1" class="mt-4 text-xl md:text-2xl lg:text-4xl text-white/80 max-w-xl lg:max-w-3xl">
+				Pour toute question, collaboration ou simplement pour échanger sur l'art.
 			</p>
 		</header>
 

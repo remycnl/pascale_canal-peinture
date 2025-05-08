@@ -42,26 +42,30 @@ useSchemaOrg([
 <template>
 	<main class="relative min-h-screen text-white pt-10 md:pt-20">
 		<h1
-			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
+			data-lag="0.5"
+			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
 			Qui suis-je ?
 		</h1>
 		<div class="hidden lg:flex mt-50 justify-end gap-50">
 			<div class="w-2/3"></div>
-			<figure class="z-20 parallax relative w-2/5 h-auto">
-				<div
-					class="parallax-strong absolute inset-0 w-full h-full bg-yellow rounded-2xl"></div>
-				<NuxtImg
-					src="/img/pascalecanal.jpg"
-					alt="Portrait de Pascale Canal, artiste peintre de l'Aubrac"
-					title="Pascale Canal, artiste peintre"
-					format="webp"
-					@contextmenu.prevent
-					class="grayscale object-cover pointer-events-none brightness-70 contrast-110 shadow-custom w-full h-full rounded-2xl" />
+			<figure class="z-20 parallax w-2/5 h-auto">
+				<div data-speed="0.9" class="relative w-full h-full">
+					<div
+						class="parallax-strong absolute inset-0 w-full h-full bg-yellow rounded-2xl"></div>
+					<NuxtImg
+						src="/img/pascalecanal.jpg"
+						alt="Portrait de Pascale Canal, artiste peintre de l'Aubrac"
+						title="Pascale Canal, artiste peintre"
+						format="webp"
+						@contextmenu.prevent
+						class="grayscale object-cover pointer-events-none brightness-70 contrast-110 shadow-custom w-full h-full rounded-2xl" />
+				</div>
 			</figure>
 		</div>
 		<article>
 			<ZigzagLine>
 				<h2
+					data-speed="0.7"
 					class="text-3xl -mb-18 md:-mb-48 md:mt-30 lg:mt-0 lg:mb-0 sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl lg:w-3/5 font-apercuBold uppercase text-right lg:text-left">
 					Pascale Canal
 				</h2>
@@ -85,8 +89,9 @@ useSchemaOrg([
 						d'authenticité et de simplicité.
 					</p>
 					<span
-						class="z-10 select-none parallax pointer-events-none absolute top-50 -left-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
+						class="z-10 select-none parallax pointer-events-none absolute top-50 lg:top-140 -left-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
 						<NuxtImg
+							data-inverse-speed="0.7"
 							src="/svg/blob_yellow-1.svg"
 							alt="Blob yellow"
 							title="Blob yellow"
@@ -109,8 +114,9 @@ useSchemaOrg([
 						</span>
 					</p>
 					<span
-						class="z-10 select-none parallax-reverse pointer-events-none absolute top-50 -right-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
+						class="z-10 select-none parallax-reverse pointer-events-none absolute top-50 lg:top-120 -right-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
 						<NuxtImg
+							data-speed="0.7"
 							src="/svg/blob_yellow-2.svg"
 							alt="Blob yellow"
 							title="Blob yellow"
@@ -145,8 +151,9 @@ useSchemaOrg([
 							C'est de là que ma peinture s'inspire.
 						</p>
 						<span
-							class="z-10 hidden md:block select-none parallax pointer-events-none absolute -top-60 left-80 rotate-25 w-130 h-auto opacity-90 blur-2xl">
+							class="z-10 hidden md:block select-none parallax pointer-events-none absolute -top-60 lg:-top-0 left-80 lg:left-40 rotate-25 w-130 h-auto opacity-90 blur-2xl">
 							<NuxtImg
+								data-inverse-speed="0.9"
 								src="/svg/blob_yellow-3.svg"
 								alt="Blob yellow"
 								title="Blob yellow"

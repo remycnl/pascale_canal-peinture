@@ -187,11 +187,11 @@
 			<div class="mt-20 lg:mt-30 mb-10 md:mb-0 relative" aria-hidden="true">
 				<div
 					class="flex flex-col md:flex-row justify-between uppercase pointer-events-none select-none font-weirdWords text-[17vw] md:text-[22vw] lg:text-[23vw] leading-[15vw] text-white">
-					<span class="md:rotate-0 -rotate-90 md:order-1 order-5">C</span>
-					<span class="md:rotate-0 -rotate-90 md:order-2 order-4">A</span>
-					<span class="md:rotate-0 -rotate-90 md:order-3 order-3">N</span>
-					<span class="md:rotate-0 -rotate-90 md:order-4 order-2">A</span>
-					<span class="md:rotate-0 -rotate-90 md:order-5 order-1">L</span>
+					<span data-lag="0.4" class="md:rotate-0 -rotate-90 md:order-1 order-5">C</span>
+					<span data-lag="0.6" class="md:rotate-0 -rotate-90 md:order-2 order-4">A</span>
+					<span data-lag="0.2" class="md:rotate-0 -rotate-90 md:order-3 order-3">N</span>
+					<span data-lag="0.4" class="md:rotate-0 -rotate-90 md:order-4 order-2">A</span>
+					<span data-lag="0.2" class="md:rotate-0 -rotate-90 md:order-5 order-1">L</span>
 				</div>
 				<div
 					class="md:hidden flex flex-col justify-between mt-10 uppercase pointer-events-none select-none font-weirdWords text-[17vw] leading-[15vw] text-white">

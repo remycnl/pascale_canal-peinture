@@ -49,8 +49,9 @@ const { data: personalizedPaintings } = await useFetch("/api/tagPaintings", {
 <template>
 	<main class="relative min-h-screen pt-10 md:pt-20">
 		<h1
-			class="flex flex-col text-shadow text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full sm:w-3/4 2xl:w-2/3">
-			Commande personnalisée
+			class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
+			<span data-lag="0.5" class="block xs:inline">Commande</span>
+			<span data-lag="0.3" class="block xs:inline"> personnalisée</span>
 		</h1>
 
 		<aside
@@ -70,12 +71,14 @@ const { data: personalizedPaintings } = await useFetch("/api/tagPaintings", {
 					composition abstraite.
 				</p>
 			</div>
-			
+
 			<section aria-label="Exemples de commandes personnalisées">
 				<infinite-carousel :paintings="personalizedPaintings" />
 			</section>
-			
-			<section id="commande-form" aria-label="Formulaire de commande personnalisée">
+
+			<section
+				id="commande-form"
+				aria-label="Formulaire de commande personnalisée">
 				<CustomOrderForm />
 			</section>
 		</section>

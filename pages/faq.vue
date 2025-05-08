@@ -97,9 +97,10 @@ useSchemaOrg([
 <template>
 	<main class="relative min-h-screen pt-10 md:pt-20">
 		<header>
-			<h1 class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
-				<span>Frequently</span>
-				<span>Asked Questions</span>
+			<h1
+				class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
+				<span data-lag="0.5" class="block xs:inline">Frequently</span>
+				<span data-lag="0.3" class="block xs:inline"> Asked Questions</span>
 			</h1>
 		</header>
 

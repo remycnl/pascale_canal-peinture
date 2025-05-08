@@ -267,10 +267,11 @@ useSchemaOrg([
 			</nav>
 			<header class="text-end mb-10">
 				<h1
+					data-lag="0.5"
 					class="text-[clamp(3rem,15vw,18rem)] leading-[clamp(3rem,16vw,19rem)] font-apercuBold tracking-wide text-black">
 					{{ painting.name }}
 				</h1>
-				<p class="text-grayDark text-xl md:text-2xl lg:text-4xl">
+				<p data-lag="0.3" class="text-grayDark text-xl md:text-2xl lg:text-4xl">
 					<span class="text-xs md:text-sm lg:text-lg">peint par</span>
 					{{ painting.artist }}
 				</p>
@@ -376,9 +377,7 @@ useSchemaOrg([
 										>commander une création personnalisée</NuxtLink
 									>
 									ou de
-									<NuxtLink
-										to="/?forSale=true"
-										class="text-[#B60071] underline"
+									<NuxtLink to="/?forSale=true" class="text-[#B60071] underline"
 										>découvrir les œuvres actuellement disponibles à
 										l'achat</NuxtLink
 									>.

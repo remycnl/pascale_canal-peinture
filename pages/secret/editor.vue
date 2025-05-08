@@ -1,8 +1,6 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRuntimeConfig } from "nuxt/app";
-
-const { $initializeSmoothScroll } = useNuxtApp();
 
 const config = useRuntimeConfig();
 const secretKey = config.public.NUXT_SECRET_KEY;
@@ -87,23 +85,9 @@ const generateSlug = () => {
 	}
 };
 
-const disableScroll = () => {
-	document.body.style.overflow = "hidden";
-	document.body.style.height = "100vh";
-};
-
-const enableScroll = () => {
-	document.body.style.overflow = "auto";
-	document.body.style.height = "auto";
-	if ($initializeSmoothScroll) {
-		$initializeSmoothScroll();
-	}
-};
-
 const checkSecretKey = () => {
 	if (secretKeyInput.value === secretKey) {
 		isSecretPage.value = true;
-		enableScroll();
 		loadPaintings();
 	} else {
 		alert("Mot de passe incorrect");
@@ -111,15 +95,9 @@ const checkSecretKey = () => {
 };
 
 onMounted(() => {
-	if (!isSecretPage.value) {
-		disableScroll();
-	} else {
+	if (isSecretPage.value) {
 		loadPaintings();
 	}
-});
-
-onUnmounted(() => {
-	enableScroll();
 });
 
 const loadPaintings = async () => {
@@ -291,9 +269,7 @@ useSeoMeta({
 </script>
 
 <template>
-	<div
-		class="relative min-h-screen"
-		:class="{ 'overflow-hidden': !isSecretPage }">
+	<div class="relative">
 		<!-- Page principale du formulaire -->
 		<div v-if="isSecretPage" class="py-8">
 			<h1
@@ -651,11 +627,11 @@ useSeoMeta({
 			<FAQeditable />
 		</div>
 
-		<!-- Modal d'authentification -->
-		<div v-else class="w-full flex items-center justify-center mt-40">
+		<!-- Modal d'authentification - Centré verticalement et horizontalement -->
+		<div v-else class="fixed inset-0 bg-white flex items-center justify-center z-50 p-4">
 			<div
 				class="bg-black text-white p-8 rounded-2xl shadow-xl max-w-md w-full">
-				<h2 class="text-2xl font-apercuBold mb-4">
+				<h2 class="text-xl lg:text-2xl font-apercuBold mb-4">
 					Entrez le mot de passe pour accéder à cette page
 				</h2>
 				<form @submit.prevent="checkSecretKey">

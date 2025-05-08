@@ -1,156 +1,329 @@
-export class SmoothScroll {
-	constructor(options = {}) {
-		this.options = {
-			wrapperSelector: ".smooth-scroll-wrapper",
-			contentSelector: "section",
-			scrollSpeed: 0.05,
-			ease: 0.075,
-			...options,
-		};
-
-		// DOM References
-		this.wrapper = null;
-		this.content = null;
-
-		// State
-		this.scrollPosition = 0;
-		this.targetScrollPosition = 0;
-		this.resizeObserver = null;
-		this.rafId = null;
-
-		// Bind methods
-		this.animate = this.animate.bind(this);
-		this.handleResize = this.handleResize.bind(this);
-		this.init = this.init.bind(this);
-	}
-
-	init() {
-		// Reset DOM elements
-		this.wrapper = document.querySelector(this.options.wrapperSelector);
-		this.content = document.querySelector(this.options.contentSelector);
-
-		if (!this.wrapper || !this.content) {
-			console.warn("SmoothScroll: Required elements not found");
-			return false;
-		}
-
-		// Clean up old observer if exists
-		if (this.resizeObserver) {
-			this.resizeObserver.disconnect();
-		}
-
-		this.resizeObserver = new ResizeObserver(this.handleResize);
-		this.resizeObserver.observe(this.wrapper);
-
-		// Reset positions
-		this.targetScrollPosition = window.scrollY;
-		this.scrollPosition = this.targetScrollPosition;
-
-		// Start animation
-		if (this.rafId) {
-			cancelAnimationFrame(this.rafId);
-		}
-		this.rafId = requestAnimationFrame(this.animate);
-
-		// Ensure scroll is at top of page
-		window.scrollTo(0, 0);
-
-		return true;
-	}
-
-	handleResize(entries) {
-		for (const entry of entries) {
-			document.body.style.height = `${Math.floor(entry.contentRect.height)}px`;
-		}
-	}
-
-	lerp(start, end, factor) {
-		return (1 - factor) * start + factor * end;
-	}
-
-	animate() {
-		if (!this.wrapper || !this.content) return;
-
-		this.targetScrollPosition = window.scrollY;
-
-		this.scrollPosition = this.lerp(
-			this.scrollPosition,
-			this.targetScrollPosition,
-			this.options.scrollSpeed
-		);
-
-		this.wrapper.style.transform = `translate3d(0, ${-this
-			.scrollPosition}px, 0)`;
-		this.content.style.transform = `translate3d(0, 0, 0)`;
-
-		this.rafId = requestAnimationFrame(this.animate);
-	}
-
-	destroy() {
-		if (this.rafId) {
-			cancelAnimationFrame(this.rafId);
-			this.rafId = null;
-		}
-
-		if (this.resizeObserver) {
-			this.resizeObserver.disconnect();
-			this.resizeObserver = null;
-		}
-
-		if (this.wrapper) {
-			this.wrapper.style.transform = "";
-			this.wrapper = null;
-		}
-		if (this.content) {
-			this.content.style.transform = "";
-			this.content = null;
-		}
-		document.body.style.height = "";
-	}
-}
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from "gsap";
 
 export default defineNuxtPlugin((nuxtApp) => {
-	if (import.meta.client && window.innerWidth > 1024) {
-		const router = useRouter();
-		let smoothScroll = null;
+	if (!(import.meta.client && window.innerWidth > 1024)) return {};
 
-		// Function to initialize smooth scroll
-		const initializeSmoothScroll = () => {
-			if (!smoothScroll) {
-				smoothScroll = new SmoothScroll();
+	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+	let smoother = null;
+	let resizeTimer = null;
+	let initializationInProgress = false;
+
+	const eventHandlers = {
+		waveStarted: () => {
+			if (smoother) smoother.paused(true);
+		},
+		waveAlmostComplete: () => {
+			if (window.innerWidth > 1024) {
+				initializeSmoothScroll(true);
 			}
-			setTimeout(() => {
-				smoothScroll.destroy(); // Clean up first
-				const initialized = smoothScroll.init(); // Reinitialize
-				if (!initialized) {
-					// Retry once if initialization fails
-					setTimeout(() => {
-						smoothScroll.init();
-					}, 100);
-				}
-			}, 50);
-		};
+		},
+		waveComplete: () => {
+			if (smoother) {
+				smoother.paused(false);
+				smoother.scrollTrigger.refresh(true);
+				setupDataLagElements();
+			}
+		},
+		resize: () => {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				const isDesktop = window.innerWidth > 1024;
 
-		// Initial initialization
-		nuxtApp.hook("app:mounted", () => {
-			initializeSmoothScroll();
+				if (isDesktop && !smoother) {
+					initializeSmoothScroll();
+				} else if (!isDesktop && smoother) {
+					smoother.kill();
+					smoother = null;
+				} else if (isDesktop && smoother) {
+					smoother.scrollTrigger.refresh();
+				}
+			}, 250);
+		},
+	};
+
+	const preloadImages = () => {
+		const images = document.querySelectorAll("img");
+		const totalImages = images.length;
+
+		if (totalImages === 0) {
+			return Promise.resolve();
+		}
+
+		return new Promise((resolve) => {
+			let loadedCount = 0;
+			const loadHandler = () => {
+				loadedCount++;
+				if (loadedCount === totalImages) {
+					if (smoother) smoother.scrollTrigger.refresh();
+					resolve();
+				}
+			};
+
+			if (Array.from(images).every((img) => img.complete)) {
+				resolve();
+				return;
+			}
+
+			images.forEach((img) => {
+				if (img.complete) {
+					loadedCount++;
+				} else {
+					img.addEventListener("load", loadHandler, { once: true });
+					// Add error handler as well
+					img.addEventListener("error", loadHandler, { once: true });
+				}
+			});
+
+			setTimeout(resolve, 500);
+		});
+	};
+
+	const setupInverseParallax = () => {
+		ScrollTrigger.getAll()
+			.filter((st) => st.vars?.id?.includes("inverse-parallax"))
+			.forEach((st) => st.kill());
+
+		const inverseElements = document.querySelectorAll("[data-inverse-speed]");
+
+		inverseElements.forEach((element, index) => {
+			const speed = parseFloat(element.getAttribute("data-inverse-speed"));
+
+			if (speed && !isNaN(speed)) {
+				gsap.to(element, {
+					y: () => -speed * window.innerHeight * 0.5,
+					ease: "none",
+					scrollTrigger: {
+						id: `inverse-parallax-${index}`,
+						trigger: element,
+						start: "top bottom",
+						end: "bottom top",
+						scrub: true,
+						invalidateOnRefresh: true,
+					},
+				});
+			}
+		});
+	};
+
+	const setupDataLagElements = () => {
+		ScrollTrigger.getAll()
+			.filter((st) => st.vars?.id?.includes("data-lag"))
+			.forEach((st) => st.kill());
+
+		if (!smoother) return;
+
+		const lagElements = document.querySelectorAll("[data-lag]");
+
+		lagElements.forEach((element, index) => {
+			const lagValue = parseFloat(element.getAttribute("data-lag"));
+
+			if (lagValue && !isNaN(lagValue)) {
+				smoother.effects(element, { lag: lagValue });
+
+				gsap.to(element, {
+					scrollTrigger: {
+						id: `data-lag-${index}`,
+						trigger: element,
+						start: "top bottom",
+						end: "bottom top",
+						toggleActions: "play none none none",
+					},
+				});
+			}
+		});
+	};
+
+	const initializeSmoothScroll = async (force = false) => {
+		if (initializationInProgress && !force) return;
+		initializationInProgress = true;
+
+		if (smoother) {
+			smoother.kill();
+			smoother = null;
+		}
+
+		ScrollTrigger.getAll().forEach((st) => st.kill());
+
+		const wrapper = document.querySelector("#smooth-wrapper");
+		const content = document.querySelector("#smooth-content");
+
+		if (!wrapper || !content) {
+			initializationInProgress = false;
+			return;
+		}
+
+		await preloadImages();
+
+		smoother = ScrollSmoother.create({
+			wrapper: "#smooth-wrapper",
+			content: "#smooth-content",
+			smooth: 1.5,
+			effects: true,
+			smoothTouch: 0.1,
+			normalizeScroll: {
+				allowNestedScroll: true,
+			},
+			ignoreMobileResize: true,
 		});
 
-		// Handle route changes
-		router.afterEach((to, from) => {
-			if (to.path !== from.path) {
+		setupDataLagElements();
+		setupInverseParallax();
+
+		requestAnimationFrame(() => {
+			if (smoother) smoother.scrollTrigger.refresh();
+			initializationInProgress = false;
+		});
+	};
+
+	nuxtApp.hook("page:start", () => {
+		if (window.innerWidth > 1024 && smoother) {
+			smoother.kill();
+			smoother = null;
+		}
+	});
+
+	nuxtApp.hook("page:finish", () => {
+		if (window.innerWidth > 1024) {
+			setTimeout(initializeSmoothScroll, 100);
+		}
+	});
+
+	nuxtApp.hook("app:mounted", () => {
+		setTimeout(initializeSmoothScroll, 100);
+	});
+
+	if (import.meta.client) {
+		window.addEventListener(
+			"wave-transition-started",
+			eventHandlers.waveStarted
+		);
+		window.addEventListener(
+			"wave-transition-almost-complete",
+			eventHandlers.waveAlmostComplete
+		);
+		window.addEventListener(
+			"wave-transition-complete",
+			eventHandlers.waveComplete
+		);
+		window.addEventListener("resize", eventHandlers.resize, { passive: true });
+	}
+
+	const scrollSmootherAPI = {
+		init: () => {
+			if (smoother) {
+				smoother.scrollTrigger.refresh();
+				setupDataLagElements();
+			} else {
 				initializeSmoothScroll();
 			}
-		});
-
-		// Cleanup on close
-		nuxtApp.hook("app:beforeDestroy", () => {
-			if (smoothScroll) {
-				smoothScroll.destroy();
-				smoothScroll = null;
+		},
+		scrollTo: (target, smooth = true) => {
+			if (smoother) {
+				smoother.scrollTo(target, smooth);
 			}
-		});
+		},
+		refresh: () => {
+			if (smoother) {
+				smoother.scrollTrigger.refresh();
+				setupDataLagElements();
+			}
+		},
+		applyInverseParallax: (target, speed) => {
+			if (!smoother) return;
 
-		nuxtApp.provide("initializeSmoothScroll", initializeSmoothScroll);
-	}
+			const elements =
+				typeof target === "string"
+					? document.querySelectorAll(target)
+					: [target];
+
+			elements.forEach((element, index) => {
+				gsap.to(element, {
+					y: () => -speed * window.innerHeight * 0.5,
+					ease: "none",
+					scrollTrigger: {
+						id: `manually-inverse-parallax-${index}`,
+						trigger: element,
+						start: "top bottom",
+						end: "bottom top",
+						scrub: true,
+						invalidateOnRefresh: true,
+					},
+				});
+			});
+		},
+		refreshAfterImagesLoaded: () => {
+			if (smoother) {
+				preloadImages().then(() => {
+					smoother.scrollTrigger.refresh();
+					setupDataLagElements();
+				});
+			}
+		},
+		pause: () => smoother?.paused(true),
+		resume: () => smoother?.paused(false),
+		setupLagElements: setupDataLagElements,
+		refreshFooterAnimations: () => {
+			const footer = document.querySelector("footer");
+			if (!footer || !smoother) return;
+
+			const lagElements = footer.querySelectorAll("[data-lag]");
+
+			lagElements.forEach((el) => {
+				gsap.killTweensOf(el);
+				gsap.set(el, { clearProps: "all" });
+			});
+
+			lagElements.forEach((el) => {
+				const lagValue = parseFloat(el.getAttribute("data-lag"));
+				if (lagValue && !isNaN(lagValue)) {
+					smoother.effects(el, { lag: lagValue });
+				}
+			});
+
+			gsap.to(footer, {
+				scrollTrigger: {
+					id: "footer-animation",
+					trigger: footer,
+					start: "top bottom",
+					end: "bottom top",
+					toggleActions: "play none none none",
+				},
+			});
+		},
+	};
+
+	const cleanup = () => {
+		clearTimeout(resizeTimer);
+		if (smoother) {
+			smoother.kill();
+			smoother = null;
+		}
+		ScrollTrigger.getAll().forEach((st) => st.kill());
+
+		if (import.meta.client) {
+			window.removeEventListener(
+				"wave-transition-started",
+				eventHandlers.waveStarted
+			);
+			window.removeEventListener(
+				"wave-transition-almost-complete",
+				eventHandlers.waveAlmostComplete
+			);
+			window.removeEventListener(
+				"wave-transition-complete",
+				eventHandlers.waveComplete
+			);
+			window.removeEventListener("resize", eventHandlers.resize);
+		}
+	};
+
+	return {
+		provide: {
+			scrollSmoother: scrollSmootherAPI,
+		},
+		cleanup,
+	};
 });

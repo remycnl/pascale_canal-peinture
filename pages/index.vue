@@ -230,29 +230,33 @@ useSchemaOrg([
 <template>
 	<main class="relative min-h-screen">
 		<div
-			class="select-none pointer-events-none absolute -top-180 -right-180 w-full h-auto opacity-90 blur-2xl"
+			class="hidden lg:block select-none pointer-events-none absolute -top-250 -right-180 w-full h-auto opacity-90 blur-2xl"
 			aria-hidden="true">
 			<NuxtImg
 				src="/svg/blob-right.svg"
 				alt="Blob black"
 				title="Blob black"
+				data-speed="0.7"
 				@contextmenu.prevent />
 		</div>
 		<div
-			class="select-none pointer-events-none absolute top-[20vh] -left-200 w-full h-auto opacity-90 blur-2xl"
+			class="hidden lg:block select-none pointer-events-none absolute top-[50vh] -left-200 w-full h-auto opacity-90 blur-2xl"
 			aria-hidden="true">
 			<NuxtImg
 				src="/svg/blob-left.svg"
 				alt="Blob black"
 				title="Blob black"
+				data-speed="0.5"
 				@contextmenu.prevent />
 		</div>
 		<h1
 			class="flex flex-col gap-y-1 text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-[80px] leading-tight 2xl:leading-[90px] text-left lg:w-2/3 lg:pb-20 pt-15 lg:pt-20">
 			<span
+				data-lag="0.5"
 				class="z-20 group w-fit relative text-5xl sm:text-7xl md:text-8x lg:text-9xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] whitespace-nowrap font-apercuBold">
 				Pascale Canal
 				<span
+					data-lag="0.05"
 					class="z-10 hidden md:block uppercase font-apercuMedium absolute bottom-2 2xl:bottom-1 -rotate-10 2xl:-rotate-12 -right-40 lg:-right-40 2xl:-right-35 text-base lg:text-xl md:py-1 lg:py-2 2xl:py-3 md:px-6 lg:px-8 2xl:px-10 bg-yellow rounded-md md:rounded-lg border border-black">
 					Artiste peintre française
 				</span>
@@ -261,9 +265,9 @@ useSchemaOrg([
 				class="z-10 uppercase -mt-2 font-apercuMedium w-fit text-xs sm:text-sm md:hidden py-1 sm:py-2 px-4 sm:px-6 bg-yellow rounded-md md:rounded-lg border border-black">
 				Artiste peintre française
 			</span>
-			<span class="z-20 mt-5 md:mt-0"
-				>Visitez ma <span class="whitespace-nowrap">e-galerie</span></span
-			>
+			<span data-lag="0.3" class="z-20 mt-5 md:mt-0">
+				Visitez ma <span class="whitespace-nowrap">e-galerie</span>
+			</span>
 		</h1>
 
 		<div class="mb-5 md:mb-10 lg:mb-20 2xl:mb-30">
@@ -309,7 +313,7 @@ useSchemaOrg([
 					:key="painting.id"
 					:class="[getImageClass(painting.id, index)]"
 					:style="`width: ${cardSize}px`"
-					class="z-10 group bg-gradient-to-tr from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none will-change-transform transition-all duration-500 justify-self-center">
+					class="z-10 group bg-gradient-to-tr from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none transition-all duration-500 justify-self-center">
 					<NuxtLink
 						:to="`/${painting.slug}`"
 						:aria-label="`Voir les détails de l'œuvre: ${painting.name} ${
@@ -331,7 +335,7 @@ useSchemaOrg([
 								provider="cloudinary"
 								@contextmenu.prevent
 								@load="handleImageLoad(painting.id)"
-								class="w-full h-full object-cover rounded-2sm group-hover:rounded-none will-change-auto transition-all duration-500" />
+								class="w-full h-full object-cover rounded-2sm group-hover:rounded-none transition-all duration-500" />
 							<div
 								v-if="painting.state === 'OFF_SALE'"
 								class="absolute hidden lg:flex select-none inset-0 items-center justify-center scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400"

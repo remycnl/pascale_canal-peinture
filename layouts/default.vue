@@ -133,18 +133,20 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="overflow-hidden">
+	<main>
 		<Analytics />
-		<SplashScreen />
-		<Header />
-		<div
-			class="smooth-scroll-wrapper will-change-transform transform-gpu lg:fixed top-0 left-0 right-0">
-			<section
-				class="container-custom my-20 md:my-30 lg:my-40 transform-gpu will-change-transform duration-75">
-				<slot />
-			</section>
-			<Footer />
+		<div class="overflow-hidden">
+			<SplashScreen />
+			<Header />
+			<div id="smooth-wrapper">
+				<div id="smooth-content">
+					<section class="container-custom py-20 md:py-30 lg:py-40">
+						<slot />
+					</section>
+					<Footer />
+				</div>
+			</div>
+			<Bubble />
 		</div>
-		<Bubble />
-	</div>
+	</main>
 </template>

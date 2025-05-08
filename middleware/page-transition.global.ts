@@ -1,7 +1,24 @@
 import { useDarkMode } from "@/composables/useDarkMode";
+import { defineNuxtRouteMiddleware, navigateTo, useNuxtApp } from "#imports";
+
+declare module "#app" {
+	interface NuxtApp {
+		$scrollSmoother: {
+			refreshFooterAnimations: () => void;
+		};
+	}
+}
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
 	if (import.meta.client) {
+		const transitionStartedEvent = new CustomEvent("wave-transition-started");
+		const transitionAlmostCompleteEvent = new CustomEvent(
+			"wave-transition-almost-complete"
+		);
+		const transitionCompleteEvent = new CustomEvent("wave-transition-complete");
+
+		window.dispatchEvent(transitionStartedEvent);
+
 		document.body.classList.add("page-transitioning");
 
 		const { isDarkMode } = useDarkMode();
@@ -49,13 +66,19 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			container.classList.add("wave-enter");
 		});
 
-		await new Promise((resolve) => setTimeout(resolve, animationDuration));
+		setTimeout(async () => {
+			try {
+				await navigateTo(to.fullPath);
 
-		try {
-			await navigateTo(to.fullPath);
-		} catch (error) {
-			console.error("Navigation error:", error);
-		}
+				setTimeout(() => {
+					window.dispatchEvent(transitionAlmostCompleteEvent);
+				}, 50);
+			} catch (error) {
+				console.error("Navigation error:", error);
+			}
+		}, animationDuration * 0.5);
+
+		await new Promise((resolve) => setTimeout(resolve, animationDuration));
 
 		requestAnimationFrame(() => {
 			container.classList.add("wave-leave");
@@ -64,6 +87,15 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		setTimeout(() => {
 			container.remove();
 			document.body.classList.remove("page-transitioning");
+
+			window.dispatchEvent(transitionCompleteEvent);
+
+			const nuxtApp = useNuxtApp();
+			if (nuxtApp && nuxtApp.$scrollSmoother) {
+				setTimeout(() => {
+					nuxtApp.$scrollSmoother.refreshFooterAnimations();
+				}, 50);
+			}
 		}, animationDuration);
 	}
 });
