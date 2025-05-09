@@ -48,7 +48,7 @@ watch(isOpen, (newValue) => {
 
 		<div
 			:class="[
-				'pointer-events-none z-50 fixed top-0 left-0 w-screen h-fit',
+				'pointer-events-none z-50 fixed top-0 left-0 w-full h-fit',
 				{ 'mix-blend-difference': !isOpen },
 			]">
 			<div
