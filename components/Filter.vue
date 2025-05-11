@@ -19,16 +19,10 @@ const props = defineProps({
 	},
 });
 
-const emit = defineEmits(["filter:change", "filter:applied"]);
+const emit = defineEmits(["filter:change"]);
 
+// Empêche les mises à jour d'URL pendant l'initialisation
 const skipUrlUpdate = ref(true);
-
-onMounted(() => {
-	loadFiltersFromUrl();
-	nextTick(() => {
-		skipUrlUpdate.value = false;
-	});
-});
 
 const showOnlyForSale = ref(false);
 const selectedTags = ref([]);
@@ -37,71 +31,68 @@ const searchQuery = ref("");
 
 const isMenuVisible = ref(false);
 const shouldRenderMenu = ref(false);
+const debounceTimer = ref(null);
 
+// Charge les filtres depuis l'URL actuelle
+const loadFiltersFromUrl = () => {
+	const currentUrl = new URL(window.location);
+
+	// Charger forSale
+	showOnlyForSale.value = currentUrl.searchParams.get("forSale") === "true";
+
+	// Charger tags
+	const urlTags = currentUrl.searchParams.get("tags");
+	selectedTags.value = urlTags ? urlTags.split(",") : [];
+
+	// Charger recherche
+	searchQuery.value = currentUrl.searchParams.get("search") || "";
+};
+
+// Met à jour l'URL avec les filtres actuels
 const updateUrlWithFilters = (preservePage = false) => {
 	if (skipUrlUpdate.value) return;
 
-	const query = {};
+	const url = new URL(window.location);
 
-	// Récupérer le paramètre page actuel seulement si on doit le préserver
-	if (preservePage) {
-		const currentUrl = new URL(window.location);
-		const currentPage = currentUrl.searchParams.get("page");
-
-		// Préserver le paramètre page s'il existe et n'est pas égal à 1
-		if (currentPage && currentPage !== "1") {
-			query.page = currentPage;
-		}
+	// Préserver le paramètre page si demandé
+	if (!preservePage) {
+		url.searchParams.delete("page");
 	}
 
+	// Mettre à jour les autres paramètres
 	if (showOnlyForSale.value) {
-		query.forSale = "true";
+		url.searchParams.set("forSale", "true");
+	} else {
+		url.searchParams.delete("forSale");
 	}
 
 	if (selectedTags.value.length > 0) {
-		query.tags = selectedTags.value.join(",");
+		url.searchParams.set("tags", selectedTags.value.join(","));
+	} else {
+		url.searchParams.delete("tags");
 	}
 
 	if (searchQuery.value.trim()) {
-		query.search = searchQuery.value.trim();
+		url.searchParams.set("search", searchQuery.value.trim());
+	} else {
+		url.searchParams.delete("search");
 	}
-
-	const url = new URL(window.location);
-
-	// Effacer les paramètres actuels mais préserver l'URL de base
-	url.search = "";
-
-	// Ajouter tous les paramètres
-	Object.entries(query).forEach(([key, value]) => {
-		url.searchParams.set(key, value);
-	});
 
 	window.history.pushState({}, "", url);
 };
 
-const loadFiltersFromUrl = () => {
-	if (route.query.forSale === "true") {
-		showOnlyForSale.value = true;
-	}
+// Applique les filtres actuels et notifie le composant parent
+const applyFilters = (preservePage = false) => {
+	updateUrlWithFilters(preservePage);
 
-	if (route.query.tags) {
-		selectedTags.value = route.query.tags.split(",");
-	}
-
-	if (route.query.search) {
-		searchQuery.value = route.query.search;
-	}
+	emit("filter:change", {
+		forSale: showOnlyForSale.value,
+		tags: selectedTags.value,
+		search: searchQuery.value.trim(),
+	});
 };
 
-if (typeof window !== "undefined") {
-	window.addEventListener("popstate", () => {
-		skipUrlUpdate.value = true;
-		loadFiltersFromUrl();
-		skipUrlUpdate.value = false;
-		applyFilters(true); // Préserver la page lors de la navigation avec les boutons du navigateur
-	});
-}
-
+// Gestion de l'affichage du menu de filtres
 const toggleFilters = () => {
 	if (isFiltersOpen.value) {
 		isMenuVisible.value = false;
@@ -115,6 +106,7 @@ const toggleFilters = () => {
 	}
 };
 
+// Gestion des tags
 const toggleTag = (tagValue) => {
 	if (selectedTags.value.includes(tagValue)) {
 		selectedTags.value = selectedTags.value.filter((t) => t !== tagValue);
@@ -127,19 +119,17 @@ const isTagSelected = (tagValue) => {
 	return selectedTags.value.includes(tagValue);
 };
 
+// Réinitialisation des filtres
 const clearFilters = () => {
 	showOnlyForSale.value = false;
 	selectedTags.value = [];
 	searchQuery.value = "";
 
-	// Ne pas préserver le paramètre page lors de la réinitialisation des filtres
-	const url = new URL(window.location);
-	url.search = "";
-	window.history.pushState({}, "", url);
-
+	// Toujours retirer la pagination lors d'une réinitialisation
 	applyFilters(false);
 };
 
+// Nombre de filtres actifs
 const activeFiltersCount = computed(() => {
 	let count = 0;
 	if (showOnlyForSale.value) count++;
@@ -148,18 +138,7 @@ const activeFiltersCount = computed(() => {
 	return count;
 });
 
-const applyFilters = (preservePage = false) => {
-	updateUrlWithFilters(preservePage);
-
-	emit("filter:change", {
-		forSale: showOnlyForSale.value,
-		tags: selectedTags.value,
-		search: searchQuery.value.trim(),
-	});
-};
-
-const debounceTimer = ref(null);
-
+// Fonction de debounce pour la recherche
 const debounce = (func, delay) => {
 	clearTimeout(debounceTimer.value);
 	debounceTimer.value = setTimeout(() => {
@@ -167,34 +146,52 @@ const debounce = (func, delay) => {
 	}, delay);
 };
 
+// Écouteurs de changements sur les filtres
 watch(showOnlyForSale, () => {
-	if (!skipUrlUpdate.value) applyFilters(false); // Ne pas préserver la page lors du changement de filtres
+	if (!skipUrlUpdate.value) applyFilters(false);
 });
 
 watch(
 	selectedTags,
 	() => {
-		if (!skipUrlUpdate.value) applyFilters(false); // Ne pas préserver la page lors du changement de filtres
+		if (!skipUrlUpdate.value) applyFilters(false);
 	},
 	{ deep: true }
 );
 
 watch(searchQuery, () => {
 	if (!skipUrlUpdate.value) {
-		debounce(() => applyFilters(false), 300); // Ne pas préserver la page lors du changement de filtres
+		debounce(() => applyFilters(false), 300);
 	}
 });
 
-onMounted(() => {
+// Gestion du bouton retour du navigateur
+const handlePopState = () => {
+	skipUrlUpdate.value = true;
+	loadFiltersFromUrl();
 	nextTick(() => {
-		if (!skipUrlUpdate.value) {
-			applyFilters(true); // Préserver la page lors du chargement initial
-		}
+		skipUrlUpdate.value = false;
+		applyFilters(true); // Conserver la page lors de la navigation avec back/forward
 	});
+};
+
+onMounted(() => {
+	// Charger les filtres depuis l'URL au montage
+	loadFiltersFromUrl();
+
+	// Appliquer les filtres après initialisation
+	nextTick(() => {
+		skipUrlUpdate.value = false;
+		applyFilters(true); // Préserver la page lors du chargement initial
+	});
+
+	// Écouter les événements de navigation
+	window.addEventListener("popstate", handlePopState);
 });
 
 onUnmounted(() => {
 	clearTimeout(debounceTimer.value);
+	window.removeEventListener("popstate", handlePopState);
 });
 </script>
 

@@ -19,10 +19,17 @@ const pagination = computed(() => ({
 	totalCount: filteredTotalCount.value,
 }));
 
+// Gestionnaire de changement de filtres
 const handleFilterChange = () => {
-	loadPaintings(true);
+	// Lire la page depuis l'URL (important: sera 1 si le filtre a retiré le paramètre page)
+	const currentUrl = new URL(window.location);
+	const pageFromUrl = parseInt(currentUrl.searchParams.get("page")) || 1;
+	page.value = pageFromUrl;
+
+	loadPaintings();
 };
 
+// Gestionnaire de changement de page
 const handlePageChange = (newPage) => {
 	const url = new URL(window.location);
 
@@ -38,7 +45,8 @@ const handlePageChange = (newPage) => {
 	loadPaintings();
 };
 
-const loadPaintings = async (reset = false) => {
+// Chargement des peintures depuis l'API
+const loadPaintings = async () => {
 	if (isLoading.value) return;
 
 	isLoading.value = true;
@@ -49,10 +57,6 @@ const loadPaintings = async (reset = false) => {
 		const forSale = currentUrl.searchParams.get("forSale") || "";
 		const tags = currentUrl.searchParams.get("tags") || "";
 		const search = currentUrl.searchParams.get("search") || "";
-
-		if (reset && !currentUrl.searchParams.has("page")) {
-			page.value = 1;
-		}
 
 		const queryParams = new URLSearchParams({
 			page: page.value,
@@ -80,6 +84,13 @@ const loadPaintings = async (reset = false) => {
 			filteredTotalCount.value = response.meta.totalCount;
 			totalPages.value = response.meta.totalPages;
 
+			// Si la page actuelle est supérieure au nombre total de pages, revenir à la dernière page
+			// (Peut arriver après filtrage)
+			if (page.value > totalPages.value && totalPages.value > 0) {
+				handlePageChange(totalPages.value);
+				return;
+			}
+
 			if (allTags.value.length === 0) {
 				allTags.value = [
 					{ value: "ANIMAL", label: "Animal" },
@@ -97,6 +108,7 @@ const loadPaintings = async (reset = false) => {
 	}
 };
 
+// Gestion de la navigation avec back/forward
 const handlePopState = () => {
 	const currentUrl = new URL(window.location);
 	page.value = parseInt(currentUrl.searchParams.get("page")) || 1;
@@ -104,8 +116,13 @@ const handlePopState = () => {
 };
 
 onMounted(() => {
+	// Récupérer la page depuis les paramètres d'URL au chargement
 	page.value = parseInt(new URL(window.location).searchParams.get("page")) || 1;
+
+	// Charger les données
 	loadPaintings();
+
+	// Écouter les événements de navigation
 	window.addEventListener("popstate", handlePopState);
 });
 
@@ -189,7 +206,7 @@ useSchemaOrg([
 			:is-loading="isLoading"
 			:load-error="loadError"
 			:pagination="pagination"
-			@retry="loadPaintings(true)"
+			@retry="loadPaintings"
 			@page-change="handlePageChange" />
 
 		<!-- Pagination component -->

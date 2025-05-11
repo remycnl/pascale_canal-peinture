@@ -1,5 +1,7 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
+import { ref, onMounted, computed, onUnmounted, nextTick } from "vue";
+import { useRoute } from "vue-router";
 
 const config = useRuntimeConfig();
 

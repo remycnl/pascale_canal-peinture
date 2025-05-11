@@ -18,27 +18,35 @@ const props = defineProps({
 
 const emit = defineEmits(["pageChange"]);
 
+// Calcul intelligent des numéros de page à afficher
 const pageNumbers = computed(() => {
 	const pages = [];
+
+	// Toujours afficher la première page
 	pages.push(1);
 
+	// Calculer la plage de pages autour de la page actuelle
 	let startPage = Math.max(2, props.currentPage - 1);
 	let endPage = Math.min(props.totalPages - 1, props.currentPage + 1);
 
+	// Ajouter des ellipses si nécessaire avant le bloc de pages
 	if (startPage > 2) {
 		pages.push("...");
 	}
 
+	// Ajouter les pages entre startPage et endPage
 	for (let i = startPage; i <= endPage; i++) {
 		if (i > 1 && i < props.totalPages) {
 			pages.push(i);
 		}
 	}
 
+	// Ajouter des ellipses si nécessaire après le bloc de pages
 	if (endPage < props.totalPages - 1) {
 		pages.push("...");
 	}
 
+	// Ajouter la dernière page si elle existe
 	if (props.totalPages > 1) {
 		pages.push(props.totalPages);
 	}
@@ -46,24 +54,29 @@ const pageNumbers = computed(() => {
 	return pages;
 });
 
+// Navigation à la page précédente
 const goToPrevPage = () => {
 	if (props.currentPage > 1 && !props.isLoading) {
 		emit("pageChange", props.currentPage - 1);
 	}
 };
 
+// Navigation à la page suivante
 const goToNextPage = () => {
 	if (props.currentPage < props.totalPages && !props.isLoading) {
 		emit("pageChange", props.currentPage + 1);
 	}
 };
 
+// Navigation à une page spécifique
 const goToPage = (page) => {
 	if (page !== "..." && page !== props.currentPage && !props.isLoading) {
 		emit("pageChange", page);
 	}
 };
 
+// Observer les changements du nombre total de pages
+// Si la page actuelle devient invalide, revenir à la dernière page
 watch(
 	() => props.totalPages,
 	(newTotalPages) => {
