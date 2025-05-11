@@ -26,7 +26,7 @@ const props = defineProps({
 	},
 });
 
-const emit = defineEmits(["retry", "pageChange"]);
+const emit = defineEmits(["retry"]);
 
 // State variables
 const isImageLoaded = ref({});
@@ -176,7 +176,6 @@ const debounce = (fn, delay) => {
 };
 
 const debouncedResize = debounce(() => {
-	calculateScrollBarWidth();
 	setCardSize();
 }, 200);
 
@@ -222,10 +221,6 @@ onBeforeUnmount(() => {
 
 const handleRetry = () => {
 	emit("retry");
-};
-
-const changePage = (newPage) => {
-	emit("pageChange", newPage);
 };
 </script>
 

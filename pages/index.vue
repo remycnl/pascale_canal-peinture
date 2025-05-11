@@ -206,8 +206,7 @@ useSchemaOrg([
 			:is-loading="isLoading"
 			:load-error="loadError"
 			:pagination="pagination"
-			@retry="loadPaintings"
-			@page-change="handlePageChange" />
+			@retry="loadPaintings"/>
 
 		<!-- Pagination component -->
 		<GalleryPagination

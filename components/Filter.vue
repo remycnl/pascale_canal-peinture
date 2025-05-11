@@ -1,8 +1,5 @@
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from "vue";
-import { useRoute } from "vue-router";
-
-const route = useRoute();
 
 const props = defineProps({
 	allTags: {

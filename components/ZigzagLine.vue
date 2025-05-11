@@ -65,6 +65,7 @@ const calculatedPoints = ref([]);
 const isInitialized = ref(false);
 const isVisible = ref(false);
 const isDesktop = ref(false);
+let observer = null;
 
 const pathData = computed(() => {
 	if (!calculatedPoints.value || calculatedPoints.value.length < 2) {
@@ -281,7 +282,7 @@ const setupIntersectionObserver = () => {
 	)
 		return;
 
-	const observer = new IntersectionObserver(
+	observer = new IntersectionObserver(
 		(entries) => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
@@ -298,10 +299,6 @@ const setupIntersectionObserver = () => {
 	);
 
 	observer.observe(zigzagContainer.value);
-
-	onBeforeUnmount(() => {
-		observer.disconnect();
-	});
 };
 
 onMounted(() => {
@@ -330,6 +327,10 @@ onBeforeUnmount(() => {
 
 	if (animationId.value) {
 		cancelAnimationFrame(animationId.value);
+	}
+
+	if (observer) {
+		observer.disconnect();
 	}
 });
 </script>

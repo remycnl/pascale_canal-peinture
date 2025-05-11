@@ -83,8 +83,11 @@ useSchemaOrg([
 				class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
 				Contacte-moi
 			</h1>
-			<p data-lag="0.1" class="mt-4 text-xl md:text-2xl lg:text-4xl text-white/80 max-w-xl lg:max-w-3xl">
-				Pour toute question, collaboration ou simplement pour échanger sur l'art.
+			<p
+				data-lag="0.1"
+				class="mt-4 text-xl md:text-2xl lg:text-4xl text-white/80 max-w-xl lg:max-w-3xl">
+				Pour toute question, collaboration ou simplement pour échanger sur
+				l'art.
 			</p>
 		</header>
 
