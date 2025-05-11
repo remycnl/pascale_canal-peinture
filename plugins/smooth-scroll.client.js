@@ -226,7 +226,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 			if (smoother) {
 				preloadImages().then(() => {
 					smoother.scrollTrigger.refresh();
-					setupDataLagElements();
 				});
 			}
 		},

@@ -38,10 +38,21 @@ const searchQuery = ref("");
 const isMenuVisible = ref(false);
 const shouldRenderMenu = ref(false);
 
-const updateUrlWithFilters = () => {
+const updateUrlWithFilters = (preservePage = false) => {
 	if (skipUrlUpdate.value) return;
 
 	const query = {};
+
+	// Récupérer le paramètre page actuel seulement si on doit le préserver
+	if (preservePage) {
+		const currentUrl = new URL(window.location);
+		const currentPage = currentUrl.searchParams.get("page");
+
+		// Préserver le paramètre page s'il existe et n'est pas égal à 1
+		if (currentPage && currentPage !== "1") {
+			query.page = currentPage;
+		}
+	}
 
 	if (showOnlyForSale.value) {
 		query.forSale = "true";
@@ -57,8 +68,10 @@ const updateUrlWithFilters = () => {
 
 	const url = new URL(window.location);
 
+	// Effacer les paramètres actuels mais préserver l'URL de base
 	url.search = "";
 
+	// Ajouter tous les paramètres
 	Object.entries(query).forEach(([key, value]) => {
 		url.searchParams.set(key, value);
 	});
@@ -85,7 +98,7 @@ if (typeof window !== "undefined") {
 		skipUrlUpdate.value = true;
 		loadFiltersFromUrl();
 		skipUrlUpdate.value = false;
-		applyFilters();
+		applyFilters(true); // Préserver la page lors de la navigation avec les boutons du navigateur
 	});
 }
 
@@ -119,11 +132,12 @@ const clearFilters = () => {
 	selectedTags.value = [];
 	searchQuery.value = "";
 
+	// Ne pas préserver le paramètre page lors de la réinitialisation des filtres
 	const url = new URL(window.location);
 	url.search = "";
 	window.history.pushState({}, "", url);
 
-	applyFilters();
+	applyFilters(false);
 };
 
 const activeFiltersCount = computed(() => {
@@ -134,8 +148,8 @@ const activeFiltersCount = computed(() => {
 	return count;
 });
 
-const applyFilters = () => {
-	updateUrlWithFilters();
+const applyFilters = (preservePage = false) => {
+	updateUrlWithFilters(preservePage);
 
 	emit("filter:change", {
 		forSale: showOnlyForSale.value,
@@ -154,27 +168,27 @@ const debounce = (func, delay) => {
 };
 
 watch(showOnlyForSale, () => {
-	if (!skipUrlUpdate.value) applyFilters();
+	if (!skipUrlUpdate.value) applyFilters(false); // Ne pas préserver la page lors du changement de filtres
 });
 
 watch(
 	selectedTags,
 	() => {
-		if (!skipUrlUpdate.value) applyFilters();
+		if (!skipUrlUpdate.value) applyFilters(false); // Ne pas préserver la page lors du changement de filtres
 	},
 	{ deep: true }
 );
 
 watch(searchQuery, () => {
 	if (!skipUrlUpdate.value) {
-		debounce(() => applyFilters(), 300);
+		debounce(() => applyFilters(false), 300); // Ne pas préserver la page lors du changement de filtres
 	}
 });
 
 onMounted(() => {
 	nextTick(() => {
 		if (!skipUrlUpdate.value) {
-			applyFilters();
+			applyFilters(true); // Préserver la page lors du chargement initial
 		}
 	});
 });

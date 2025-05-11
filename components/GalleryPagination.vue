@@ -1,6 +1,5 @@
-<!-- GalleryPagination.vue -->
 <script setup>
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 const props = defineProps({
 	currentPage: {
@@ -19,36 +18,27 @@ const props = defineProps({
 
 const emit = defineEmits(["pageChange"]);
 
-// Calculate which page numbers to show
 const pageNumbers = computed(() => {
 	const pages = [];
-	const maxVisiblePages = 5; // Maximum number of page links to show
-
-	// Always include first page
 	pages.push(1);
 
-	// Calculate start and end of the middle section
 	let startPage = Math.max(2, props.currentPage - 1);
 	let endPage = Math.min(props.totalPages - 1, props.currentPage + 1);
 
-	// Adjust to ensure we show up to maxVisiblePages
 	if (startPage > 2) {
 		pages.push("...");
 	}
 
-	// Add middle pages
 	for (let i = startPage; i <= endPage; i++) {
 		if (i > 1 && i < props.totalPages) {
 			pages.push(i);
 		}
 	}
 
-	// Add ellipsis if needed
 	if (endPage < props.totalPages - 1) {
 		pages.push("...");
 	}
 
-	// Always include last page if there's more than one page
 	if (props.totalPages > 1) {
 		pages.push(props.totalPages);
 	}
@@ -56,26 +46,32 @@ const pageNumbers = computed(() => {
 	return pages;
 });
 
-// Previous page handler
 const goToPrevPage = () => {
 	if (props.currentPage > 1 && !props.isLoading) {
 		emit("pageChange", props.currentPage - 1);
 	}
 };
 
-// Next page handler
 const goToNextPage = () => {
 	if (props.currentPage < props.totalPages && !props.isLoading) {
 		emit("pageChange", props.currentPage + 1);
 	}
 };
 
-// Change page handler
 const goToPage = (page) => {
 	if (page !== "..." && page !== props.currentPage && !props.isLoading) {
 		emit("pageChange", page);
 	}
 };
+
+watch(
+	() => props.totalPages,
+	(newTotalPages) => {
+		if (props.currentPage > newTotalPages && newTotalPages > 0) {
+			emit("pageChange", newTotalPages);
+		}
+	}
+);
 </script>
 
 <template>
@@ -158,7 +154,6 @@ const goToPage = (page) => {
 </template>
 
 <style scoped>
-/* Animation for page transitions */
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.2s;

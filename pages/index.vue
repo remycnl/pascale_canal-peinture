@@ -1,8 +1,7 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onBeforeUnmount } from "vue";
 
-// State variables
 const filteredPaintings = ref([]);
 const allTags = ref([]);
 const page = ref(1);
@@ -13,7 +12,6 @@ const totalCount = ref(0);
 const filteredTotalCount = ref(0);
 const totalPages = ref(1);
 
-// Pagination meta
 const pagination = computed(() => ({
 	page: page.value,
 	limit: limit.value,
@@ -21,40 +19,45 @@ const pagination = computed(() => ({
 	totalCount: filteredTotalCount.value,
 }));
 
-// Handle filter changes from the Filter component
-const handleFilterChange = (newFilters) => {
-	// Reset state for new filter
-	page.value = 1;
+const handleFilterChange = () => {
 	loadPaintings(true);
 };
 
-// Handle page change from pagination component
 const handlePageChange = (newPage) => {
-	// Update page and load new data
+	const url = new URL(window.location);
+
+	if (newPage === 1) {
+		url.searchParams.delete("page");
+	} else {
+		url.searchParams.set("page", newPage);
+	}
+
+	window.history.pushState({}, "", url);
 	page.value = newPage;
 	window.scrollTo({ top: 0, behavior: "smooth" });
 	loadPaintings();
 };
 
-// Function to load paintings with API filtering
 const loadPaintings = async (reset = false) => {
-	// Prevent duplicate loading
 	if (isLoading.value) return;
 
 	isLoading.value = true;
 	loadError.value = false;
 
 	try {
-		// Get current filter values from URL
 		const currentUrl = new URL(window.location);
 		const forSale = currentUrl.searchParams.get("forSale") || "";
 		const tags = currentUrl.searchParams.get("tags") || "";
 		const search = currentUrl.searchParams.get("search") || "";
 
-		// Construct query parameters
-		const queryParams = new URLSearchParams();
-		queryParams.append("page", page.value);
-		queryParams.append("limit", limit.value);
+		if (reset && !currentUrl.searchParams.has("page")) {
+			page.value = 1;
+		}
+
+		const queryParams = new URLSearchParams({
+			page: page.value,
+			limit: limit.value,
+		});
 
 		if (forSale === "true") {
 			queryParams.append("forSale", "true");
@@ -68,22 +71,15 @@ const loadPaintings = async (reset = false) => {
 			queryParams.append("search", search);
 		}
 
-		// API request
 		const endpoint = `/api/paintings?${queryParams.toString()}`;
 		const response = await $fetch(endpoint);
 
-		if (response && response.paintings) {
-			const { paintings: newPaintings, meta } = response;
+		if (response?.paintings) {
+			filteredPaintings.value = response.paintings;
+			totalCount.value = response.meta.totalInDb;
+			filteredTotalCount.value = response.meta.totalCount;
+			totalPages.value = response.meta.totalPages;
 
-			// Update counters and state
-			totalCount.value = meta.totalInDb;
-			filteredTotalCount.value = meta.totalCount;
-			totalPages.value = meta.totalPages;
-
-			// Update paintings array
-			filteredPaintings.value = [...newPaintings];
-
-			// Hardcoded tags (to be moved to API later)
 			if (allTags.value.length === 0) {
 				allTags.value = [
 					{ value: "ANIMAL", label: "Animal" },
@@ -101,12 +97,22 @@ const loadPaintings = async (reset = false) => {
 	}
 };
 
-// Component lifecycle hooks
-onMounted(() => {
+const handlePopState = () => {
+	const currentUrl = new URL(window.location);
+	page.value = parseInt(currentUrl.searchParams.get("page")) || 1;
 	loadPaintings();
+};
+
+onMounted(() => {
+	page.value = parseInt(new URL(window.location).searchParams.get("page")) || 1;
+	loadPaintings();
+	window.addEventListener("popstate", handlePopState);
 });
 
-// Schema.org for SEO
+onBeforeUnmount(() => {
+	window.removeEventListener("popstate", handlePopState);
+});
+
 useSchemaOrg([
 	defineBreadcrumb({
 		itemListElement: [
