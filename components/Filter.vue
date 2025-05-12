@@ -18,7 +18,6 @@ const props = defineProps({
 
 const emit = defineEmits(["filter:change"]);
 
-// Empêche les mises à jour d'URL pendant l'initialisation
 const skipUrlUpdate = ref(true);
 
 const showOnlyForSale = ref(false);
@@ -30,33 +29,26 @@ const isMenuVisible = ref(false);
 const shouldRenderMenu = ref(false);
 const debounceTimer = ref(null);
 
-// Charge les filtres depuis l'URL actuelle
 const loadFiltersFromUrl = () => {
 	const currentUrl = new URL(window.location);
 
-	// Charger forSale
 	showOnlyForSale.value = currentUrl.searchParams.get("forSale") === "true";
 
-	// Charger tags
 	const urlTags = currentUrl.searchParams.get("tags");
 	selectedTags.value = urlTags ? urlTags.split(",") : [];
 
-	// Charger recherche
 	searchQuery.value = currentUrl.searchParams.get("search") || "";
 };
 
-// Met à jour l'URL avec les filtres actuels
 const updateUrlWithFilters = (preservePage = false) => {
 	if (skipUrlUpdate.value) return;
 
 	const url = new URL(window.location);
 
-	// Préserver le paramètre page si demandé
 	if (!preservePage) {
 		url.searchParams.delete("page");
 	}
 
-	// Mettre à jour les autres paramètres
 	if (showOnlyForSale.value) {
 		url.searchParams.set("forSale", "true");
 	} else {
@@ -78,7 +70,6 @@ const updateUrlWithFilters = (preservePage = false) => {
 	window.history.pushState({}, "", url);
 };
 
-// Applique les filtres actuels et notifie le composant parent
 const applyFilters = (preservePage = false) => {
 	updateUrlWithFilters(preservePage);
 
@@ -89,7 +80,6 @@ const applyFilters = (preservePage = false) => {
 	});
 };
 
-// Gestion de l'affichage du menu de filtres
 const toggleFilters = () => {
 	if (isFiltersOpen.value) {
 		isMenuVisible.value = false;
@@ -103,7 +93,6 @@ const toggleFilters = () => {
 	}
 };
 
-// Gestion des tags
 const toggleTag = (tagValue) => {
 	if (selectedTags.value.includes(tagValue)) {
 		selectedTags.value = selectedTags.value.filter((t) => t !== tagValue);
@@ -116,17 +105,14 @@ const isTagSelected = (tagValue) => {
 	return selectedTags.value.includes(tagValue);
 };
 
-// Réinitialisation des filtres
 const clearFilters = () => {
 	showOnlyForSale.value = false;
 	selectedTags.value = [];
 	searchQuery.value = "";
 
-	// Toujours retirer la pagination lors d'une réinitialisation
 	applyFilters(false);
 };
 
-// Nombre de filtres actifs
 const activeFiltersCount = computed(() => {
 	let count = 0;
 	if (showOnlyForSale.value) count++;
@@ -135,7 +121,6 @@ const activeFiltersCount = computed(() => {
 	return count;
 });
 
-// Fonction de debounce pour la recherche
 const debounce = (func, delay) => {
 	clearTimeout(debounceTimer.value);
 	debounceTimer.value = setTimeout(() => {
@@ -143,7 +128,6 @@ const debounce = (func, delay) => {
 	}, delay);
 };
 
-// Écouteurs de changements sur les filtres
 watch(showOnlyForSale, () => {
 	if (!skipUrlUpdate.value) applyFilters(false);
 });
@@ -162,27 +146,23 @@ watch(searchQuery, () => {
 	}
 });
 
-// Gestion du bouton retour du navigateur
 const handlePopState = () => {
 	skipUrlUpdate.value = true;
 	loadFiltersFromUrl();
 	nextTick(() => {
 		skipUrlUpdate.value = false;
-		applyFilters(true); // Conserver la page lors de la navigation avec back/forward
+		applyFilters(true);
 	});
 };
 
 onMounted(() => {
-	// Charger les filtres depuis l'URL au montage
 	loadFiltersFromUrl();
 
-	// Appliquer les filtres après initialisation
 	nextTick(() => {
 		skipUrlUpdate.value = false;
-		applyFilters(true); // Préserver la page lors du chargement initial
+		applyFilters(true);
 	});
 
-	// Écouter les événements de navigation
 	window.addEventListener("popstate", handlePopState);
 });
 

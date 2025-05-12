@@ -1,7 +1,7 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
 import { ref, onMounted, computed, onUnmounted, nextTick } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const config = useRuntimeConfig();
 
@@ -9,6 +9,7 @@ const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
 const route = useRoute();
+const router = useRouter();
 
 const imageRef = ref(null);
 const isZoomed = ref(false);
@@ -108,8 +109,21 @@ const closeContactOverlay = () => {
 	document.body.style.overflow = "";
 };
 
+const goBack = () => {
+	try {
+		const lastVisitedUrl = localStorage.getItem("lastVisitedUrl");
+		if (lastVisitedUrl && lastVisitedUrl.startsWith("/?")) {
+			router.push(lastVisitedUrl);
+		} else {
+			router.back();
+		}
+	} catch (e) {
+		console.error("Navigation error:", e);
+		router.push("/");
+	}
+};
+
 onMounted(() => {
-	// Now it's safe to access window object
 	realViewportHeight.value = window.innerHeight;
 	updateViewportHeight();
 
@@ -256,7 +270,7 @@ useSchemaOrg([
 		<div v-if="painting">
 			<nav aria-label="Navigation">
 				<button
-					@click="$router.back() || $router.push('/')"
+					@click="goBack"
 					title="Retour à la page précédente"
 					class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 pointer-cursor hover:-translate-x-2 transition-transform duration-200">
 					<NuxtImg

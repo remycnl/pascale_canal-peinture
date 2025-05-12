@@ -1,4 +1,3 @@
-<!-- Gallery.vue -->
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
 
@@ -28,7 +27,6 @@ const props = defineProps({
 
 const emit = defineEmits(["retry"]);
 
-// State variables
 const isImageLoaded = ref({});
 const cardSize = ref(0);
 const cardRefs = ref([]);
@@ -36,7 +34,6 @@ const displayedCount = ref(0);
 const observedItems = ref(new Set());
 const imageObserver = ref(null);
 
-// Computed properties
 const noResultsFound = computed(
 	() =>
 		props.pagination.totalCount === 0 && !props.isLoading && !props.loadError
@@ -141,7 +138,6 @@ const setupImageObserver = () => {
 
 // Observe image element for lazy loading
 const observeImage = (el, paintingId) => {
-	// Make sure el is a DOM element before observing
 	if (
 		!el ||
 		!(el instanceof Element) ||
@@ -157,7 +153,6 @@ const observeImage = (el, paintingId) => {
 
 // Handle window resize to recalculate card size
 const setCardSize = () => {
-	// Find the first card ref and use it to calculate the size
 	if (cardRefs.value.length > 0 && cardRefs.value[0]) {
 		const { width } = cardRefs.value[0].getBoundingClientRect();
 		if (width > 0) {
@@ -202,20 +197,17 @@ const resetDisplayState = () => {
 // Watch for new paintings to restart animations
 watch(() => props.paintings, resetDisplayState, { deep: true });
 
-// Component lifecycle hooks
 onMounted(() => {
 	window.addEventListener("resize", debouncedResize);
 	resetDisplayState();
 });
 
 onBeforeUnmount(() => {
-	// Clean up observer
 	if (imageObserver.value) {
 		imageObserver.value.disconnect();
 		imageObserver.value = null;
 	}
 
-	// Remove event listener
 	window.removeEventListener("resize", debouncedResize);
 });
 
@@ -274,7 +266,7 @@ const handleRetry = () => {
 					v-for="(painting, index) in paintings"
 					:key="painting.id"
 					:class="[getImageClass(painting.id, index)]"
-					class="z-10 w-full h-auto group bg-gradient-to-tr from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none transition-all duration-500 justify-self-center active:ring-4 active:ring-black active:ring-offset-2 active:outline-none focus-within:ring-4 focus-within:ring-black focus-within:ring-offset-2 focus-within:outline-none">
+					class="z-10 w-full h-auto group bg-gradient-to-tr from-black via-black to-white rounded-2xl flex flex-col hover:rounded-none transition-all duration-500 justify-self-center active:ring-4 active:ring-black active:ring-offset-2 active:outline-none focus-within:ring-4 focus-within:ring-black focus-within:ring-offset-2 focus-within:outline-none active:scale-97 [&:active]:duration-200">
 					<NuxtLink
 						:to="`/${painting.slug}`"
 						:aria-label="`Voir les détails de l'œuvre: ${painting.name} ${
@@ -284,14 +276,12 @@ const handleRetry = () => {
 						}`">
 						<div
 							:ref="(el) => setCardRef(el, index)"
-							class="overflow-hidden relative w-full transition-all duration-500">
+							class="overflow-hidden relative w-full">
 							<!-- Using v-if to ensure we don't create duplicate images -->
 							<NuxtImg
 								v-if="observedItems && !observedItems.has(painting.id)"
 								:ref="(el) => observeImage(el, painting.id)"
-								:data-src="painting.image"
 								:src="painting.image"
-								:data-painting-id="painting.id"
 								:alt="`Peinture: ${painting.name}`"
 								:title="painting.name"
 								placeholder
@@ -301,7 +291,7 @@ const handleRetry = () => {
 								provider="cloudinary"
 								@load="handleImageLoad(painting.id)"
 								@contextmenu.prevent
-								class="w-full select-none pointer-events-none aspect-square object-cover rounded-2xl group-hover:rounded-none group-active:scale-105 transition-all duration-500 p-3 pt-3 pb-0 group-hover:p-0" />
+								class="w-full select-none pointer-events-none aspect-square object-cover rounded-2xl group-hover:rounded-none transition-all duration-500 p-3 pt-3 pb-0 group-hover:p-0" />
 							<div
 								v-if="painting.state === 'OFF_SALE'"
 								class="absolute hidden lg:flex select-none inset-0 items-center justify-center scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400"

@@ -19,17 +19,17 @@ const pagination = computed(() => ({
 	totalCount: filteredTotalCount.value,
 }));
 
-// Gestionnaire de changement de filtres
 const handleFilterChange = () => {
-	// Lire la page depuis l'URL (important: sera 1 si le filtre a retiré le paramètre page)
 	const currentUrl = new URL(window.location);
 	const pageFromUrl = parseInt(currentUrl.searchParams.get("page")) || 1;
 	page.value = pageFromUrl;
 
+	// // Sauvegarder l'URL complète dans le localStorage mais il faudrait mieux que ça le fasse avec vue-router sans hot reloading
+	// localStorage.setItem('lastVisitedUrl', window.location.pathname + window.location.search);
+
 	loadPaintings();
 };
 
-// Gestionnaire de changement de page
 const handlePageChange = (newPage) => {
 	const url = new URL(window.location);
 
@@ -41,11 +41,14 @@ const handlePageChange = (newPage) => {
 
 	window.history.pushState({}, "", url);
 	page.value = newPage;
+	
+	// // Sauvegarder l'URL complète dans le localStorage mais il faudrait mieux que ça le fasse avec vue-router sans hot reloading
+	// localStorage.setItem('lastVisitedUrl', window.location.pathname + window.location.search);
+	
 	window.scrollTo({ top: 0, behavior: "smooth" });
 	loadPaintings();
 };
 
-// Chargement des peintures depuis l'API
 const loadPaintings = async () => {
 	if (isLoading.value) return;
 
@@ -84,8 +87,6 @@ const loadPaintings = async () => {
 			filteredTotalCount.value = response.meta.totalCount;
 			totalPages.value = response.meta.totalPages;
 
-			// Si la page actuelle est supérieure au nombre total de pages, revenir à la dernière page
-			// (Peut arriver après filtrage)
 			if (page.value > totalPages.value && totalPages.value > 0) {
 				handlePageChange(totalPages.value);
 				return;
@@ -108,7 +109,6 @@ const loadPaintings = async () => {
 	}
 };
 
-// Gestion de la navigation avec back/forward
 const handlePopState = () => {
 	const currentUrl = new URL(window.location);
 	page.value = parseInt(currentUrl.searchParams.get("page")) || 1;
@@ -116,13 +116,10 @@ const handlePopState = () => {
 };
 
 onMounted(() => {
-	// Récupérer la page depuis les paramètres d'URL au chargement
 	page.value = parseInt(new URL(window.location).searchParams.get("page")) || 1;
 
-	// Charger les données
 	loadPaintings();
 
-	// Écouter les événements de navigation
 	window.addEventListener("popstate", handlePopState);
 });
 
