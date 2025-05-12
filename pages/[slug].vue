@@ -110,17 +110,7 @@ const closeContactOverlay = () => {
 };
 
 const goBack = () => {
-	try {
-		const lastVisitedUrl = localStorage.getItem("lastVisitedUrl");
-		if (lastVisitedUrl && lastVisitedUrl.startsWith("/?")) {
-			router.push(lastVisitedUrl);
-		} else {
-			router.back();
-		}
-	} catch (e) {
-		console.error("Navigation error:", e);
-		router.push("/");
-	}
+	router.back();
 };
 
 onMounted(() => {

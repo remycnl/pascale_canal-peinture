@@ -9,8 +9,12 @@ declare module "#app" {
 	}
 }
 
-export default defineNuxtRouteMiddleware(async (to) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
 	if (import.meta.client) {
+		if (to.path === from.path && to.name === from.name) {
+			return;
+		}
+
 		const transitionStartedEvent = new CustomEvent("wave-transition-started");
 		const transitionAlmostCompleteEvent = new CustomEvent(
 			"wave-transition-almost-complete"

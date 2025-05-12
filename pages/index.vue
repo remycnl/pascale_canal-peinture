@@ -1,6 +1,10 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
-import { ref, onMounted, computed, onBeforeUnmount } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
 
 const filteredPaintings = ref([]);
 const allTags = ref([]);
@@ -19,67 +23,60 @@ const pagination = computed(() => ({
 	totalCount: filteredTotalCount.value,
 }));
 
-const handleFilterChange = () => {
-	const currentUrl = new URL(window.location);
-	const pageFromUrl = parseInt(currentUrl.searchParams.get("page")) || 1;
-	page.value = pageFromUrl;
+watch(
+	() => route.query,
+	() => {
+		syncUrlToState();
+		loadPaintings();
+	}
+);
 
-	// // Sauvegarder l'URL complète dans le localStorage mais il faudrait mieux que ça le fasse avec vue-router sans hot reloading
-	// localStorage.setItem('lastVisitedUrl', window.location.pathname + window.location.search);
-
-	loadPaintings();
+const syncUrlToState = () => {
+	page.value = parseInt(route.query.page) || 1;
 };
 
 const handlePageChange = (newPage) => {
-	const url = new URL(window.location);
+	const newQuery = { ...route.query };
 
 	if (newPage === 1) {
-		url.searchParams.delete("page");
+		delete newQuery.page;
 	} else {
-		url.searchParams.set("page", newPage);
+		newQuery.page = newPage;
 	}
 
-	window.history.pushState({}, "", url);
+	router.push({ query: newQuery });
 	page.value = newPage;
-	
-	// // Sauvegarder l'URL complète dans le localStorage mais il faudrait mieux que ça le fasse avec vue-router sans hot reloading
-	// localStorage.setItem('lastVisitedUrl', window.location.pathname + window.location.search);
-	
 	window.scrollTo({ top: 0, behavior: "smooth" });
-	loadPaintings();
 };
 
 const loadPaintings = async () => {
 	if (isLoading.value) return;
-
 	isLoading.value = true;
 	loadError.value = false;
 
 	try {
-		const currentUrl = new URL(window.location);
-		const forSale = currentUrl.searchParams.get("forSale") || "";
-		const tags = currentUrl.searchParams.get("tags") || "";
-		const search = currentUrl.searchParams.get("search") || "";
+		const query = { ...route.query };
+		const queryParams = new URLSearchParams();
 
-		const queryParams = new URLSearchParams({
-			page: page.value,
-			limit: limit.value,
-		});
+		queryParams.append("limit", limit.value);
 
-		if (forSale === "true") {
+		if (page.value > 1) {
+			queryParams.append("page", page.value);
+		}
+
+		if (query.forSale === "true") {
 			queryParams.append("forSale", "true");
 		}
 
-		if (tags) {
-			queryParams.append("tags", tags);
+		if (query.tags) {
+			queryParams.append("tags", query.tags);
 		}
 
-		if (search) {
-			queryParams.append("search", search);
+		if (query.search) {
+			queryParams.append("search", query.search);
 		}
 
-		const endpoint = `/api/paintings?${queryParams.toString()}`;
-		const response = await $fetch(endpoint);
+		const response = await $fetch(`/api/paintings?${queryParams.toString()}`);
 
 		if (response?.paintings) {
 			filteredPaintings.value = response.paintings;
@@ -89,7 +86,6 @@ const loadPaintings = async () => {
 
 			if (page.value > totalPages.value && totalPages.value > 0) {
 				handlePageChange(totalPages.value);
-				return;
 			}
 
 			if (allTags.value.length === 0) {
@@ -97,34 +93,21 @@ const loadPaintings = async () => {
 					{ value: "ANIMAL", label: "Animal" },
 					{ value: "PERSONNAGE", label: "Personnage" },
 					{ value: "PAYSAGE", label: "Paysage" },
-					{ value: "COMMANDE_PERSONNALISEE", label: "Commande Personnalisee" },
+					{ value: "COMMANDE_PERSONNALISEE", label: "Commande Personnalisée" },
 				];
 			}
 		}
 	} catch (err) {
-		console.error("Erreur lors du chargement des peintures :", err);
+		console.error("Erreur chargement:", err);
 		loadError.value = true;
 	} finally {
 		isLoading.value = false;
 	}
 };
 
-const handlePopState = () => {
-	const currentUrl = new URL(window.location);
-	page.value = parseInt(currentUrl.searchParams.get("page")) || 1;
-	loadPaintings();
-};
-
 onMounted(() => {
-	page.value = parseInt(new URL(window.location).searchParams.get("page")) || 1;
-
+	syncUrlToState();
 	loadPaintings();
-
-	window.addEventListener("popstate", handlePopState);
-});
-
-onBeforeUnmount(() => {
-	window.removeEventListener("popstate", handlePopState);
 });
 
 useSchemaOrg([
@@ -203,7 +186,7 @@ useSchemaOrg([
 			:is-loading="isLoading"
 			:load-error="loadError"
 			:pagination="pagination"
-			@retry="loadPaintings"/>
+			@retry="loadPaintings" />
 
 		<!-- Pagination component -->
 		<GalleryPagination

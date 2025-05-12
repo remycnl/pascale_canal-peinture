@@ -1,5 +1,9 @@
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
 
 const props = defineProps({
 	allTags: {
@@ -30,44 +34,43 @@ const shouldRenderMenu = ref(false);
 const debounceTimer = ref(null);
 
 const loadFiltersFromUrl = () => {
-	const currentUrl = new URL(window.location);
+	const query = route.query;
 
-	showOnlyForSale.value = currentUrl.searchParams.get("forSale") === "true";
-
-	const urlTags = currentUrl.searchParams.get("tags");
-	selectedTags.value = urlTags ? urlTags.split(",") : [];
-
-	searchQuery.value = currentUrl.searchParams.get("search") || "";
+	showOnlyForSale.value = query.forSale === "true";
+	selectedTags.value = query.tags ? query.tags.split(",") : [];
+	searchQuery.value = query.search || "";
 };
 
 const updateUrlWithFilters = (preservePage = false) => {
 	if (skipUrlUpdate.value) return;
 
-	const url = new URL(window.location);
+	const query = { ...route.query };
 
 	if (!preservePage) {
-		url.searchParams.delete("page");
+		delete query.page;
 	}
 
 	if (showOnlyForSale.value) {
-		url.searchParams.set("forSale", "true");
+		query.forSale = "true";
 	} else {
-		url.searchParams.delete("forSale");
+		delete query.forSale;
 	}
 
 	if (selectedTags.value.length > 0) {
-		url.searchParams.set("tags", selectedTags.value.join(","));
+		query.tags = selectedTags.value.join(",");
 	} else {
-		url.searchParams.delete("tags");
+		delete query.tags;
 	}
 
 	if (searchQuery.value.trim()) {
-		url.searchParams.set("search", searchQuery.value.trim());
+		query.search = searchQuery.value.trim();
 	} else {
-		url.searchParams.delete("search");
+		delete query.search;
 	}
 
-	window.history.pushState({}, "", url);
+	router.push({
+		query: query,
+	});
 };
 
 const applyFilters = (preservePage = false) => {
@@ -146,14 +149,20 @@ watch(searchQuery, () => {
 	}
 });
 
-const handlePopState = () => {
-	skipUrlUpdate.value = true;
-	loadFiltersFromUrl();
-	nextTick(() => {
-		skipUrlUpdate.value = false;
-		applyFilters(true);
-	});
-};
+watch(
+	() => route.query,
+	() => {
+		if (route.query !== router.currentRoute.value.query) {
+			skipUrlUpdate.value = true;
+			loadFiltersFromUrl();
+			nextTick(() => {
+				skipUrlUpdate.value = false;
+				applyFilters(true);
+			});
+		}
+	},
+	{ deep: true }
+);
 
 onMounted(() => {
 	loadFiltersFromUrl();
@@ -162,13 +171,10 @@ onMounted(() => {
 		skipUrlUpdate.value = false;
 		applyFilters(true);
 	});
-
-	window.addEventListener("popstate", handlePopState);
 });
 
 onUnmounted(() => {
 	clearTimeout(debounceTimer.value);
-	window.removeEventListener("popstate", handlePopState);
 });
 </script>
 
