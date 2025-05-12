@@ -286,12 +286,10 @@ const handleRetry = () => {
 								:title="painting.name"
 								placeholder
 								loading="lazy"
-								format="webp"
 								quality="50"
-								provider="cloudinary"
 								@load="handleImageLoad(painting.id)"
 								@contextmenu.prevent
-								class="w-full select-none pointer-events-none aspect-square object-cover rounded-2xl group-hover:rounded-none transition-all duration-500 p-3 pt-3 pb-0 group-hover:p-0" />
+								class="w-full aspect-square object-cover rounded-2xl group-hover:rounded-none transition-all duration-500 p-3 pt-3 pb-0 group-hover:p-0" />
 							<div
 								v-if="painting.state === 'OFF_SALE'"
 								class="absolute hidden lg:flex select-none inset-0 items-center justify-center scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400"

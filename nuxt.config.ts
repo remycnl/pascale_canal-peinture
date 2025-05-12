@@ -22,6 +22,17 @@ export default defineNuxtConfig({
 		{ src: "@/plugins/smooth-scroll.client.js", mode: "client" },
 		{ src: "@/plugins/fluid-cursor-webgl.client.js", mode: "client" },
 	],
+	app: {
+		head: {
+			link: [
+				{
+					rel: "preconnect",
+					href: "https://res.cloudinary.com",
+					crossorigin: "anonymous",
+				},
+			],
+		},
+	},
 	vite: {
 		plugins: [tailwindcss()],
 		resolve: {

@@ -575,8 +575,6 @@ useSeoMeta({
 										:alt="painting.name"
 										:title="painting.name"
 										loading="lazy"
-										format="webp"
-										provider="cloudinary"
 										@contextmenu.prevent
 										class="w-16 h-16 object-cover min-w-[64px] rounded-lg" />
 									<div class="overflow-hidden">

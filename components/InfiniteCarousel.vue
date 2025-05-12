@@ -105,8 +105,6 @@ onMounted(() => {
 					:src="painting.image"
 					:alt="painting.title || 'Peinture de Pascale Canal'"
 					:title="painting.title"
-					format="webp"
-					provider="cloudinary"
 					@contextmenu.prevent
 					class="h-full w-full pointer-events-none select-none object-cover" />
 				<span class="sr-only">{{ painting.title || "Œuvre" }}</span>
@@ -127,8 +125,6 @@ onMounted(() => {
 					:src="painting.image"
 					:alt="painting.title || 'Peinture de Pascale Canal'"
 					:title="painting.title"
-					format="webp"
-					provider="cloudinary"
 					@contextmenu.prevent
 					class="h-full w-full pointer-events-none select-none object-cover" />
 				<span class="sr-only">{{ painting.title || "Œuvre" }}</span>

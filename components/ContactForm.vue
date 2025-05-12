@@ -179,8 +179,6 @@
 									:src="preSelectedArtwork.image"
 									:alt="preSelectedArtwork.name"
 									:title="preSelectedArtwork.name"
-									provider="cloudinary"
-									format="webp"
 									quality="50"
 									@contextmenu.prevent
 									class="w-full object-cover h-auto" />
@@ -237,9 +235,7 @@
 											:title="result.name"
 											width="40"
 											height="40"
-											provider="cloudinary"
 											@contextmenu.prevent
-											format="webp"
 											quality="50"
 											class="rounded-md object-cover" />
 										<div class="flex">
@@ -285,9 +281,7 @@
 											:src="artwork.image"
 											:alt="artwork.name"
 											:title="artwork.name"
-											provider="cloudinary"
 											@contextmenu.prevent
-											format="webp"
 											quality="50"
 											class="w-full object-cover rounded-lg aspect-square" />
 										<span
@@ -381,10 +375,8 @@
 									:src="result.image"
 									:alt="result.name"
 									:title="result.name"
-									provider="cloudinary"
 									width="40"
 									height="40"
-									format="webp"
 									quality="50"
 									@contextmenu.prevent
 									class="rounded-md object-cover" />
@@ -431,8 +423,6 @@
 									:src="artwork.image"
 									:alt="artwork.name"
 									:title="artwork.name"
-									provider="cloudinary"
-									format="webp"
 									quality="50"
 									@contextmenu.prevent
 									class="w-full rounded-lg object-cover aspect-square" />
@@ -504,8 +494,6 @@
 								:src="artwork.image"
 								:alt="artwork.name"
 								:title="artwork.name"
-								provider="cloudinary"
-								format="webp"
 								quality="50"
 								@contextmenu.prevent
 								class="w-full object-cover rounded-lg aspect-square" />

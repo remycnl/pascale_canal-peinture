@@ -329,7 +329,6 @@ useSchemaOrg([
 						:src="painting.image"
 						:alt="`Tableau '${painting.name}' peint par ${painting.artist}`"
 						:title="painting.name"
-						format="webp"
 						ref="imageRef"
 						@contextmenu.prevent
 						@load="handleImageLoad"

@@ -115,7 +115,7 @@ button {
 }
 
 img {
-	@apply select-none;
+	@apply select-none pointer-events-none;
 }
 
 @keyframes bounce-smooth {

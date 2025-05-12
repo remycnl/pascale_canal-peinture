@@ -123,10 +123,8 @@ onUnmounted(() => {
 							:src="painting.image"
 							:alt="painting.name"
 							:title="`${painting.name} - ${painting.price}€`"
-							format="webp"
 							quality="50"
 							loading="lazy"
-							provider="cloudinary"
 							@contextmenu.prevent
 							class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:filter group-hover:grayscale" />
 						<div

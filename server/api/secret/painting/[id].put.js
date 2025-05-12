@@ -52,11 +52,9 @@ export default defineEventHandler(async (event) => {
 				}
 			}
 
-			// Upload new image to Cloudinary
+				// Upload new image to Cloudinary
 			try {
-				const base64Image = `data:${imageFile.type};base64,${new Uint8Array(
-					imageFile.data
-				).reduce((data, byte) => data + String.fromCharCode(byte), "")}`;
+				const base64Image = `data:${imageFile.type};base64,${Buffer.from(imageFile.data).toString('base64')}`;
 
 				const uploadResult = await cloudinary.uploader.upload(base64Image, {
 					folder: "paintings",
