@@ -239,11 +239,11 @@ onUnmounted(() => {
 										id="search"
 										v-model="searchQuery"
 										type="text"
-										placeholder="Rechercher une œuvre..."
-										class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow transition-all duration-200" />
+										placeholder="Rechercher..."
+										class="w-full px-4 py-2 pl-9 text-sm sm:text-base sm:py-3 sm:pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow transition-all duration-200" />
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+										class="h-4 w-4 sm:h-5 sm:w-5 absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor">
