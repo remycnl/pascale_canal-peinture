@@ -20,8 +20,6 @@ const props = defineProps({
 	},
 });
 
-const emit = defineEmits(["filter:change"]);
-
 const skipUrlUpdate = ref(true);
 
 const showOnlyForSale = ref(false);
@@ -41,7 +39,7 @@ const loadFiltersFromUrl = () => {
 	searchQuery.value = query.search || "";
 };
 
-const updateUrlWithFilters = (preservePage = false) => {
+const applyFilters = (preservePage = false) => {
 	if (skipUrlUpdate.value) return;
 
 	const query = { ...route.query };
@@ -70,16 +68,6 @@ const updateUrlWithFilters = (preservePage = false) => {
 
 	router.push({
 		query: query,
-	});
-};
-
-const applyFilters = (preservePage = false) => {
-	updateUrlWithFilters(preservePage);
-
-	emit("filter:change", {
-		forSale: showOnlyForSale.value,
-		tags: selectedTags.value,
-		search: searchQuery.value.trim(),
 	});
 };
 

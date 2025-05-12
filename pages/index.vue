@@ -175,8 +175,7 @@ useSchemaOrg([
 				<Filter
 					:all-tags="allTags"
 					:total-count="totalCount"
-					:filtered-count="filteredTotalCount"
-					@filter:change="handleFilterChange" />
+					:filtered-count="filteredTotalCount"/>
 			</div>
 		</div>
 
