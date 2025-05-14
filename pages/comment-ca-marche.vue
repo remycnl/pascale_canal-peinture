@@ -245,18 +245,18 @@ useSchemaOrg([
 				:key="`${activeTab}-${section.number}`"
 				:class="`flex ${
 					isEven(index) ? 'lg:flex-row-reverse' : 'lg:flex-row'
-				} flex-col justify-between w-full h-fit lg:h-80 rounded-2xl bg-black text-white`">
+				} flex-col p-5 sm:p-10 justify-between w-full h-fit rounded-2xl overflow-hidden lg:border-5 border-black bg-black text-white`">
 				<span
-					:class="`text-[100px] sm:text-[200px] md:text-[300px] lg:text-[550px] leading-[70px] sm:leading-[150px] md:leading-[220px] lg:leading-[400px] tracking-tighter ${
+					:class="`opacity-10 text-7xl sm:text-9xl lg:text-[350px] 2xl:text-[430px] lg:leading-38 2xl:leading-50 lg:translate-y-9 2xl:translate-y-12 font-weirdWords select-none ${
 						isEven(index)
-							? 'text-end -mr-2 sm:-mr-4 md:-mr-6 lg:-mr-10'
-							: 'text-start -ml-3 sm:-ml-6 md:-ml-9 lg:-ml-30'
-					} font-apercuBold select-none`"
+							? '-ml-2 lg:-ml-0 text-end'
+							: '-ml-2 lg:-ml-8'
+					}`"
 					aria-hidden="true">
 					{{ section.number }}
 				</span>
 				<div
-					class="flex flex-col justify-center gap-y-5 w-full lg:w-1/2 p-5 sm:p-10">
+					class="flex flex-col justify-center gap-y-5 w-full lg:w-1/2">
 					<h2
 						class="text-xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-apercuBold transition-all duration-300 ease-in-out"
 						:class="

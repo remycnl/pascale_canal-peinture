@@ -89,7 +89,7 @@ useSchemaOrg([
 						d'authenticité et de simplicité.
 					</p>
 					<span
-						class="z-10 select-none parallax pointer-events-none absolute top-50 lg:top-140 -left-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
+						class="lg:hidden z-10 select-none pointer-events-none absolute top-50 -left-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
 						<NuxtImg
 							data-inverse-speed="0.7"
 							src="/svg/blob_yellow-1.svg"
@@ -114,9 +114,8 @@ useSchemaOrg([
 						</span>
 					</p>
 					<span
-						class="z-10 select-none parallax-reverse pointer-events-none absolute top-50 lg:top-120 -right-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
+						class="lg:hidden z-10 select-none pointer-events-none absolute top-50 -right-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
 						<NuxtImg
-							data-speed="0.7"
 							src="/svg/blob_yellow-2.svg"
 							alt="Blob yellow"
 							title="Blob yellow"
@@ -144,22 +143,12 @@ useSchemaOrg([
 						</span>
 					</p>
 				</section>
-				<div class="z-50 relative flex justify-end">
-					<div class="sm:w-3/5 relative">
+				<div class="z-50 flex justify-end">
+					<div class="sm:w-3/5">
 						<p
-							class="z-50 relative text-shadow text-base sm:text-lg md:text-2xl lg:text-3xl 2xl:text-4xl">
+							class="z-50 text-shadow text-base sm:text-lg md:text-2xl lg:text-3xl 2xl:text-4xl">
 							C'est de là que ma peinture s'inspire.
 						</p>
-						<span
-							class="z-10 hidden md:block select-none parallax pointer-events-none absolute -top-60 lg:-top-0 left-80 lg:left-40 rotate-25 w-130 h-auto opacity-90 blur-2xl">
-							<NuxtImg
-								data-inverse-speed="0.9"
-								src="/svg/blob_yellow-3.svg"
-								alt="Blob yellow"
-								title="Blob yellow"
-								role="presentation"
-								@contextmenu.prevent />
-						</span>
 					</div>
 				</div>
 				<nav

@@ -9,13 +9,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 			const parallaxElements = document.querySelectorAll(".parallax");
 			const parallaxStrongElements =
 				document.querySelectorAll(".parallax-strong");
-			const parallaxReverseElements =
-				document.querySelectorAll(".parallax-reverse");
 
 			if (
-				(parallaxElements.length ||
-					parallaxStrongElements.length ||
-					parallaxReverseElements.length) &&
+				(parallaxElements.length || parallaxStrongElements.length) &&
 				window.location.pathname === "/qui-suis-je"
 			) {
 				window.addEventListener("mousemove", handleMouseMoveThrottled);
@@ -58,8 +54,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 			const parallaxElements = document.querySelectorAll(".parallax");
 			const parallaxStrongElements =
 				document.querySelectorAll(".parallax-strong");
-			const parallaxReverseElements =
-				document.querySelectorAll(".parallax-reverse");
 
 			const centerX = window.innerWidth / 2;
 			const centerY = window.innerHeight / 2;
@@ -67,8 +61,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 			const valueY = (centerY - mouseY) / 10;
 			const strongValueX = (centerX - mouseX) / 20;
 			const strongValueY = (centerY - mouseY) / 10;
-			const reverseValueX = -valueX;
-			const reverseValueY = -valueY;
 
 			parallaxElements.forEach((parallax) => {
 				parallax.style.transform = `translate3d(${valueX}px, ${valueY}px, 0)`;
@@ -76,10 +68,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 			parallaxStrongElements.forEach((parallaxStrong) => {
 				parallaxStrong.style.transform = `translate3d(${strongValueX}px, ${strongValueY}px, 0)`;
-			});
-
-			parallaxReverseElements.forEach((parallaxReverse) => {
-				parallaxReverse.style.transform = `translate3d(${reverseValueX}px, ${reverseValueY}px, 0)`;
 			});
 		}
 

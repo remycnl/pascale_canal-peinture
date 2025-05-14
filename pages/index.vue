@@ -124,28 +124,6 @@ useSchemaOrg([
 
 <template>
 	<main class="relative min-h-screen">
-		<!-- Background blobs -->
-		<div
-			class="hidden lg:block select-none pointer-events-none absolute -top-250 -right-180 w-full h-auto opacity-90 blur-2xl"
-			aria-hidden="true">
-			<NuxtImg
-				src="/svg/blob-right.svg"
-				alt="Blob black"
-				title="Blob black"
-				data-speed="0.7"
-				@contextmenu.prevent />
-		</div>
-		<div
-			class="hidden lg:block select-none pointer-events-none absolute top-[50vh] -left-200 w-full h-auto opacity-90 blur-2xl"
-			aria-hidden="true">
-			<NuxtImg
-				src="/svg/blob-left.svg"
-				alt="Blob black"
-				title="Blob black"
-				data-speed="0.5"
-				@contextmenu.prevent />
-		</div>
-
 		<!-- Header -->
 		<h1
 			class="flex flex-col gap-y-1 text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-[80px] leading-tight 2xl:leading-[90px] text-left lg:w-2/3 lg:pb-20 pt-15 lg:pt-20">

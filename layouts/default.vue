@@ -82,32 +82,19 @@ useSchemaOrg([
 	}),
 ]);
 
-const setSEO = () => {
+onMounted(() => {
 	if (import.meta.client) {
 		pageTitle.value = document.title;
-
-		document.addEventListener("visibilitychange", function () {
-			if (document.visibilityState === "hidden") {
-				pageTitle.value = document.title;
-				document.title = inactiveTitle.value;
-			} else if (document.visibilityState === "visible") {
-				document.title = pageTitle.value;
-			}
-		});
-	}
-};
-
-onMounted(() => {
-	const favicons = [
-		`${baseUrl}/favicon.ico`,
-		`${baseUrl}/favicon-yellow.ico`,
-		`${baseUrl}/favicon-reversed.ico`,
-	];
-	let currentFaviconIndex = 0;
-
-	setSEO();
-
-	if (import.meta.client) {
+		
+		const handleVisibilityChange = () => {
+			document.title = document.visibilityState === "hidden" 
+				? inactiveTitle.value 
+				: pageTitle.value;
+		};
+		
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+		onBeforeUnmount(() => document.removeEventListener("visibilitychange", handleVisibilityChange));
+		
 		console.log(`
 	******************************************
 	*                                        *
@@ -117,24 +104,13 @@ onMounted(() => {
 	******************************************
 	`);
 	}
-
-	const intervalId = setInterval(() => {
-		currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
-		const faviconElement = document.querySelector('link[rel="icon"]');
-		if (faviconElement) {
-			faviconElement.href = favicons[currentFaviconIndex];
-		}
-	}, 1000);
-
-	onBeforeUnmount(() => {
-		clearInterval(intervalId);
-	});
 });
 </script>
 
 <template>
 	<main>
 		<Analytics />
+		<LogoBackground />
 		<div class="overflow-hidden">
 			<SplashScreen />
 			<Header />
