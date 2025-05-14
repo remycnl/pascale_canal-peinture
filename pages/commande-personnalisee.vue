@@ -65,7 +65,7 @@ const { data: personalizedPaintings } = await useFetch("/api/tagPaintings", {
 		<section class="pb-5 md:pb-25">
 			<div class="mt-16 md:mt-36 md:ml-[40vw]">
 				<p
-					class="text-xl rounded-xl backdrop-blur-sm lg:p-10 text-shadow md:text-2xl lg:text-4xl md:mb-10 leading-relaxed">
+					class="text-xl rounded-xl lg:p-10 text-shadow md:text-2xl lg:text-4xl md:mb-10 leading-relaxed">
 					Commandez une œuvre d'art unique qui vous ressemble. Que ce soit votre
 					animal de compagnie, un paysage qui vous est cher, un portrait ou une
 					composition abstraite.

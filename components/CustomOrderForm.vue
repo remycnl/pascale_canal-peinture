@@ -207,7 +207,7 @@ const submitForm = async () => {
 			aria-labelledby="form-title">
 			<h2
 				id="form-title"
-				class="text-3xl text-shadow md:text-4xl md:mt-10 lg:text-6xl font-apercuBold mb-16 md:mb-32 md:ml-24 lg:ml-14 lg:p-10 backdrop-blur-sm rounded-xl w-fit">
+				class="text-3xl text-shadow md:text-4xl md:mt-10 lg:text-6xl font-apercuBold mb-16 md:mb-32 md:ml-24 lg:ml-14 lg:p-10 rounded-xl w-fit">
 				Votre projet
 			</h2>
 
@@ -308,7 +308,7 @@ const submitForm = async () => {
 
 				<!-- Comment ça marche -->
 				<section
-					class="md:col-span-6 text-shadow md:col-start-6 py-6 md:py-10 backdrop-blur-sm rounded-xl 2xl:ml-10 lg:px-10"
+					class="md:col-span-7 text-shadow md:col-start-6 py-6 md:py-10 rounded-xl lg:ml-30 2xl:ml-40"
 					aria-labelledby="process-title">
 					<h3
 						id="process-title"
@@ -454,7 +454,7 @@ const submitForm = async () => {
 
 				<!-- RGPD -->
 				<section
-					class="md:col-span-9 lg:col-span-8 2xl:col-span-6 md:col-start-3 rounded-xl backdrop-blur-sm lg:p-6 mt-4 md:mt-8">
+					class="md:col-span-9 lg:col-span-8 2xl:col-span-6 md:col-start-3 rounded-xl lg:p-6 mt-4 md:mt-8">
 					<div class="flex gap-x-3 items-start">
 						<div class="relative mt-1">
 							<input
@@ -508,7 +508,7 @@ const submitForm = async () => {
 				<!-- Required fields info -->
 				<div class="md:col-span-3 md:col-start-3 mx-6">
 					<p
-						class="text-sm rounded-xl w-fit backdrop-blur-sm lg:p-8 md:text-base text-white/60">
+						class="text-sm rounded-xl w-fit lg:p-8 md:text-base text-white/60">
 						<span class="text-yellow" aria-hidden="true">*</span> Champs
 						obligatoires
 					</p>

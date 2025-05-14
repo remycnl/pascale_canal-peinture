@@ -6,7 +6,7 @@ const { isDarkMode } = useDarkMode();
 
 <template>
 	<footer :class="{ 'border-t-4 border-dotted border-white': isDarkMode }" aria-label="Pied de page">
-		<div class="bg-black text-white flex flex-row md:flex-col">
+		<div class="relative bg-black text-white flex flex-row md:flex-col">
 			<div
 				class="container-custom pt-20 pb-25 lg:pb-15 flex flex-col lg:flex-row justify-between gap-x-30 gap-y-15">
 				<!-- Logo and Copyright section -->

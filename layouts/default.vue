@@ -85,16 +85,19 @@ useSchemaOrg([
 onMounted(() => {
 	if (import.meta.client) {
 		pageTitle.value = document.title;
-		
+
 		const handleVisibilityChange = () => {
-			document.title = document.visibilityState === "hidden" 
-				? inactiveTitle.value 
-				: pageTitle.value;
+			document.title =
+				document.visibilityState === "hidden"
+					? inactiveTitle.value
+					: pageTitle.value;
 		};
-		
+
 		document.addEventListener("visibilitychange", handleVisibilityChange);
-		onBeforeUnmount(() => document.removeEventListener("visibilitychange", handleVisibilityChange));
-		
+		onBeforeUnmount(() =>
+			document.removeEventListener("visibilitychange", handleVisibilityChange)
+		);
+
 		console.log(`
 	******************************************
 	*                                        *
@@ -108,21 +111,19 @@ onMounted(() => {
 </script>
 
 <template>
-	<main>
+	<main class="overflow-hidden">
 		<Analytics />
 		<LogoBackground />
-		<div class="overflow-hidden">
-			<SplashScreen />
-			<Header />
-			<div id="smooth-wrapper">
-				<div id="smooth-content">
-					<section class="container-custom py-20 md:py-30 lg:py-40">
-						<slot />
-					</section>
-					<Footer />
-				</div>
+		<SplashScreen />
+		<Header />
+		<div id="smooth-wrapper">
+			<div id="smooth-content">
+				<section class="container-custom py-20 md:py-30 lg:py-40">
+					<slot />
+				</section>
+				<Footer />
 			</div>
-			<Bubble />
 		</div>
+		<Bubble />
 	</main>
 </template>

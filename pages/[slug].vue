@@ -398,11 +398,11 @@ useSchemaOrg([
 								<meta
 									itemprop="availability"
 									content="https://schema.org/InStock" />
-								<span class="font-apercuBold">Prix:</span>
+								<span class="font-apercuBold">Prix: </span>
 								{{ formatPrice(painting.price) }} €
 							</li>
 							<li>
-								<span class="font-apercuBold">Dimensions:</span>
+								<span class="font-apercuBold">Dimensions: </span>
 								<span itemprop="width">{{ painting.width }} cm</span> x
 								<span itemprop="height">{{ painting.height }} cm</span>
 							</li>
