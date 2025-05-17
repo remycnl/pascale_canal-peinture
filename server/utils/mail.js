@@ -147,13 +147,9 @@ export async function sendContactEmail(formData) {
 }
 
 /**
- * Envoie un email pour une commande personnalisée
+ * Version améliorée pour gérer les problèmes mobiles
+ * Envoie un email pour une commande personnalisée avec gestion des erreurs
  * @param {Object} formData - Données du formulaire de commande personnalisée
- * @param {string} formData.name - Nom complet du client
- * @param {string} formData.email - Email du client
- * @param {string} formData.phone - Téléphone du client (optionnel)
- * @param {string} formData.description - Description du projet
- * @param {Array} formData.photos - Liste des photos envoyées
  */
 export async function sendPersonalizedCommandEmail(formData) {
 	try {
@@ -191,16 +187,30 @@ export async function sendPersonalizedCommandEmail(formData) {
         <p>${formData.photos.length} photo(s) ont été envoyées avec cette demande.</p>
       </div>`;
 
-			// Ajout des photos comme pièces jointes
-			formData.photos.forEach((photo, index) => {
-				if (photo.base64Data) {
-					mailOptions.attachments.push({
-						filename: `photo-reference-${index + 1}.jpg`,
-						content: Buffer.from(photo.base64Data.split(",")[1], "base64"),
-						cid: `photo${index + 1}`, // Pour pouvoir référencer l'image dans l'email si nécessaire
-					});
-				}
-			});
+			// Ajout des photos comme pièces jointes avec gestion des erreurs
+			try {
+				formData.photos.forEach((photo, index) => {
+					if (photo.base64Data) {
+						// Extraire la partie base64 (suppression de "data:image/jpeg;base64," si présent)
+						const base64Data = photo.base64Data.includes(",")
+							? photo.base64Data.split(",")[1]
+							: photo.base64Data;
+
+						mailOptions.attachments.push({
+							filename: `photo-reference-${index + 1}.jpg`,
+							content: Buffer.from(base64Data, "base64"),
+							cid: `photo${index + 1}`,
+						});
+					}
+				});
+			} catch (photoError) {
+				console.error(
+					"Erreur lors du traitement des pièces jointes:",
+					photoError
+				);
+				// Continuer sans les pièces jointes problématiques
+				htmlContent += `<p style="color: #ff6b6b;">Note: Certaines photos n'ont pas pu être traitées correctement.</p>`;
+			}
 		}
 
 		// Clôture de l'email
@@ -212,8 +222,17 @@ export async function sendPersonalizedCommandEmail(formData) {
 		// Mise à jour du contenu HTML avec le contenu final
 		mailOptions.html = htmlContent;
 
-		// Envoi de l'email
-		const info = await transporter.sendMail(mailOptions);
+		// Envoi de l'email avec gestion du timeout
+		const info = await Promise.race([
+			transporter.sendMail(mailOptions),
+			new Promise((_, reject) =>
+				setTimeout(
+					() => reject(new Error("Délai d'envoi d'email dépassé")),
+					30000
+				)
+			),
+		]);
+
 		console.log("Email de commande personnalisée envoyé: %s", info.messageId);
 		return { success: true };
 	} catch (error) {

@@ -101,23 +101,71 @@ watch(
 	{ deep: true }
 );
 
-const handleFileUpload = (event) => {
+const resizeImage = (
+	file,
+	maxWidth = 1200,
+	maxHeight = 1200,
+	quality = 0.7
+) => {
+	return new Promise((resolve) => {
+		// Créer un élément Image pour charger le fichier
+		const img = new Image();
+		img.onload = () => {
+			// Calcul des nouvelles dimensions tout en conservant le ratio
+			let width = img.width;
+			let height = img.height;
+
+			if (width > height) {
+				if (width > maxWidth) {
+					height = Math.round((height * maxWidth) / width);
+					width = maxWidth;
+				}
+			} else {
+				if (height > maxHeight) {
+					width = Math.round((width * maxHeight) / height);
+					height = maxHeight;
+				}
+			}
+
+			// Création d'un canvas pour redimensionner l'image
+			const canvas = document.createElement("canvas");
+			canvas.width = width;
+			canvas.height = height;
+
+			// Dessiner l'image redimensionnée
+			const ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0, width, height);
+
+			// Convertir en base64 avec compression
+			const dataUrl = canvas.toDataURL("image/jpeg", quality);
+			resolve(dataUrl);
+		};
+
+		// Charger l'image depuis le fichier
+		img.src = URL.createObjectURL(file);
+	});
+};
+
+const handleFileUpload = async (event) => {
 	const files = event.target.files;
 	if (!files.length) return;
 
-	Array.from(files).forEach((file) => {
+	for (const file of Array.from(files)) {
 		if (file.type.startsWith("image/")) {
-			const reader = new FileReader();
-			reader.onload = (e) => {
+			try {
+				// Redimensionner l'image avant de l'ajouter
+				const resizedImageData = await resizeImage(file);
+
 				uploadedPhotos.value.push({
 					id: Date.now() + Math.random().toString(36).substring(2),
-					preview: e.target.result,
+					preview: resizedImageData,
 					file: file,
 				});
-			};
-			reader.readAsDataURL(file);
+			} catch (error) {
+				console.error("Erreur lors du traitement de l'image:", error);
+			}
 		}
-	});
+	}
 };
 
 const removePhoto = (id) => {
@@ -167,7 +215,7 @@ const submitForm = async () => {
 			})),
 		};
 
-		// Appel à l'API
+		// Appel à l'API avec meilleure gestion des erreurs
 		const response = await fetch("/api/personalized-command", {
 			method: "POST",
 			headers: {
@@ -176,6 +224,23 @@ const submitForm = async () => {
 			body: JSON.stringify(apiData),
 		});
 
+		// Vérification du statut HTTP avant de parser la réponse
+		if (!response.ok) {
+			let errorMessage;
+			try {
+				// Tente de lire la réponse d'erreur en JSON
+				const errorData = await response.json();
+				errorMessage =
+					errorData.error ||
+					`Erreur (${response.status}): ${response.statusText}`;
+			} catch (jsonError) {
+				// Si la réponse n'est pas du JSON valide
+				errorMessage = `Erreur (${response.status}): ${response.statusText}`;
+			}
+			throw new Error(errorMessage);
+		}
+
+		// Parse la réponse JSON seulement si le statut est OK
 		const result = await response.json();
 
 		if (!result.success) {
