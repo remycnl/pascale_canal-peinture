@@ -1,6 +1,6 @@
 // /server/api/newsletter/subscribe.js
 import prisma from "@/lib/prisma";
-import { sendSubscriptionConfirmation } from "../../utils/resend";
+import { sendSubscriptionConfirmation } from "@/server/utils/mail";
 
 export default defineEventHandler(async (event) => {
     try {

@@ -1,10 +1,19 @@
-// /server/utils/resend.js
-import { Resend } from "resend";
+// /server/utils/email.js
+import nodemailer from "nodemailer";
 import prisma from "@/lib/prisma";
 
-// Initialisation de Resend avec la clé API depuis les variables d'environnement
-const resend = new Resend(process.env.RESEND_API_KEY);
-const SENDER_EMAIL = process.env.SENDER_EMAIL || "noreply@votredomaine.com";
+// Configuration du transporteur SMTP Gmail
+const transporter = nodemailer.createTransport({
+	host: "smtp.gmail.com",
+	port: 587,
+	secure: false, // true pour 465, false pour les autres ports
+	auth: {
+		user: process.env.GMAIL_USER || "votre-adresse@gmail.com", // votre adresse Gmail
+		pass: process.env.GMAIL_APP_PASSWORD || "vqce fdia ixqg egfk", // votre mot de passe d'application
+	},
+});
+
+const SENDER_EMAIL = process.env.GMAIL_USER || "votre-adresse@gmail.com";
 const NUXT_SITE_URL = process.env.NUXT_SITE_URL || "http://localhost:3000";
 
 /**
@@ -27,8 +36,8 @@ export async function sendSubscriptionConfirmation(
 
 		const unsubscribeUrl = `${NUXT_SITE_URL}/newsletter/unsubscribe?token=${unsubscribeToken}`;
 
-		await resend.emails.send({
-			from: SENDER_EMAIL,
+		const info = await transporter.sendMail({
+			from: `"Pascale Canal" <${SENDER_EMAIL}>`,
 			to: email,
 			subject: "Confirmation de votre abonnement à ma newsletter",
 			html: `
@@ -40,6 +49,7 @@ export async function sendSubscriptionConfirmation(
       `,
 		});
 
+		console.log("Email de confirmation envoyé: %s", info.messageId);
 		return { success: true };
 	} catch (error) {
 		console.error("Erreur lors de l'envoi de l'email de confirmation:", error);
@@ -56,8 +66,8 @@ export async function sendSubscriptionConfirmation(
  */
 export async function sendContactEmail(formData) {
 	try {
-		await resend.emails.send({
-			from: SENDER_EMAIL,
+		const info = await transporter.sendMail({
+			from: `"Pascale Canal" <${SENDER_EMAIL}>`,
 			to: process.env.CONTACT_EMAIL || SENDER_EMAIL,
 			subject: `Nouveau message de contact: ${formData.subject || "Sans sujet"}`,
 			html: `
@@ -71,9 +81,10 @@ export async function sendContactEmail(formData) {
           </div>
         </div>
       `,
-			reply_to: formData.email,
+			replyTo: formData.email,
 		});
 
+		console.log("Email de contact envoyé: %s", info.messageId);
 		return { success: true };
 	} catch (error) {
 		console.error("Erreur lors de l'envoi de l'email de contact:", error);
@@ -122,8 +133,8 @@ export async function sendNewsletter(newsletterData) {
 		const emailPromises = subscribers.map((subscriber) => {
 			const unsubscribeUrl = `${NUXT_SITE_URL}/newsletter/unsubscribe?token=${subscriber.unsubscribeToken}`;
 
-			return resend.emails.send({
-				from: SENDER_EMAIL,
+			return transporter.sendMail({
+				from: `"Pascale Canal" <${SENDER_EMAIL}>`,
 				to: subscriber.email,
 				subject: newsletterData.subject,
 				html: `
