@@ -1,5 +1,5 @@
 // /server/api/contact.js
-import { sendContactEmail } from "../utils/email";
+import { sendContactEmail } from "@/server/utils/mail";
 
 export default defineEventHandler(async (event) => {
 	try {
