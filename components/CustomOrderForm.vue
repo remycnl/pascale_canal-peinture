@@ -85,10 +85,6 @@ const buttonState = computed(() => {
 	return "default";
 });
 
-const initForm = () => {
-	resizeTextarea();
-};
-
 watch(
 	formData,
 	() => {
@@ -160,15 +156,39 @@ const submitForm = async () => {
 	formError.value = null;
 
 	try {
-		// Here you would implement the actual form submission
-		// For example using fetch or axios to send data to your backend
+		// Préparation des données à envoyer à l'API
+		const apiData = {
+			name: formData.value.name,
+			email: formData.value.email,
+			phone: formData.value.phone,
+			description: formData.value.description,
+			photos: uploadedPhotos.value.map((photo) => ({
+				preview: photo.preview,
+			})),
+		};
 
-		await new Promise((resolve) => setTimeout(resolve, 1500));
+		// Appel à l'API
+		const response = await fetch("/api/personalized-command", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(apiData),
+		});
+
+		const result = await response.json();
+
+		if (!result.success) {
+			throw new Error(
+				result.error || "Une erreur s'est produite lors de l'envoi"
+			);
+		}
 
 		formSubmitted.value = true;
 		emit("form-submitted", true);
 	} catch (error) {
-		formError.value = "Une erreur s'est produite. Veuillez réessayer.";
+		formError.value =
+			error.message || "Une erreur s'est produite. Veuillez réessayer.";
 		console.error("Form submission error:", error);
 	} finally {
 		isSubmitting.value = false;
@@ -507,8 +527,7 @@ const submitForm = async () => {
 
 				<!-- Required fields info -->
 				<div class="md:col-span-3 md:col-start-3 mx-6">
-					<p
-						class="text-sm rounded-xl w-fit lg:p-8 md:text-base text-white/60">
+					<p class="text-sm rounded-xl w-fit lg:p-8 md:text-base text-white/60">
 						<span class="text-yellow" aria-hidden="true">*</span> Champs
 						obligatoires
 					</p>

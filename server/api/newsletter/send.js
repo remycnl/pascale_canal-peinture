@@ -1,4 +1,3 @@
-// /server/api/newsletter/send.js
 import { sendNewsletter } from "@/server/utils/mail";
 
 export default defineEventHandler(async (event) => {

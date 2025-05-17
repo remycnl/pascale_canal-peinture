@@ -1,4 +1,3 @@
-// /server/utils/email.js
 import nodemailer from "nodemailer";
 import prisma from "@/lib/prisma";
 
@@ -140,6 +139,88 @@ export async function sendContactEmail(formData) {
 		return { success: true };
 	} catch (error) {
 		console.error("Erreur lors de l'envoi de l'email de contact:", error);
+		return {
+			success: false,
+			error: error.message,
+		};
+	}
+}
+
+/**
+ * Envoie un email pour une commande personnalisée
+ * @param {Object} formData - Données du formulaire de commande personnalisée
+ * @param {string} formData.name - Nom complet du client
+ * @param {string} formData.email - Email du client
+ * @param {string} formData.phone - Téléphone du client (optionnel)
+ * @param {string} formData.description - Description du projet
+ * @param {Array} formData.photos - Liste des photos envoyées
+ */
+export async function sendPersonalizedCommandEmail(formData) {
+	try {
+		// Construction du corps de l'email en HTML
+		let htmlContent = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2>Nouvelle demande de commande personnalisée</h2>
+      <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+        <p><strong>De:</strong> ${formData.name}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        ${
+					formData.phone
+						? `<p><strong>Téléphone:</strong> ${formData.phone}</p>`
+						: ""
+				}
+      </div>
+      <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+        <h3>Description du projet:</h3>
+        <p>${formData.description.replace(/\n/g, "<br>")}</p>
+      </div>`;
+
+		// Configuration de base pour l'email
+		let mailOptions = {
+			from: `"Commandes Personnalisées" <${SENDER_EMAIL}>`,
+			to: process.env.CONTACT_EMAIL || SENDER_EMAIL,
+			subject: `Nouvelle commande personnalisée`,
+			html: htmlContent,
+			replyTo: formData.email,
+			attachments: [],
+		};
+
+		// Ajout des pièces jointes (photos) si présentes
+		if (formData.photos && formData.photos.length > 0) {
+			htmlContent += `<div style="margin-bottom: 20px;">
+        <h3>Photos de référence jointes:</h3>
+        <p>${formData.photos.length} photo(s) ont été envoyées avec cette demande.</p>
+      </div>`;
+
+			// Ajout des photos comme pièces jointes
+			formData.photos.forEach((photo, index) => {
+				if (photo.base64Data) {
+					mailOptions.attachments.push({
+						filename: `photo-reference-${index + 1}.jpg`,
+						content: Buffer.from(photo.base64Data.split(",")[1], "base64"),
+						cid: `photo${index + 1}`, // Pour pouvoir référencer l'image dans l'email si nécessaire
+					});
+				}
+			});
+		}
+
+		// Clôture de l'email
+		htmlContent += `<div style="font-size: 12px; color: #666; margin-top: 30px; padding-top: 10px; border-top: 1px solid #eee;">
+      <p>Ce message a été envoyé depuis le formulaire de commande personnalisée du site web.</p>
+      <p>RGPD: Le client a donné son consentement pour le traitement de ses données.</p>
+    </div></div>`;
+
+		// Mise à jour du contenu HTML avec le contenu final
+		mailOptions.html = htmlContent;
+
+		// Envoi de l'email
+		const info = await transporter.sendMail(mailOptions);
+		console.log("Email de commande personnalisée envoyé: %s", info.messageId);
+		return { success: true };
+	} catch (error) {
+		console.error(
+			"Erreur lors de l'envoi de l'email de commande personnalisée:",
+			error
+		);
 		return {
 			success: false,
 			error: error.message,

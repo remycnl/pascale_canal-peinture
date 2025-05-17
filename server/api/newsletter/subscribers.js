@@ -1,4 +1,3 @@
-// /server/api/newsletter/subscribers.js
 import prisma from "@/lib/prisma";
 
 export default defineEventHandler(async (event) => {
