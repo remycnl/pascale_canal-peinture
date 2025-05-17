@@ -8,13 +8,13 @@ const transporter = nodemailer.createTransport({
 	port: 587,
 	secure: false, // true pour 465, false pour les autres ports
 	auth: {
-		user: process.env.GMAIL_USER || "votre-adresse@gmail.com", // votre adresse Gmail
-		pass: process.env.GMAIL_APP_PASSWORD || "vqce fdia ixqg egfk", // votre mot de passe d'application
+		user: process.env.GMAIL_USER, // votre adresse Gmail
+		pass: process.env.GMAIL_APP_PASSWORD, // votre mot de passe d'application
 	},
 });
 
-const SENDER_EMAIL = process.env.GMAIL_USER || "votre-adresse@gmail.com";
-const NUXT_SITE_URL = process.env.NUXT_SITE_URL || "http://localhost:3000";
+const SENDER_EMAIL = process.env.GMAIL_USER;
+const NUXT_SITE_URL = process.env.NUXT_SITE_URL;
 
 /**
  * Envoie un email de confirmation d'inscription à la newsletter
