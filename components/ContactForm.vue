@@ -1075,9 +1075,7 @@ const submitForm = async () => {
 		submitSuccess.value = false;
 		formSubmitted.value = true;
 	} finally {
-		setTimeout(() => {
-			submitting.value = false;
-		}, 5000);
+		submitting.value = false;
 	}
 };
 
@@ -1095,10 +1093,12 @@ const resetForm = () => {
 	};
 	selectedArtworks.value = [];
 	currentStep.value = 0;
-	formSubmitted.value = false;
-	submitSuccess.value = false;
 	isEmailValid.value = true;
 	showRgpdError.value = false;
+	setTimeout(() => {
+		submitSuccess.value = false;
+		formSubmitted.value = false;
+	}, 5000);
 
 	if (props.preSelectedArtworkId && preSelectedArtwork.value) {
 		selectedArtworks.value = [preSelectedArtwork.value];
