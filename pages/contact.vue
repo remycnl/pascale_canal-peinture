@@ -80,7 +80,7 @@ useSchemaOrg([
 		<header>
 			<h1
 				data-lag="0.2"
-				class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
+				class="lg:-ml-2 flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-[180px] leading-tight 2xl:leading-[180px] font-apercuBold text-left w-full">
 				Contacte-moi
 			</h1>
 			<p
@@ -105,7 +105,7 @@ useSchemaOrg([
 							aria-label="Email Pascale Canal"
 							class="w-fit flex items-center group">
 							<span
-								class="w-10 h-10 flex items-center justify-center mr-4 bg-white/10 rounded-full group-hover:bg-white/20 transition-all duration-300">
+								class="w-10 h-10 flex items-center justify-center mr-4 bg-white/10 rounded-full group-hover:bg-white/20 group-active:scale-90 transition-all duration-300">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									class="w-5 h-5"
@@ -133,7 +133,7 @@ useSchemaOrg([
 							aria-label="Appeler Pascale Canal"
 							class="w-fit flex items-center group">
 							<span
-								class="w-10 h-10 flex items-center justify-center mr-4 bg-white/10 rounded-full group-hover:bg-white/20 transition-all duration-300">
+								class="w-10 h-10 flex items-center justify-center mr-4 bg-white/10 rounded-full group-hover:bg-white/20 group-active:scale-90 transition-all duration-300">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									class="w-5 h-5"
@@ -164,7 +164,7 @@ useSchemaOrg([
 							target="_blank"
 							rel="noopener"
 							aria-label="Facebook"
-							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transform hover:scale-110 transition-all duration-300">
+							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 active:scale-90 transform hover:scale-110 transition-all duration-300">
 							<span class="w-6 h-6 inline-block">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +181,7 @@ useSchemaOrg([
 							target="_blank"
 							rel="noopener"
 							aria-label="Instagram"
-							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transform hover:scale-110 transition-all duration-300">
+							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 active:scale-90 transform hover:scale-110 transition-all duration-300">
 							<span class="w-6 h-6 inline-block">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +198,7 @@ useSchemaOrg([
 							target="_blank"
 							rel="noopener"
 							aria-label="LinkedIn"
-							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transform hover:scale-110 transition-all duration-300">
+							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 active:scale-90 transform hover:scale-110 transition-all duration-300">
 							<span class="w-6 h-6 inline-block">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"

@@ -14,7 +14,7 @@ export default {
 			if (this.mode === "custom") return "commande-personnalisee";
 
 			const route = this.$route.name;
-			if (route === "commande-personnalisee") return "commande-personnalisee";
+			if (route === "commande-personnalisee" || route === "comment-ca-marche") return "commande-personnalisee";
 			return "galerie";
 		},
 		title() {
@@ -68,7 +68,7 @@ export default {
 			<div class="md:col-span-3 flex flex-col justify-center space-y-6">
 				<div class="inline-block">
 					<span
-						class="bg-yellow/20 text-yellow px-5 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase backdrop-blur-sm">
+						class="bg-yellow/20 text-yellow px-5 py-1.5 rounded-full text-xs font-apercuMedium tracking-wider uppercase backdrop-blur-sm">
 						{{
 							currentRoute === "commande-personnalisee"
 								? "Inspirez-vous"
@@ -77,7 +77,7 @@ export default {
 					</span>
 				</div>
 
-				<h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+				<h2 class="text-2xl md:text-3xl lg:text-4xl font-apercuBold text-white">
 					{{ title }}
 					<div
 						class="mt-2 h-1 w-16 bg-yellow/70 rounded-full"
@@ -85,16 +85,16 @@ export default {
 				</h2>
 
 				<p
-					class="text-gray-300/90 font-normal text-lg leading-relaxed max-w-lg">
+					class="text-gray-300/90 font-apercuRegular text-lg leading-relaxed max-w-lg">
 					{{ description }}
 				</p>
 			</div>
 
-			<div class="md:col-span-2 flex items-center justify-start md:justify-end">
+			<div class="md:col-span-2 flex items-center justify-end md:justify-end">
 				<NuxtLink
 					:to="targetRoute"
 					:aria-label="buttonText"
-					class="group relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-medium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden">
+					class="group relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-apercuMedium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden">
 					<span
 						class="absolute inset-0 w-0 bg-gradient-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out group-hover:w-full"
 						aria-hidden="true"></span>

@@ -63,9 +63,28 @@ html {
 	color: var(--color-white);
 }
 
+/* Handle autofill styling across browsers */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 1000px var(--color-black) inset !important;
+	-webkit-text-fill-color: var(--color-white) !important;
+	transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Firefox specific autofill handling */
+@-moz-document url-prefix() {
+	input:-moz-autofill,
+	input:-moz-autofill:focus {
+		box-shadow: 0 0 0 1000px var(--color-black) inset !important;
+		-moz-text-fill-color: var(--color-white) !important;
+	}
+}
+
 html {
 	background-color: var(--color-white);
-	@apply overflow-x-hidden scroll-smooth
+	@apply overflow-x-hidden scroll-smooth;
 }
 
 body {

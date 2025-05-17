@@ -98,14 +98,27 @@ onMounted(() => {
 			document.removeEventListener("visibilitychange", handleVisibilityChange)
 		);
 
-		console.log(`
-	******************************************
-	*                                        *
-	*      Appreciate scrolling through      *
-	*            my e-galery! :)             *
-	*                                        *
-	******************************************
-	`);
+		console.log(
+			`%c
+		 &
+	&&   &&                          &&
+	  && &&                        &&
+		 && &&&&&               &&
+		 &&        &&&&       &&
+		 &&     &&&&&       &&
+		 &&&&&           &&
+	 &&& &&               &&&
+&&&&     &&                 &&&
+		 &&                     &&&
+		 &&                        &&&
+		 &&                           &&&
+
+
+%cAppreciate scrolling through my e-galery! :)
+			`,
+			"color: #D97757; font-weight: bold;",
+			"color: #FFF083; font-weight: bold;"
+		);
 	}
 });
 </script>

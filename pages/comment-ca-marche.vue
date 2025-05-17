@@ -286,6 +286,9 @@ useSchemaOrg([
 				</div>
 			</article>
 		</section>
+		<section>
+			<Banner />
+		</section>
 	</main>
 </template>
 

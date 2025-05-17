@@ -225,7 +225,7 @@ const handleRetry = () => {
 				<p>Une erreur est survenue lors du chargement des œuvres.</p>
 				<button
 					@click="handleRetry"
-					class="mt-3 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-md text-sm font-medium transition-colors">
+					class="mt-3 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-md text-sm font-apercuMedium transition-colors">
 					Réessayer
 				</button>
 			</div>

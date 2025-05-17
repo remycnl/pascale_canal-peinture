@@ -173,11 +173,11 @@ onUnmounted(() => {
 			<button
 				@click="toggleFilters"
 				class="flex items-center justify-between gap-x-4 w-full px-4 py-3 bg-white border border-black rounded-lg shadow-sm hover:bg-gray-100 active:scale-98 transition-all duration-200">
-				<span class="font-medium flex items-center">
+				<span class="font-apercuMedium flex items-center">
 					<span>Filtrer</span>
 					<span
 						v-if="activeFiltersCount > 0"
-						class="ml-2 bg-yellow text-black text-xs font-bold px-2.5 py-1 rounded-full">
+						class="ml-2 bg-yellow text-black text-xs font-apercuBold px-2.5 py-1 rounded-full">
 						{{ activeFiltersCount }}
 					</span>
 				</span>
@@ -264,7 +264,7 @@ onUnmounted(() => {
 									<div
 										class="cbx flex items-center justify-center w-5 h-5 border border-gray-700 rounded mr-3 transition-colors duration-200"
 										:class="showOnlyForSale ? 'bg-yellow' : 'bg-white'"></div>
-									<span class="font-medium text-sm">
+									<span class="font-apercuMedium text-sm">
 										Disponibles à la vente uniquement
 									</span>
 								</div>
@@ -275,7 +275,7 @@ onUnmounted(() => {
 
 							<!-- Tags -->
 							<div>
-								<h3 class="font-bold mb-4 text-sm uppercase tracking-wide">
+								<h3 class="font-apercuBold mb-4 text-sm uppercase tracking-wide">
 									Catégories
 								</h3>
 								<div class="flex flex-wrap gap-2.5">
@@ -286,7 +286,7 @@ onUnmounted(() => {
 										class="px-3.5 py-2 rounded-md border text-sm transition-all duration-200 active:scale-95"
 										:class="
 											isTagSelected(tag.value)
-												? 'bg-yellow border-black font-medium'
+												? 'bg-yellow border-black font-apercuMedium'
 												: 'bg-white border-gray-300 hover:bg-gray-50 hover:border-gray-400'
 										">
 										{{ tag.label }}
@@ -325,6 +325,23 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 1000px var(--color-white) inset !important;
+	-webkit-text-fill-color: var(--color-black) !important;
+	transition: background-color 5000s ease-in-out 0s;
+}
+
+@-moz-document url-prefix() {
+	input:-moz-autofill,
+	input:-moz-autofill:focus {
+		box-shadow: 0 0 0 1000px var(--color-white) inset !important;
+		-moz-text-fill-color: var(--color-black) !important;
+	}
+}
+
 .menu-enter-active,
 .menu-leave-active {
 	transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -343,8 +360,8 @@ onUnmounted(() => {
 	transform: translateY(0);
 }
 
-.menu-enter-active .font-medium,
-.menu-enter-active .font-bold,
+.menu-enter-active .font-apercuMedium,
+.menu-enter-active .font-apercuBold,
 .menu-enter-active button,
 .menu-enter-active input {
 	animation: fadeIn 0.4s ease-out 0.1s forwards;

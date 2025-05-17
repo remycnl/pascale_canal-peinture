@@ -18,35 +18,30 @@ const props = defineProps({
 
 const emit = defineEmits(["pageChange"]);
 
-// Calcul intelligent des numéros de page à afficher
 const pageNumbers = computed(() => {
 	const pages = [];
+	const isMobile = window.innerWidth < 640;
 
-	// Toujours afficher la première page
 	pages.push(1);
 
-	// Calculer la plage de pages autour de la page actuelle
-	let startPage = Math.max(2, props.currentPage - 1);
-	let endPage = Math.min(props.totalPages - 1, props.currentPage + 1);
+	const range = isMobile ? 0 : 1;
+	let startPage = Math.max(2, props.currentPage - range);
+	let endPage = Math.min(props.totalPages - 1, props.currentPage + range);
 
-	// Ajouter des ellipses si nécessaire avant le bloc de pages
 	if (startPage > 2) {
 		pages.push("...");
 	}
 
-	// Ajouter les pages entre startPage et endPage
 	for (let i = startPage; i <= endPage; i++) {
 		if (i > 1 && i < props.totalPages) {
 			pages.push(i);
 		}
 	}
 
-	// Ajouter des ellipses si nécessaire après le bloc de pages
 	if (endPage < props.totalPages - 1) {
 		pages.push("...");
 	}
 
-	// Ajouter la dernière page si elle existe
 	if (props.totalPages > 1) {
 		pages.push(props.totalPages);
 	}
@@ -54,29 +49,24 @@ const pageNumbers = computed(() => {
 	return pages;
 });
 
-// Navigation à la page précédente
 const goToPrevPage = () => {
 	if (props.currentPage > 1 && !props.isLoading) {
 		emit("pageChange", props.currentPage - 1);
 	}
 };
 
-// Navigation à la page suivante
 const goToNextPage = () => {
 	if (props.currentPage < props.totalPages && !props.isLoading) {
 		emit("pageChange", props.currentPage + 1);
 	}
 };
 
-// Navigation à une page spécifique
 const goToPage = (page) => {
 	if (page !== "..." && page !== props.currentPage && !props.isLoading) {
 		emit("pageChange", page);
 	}
 };
 
-// Observer les changements du nombre total de pages
-// Si la page actuelle devient invalide, revenir à la dernière page
 watch(
 	() => props.totalPages,
 	(newTotalPages) => {
@@ -96,7 +86,7 @@ watch(
 			<button
 				@click="goToPrevPage"
 				:disabled="currentPage === 1 || isLoading"
-				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-medium transition-all duration-200 active:scale-95"
+				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-apercuMedium transition-all duration-200 active:scale-95"
 				:class="[
 					currentPage === 1 || isLoading
 						? 'opacity-50 cursor-not-allowed bg-gray-100'
@@ -122,10 +112,10 @@ watch(
 					:key="index"
 					@click="goToPage(page)"
 					:disabled="page === '...' || page === currentPage || isLoading"
-					class="relative inline-flex items-center min-w-[40px] justify-center px-3 py-2 rounded-md border text-sm font-medium transition-all duration-200 active:scale-95"
+					class="relative inline-flex items-center min-w-[40px] justify-center px-3 py-2 rounded-md border text-sm font-apercuMedium transition-all duration-200 active:scale-95"
 					:class="[
 						page === currentPage
-							? 'bg-yellow border-black font-bold z-10'
+							? 'bg-yellow border-black font-apercuBold z-10'
 							: page === '...'
 							? 'border-gray-300 cursor-default'
 							: isLoading
@@ -144,7 +134,7 @@ watch(
 			<button
 				@click="goToNextPage"
 				:disabled="currentPage === totalPages || isLoading"
-				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-medium transition-all duration-200 active:scale-95"
+				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-apercuMedium transition-all duration-200 active:scale-95"
 				:class="[
 					currentPage === totalPages || isLoading
 						? 'opacity-50 cursor-not-allowed bg-gray-100'

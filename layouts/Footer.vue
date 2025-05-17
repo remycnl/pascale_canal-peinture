@@ -5,35 +5,39 @@ const { isDarkMode } = useDarkMode();
 </script>
 
 <template>
-	<footer :class="{ 'border-t-4 border-dotted border-white': isDarkMode }" aria-label="Pied de page">
+	<footer
+		:class="{ 'border-t-4 border-dotted border-white': isDarkMode }"
+		aria-label="Pied de page">
 		<div class="relative bg-black text-white flex flex-row md:flex-col">
 			<div
 				class="container-custom pt-20 pb-25 lg:pb-15 flex flex-col lg:flex-row justify-between gap-x-30 gap-y-15">
 				<!-- Logo and Copyright section -->
-				<div class="space-y-6">
-					<NuxtImg
-						src="/img/logo-reversed.png"
-						alt="Logo Pascale Canal Peinture"
-						title="Pascale Canal - Artiste Peintre"
-						format="webp"
-						class="w-15 md:w-20 h-auto" />
-					<div>
-						<p class="text-sm">
-							© {{ new Date().getFullYear() }} Pascale Canal.
-						</p>
-						<p class="text-sm text-gray-400 mt-2">
-							Site web par
-							<NuxtLink
-								to="https://www.remycanal.me"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-yellow hover:saturate-200">
-								Rémy Canal
-							</NuxtLink>
-						</p>
+				<div class="flex flex-col md:flex-row lg:flex-col justify-between gap-y-10 items-start md:items-end lg:items-start">
+					<div class="space-y-6">
+						<NuxtImg
+							src="/img/logo-reversed.png"
+							alt="Logo Pascale Canal Peinture"
+							title="Pascale Canal - Artiste Peintre"
+							format="webp"
+							class="w-15 md:w-20 h-auto" />
+						<div>
+							<p class="text-sm">
+								© {{ new Date().getFullYear() }} Pascale Canal.
+							</p>
+							<p class="text-sm text-gray-400 mt-2">
+								Site web par
+								<NuxtLink
+									to="https://www.remycanal.me"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="text-yellow hover:saturate-200">
+									Rémy Canal
+								</NuxtLink>
+							</p>
+						</div>
 					</div>
+						<Newsletter />
 				</div>
-
 				<div
 					class="flex flex-col md:flex-row justify-between gap-x-30 gap-y-15">
 					<!-- Plan du site -->
@@ -193,11 +197,21 @@ const { isDarkMode } = useDarkMode();
 			<div class="mt-20 lg:mt-30 mb-10 md:mb-0 relative" aria-hidden="true">
 				<div
 					class="flex flex-col md:flex-row justify-between uppercase pointer-events-none select-none font-weirdWords text-[17vw] md:text-[22vw] lg:text-[23vw] leading-[15vw] text-white">
-					<span data-lag="0.4" class="md:rotate-0 -rotate-90 md:order-1 order-5">C</span>
-					<span data-lag="0.6" class="md:rotate-0 -rotate-90 md:order-2 order-4">A</span>
-					<span data-lag="0.2" class="md:rotate-0 -rotate-90 md:order-3 order-3">N</span>
-					<span data-lag="0.4" class="md:rotate-0 -rotate-90 md:order-4 order-2">A</span>
-					<span data-lag="0.2" class="md:rotate-0 -rotate-90 md:order-5 order-1">L</span>
+					<span data-lag="0.4" class="md:rotate-0 -rotate-90 md:order-1 order-5"
+						>C</span
+					>
+					<span data-lag="0.6" class="md:rotate-0 -rotate-90 md:order-2 order-4"
+						>A</span
+					>
+					<span data-lag="0.2" class="md:rotate-0 -rotate-90 md:order-3 order-3"
+						>N</span
+					>
+					<span data-lag="0.4" class="md:rotate-0 -rotate-90 md:order-4 order-2"
+						>A</span
+					>
+					<span data-lag="0.2" class="md:rotate-0 -rotate-90 md:order-5 order-1"
+						>L</span
+					>
 				</div>
 				<div
 					class="md:hidden flex flex-col justify-between mt-10 uppercase pointer-events-none select-none font-weirdWords text-[17vw] leading-[15vw] text-white">
