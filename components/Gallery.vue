@@ -420,8 +420,7 @@ const handleRetry = () => {
 				<div
 					v-for="i in skeletonCount"
 					:key="i"
-					class="z-10 w-full h-auto bg-gradient-to-tr from-black/10 via-black/10 to-black/5 rounded-2xl flex flex-col p-3 animate-fadeIn"
-					:style="{ '--index': i - 1 }">
+					class="z-10 w-full h-auto bg-gradient-to-tr from-black/10 via-black/10 to-black/5 rounded-2xl flex flex-col p-3">
 					<!-- Image skeleton -->
 					<div
 						class="w-full aspect-square rounded-2sm bg-black/20 animate-pulse"></div>
@@ -457,21 +456,5 @@ const handleRetry = () => {
 .content-fade-enter-from,
 .content-fade-leave-to {
 	opacity: 0;
-}
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(10px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-.animate-fadeIn {
-	animation: fadeIn 0.5s ease-out forwards;
-	animation-delay: calc(var(--index, 0) * 100ms);
 }
 </style>
