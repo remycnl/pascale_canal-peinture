@@ -66,21 +66,75 @@ export async function sendSubscriptionConfirmation(
  */
 export async function sendContactEmail(formData) {
 	try {
-		const info = await transporter.sendMail({
-			from: `"Pascale Canal" <${SENDER_EMAIL}>`,
-			to: process.env.CONTACT_EMAIL || SENDER_EMAIL,
-			subject: `Nouveau message de contact: ${formData.subject || "Sans sujet"}`,
-			html: `
-        <div>
-          <h2>Nouveau message</h2>
-          <p><strong>De:</strong> ${formData.name} (${formData.email})</p>
-          <p><strong>Sujet:</strong> ${formData.subject || "Sans sujet"}</p>
-          <div>
-            <strong>Message:</strong>
-            <p>${formData.message}</p>
-          </div>
+		// Formatage des informations du formulaire pour l'email
+		const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+
+		// Construction du corps de l'email en HTML
+		let htmlContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2>Nouveau message de contact</h2>
+        
+        <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+          <p><strong>De:</strong> ${fullName}</p>
+          <p><strong>Email:</strong> ${formData.email}</p>
+          ${
+						formData.phone
+							? `<p><strong>Téléphone:</strong> ${formData.phone}</p>`
+							: ""
+					}
+          <p><strong>Raison du contact:</strong> ${formData.reason}</p>
+          ${
+						formData.reasonDetails
+							? `<p><strong>Détails supplémentaires:</strong> ${formData.reasonDetails}</p>`
+							: ""
+					}
         </div>
-      `,
+        
+        <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+          <h3>Message:</h3>
+          <p>${formData.message.replace(/\n/g, "<br>")}</p>
+        </div>
+    `;
+
+		// Ajout des informations sur les œuvres si applicable
+		if (
+			formData.reason === "artwork" &&
+			formData.selectedArtworks &&
+			formData.selectedArtworks.length > 0
+		) {
+			htmlContent += `
+        <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+          <h3>Œuvres sélectionnées:</h3>
+          <ul>
+      `;
+
+			formData.selectedArtworks.forEach((artwork) => {
+				htmlContent += `<li>${artwork.title || "Sans titre"} ${
+					artwork.reference ? `(Réf: ${artwork.reference})` : ""
+				}</li>`;
+			});
+
+			htmlContent += `
+          </ul>
+        </div>
+      `;
+		}
+
+		// Clôture de l'email
+		htmlContent += `
+        <div style="font-size: 12px; color: #666; margin-top: 30px; padding-top: 10px; border-top: 1px solid #eee;">
+          <p>Ce message a été envoyé depuis le formulaire de contact du site web.</p>
+          <p>RGPD: Le contact a donné son consentement pour le traitement de ses données.</p>
+        </div>
+      </div>
+    `;
+
+		// Envoi de l'email
+		const info = await transporter.sendMail({
+			from: `"Formulaire de Contact" <${SENDER_EMAIL}>`,
+			to: process.env.CONTACT_EMAIL || SENDER_EMAIL,
+			subject: `Nouveau message de contact: ${formData.reason}`,
+			html: htmlContent,
 			replyTo: formData.email,
 		});
 
@@ -116,7 +170,7 @@ export async function sendNewsletter(newsletterData) {
 						? [
 								{ subscriptionType: "NEW_ARTWORK" },
 								{ subscriptionType: "EVENTS" },
-							]
+						  ]
 						: []),
 				],
 			},

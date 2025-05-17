@@ -601,9 +601,7 @@
 							class="cbx border bg-white/10 border-white/30"
 							for="rgpdConsent"></label>
 					</div>
-					<label
-						for="rgpdConsent"
-						class="cursor-pointer text-white text-sm">
+					<label for="rgpdConsent" class="cursor-pointer text-white text-sm">
 						J'accepte l'utilisation de mes données personnelles pour le
 						traitement de ma demande et pour être recontacté(e)*
 					</label>
@@ -899,7 +897,9 @@ const handleFileUpload = (event) => {
 };
 
 const getMessageTemplate = () => {
-	const soldArtworks = selectedArtworks.value.filter((a) => a.state === "OFF_SALE");
+	const soldArtworks = selectedArtworks.value.filter(
+		(a) => a.state === "OFF_SALE"
+	);
 	const availableArtworks = selectedArtworks.value.filter(
 		(a) => a.state !== "OFF_SALE"
 	);
@@ -1030,14 +1030,32 @@ const submitForm = async () => {
 
 	try {
 		const formData = { ...form.value };
+
+		// Ajout des œuvres sélectionnées si applicable
 		if (selectedReason.value.value === "artwork") {
 			formData.selectedArtworks = selectedArtworks.value;
 		}
 
-		await new Promise((resolve) => setTimeout(resolve, 1500));
+		// Appel à l'API pour envoyer l'email
+		const response = await fetch("/api/contact", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(formData),
+		});
+
+		const result = await response.json();
+
+		if (!result.success) {
+			throw new Error(result.error || "Erreur lors de l'envoi du message");
+		}
 
 		submitSuccess.value = true;
 		formSubmitted.value = true;
+
+		// Réinitialiser le formulaire en cas de succès
+		resetForm();
 	} catch (error) {
 		console.error("Erreur lors de l'envoi du formulaire:", error);
 		submitSuccess.value = false;
