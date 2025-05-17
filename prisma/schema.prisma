@@ -87,8 +87,8 @@ model NewsletterSubscriber {
   isActive          Boolean          @default(true)
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
-  verificationToken String?          // Token pour vérification de l'email (optionnel)
-  isVerified        Boolean          @default(false) // Indicateur si l'email est vérifié
+  unsubscribedAt    DateTime?
+  unsubscribeToken  String?          @unique // 🔑 pour désinscription sécurisée
 }
 
 

@@ -549,11 +549,6 @@ const submitForm = async () => {
 </template>
 
 <style scoped>
-::selection {
-	background-color: var(--color-white);
-	color: var(--color-black);
-}
-
 input,
 textarea {
 	transition: all 0.3s ease;

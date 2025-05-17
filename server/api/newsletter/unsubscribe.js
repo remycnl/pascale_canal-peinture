@@ -1,69 +1,62 @@
+// /server/api/newsletter/unsubscribe.js
 import prisma from "@/lib/prisma";
 
 export default defineEventHandler(async (event) => {
-	try {
-		const query = getQuery(event);
-		const email = query.email;
-		const token = query.token;
+  try {
+    const query = getQuery(event);
+    const token = query.token;
 
-		if (!email || !token) {
-			return {
-				success: false,
-				message: "Paramètres manquants pour le désabonnement",
-			};
-		}
+    if (!token) {
+      return {
+        success: false,
+        message: "Token de désinscription manquant",
+      };
+    }
 
-		// Vérifier que l'email existe et que le token est valide
-		// Dans un cas réel, vous utiliserez une méthode plus sécurisée pour vérifier l'identité
-		// Par exemple, un token unique généré lors de l'envoi de l'email de désabonnement
-		const subscriber = await prisma.newsletterSubscriber.findUnique({
-			where: {
-				email,
-			},
-		});
+    // Rechercher l'abonnement correspondant au token
+    const subscriber = await prisma.newsletterSubscriber.findUnique({
+      where: {
+        unsubscribeToken: token,
+      },
+    });
 
-		if (!subscriber) {
-			return {
-				success: false,
-				message: "Adresse email non trouvée dans notre base de données",
-			};
-		}
+    if (!subscriber) {
+      return {
+        success: false,
+        message: "Token de désinscription invalide",
+      };
+    }
 
-		// Simple vérification: utiliser le token comme vérification
-		// Dans un cas réel, utilisez un token cryptographiquement sécurisé
-		const validToken =
-			token === process.env.UNSUBSCRIBE_SECRET_TOKEN ||
-			token === subscriber.verificationToken;
+    // Si l'abonné est déjà désactivé
+    if (!subscriber.isActive) {
+      return {
+        success: true,
+        message: "Vous êtes déjà désabonné de notre newsletter",
+      };
+    }
 
-		if (!validToken) {
-			return {
-				success: false,
-				message: "Token de désabonnement invalide",
-			};
-		}
+    // Mettre à jour l'abonnement pour le désactiver
+    await prisma.newsletterSubscriber.update({
+      where: {
+        id: subscriber.id,
+      },
+      data: {
+        isActive: false,
+        unsubscribedAt: new Date(),
+      },
+    });
 
-		// Désactiver l'abonnement plutôt que le supprimer
-		await prisma.newsletterSubscriber.update({
-			where: {
-				id: subscriber.id,
-			},
-			data: {
-				isActive: false,
-				updatedAt: new Date(),
-			},
-		});
+    return {
+      success: true,
+      message: "Vous avez été désabonné avec succès de notre newsletter",
+    };
+  } catch (error) {
+    console.error("Erreur lors de la désinscription:", error);
 
-		return {
-			success: true,
-			message: "Vous avez été désabonné avec succès de notre newsletter",
-		};
-	} catch (error) {
-		console.error("Erreur lors du désabonnement:", error);
-
-		return {
-			success: false,
-			message:
-				"Une erreur est survenue lors du désabonnement. Veuillez réessayer plus tard.",
-		};
-	}
+    return {
+      success: false,
+      message:
+        "Une erreur est survenue lors de la désinscription. Veuillez réessayer plus tard.",
+    };
+  }
 });

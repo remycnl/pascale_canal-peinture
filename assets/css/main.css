@@ -44,6 +44,7 @@ html {
 	--color-white: #f8f8f8;
 	--color-grayDark: #4d4d4d;
 	--color-yellow: #fff083;
+	--color-yellowDark: rgba(100, 94, 40, 0.7);
 	--font-apercuBold: "ApercuPro-Bold", sans-serif;
 	--font-apercuLight: "ApercuPro-Light", sans-serif;
 	--font-apercuRegular: "ApercuPro-Regular", sans-serif;
@@ -59,8 +60,8 @@ html {
 }
 
 ::selection {
-	background-color: var(--color-black);
-	color: var(--color-white);
+	background-color: var(--color-yellowDark);
+	color: var(--color-yellow);
 }
 
 /* Handle autofill styling across browsers */

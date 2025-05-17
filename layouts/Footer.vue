@@ -227,10 +227,3 @@ const { isDarkMode } = useDarkMode();
 		</div>
 	</footer>
 </template>
-
-<style scoped>
-::selection {
-	background-color: var(--color-white);
-	color: var(--color-black);
-}
-</style>

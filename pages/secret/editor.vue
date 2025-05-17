@@ -124,7 +124,7 @@ const selectPaintingForEdit = (painting) => {
 		painting.tags && painting.tags.length
 			? painting.tags.map((tagObj) =>
 					typeof tagObj === "object" ? tagObj.tag : tagObj
-			  )
+				)
 			: [];
 	slug.value = painting.slug;
 	state.value = painting.state;
@@ -355,8 +355,8 @@ useSeoMeta({
 												selectedImage
 													? selectedImage.name
 													: isEditMode
-													? "Modifier l'image (optionnel)"
-													: "Sélectionner une image"
+														? "Modifier l'image (optionnel)"
+														: "Sélectionner une image"
 											}}
 										</span>
 									</label>
@@ -623,10 +623,13 @@ useSeoMeta({
 			</div>
 			<event-editable />
 			<FAQeditable />
+			<newsletter-subscribers />
 		</div>
 
 		<!-- Modal d'authentification - Centré verticalement et horizontalement -->
-		<div v-else class="fixed inset-0 bg-white flex items-center justify-center z-50 p-4">
+		<div
+			v-else
+			class="fixed inset-0 bg-white flex items-center justify-center z-50 p-4">
 			<div
 				class="bg-black text-white p-8 rounded-2xl shadow-xl max-w-md w-full">
 				<h2 class="text-xl lg:text-2xl font-apercuBold mb-4">

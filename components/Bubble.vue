@@ -207,11 +207,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-::selection {
-	background-color: var(--color-white);
-	color: var(--color-black);
-}
-
 @media (max-width: 640px) {
 	.z-50 {
 		width: calc(100% - 2rem);

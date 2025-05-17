@@ -1,6 +1,6 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed, watch, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
@@ -46,7 +46,12 @@ const handlePageChange = (newPage) => {
 
 	router.push({ query: newQuery });
 	page.value = newPage;
-	window.scrollTo({ top: 0, behavior: "smooth" });
+	
+	nextTick(() => {
+		window.scrollTo({ top: 0, behavior: "smooth" });
+		document.body.scrollTop = 0;
+		document.documentElement.scrollTop = 0;
+	});
 };
 
 const loadPaintings = async () => {

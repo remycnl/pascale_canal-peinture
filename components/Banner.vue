@@ -122,11 +122,6 @@ export default {
 </template>
 
 <style scoped>
-::selection {
-	background-color: var(--color-white);
-	color: var(--color-black);
-}
-
 .animate-float {
 	animation: float 3s ease-in-out infinite;
 }

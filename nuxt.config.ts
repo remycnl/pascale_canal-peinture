@@ -63,7 +63,7 @@ export default defineNuxtConfig({
 			"Pascale Canal | Artiste Peintre • Exposition en ligne",
 	},
 	robots: {
-		disallow: ["/secret"],
+		disallow: ["/secret", "/newsletter"],
 	},
 	sitemap: {
 		defaults: {
@@ -85,6 +85,7 @@ export default defineNuxtConfig({
 	},
 	routeRules: {
 		"/secret/**": { robots: false },
+		"/newsletter/**": { robots: false },
 	},
 	image: {
 		providers: {
@@ -103,6 +104,7 @@ export default defineNuxtConfig({
 			siteName:
 				process.env.NUXT_SITE_NAME ||
 				"Pascale Canal | Artiste Peintre • Exposition en ligne",
+			contactEmail: process.env.CONTACT_EMAIL || "noreply@example.com",
 		},
 	},
 });

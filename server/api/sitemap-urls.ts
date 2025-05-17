@@ -2,7 +2,7 @@ import { defineSitemapEventHandler, createError } from "#imports";
 import type { SitemapUrlInput } from "#sitemap/types";
 import prisma from "@/lib/prisma";
 
-const fetchSlugs = async () => {
+const fetchSlugs = async (): Promise<{ slug: string }[]> => {
 	try {
 		const paintings = await prisma.painting.findMany({
 			select: { slug: true },
