@@ -690,6 +690,8 @@ const form = ref({
 	reason: "",
 	reasonDetails: "",
 	document: null,
+	documentBase64: null,
+	documentName: null,
 	rgpdConsent: false,
 });
 
@@ -893,7 +895,22 @@ const isArtworkSelected = (artwork) =>
 	selectedArtworks.value.some((a) => a.id === artwork.id);
 
 const handleFileUpload = (event) => {
-	form.value.document = event.target.files[0];
+	const file = event.target.files[0];
+	if (!file) {
+		form.value.document = null;
+		form.value.documentBase64 = null;
+		form.value.documentName = null;
+		return;
+	}
+
+	form.value.document = file;
+	form.value.documentName = file.name;
+
+	const reader = new FileReader();
+	reader.onload = (e) => {
+		form.value.documentBase64 = e.target.result;
+	};
+	reader.readAsDataURL(file);
 };
 
 const getMessageTemplate = () => {
@@ -1031,12 +1048,10 @@ const submitForm = async () => {
 	try {
 		const formData = { ...form.value };
 
-		// Ajout des œuvres sélectionnées si applicable
 		if (selectedReason.value.value === "artwork") {
 			formData.selectedArtworks = selectedArtworks.value;
 		}
 
-		// Appel à l'API pour envoyer l'email
 		const response = await fetch("/api/contact", {
 			method: "POST",
 			headers: {
@@ -1054,14 +1069,15 @@ const submitForm = async () => {
 		submitSuccess.value = true;
 		formSubmitted.value = true;
 
-		// Réinitialiser le formulaire en cas de succès
 		resetForm();
 	} catch (error) {
 		console.error("Erreur lors de l'envoi du formulaire:", error);
 		submitSuccess.value = false;
 		formSubmitted.value = true;
 	} finally {
-		submitting.value = false;
+		setTimeout(() => {
+			submitting.value = false;
+		}, 5000);
 	}
 };
 

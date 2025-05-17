@@ -70,31 +70,27 @@ export async function sendContactEmail(formData) {
 		const fullName = `${formData.firstName} ${formData.lastName}`.trim();
 
 		// Construction du corps de l'email en HTML
-		let htmlContent = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Nouveau message de contact</h2>
-        
-        <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
-          <p><strong>De:</strong> ${fullName}</p>
-          <p><strong>Email:</strong> ${formData.email}</p>
-          ${
-						formData.phone
-							? `<p><strong>Téléphone:</strong> ${formData.phone}</p>`
-							: ""
-					}
-          <p><strong>Raison du contact:</strong> ${formData.reason}</p>
-          ${
-						formData.reasonDetails
-							? `<p><strong>Détails supplémentaires:</strong> ${formData.reasonDetails}</p>`
-							: ""
-					}
-        </div>
-        
-        <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
-          <h3>Message:</h3>
-          <p>${formData.message.replace(/\n/g, "<br>")}</p>
-        </div>
-    `;
+		let htmlContent = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2>Nouveau message de contact</h2>
+      <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+        <p><strong>De:</strong> ${fullName}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        ${
+					formData.phone
+						? `<p><strong>Téléphone:</strong> ${formData.phone}</p>`
+						: ""
+				}
+        <p><strong>Raison du contact:</strong> ${formData.reason}</p>
+        ${
+					formData.reasonDetails
+						? `<p><strong>Détails supplémentaires:</strong> ${formData.reasonDetails}</p>`
+						: ""
+				}
+      </div>
+      <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+        <h3>Message:</h3>
+        <p>${formData.message.replace(/\n/g, "<br>")}</p>
+      </div>`;
 
 		// Ajout des informations sur les œuvres si applicable
 		if (
@@ -102,42 +98,44 @@ export async function sendContactEmail(formData) {
 			formData.selectedArtworks &&
 			formData.selectedArtworks.length > 0
 		) {
-			htmlContent += `
-        <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
-          <h3>Œuvres sélectionnées:</h3>
-          <ul>
-      `;
-
+			htmlContent += `<div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+        <h3>Œuvres sélectionnées:</h3>
+        <ul>`;
 			formData.selectedArtworks.forEach((artwork) => {
-				htmlContent += `<li>${artwork.title || "Sans titre"} ${
+				htmlContent += `<li>${artwork.name || "Sans titre"} ${
 					artwork.reference ? `(Réf: ${artwork.reference})` : ""
 				}</li>`;
 			});
-
-			htmlContent += `
-          </ul>
-        </div>
-      `;
+			htmlContent += `</ul></div>`;
 		}
 
 		// Clôture de l'email
-		htmlContent += `
-        <div style="font-size: 12px; color: #666; margin-top: 30px; padding-top: 10px; border-top: 1px solid #eee;">
-          <p>Ce message a été envoyé depuis le formulaire de contact du site web.</p>
-          <p>RGPD: Le contact a donné son consentement pour le traitement de ses données.</p>
-        </div>
-      </div>
-    `;
+		htmlContent += `<div style="font-size: 12px; color: #666; margin-top: 30px; padding-top: 10px; border-top: 1px solid #eee;">
+      <p>Ce message a été envoyé depuis le formulaire de contact du site web.</p>
+      <p>RGPD: Le contact a donné son consentement pour le traitement de ses données.</p>
+    </div></div>`;
 
-		// Envoi de l'email
-		const info = await transporter.sendMail({
-			from: `"Formulaire de Contact" <${SENDER_EMAIL}>`,
-			to: process.env.CONTACT_EMAIL || SENDER_EMAIL,
+		// Configuration de base pour l'email
+		let mailOptions = {
+			from: `"Formulaire de Contact" <${process.env.SENDER_EMAIL}>`,
+			to: process.env.CONTACT_EMAIL || process.env.SENDER_EMAIL,
 			subject: `Nouveau message de contact: ${formData.reason}`,
 			html: htmlContent,
 			replyTo: formData.email,
-		});
+		};
 
+		// Ajout des pièces jointes si présentes
+		if (formData.documentBase64 && formData.documentName) {
+			mailOptions.attachments = [
+				{
+					filename: formData.documentName,
+					content: Buffer.from(formData.documentBase64.split(",")[1], "base64"),
+				},
+			];
+		}
+
+		// Envoi de l'email
+		const info = await transporter.sendMail(mailOptions);
 		console.log("Email de contact envoyé: %s", info.messageId);
 		return { success: true };
 	} catch (error) {
