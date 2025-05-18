@@ -96,20 +96,43 @@ useSeoMeta({
 		`Découvrez les prochains évènements de Pascale Canal et les expositions passées. Retrouvez toutes les dates, lieux et informations sur les expositions et ateliers à venir.`,
 	twitterUrl: () => `${baseUrl}/mes-evenements`,
 });
-
 useSchemaOrg([
 	defineBreadcrumb({
 		itemListElement: [
 			{
 				name: "Accueil",
-				item: "/",
+				item: baseUrl,
 			},
 			{
 				name: "Mes évènements",
-				item: "/mes-evenements",
+				item: `${baseUrl}/mes-evenements`,
 			},
 		],
 	}),
+	defineWebPage({
+		name: `Mes évènements | ${siteName}`,
+		description: "Découvrez les prochains évènements de Pascale Canal et les expositions passées. Retrouvez toutes les dates, lieux et informations sur les expositions et ateliers à venir."
+	}),
+	...displayedEvents.value.map(event => 
+		defineEvent({
+			name: event.title,
+			startDate: event.startDate,
+			endDate: event.endDate || event.startDate,
+			location: {
+				'@type': 'Place',
+				name: event.location
+			},
+			description: event.description,
+			url: event.url || `${baseUrl}/mes-evenements`,
+			offers: event.price ? {
+				'@type': 'Offer',
+				price: event.price,
+				priceCurrency: 'EUR',
+				availability: activeTab.value === 'upcoming' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut'
+			} : undefined,
+			image: event.imageUrl
+		})
+	)
 ]);
 </script>
 
