@@ -301,22 +301,34 @@ const setupIntersectionObserver = () => {
 	observer.observe(zigzagContainer.value);
 };
 
-onMounted(() => {
+onMounted(async () => {
 	checkIfDesktop();
 	updateDimensions();
+
+	await nextTick();
 
 	if (isDesktop.value) {
 		setTimeout(() => {
 			initializeAnimation();
-			setupIntersectionObserver();
-		}, 200);
+			
+			if (isInitialized.value) {
+				setupIntersectionObserver();
+			} else {
+				const checkInit = setInterval(() => {
+					if (isInitialized.value) {
+						setupIntersectionObserver();
+						clearInterval(checkInit);
+					}
+				}, 100);
+				setTimeout(() => clearInterval(checkInit), 2000);
+			}
+		}, 300);
 	}
 
 	window.addEventListener("scroll", handleScroll);
 	window.addEventListener("resize", handleDimensionsChange);
-
 	window.addEventListener("nuxt:page:finish", () => {
-		setTimeout(resetAnimation, 100);
+		setTimeout(resetAnimation, 200);
 	});
 });
 
