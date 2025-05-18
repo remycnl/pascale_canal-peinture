@@ -332,10 +332,7 @@ useSchemaOrg([
 						height="600"
 						:sizes="'(max-width: 768px) 100vw, 50vw'"
 						loading="eager"
-						class="rounded-2xl object-cover w-full h-full object-center"
-						itemprop="image"
-						itemscope
-						itemtype="https://schema.org/ImageObject" />
+						class="rounded-2xl object-cover w-full h-full object-center" />
 					<figcaption class="sr-only">
 						{{ painting.name }} - {{ painting.description }}
 					</figcaption>
@@ -365,11 +362,7 @@ useSchemaOrg([
 							class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-apercuBold text-black">
 							Détails
 						</h2>
-						<ul
-							class="mt-4 text-sm md:text-base lg:text-xl space-y-2"
-							itemscope
-							itemtype="https://schema.org/Product">
-							<meta itemprop="name" :content="painting.name" />
+						<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2">
 							<li v-if="painting.state === 'OFF_SALE'">
 								<span
 									class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
@@ -388,31 +381,21 @@ useSchemaOrg([
 									>.
 								</span>
 							</li>
-							<li
-								v-if="painting.state === 'FOR_SALE'"
-								itemprop="offers"
-								itemscope
-								itemtype="https://schema.org/Offer">
-								<meta itemprop="priceCurrency" content="EUR" />
-								<meta itemprop="price" :content="painting.price" />
-								<meta
-									itemprop="availability"
-									content="https://schema.org/InStock" />
+							<li v-if="painting.state === 'FOR_SALE'">
 								<span class="font-apercuBold">Prix: </span>
 								{{ formatPrice(painting.price) }} €
 							</li>
 							<li>
 								<span class="font-apercuBold">Dimensions: </span>
-								<span itemprop="width">{{ painting.width }} cm</span> x
-								<span itemprop="height">{{ painting.height }} cm</span>
+								{{ painting.width }} cm x {{ painting.height }} cm
 							</li>
-							<li itemprop="material">
+							<li>
 								<span class="font-apercuBold">Type de peinture:</span>
 								{{ painting.paintingType }}
 							</li>
 							<li>
 								<span class="font-apercuBold">Date: </span>
-								<time itemprop="dateCreated" :datetime="painting.date">
+								<time :datetime="painting.date">
 									{{ formatDate(painting.date) }}
 								</time>
 							</li>
@@ -421,9 +404,7 @@ useSchemaOrg([
 				</div>
 				<div class="hidden lg:block"></div>
 
-				<article
-					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1"
-					itemprop="description">
+				<article class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
 					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 						Son histoire
 					</h2>
