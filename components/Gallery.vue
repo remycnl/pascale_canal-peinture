@@ -40,8 +40,8 @@ const cardRefs = ref([]);
 const displayedCount = ref(0);
 const observedItems = ref(new Set());
 const imageObserver = ref(null);
-const skeletonCount = ref(0);
-const isShowingSkeleton = ref(false);
+const skeletonCount = ref(9);
+const isShowingSkeleton = ref(true);
 const isContentFading = ref(false);
 
 const noResultsFound = computed(
@@ -231,7 +231,7 @@ watch(
 					isContentFading.value = false;
 				}, 300); // Match fade-out duration
 			} else {
-				// Initial load, show skeletons immediately
+				// Initial load or reload, show skeletons immediately
 				updateSkeletonCount();
 				isShowingSkeleton.value = true;
 			}
@@ -410,10 +410,10 @@ const handleRetry = () => {
 			</Transition>
 		</ClientOnly>
 
-		<!-- Loading skeletons with improved transitions -->
+		<!-- Loading skeletons -->
 		<Transition name="fade">
 			<div
-				v-if="isLoading && isShowingSkeleton"
+				v-if="isLoading || isShowingSkeleton"
 				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 lg:gap-20 2xl:gap-30"
 				aria-live="polite"
 				aria-busy="true">

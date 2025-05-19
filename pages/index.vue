@@ -10,7 +10,7 @@ const filteredPaintings = ref([]);
 const allTags = ref([]);
 const page = ref(1);
 const limit = ref(9);
-const isLoading = ref(false);
+const isLoading = ref(true);
 const loadError = ref(false);
 const totalCount = ref(0);
 const filteredTotalCount = ref(0);
@@ -46,7 +46,7 @@ const handlePageChange = (newPage) => {
 
 	router.push({ query: newQuery });
 	page.value = newPage;
-	
+
 	nextTick(() => {
 		window.scrollTo({ top: 0, behavior: "smooth" });
 		document.body.scrollTop = 0;
@@ -55,7 +55,7 @@ const handlePageChange = (newPage) => {
 };
 
 const loadPaintings = async () => {
-	if (isLoading.value) return;
+	if (isLoading.value && filteredPaintings.value.length > 0) return;
 	isLoading.value = true;
 	loadError.value = false;
 
