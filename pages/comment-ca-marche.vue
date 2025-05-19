@@ -35,7 +35,7 @@ const standardSections = [
 		number: "01",
 		title: "Découvre ma collection",
 		description: {
-			text: "Parcoures ma galerie de tableaux en vente en cliquant {link:ici:/?forSale=true}. Prends ton temps pour explorer les œuvres et trouver celle qui te correspond le mieux.",
+			text: "Parcours ma galerie de tableaux en vente en cliquant {link:ici:/?forSale=true}. Prends ton temps pour explorer les œuvres et trouver celle qui te correspond le mieux.",
 		},
 	},
 	{
@@ -84,7 +84,7 @@ const standardSections = [
 		number: "08",
 		title: "Réception et satisfaction",
 		description: {
-			text: "Une fois ton tableau reçu, assure-toi qu'il est en parfait état. Si tout est conforme, profite pleinement de ton œuvre ! En cas de problème, contacte-moi pour trouver une solution.",
+			text: "Une fois ton tableau reçu, assure-toi qu'il est en parfait état. Si tout est conforme, profite pleinement de ton œuvre !",
 		},
 	},
 ];
@@ -122,25 +122,18 @@ const customSections = [
 		number: "05",
 		title: "Validation et acompte",
 		description: {
-			text: "Une fois le projet validé, un acompte de 30% du montant total sera demandé pour commencer le travail. Le paiement peut se faire par virement bancaire ou PayPal.",
+			text: "Une fois le projet validé, un acompte de 30% du montant total sera demandé pour commencer le travail. Le paiement peut se faire par virement bancaire, PayPal, etc...",
 		},
 	},
 	{
 		number: "06",
 		title: "Création de l'œuvre",
 		description: {
-			text: "Je réalise ton tableau personnalisé en te tenant informé de l'avancement.",
+			text: "Je réalise ton tableau personnalisé.",
 		},
 	},
 	{
 		number: "07",
-		title: "Validation finale",
-		description: {
-			text: "Une photo de l'œuvre terminée te sera envoyée pour approbation finale. À ce stade, des retouches mineures sont encore possibles pour parfaire le résultat.",
-		},
-	},
-	{
-		number: "08",
 		title: "Solde et livraison",
 		description: {
 			text: "Après validation, le solde du paiement sera à régler. Ton portrait sera ensuite soigneusement emballé et expédié à l'adresse de ton choix. Un numéro de suivi te sera fourni pour suivre l'acheminement.",

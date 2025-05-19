@@ -1,44 +1,49 @@
-<script>
-export default {
-	name: "Banner",
-	props: {
-		mode: {
-			type: String,
-			default: "auto",
-			validator: (value) => ["auto", "gallery", "custom"].includes(value),
-		},
-	},
-	computed: {
-		currentRoute() {
-			if (this.mode === "gallery") return "galerie";
-			if (this.mode === "custom") return "commande-personnalisee";
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-			const route = this.$route.name;
-			if (route === "commande-personnalisee" || route === "comment-ca-marche") return "commande-personnalisee";
-			return "galerie";
-		},
-		title() {
-			return this.currentRoute === "commande-personnalisee"
-				? "Découvrez ma collection d'œuvres d'art"
-				: "Immortalisez votre souvenir en œuvre d'art unique";
-		},
-		description() {
-			return this.currentRoute === "commande-personnalisee"
-				? "Explorez ma collection complète d'œuvres pour vous immerger dans mon univers artistique."
-				: "Transformez vos photographies en peintures uniques réalisées à la main par Pascale Canal. Un souvenir éternel et à votre goût.";
-		},
-		buttonText() {
-			return this.currentRoute === "commande-personnalisee"
-				? "Explorer la galerie"
-				: "Commander votre tableau";
-		},
-		targetRoute() {
-			return this.currentRoute === "commande-personnalisee"
-				? "/"
-				: "/commande-personnalisee";
-		},
+const route = useRoute();
+
+const props = defineProps({
+	mode: {
+		type: String,
+		default: "auto",
+		validator: (value) => ["auto", "gallery", "custom"].includes(value),
 	},
-};
+});
+
+const currentRoute = computed(() => {
+	if (props.mode === "gallery") return "galerie";
+	if (props.mode === "custom") return "commande-personnalisee";
+
+	const routeName = route.name;
+	if (routeName === "commande-personnalisee" || routeName === "comment-ca-marche") return "commande-personnalisee";
+	return "galerie";
+});
+
+const title = computed(() => {
+	return currentRoute.value === "commande-personnalisee"
+		? "Découvrez ma collection de tableaux"
+		: "Immortalisez votre souvenir en tableau unique";
+});
+
+const description = computed(() => {
+	return currentRoute.value === "commande-personnalisee"
+		? "Explorez ma collection complète d'œuvres pour vous immerger dans mon univers artistique."
+		: "Transformez vos photographies en peintures uniques.\nUn souvenir éternel et à votre goût.";
+});
+
+const buttonText = computed(() => {
+	return currentRoute.value === "commande-personnalisee"
+		? "Explorer la galerie"
+		: "Commander votre tableau";
+});
+
+const targetRoute = computed(() => {
+	return currentRoute.value === "commande-personnalisee"
+		? "/"
+		: "/commande-personnalisee";
+});
 </script>
 
 <template>
@@ -85,7 +90,7 @@ export default {
 				</h2>
 
 				<p
-					class="text-gray-300/90 font-apercuRegular text-lg leading-relaxed max-w-lg">
+					class="text-gray-300/90 font-apercuRegular text-lg leading-relaxed max-w-lg whitespace-pre-line">
 					{{ description }}
 				</p>
 			</div>

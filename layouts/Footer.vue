@@ -116,7 +116,7 @@ const { isDarkMode } = useDarkMode();
 								<span>Facebook</span>
 							</NuxtLink>
 							<NuxtLink
-								to="https://www.instagram.com/pascalecanalpeintre"
+								to="https://www.instagram.com/pascalecanal"
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Instagram Pascale Canal"
@@ -134,7 +134,7 @@ const { isDarkMode } = useDarkMode();
 								<span>Instagram</span>
 							</NuxtLink>
 							<NuxtLink
-								to="https://www.linkedin.com/pascalecanalpeintre"
+								to="https://www.linkedin.com/in/pascale-canal"
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="LinkedIn Pascale Canal"

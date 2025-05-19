@@ -98,9 +98,9 @@ useSeoMeta({
 			<p class="text-sm md:text-base">
 				Pour exercer ces droits, contactez-nous à
 				<a
-					href="mailto:contact@pascalecanal.art"
+					:href="`mailto:${contactEmail}`"
 					class="text-primary hover:underline"
-					>contact@pascalecanal.art</a
+					>{{ contactEmail }}</a
 				>.
 			</p>
 		</section>

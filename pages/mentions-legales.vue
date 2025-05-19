@@ -5,6 +5,7 @@ const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
+const contactEmail = config.public.contactEmail;
 
 const lastUpdated = ref(new Date().toLocaleDateString("fr-FR"));
 
@@ -35,12 +36,13 @@ useSeoMeta({
 			</h2>
 			<p class="mb-2"><strong>Éditeur du site :</strong> Pascale Canal</p>
 			<p class="mb-2"><strong>Statut :</strong> Artiste indépendante</p>
+			<p class="mb-2"><strong>SIRET :</strong> 832 107 643 00013</p>
 			<p class="mb-2">
 				<strong>Email : </strong>
 				<a
-					href="mailto:contact@pascalecanal-art.com"
+					:href="`mailto:${contactEmail}`"
 					class="text-primary hover:underline"
-					>contact@pascalecanal-art.com</a
+					>{{ contactEmail }}</a
 				>
 			</p>
 			<p class="mb-2">
@@ -87,9 +89,9 @@ useSeoMeta({
 			<p class="text-sm md:text-base">
 				Pour exercer ces droits ou pour toute question relative à vos données personnelles, contactez-nous à
 				<a
-					href="mailto:contact@pascalecanal-art.com"
+					:href="`mailto:${contactEmail}`"
 					class="text-primary hover:underline"
-					>contact@pascalecanal-art.com</a
+					>{{ contactEmail }}</a
 				>.
 			</p>
 		</section>

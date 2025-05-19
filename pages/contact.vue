@@ -5,6 +5,7 @@ const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
+const contactEmail = config.public.contactEmail;
 
 useSeoMeta({
 	title: () => `Contact | ${siteName}`,
@@ -33,7 +34,7 @@ useSchemaOrg([
 		mainEntity: {
 			"@type": "ContactPoint",
 			contactType: "Customer Service",
-			email: "pascalecanal@gmail.com",
+			email: () => contactEmail,
 			telephone: "+33686596029",
 			availableLanguage: ["French", "English"],
 			areaServed: ["FR", "EU", "US"],
@@ -99,7 +100,7 @@ useSchemaOrg([
 					<h2 class="text-2xl md:text-3xl font-apercuBold mb-6">Coordonnées</h2>
 					<address class="space-y-5 not-italic">
 						<NuxtLink
-							to="mailto:pascalecanal@gmail.com"
+							:to="`mailto:${contactEmail}`"
 							target="_blank"
 							rel="noopener"
 							aria-label="Email Pascale Canal"
@@ -123,7 +124,7 @@ useSchemaOrg([
 							</span>
 							<span
 								class="text-lg group-hover:text-white transition-colors duration-300">
-								pascalecanal@gmail.com
+								{{ contactEmail }}
 							</span>
 						</NuxtLink>
 						<NuxtLink
@@ -177,10 +178,10 @@ useSchemaOrg([
 							</span>
 						</NuxtLink>
 						<NuxtLink
-							to="#"
+							to="https://www.instagram.com/pascalecanal"
 							target="_blank"
-							rel="noopener"
-							aria-label="Instagram"
+							rel="noopener noreferrer"
+							aria-label="Instagram Pascale Canal"
 							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 active:scale-90 transform hover:scale-110 transition-all duration-300">
 							<span class="w-6 h-6 inline-block">
 								<svg
@@ -194,10 +195,10 @@ useSchemaOrg([
 							</span>
 						</NuxtLink>
 						<NuxtLink
-							to="#"
+							to="https://www.linkedin.com/in/pascale-canal"
 							target="_blank"
-							rel="noopener"
-							aria-label="LinkedIn"
+							rel="noopener noreferrer"
+							aria-label="LinkedIn Pascale Canal"
 							class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 active:scale-90 transform hover:scale-110 transition-all duration-300">
 							<span class="w-6 h-6 inline-block">
 								<svg
