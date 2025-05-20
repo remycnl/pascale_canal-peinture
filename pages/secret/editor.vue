@@ -108,12 +108,12 @@ const loadPaintings = async () => {
 		console.error("Error loading paintings:", error);
 		alert("Erreur lors du chargement des peintures");
 	}
-};
+};	
 
 const selectPaintingForEdit = (painting) => {
 	selectedPainting.value = painting;
 	name.value = painting.name;
-	description.value = painting.description;
+	description.value = painting.description || "";
 	selectedImage.value = null;
 	artist.value = painting.artist;
 	width.value = painting.width;
@@ -157,6 +157,7 @@ const updatePainting = async () => {
 
 		const formData = new FormData();
 		formData.append("name", name.value);
+		// Assurer que la description est toujours passée, même si vide
 		formData.append("description", description.value);
 		formData.append("artist", artist.value);
 		formData.append("width", width.value);
@@ -198,6 +199,7 @@ const submitPainting = async () => {
 			const formData = new FormData();
 			formData.append("image", selectedImage.value);
 			formData.append("name", name.value);
+			// Assurer que la description est toujours passée, même si vide
 			formData.append("description", description.value);
 			formData.append("artist", artist.value);
 			formData.append("width", width.value);
@@ -318,8 +320,7 @@ useSeoMeta({
 								<textarea
 									v-model="description"
 									id="description"
-									class="input"
-									required></textarea>
+									class="input"></textarea>
 							</div>
 
 							<!-- Image Upload Personnalisé -->

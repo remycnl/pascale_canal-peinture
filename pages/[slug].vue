@@ -404,10 +404,7 @@ useSchemaOrg([
 				</div>
 				<div class="hidden lg:block"></div>
 
-				<article class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
-					<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
-						Son histoire
-					</h2>
+				<article v-if="painting.description" class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
 					<p class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed">
 						{{ painting.description }}
 					</p>

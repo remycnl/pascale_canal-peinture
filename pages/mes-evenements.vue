@@ -40,7 +40,7 @@ const isLoading = computed(() => {
 });
 
 const formatPrice = (price) => {
-	if (!price) return "Gratuit";
+	if (!price || price === 0 || price === "0") return "Gratuit";
 	return `${price} €`;
 };
 

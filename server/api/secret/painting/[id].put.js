@@ -76,7 +76,7 @@ export default defineEventHandler(async (event) => {
 			data: {
 				name: getFieldValue("name") || existingPainting.name,
 				description:
-					getFieldValue("description") || existingPainting.description,
+					getFieldValue("description") || "",
 				price: getFieldValue("price")
 					? parseFloat(getFieldValue("price"))
 					: existingPainting.price,
