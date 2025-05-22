@@ -5,7 +5,6 @@ const props = defineProps({
 	tabs: {
 		type: Array,
 		required: true,
-		// Each tab should have { id: string, label: string }
 	},
 	initialTab: {
 		type: String,
@@ -40,6 +39,16 @@ watch(activeTabId, () => {
 		updateIndicatorPosition();
 	});
 });
+
+watch(
+	() => props.initialTab,
+	(newTab) => {
+		if (newTab && newTab !== activeTabId.value) {
+			activeTabId.value = newTab;
+		}
+	},
+	{ immediate: true }
+);
 
 onMounted(() => {
 	nextTick(() => {
