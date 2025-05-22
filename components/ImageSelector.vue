@@ -27,8 +27,7 @@ const emit = defineEmits(["select-image"]);
 				selectImage === 'normal'
 					? 'border-yellow shadow-lg scale-105'
 					: 'border-white/50 hover:border-white hover:scale-105',
-			]"
-			title="Vue normale">
+			]">
 			<NuxtImg
 				:src="painting.image"
 				alt="Vue normale"
@@ -43,8 +42,7 @@ const emit = defineEmits(["select-image"]);
 				selectImage === 'preview'
 					? 'border-yellow shadow-lg scale-105'
 					: 'border-white/50 hover:border-white hover:scale-105',
-			]"
-			title="Aperçu dans le salon">
+			]">
 			<div class="relative w-full h-full">
 				<!-- Mini salon -->
 				<div
@@ -61,6 +59,7 @@ const emit = defineEmits(["select-image"]);
 					<NuxtImg
 						:src="painting.image"
 						alt="Mini aperçu"
+            title="Mini aperçu"
 						class="relative w-full h-full object-cover rounded-xs"
 						:style="{
 							filter: 'drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3))',
