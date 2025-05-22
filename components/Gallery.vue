@@ -323,7 +323,7 @@ const handleRetry = () => {
 						v-for="(painting, index) in paintings"
 						:key="painting.id"
 						:class="[getImageClass(painting.id, index)]"
-						class="z-10 w-full h-auto group rounded-xs flex flex-col transition-all duration-500 justify-self-center active:ring-4 bg-transparent active:ring-black active:ring-offset-4 active:outline-none focus-within:ring-4 focus-within:ring-black focus-within:ring-offset-4 focus-within:outline-none active:scale-97 [&:active]:duration-200 lg:hover:ring-4 lg:hover:ring-black lg:hover:ring-offset-4 lg:hover:outline-none lg:[&:hover]:duration-300 lg:active:ring-black/70">
+						class="z-10 w-full h-auto group rounded-xs flex flex-col transition-all duration-500 justify-self-center active:ring-4 active:ring-black active:ring-offset-5 active:outline-none focus-within:ring-4 focus-within:ring-black focus-within:ring-offset-5 focus-within:outline-none active:scale-97 [&:active]:duration-200 lg:hover:ring-4 lg:hover:ring-black lg:hover:ring-offset-5 lg:hover:outline-none lg:[&:hover]:duration-300 lg:active:ring-black/70">
 						<NuxtLink
 							:to="`/${painting.slug}`"
 							:aria-label="`Voir les détails de l'œuvre: ${painting.name} ${
@@ -365,7 +365,7 @@ const handleRetry = () => {
 								</div>
 							</div>
 							<div
-								class="flex justify-between gap-x-2 py-2 md:py-3 items-center w-full">
+								class="flex justify-between gap-x-2 pt-2 md:pt-3 items-center w-full">
 								<h2
 									class="text-base md:text-lg lg:text-xl font-apercuBold truncate text-ellipsis">
 									{{ painting.name }}
