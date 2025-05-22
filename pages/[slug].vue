@@ -21,6 +21,7 @@ const showContactOverlay = ref(false);
 const contactType = ref("");
 const formLoaded = ref(false);
 const modalRef = ref(null);
+const selectImage = ref("normal");
 
 const realViewportHeight = ref(0);
 
@@ -284,7 +285,33 @@ useSchemaOrg([
 			</header>
 			<section
 				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
+				<!-- Figure avec preview ou image normale -->
 				<figure
+					v-if="selectImage === 'preview'"
+					class="relative overflow-hidden rounded-2xl aspect-square"
+					@mousemove="handleMouseMove"
+					@mouseleave="handleMouseLeave"
+					@click="handleClick"
+					:style="{
+						cursor: isZoomed ? 'zoom-out' : 'zoom-in',
+					}">
+					<painting-preview
+						:painting-image="painting.image"
+						:width="painting.width"
+						:height="painting.height"
+						:selected-view="selectImage"
+						@select-view="selectImage = $event"
+						:style="{
+							transform: transform,
+							transformOrigin: transformOrigin,
+							transition: isZoomed ? 'none' : 'all 0.3s ease',
+							opacity: imageLoaded ? 1 : 0,
+						}"
+						@contextmenu.prevent />
+				</figure>
+
+				<figure
+					v-else
 					class="relative overflow-hidden rounded-2xl"
 					:class="[
 						painting.width === painting.height
@@ -297,6 +324,7 @@ useSchemaOrg([
 					:style="{
 						cursor: isZoomed ? 'zoom-out' : 'zoom-in',
 					}">
+					<!-- Loading placeholder -->
 					<div
 						v-if="!imageLoaded"
 						class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center"
@@ -315,6 +343,8 @@ useSchemaOrg([
 							</svg>
 						</div>
 					</div>
+
+					<!-- Image principale -->
 					<NuxtImg
 						:src="painting.image"
 						:alt="`Tableau '${painting.name}' peint par ${painting.artist}`"
@@ -333,6 +363,55 @@ useSchemaOrg([
 						:sizes="'(max-width: 768px) 100vw, 50vw'"
 						loading="eager"
 						class="rounded-2xl object-cover w-full h-full object-center" />
+
+					<!-- Sélecteur d'images pour la vue normale -->
+						<div
+						class="absolute bottom-4 md:top-4 right-4 flex md:flex-col gap-2">
+						<!-- Bouton image normale (actif) -->
+						<button
+							@click.stop="selectImage = 'normal'"
+							:class="[
+								'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
+								selectImage === 'normal'
+									? 'border-yellow shadow-lg scale-105'
+									: 'border-white/50 hover:border-white hover:scale-105',
+							]"
+							title="Vue normale">
+							<NuxtImg
+								:src="painting.image"
+								alt="Vue normale"
+								class="w-full h-full object-cover" />
+						</button>
+
+						<!-- Bouton preview salon -->
+						<button
+							@click.stop="selectImage = 'preview'"
+							:class="[
+								'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
+								selectImage === 'preview'
+									? 'border-yellow shadow-lg scale-105'
+									: 'border-white/50 hover:border-white hover:scale-105',
+							]"
+							title="Aperçu dans le salon">
+							<div class="relative w-full h-full">
+								<!-- Mini salon -->
+								<div
+									class="absolute inset-0 bg-cover bg-center"
+									style="
+										background-image: url('/img/mockup-living-room.webp');
+									"></div>
+								<!-- Mini tableau -->
+								<div
+									class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 md:w-4 md:h-4">
+									<NuxtImg
+										:src="painting.image"
+										alt="Mini aperçu"
+										class="w-full h-full object-cover rounded-xs shadow-sm" />
+								</div>
+							</div>
+						</button>
+					</div>
+
 					<figcaption class="sr-only">
 						{{ painting.name }} - {{ painting.description }}
 					</figcaption>
@@ -404,7 +483,9 @@ useSchemaOrg([
 				</div>
 				<div class="hidden lg:block"></div>
 
-				<article v-if="painting.description" class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
+				<article
+					v-if="painting.description"
+					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
 					<p class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed">
 						{{ painting.description }}
 					</p>
