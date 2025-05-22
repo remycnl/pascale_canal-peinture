@@ -1,35 +1,28 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
-import { ref, onMounted, computed, onUnmounted, nextTick } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const config = useRuntimeConfig();
-
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
 const route = useRoute();
 const router = useRouter();
 
-const imageRef = ref(null);
-const isZoomed = ref(false);
-const mousePosition = ref({ x: 0, y: 0 });
-const transformOrigin = ref("center");
-const zoomLevel = 2.5;
-const imageLoaded = ref(false);
+// États réactifs
 const showContactOverlay = ref(false);
 const contactType = ref("");
 const formLoaded = ref(false);
 const modalRef = ref(null);
-const selectImage = ref("normal");
-
+const setModalRef = (ref) => {
+	modalRef.value = ref;
+};
 const realViewportHeight = ref(
 	typeof window !== "undefined" ? window.innerHeight : 768
 );
-const containerSize = ref(
-	typeof window !== "undefined" ? (window.innerWidth < 768 ? 48 : 64) : 64
-);
 
+// Récupération des données
 const { data: painting, error } = await useFetch(
 	`/api/paintings/${route.params.slug}`
 );
@@ -38,41 +31,19 @@ if (error.value) {
 	console.error("Erreur lors de la récupération de la peinture :", error.value);
 }
 
-const responsiveContainerSize = computed(() => {
-	return (typeof window !== "undefined" ? window.innerWidth : 768) < 768
-		? 48
-		: 64;
-});
+// Fonctions utilitaires
+const formatDate = (date) => {
+	const options = { year: "numeric", month: "long", day: "numeric" };
+	return new Date(date).toLocaleDateString("fr-FR", options);
+};
 
-const miniPreviewStyle = computed(() => {
-	if (!painting.value) return {};
-
-	const size = responsiveContainerSize.value;
-	const baseScale = 0.3;
-	const aspectRatio = painting.value.width / painting.value.height;
-
-	let finalWidth, finalHeight;
-
-	if (aspectRatio > 1) {
-		finalWidth = size * baseScale;
-		finalHeight = finalWidth / aspectRatio;
-	} else {
-		finalHeight = size * baseScale;
-		finalWidth = finalHeight * aspectRatio;
-	}
-
-	return {
-		width: `${finalWidth}px`,
-		height: `${finalHeight}px`,
-		left: `calc(50% - ${finalWidth / 2}px)`,
-		top: `calc(27% - ${finalHeight / 2}px)`,
-	};
-});
+const formatPrice = (price) => {
+	return new Intl.NumberFormat("fr-FR").format(price);
+};
 
 const updateViewportHeight = () => {
 	if (typeof window !== "undefined") {
 		realViewportHeight.value = window.innerHeight;
-		containerSize.value = window.innerWidth < 768 ? 48 : 64;
 		if (showContactOverlay.value && modalRef.value) {
 			updateModalHeight();
 		}
@@ -84,55 +55,6 @@ const updateModalHeight = () => {
 		modalRef.value.style.maxHeight = `calc(${
 			realViewportHeight.value * 0.9
 		}px - env(safe-area-inset-bottom, 0px))`;
-	}
-};
-
-const handleImageLoad = () => {
-	imageLoaded.value = true;
-};
-
-const formatDate = (date) => {
-	const options = {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	};
-	return new Date(date).toLocaleDateString("fr-FR", options);
-};
-
-const formatPrice = (price) => {
-	return new Intl.NumberFormat("fr-FR").format(price);
-};
-
-const transform = computed(() => {
-	return isZoomed.value ? `scale(${zoomLevel})` : "scale(1)";
-});
-
-const calculatePosition = (e) => {
-	const rect = e.currentTarget.getBoundingClientRect();
-	const x = ((e.clientX - rect.left) / rect.width) * 100;
-	const y = ((e.clientY - rect.top) / rect.height) * 100;
-	return { x, y };
-};
-
-const handleClick = (e) => {
-	e.preventDefault();
-	e.stopPropagation();
-	const pos = calculatePosition(e);
-	transformOrigin.value = `${pos.x}% ${pos.y}%`;
-	isZoomed.value = !isZoomed.value;
-};
-
-const handleMouseMove = (e) => {
-	if (!isZoomed.value) return;
-	const pos = calculatePosition(e);
-	mousePosition.value = pos;
-	transformOrigin.value = `${pos.x}% ${pos.y}%`;
-};
-
-const handleMouseLeave = () => {
-	if (isZoomed.value) {
-		isZoomed.value = false;
 	}
 };
 
@@ -155,6 +77,7 @@ const goBack = () => {
 	router.back();
 };
 
+// Lifecycle hooks
 onMounted(() => {
 	if (typeof window !== "undefined") {
 		realViewportHeight.value = window.innerHeight;
@@ -183,6 +106,7 @@ onUnmounted(() => {
 	window.removeEventListener("scroll", updateViewportHeight);
 });
 
+// SEO et Schema.org
 useSeoMeta({
 	title: () =>
 		painting.value
@@ -305,377 +229,63 @@ useSchemaOrg([
 
 <template>
 	<main class="relative min-h-screen pt-10">
-		<div v-if="painting">
-			<nav aria-label="Navigation">
-				<button
-					@click="goBack"
-					title="Retour à la page précédente"
-					class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 pointer-cursor hover:-translate-x-2 transition-transform duration-200">
-					<NuxtImg
-						src="/svg/arrow-black.svg"
-						alt="Retour"
-						width="100%"
-						height="100%"
-						@contextmenu.prevent />
-				</button>
-			</nav>
-			<header class="text-end mb-10">
-				<h1
-					data-lag="0.4"
-					class="text-[clamp(3rem,15vw,18rem)] leading-[clamp(3rem,16vw,19rem)] font-apercuBold tracking-wide text-black">
-					{{ painting.name }}
-				</h1>
-				<p data-lag="0.2" class="text-grayDark text-xl md:text-2xl lg:text-4xl">
-					<span class="text-xs md:text-sm lg:text-lg">peint par</span>
-					{{ painting.artist }}
-				</p>
-			</header>
+		<ClientOnly v-if="painting">
+			<!-- Navigation -->
+			<PaintingNavigation @go-back="goBack" />
+
+			<!-- En-tête -->
+			<PaintingHeader :painting="painting" />
+
+			<!-- Contenu principal -->
 			<section
 				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
-				<!-- Figure avec preview ou image normale -->
-				<figure
-					class="relative overflow-hidden rounded-2xl"
-					:class="[
-						selectImage === 'preview'
-							? 'aspect-square'
-							: painting.width === painting.height
-							? 'aspect-square'
-							: 'aspect-auto',
-					]"
-					@mousemove="handleMouseMove"
-					@mouseleave="handleMouseLeave"
-					@click="handleClick"
-					:style="{
-						cursor: isZoomed ? 'zoom-out' : 'zoom-in',
-					}">
-					<!-- Preview component -->
-					<painting-preview
-						v-if="selectImage === 'preview'"
-						:painting-image="painting.image"
-						:width="painting.width"
-						:height="painting.height"
-						:selected-view="selectImage"
-						@select-view="selectImage = $event"
-						:style="{
-							transform: transform,
-							transformOrigin: transformOrigin,
-							transition: isZoomed ? 'none' : 'all 0.3s ease',
-							opacity: imageLoaded ? 1 : 0,
-						}"
-						@contextmenu.prevent />
+				<!-- Galerie d'images -->
+				<PaintingGallery :painting="painting" />
 
-					<!-- Image normale -->
-					<template v-else>
-						<!-- Loading placeholder -->
-						<div
-							v-if="!imageLoaded"
-							class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center"
-							aria-hidden="true">
-							<div class="w-16 h-16 text-gray-400">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor">
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="1"
-										d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-								</svg>
-							</div>
-						</div>
+				<!-- Informations et actions -->
+				<PaintingInfo
+					:painting="painting"
+					:format-price="formatPrice"
+					:format-date="formatDate"
+					@open-contact="openContactOverlay" />
 
-						<!-- Image principale -->
-						<NuxtImg
-							:src="painting.image"
-							:alt="`Tableau '${painting.name}' peint par ${painting.artist}`"
-							:title="painting.name"
-							ref="imageRef"
-							@contextmenu.prevent
-							@load="handleImageLoad"
-							:style="{
-								transform: transform,
-								transformOrigin: transformOrigin,
-								transition: isZoomed ? 'none' : 'all 0.3s ease',
-								opacity: imageLoaded ? 1 : 0,
-							}"
-							width="800"
-							height="600"
-							:sizes="'(max-width: 768px) 100vw, 50vw'"
-							loading="eager"
-							class="rounded-2xl object-cover w-full h-full object-center" />
-					</template>
-
-					<!-- Sélecteur d'images unique -->
-					<div
-						class="absolute bottom-4 md:top-4 right-4 flex md:flex-col gap-2">
-						<!-- Bouton image normale -->
-						<button
-							@click.stop="selectImage = 'normal'"
-							:class="[
-								'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
-								selectImage === 'normal'
-									? 'border-yellow shadow-lg scale-105'
-									: 'border-white/50 hover:border-white hover:scale-105',
-							]"
-							title="Vue normale">
-							<NuxtImg
-								:src="painting.image"
-								alt="Vue normale"
-								class="w-full h-full object-cover" />
-						</button>
-
-						<!-- Bouton preview salon -->
-						<button
-							@click.stop="selectImage = 'preview'"
-							:class="[
-								'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
-								selectImage === 'preview'
-									? 'border-yellow shadow-lg scale-105'
-									: 'border-white/50 hover:border-white hover:scale-105',
-							]"
-							title="Aperçu dans le salon">
-							<div class="relative w-full h-full">
-								<!-- Mini salon -->
-								<div
-									class="absolute inset-0 bg-cover bg-center"
-									style="
-										background-image: url('/img/mockup-living-room.webp');
-									"></div>
-								<!-- Mini tableau avec calcul proportionnel optimisé -->
-								<div class="absolute transform-gpu" :style="miniPreviewStyle">
-									<!-- Ombre du tableau -->
-									<div
-										class="absolute inset-0 transform translate-x-0.5 translate-y-1 bg-black opacity-20 blur-sm rounded-xs"></div>
-
-									<!-- Image du tableau -->
-									<NuxtImg
-										:src="painting.image"
-										alt="Mini aperçu"
-										class="relative w-full h-full object-cover rounded-xs"
-										:style="{
-											filter: 'drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3))',
-										}" />
-								</div>
-							</div>
-						</button>
-					</div>
-
-					<figcaption class="sr-only">
-						{{ painting.name }} - {{ painting.description }}
-					</figcaption>
-				</figure>
-
-				<div class="relative prose max-w-none text-grayDark">
-					<div
-						class="lg:absolute -mt-7 lg:mt-0 -top-20 right-0 text-end will-change-scroll flex flex-col lg:flex-row gap-4">
-						<NuxtLink
-							v-if="painting.state === 'OFF_SALE'"
-							to="/"
-							class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center">
-							Retourner à la galerie
-						</NuxtLink>
-						<button
-							v-else
-							@click="openContactOverlay('achat')"
-							class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center">
-							Contacter pour acheter
-						</button>
-						<ShareButton
-							:title="`Découvre '${painting.name}' peint par ${painting.artist}`"
-							:description="painting.description"
-							position="bottom-right" />
-					</div>
-					<section>
-						<h2
-							class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-apercuBold text-black">
-							Détails
-						</h2>
-						<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2">
-							<li v-if="painting.state === 'OFF_SALE'">
-								<span
-									class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-									Ce tableau n'est pas disponible à la vente et est présentée
-									uniquement à titre d'exposition. Si vous souhaitez acquérir
-									une œuvre, vous avez la possibilité de
-									<NuxtLink
-										to="/commande-personnalisee"
-										class="text-[#B60071] underline"
-										>commander une création personnalisée</NuxtLink
-									>
-									ou de
-									<NuxtLink to="/?forSale=true" class="text-[#B60071] underline"
-										>découvrir les œuvres actuellement disponibles à
-										l'achat</NuxtLink
-									>.
-								</span>
-							</li>
-							<li v-if="painting.state === 'FOR_SALE'">
-								<span class="font-apercuBold">Prix: </span>
-								{{ formatPrice(painting.price) }} €
-							</li>
-							<li>
-								<span class="font-apercuBold">Dimensions: </span>
-								{{ painting.width }} cm x {{ painting.height }} cm
-							</li>
-							<li>
-								<span class="font-apercuBold">Type de peinture:</span>
-								{{ painting.paintingType }}
-							</li>
-							<li>
-								<span class="font-apercuBold">Date: </span>
-								<time :datetime="painting.date">
-									{{ formatDate(painting.date) }}
-								</time>
-							</li>
-						</ul>
-					</section>
-				</div>
 				<div class="hidden lg:block"></div>
 
-				<article
+				<!-- Description -->
+				<PaintingDescription
 					v-if="painting.description"
-					class="prose max-w-none text-grayDark md:col-span-2 2xl:col-span-1">
-					<p class="mt-4 text-sm md:text-lg lg:text-xl leading-relaxed">
-						{{ painting.description }}
-					</p>
-				</article>
+					:description="painting.description" />
 			</section>
-		</div>
+		</ClientOnly>
 
 		<div v-else class="text-center py-12">
 			<p class="text-xl">Peinture non trouvée</p>
 		</div>
-		<SuggestionsPaintings
-			v-if="painting?.id"
-			:current-painting-id="painting.id" />
 
+		<!-- Suggestions -->
+		<ClientOnly>
+			<SuggestionsPaintings
+				v-if="painting?.id"
+				:current-painting-id="painting.id" />
+		</ClientOnly>
+
+		<!-- Modal de contact -->
 		<Teleport to="body">
-			<!-- Contact Overlay -->
 			<Transition name="overlay">
-				<div
+				<ContactModal
 					v-if="showContactOverlay"
-					class="fixed inset-0 backdrop-blur-md w-screen h-screen z-[9999] flex items-start md:items-center justify-center">
-					<!-- Backdrop avec flou -->
-					<div
-						class="absolute inset-0 bg-black/70"
-						@click="closeContactOverlay"></div>
-
-					<!-- Modal -->
-					<div
-						ref="modalRef"
-						class="relative bg-black rounded-2xl lg:rounded-4xl w-fit m-1 sm:m-3 md:m-10 z-10 pt-6 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col overflow-hidden transform transition-all duration-400 ease-out"
-						:class="{
-							'translate-y-8 opacity-0 scale-95': !formLoaded,
-							'translate-y-0 opacity-100 scale-100': formLoaded,
-						}"
-						role="dialog"
-						aria-modal="true"
-						:aria-label="
-							contactType === 'achat'
-								? 'Acheter cette œuvre'
-								: 'Demander une réédition'
-						">
-						<!-- Bouton de fermeture -->
-						<button
-							@click="closeContactOverlay"
-							class="cross-button absolute top-4 right-4 text-gray-400 active:scale-90 hover:text-white transition-colors duration-200 z-20"
-							aria-label="Fermer">
-							<svg
-								class="h-10 w-10 md:h-12 md:w-12 lg:h-15 lg:w-15"
-								viewBox="0 0 24 24"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M16 8L8 16M12 12L16 16M8 8L10 10"
-									stroke="currentColor"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round" />
-							</svg>
-						</button>
-
-						<!-- Contenu du modal -->
-						<h2 class="text-2xl md:text-3xl font-apercuBold text-white mb-6">
-							{{
-								contactType === "achat"
-									? "Acheter cette œuvre"
-									: "Demander une réédition"
-							}}
-						</h2>
-
-						<p class="mb-6 max-w-5xl text-gray-400 hidden md:block">
-							<span v-if="contactType === 'achat'">
-								Vous êtes intéressé(e) par l'achat de "{{ painting.name }}" ?
-								Remplissez ce formulaire et je vous contacterai rapidement pour
-								discuter des détails.
-							</span>
-							<span v-else>
-								Vous souhaitez une réédition de "{{ painting.name }}" ? Chaque
-								œuvre étant unique, la nouvelle version sera inspirée de
-								l'originale mais présentera ses propres particularités.
-								Remplissez ce formulaire et je vous contacterai rapidement pour
-								discuter du projet.
-							</span>
-						</p>
-
-						<div class="relative flex-grow overflow-auto">
-							<div
-								class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"
-								aria-hidden="true"></div>
-
-							<p class="mb-6 max-w-5xl text-gray-400 md:hidden">
-								<span v-if="contactType === 'achat'">
-									Vous êtes intéressé(e) par l'achat de "{{ painting.name }}" ?
-									Remplissez ce formulaire et je vous contacterai rapidement
-									pour discuter des détails.
-								</span>
-								<span v-else>
-									Vous souhaitez une réédition de "{{ painting.name }}" ?
-									Remplissez ce formulaire et je vous contacterai rapidement
-									pour discuter du projet.
-								</span>
-							</p>
-
-							<ContactForm
-								:pre-selected-artwork-id="painting.id"
-								@form-loaded="formLoaded = true" />
-
-							<div
-								class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"
-								aria-hidden="true"></div>
-						</div>
-					</div>
-				</div>
+					:painting="painting"
+					:contact-type="contactType"
+					:form-loaded="formLoaded"
+					@close="closeContactOverlay"
+					@form-loaded="formLoaded = true"
+					@modal-ref="setModalRef" />
 			</Transition>
 		</Teleport>
 	</main>
 </template>
 
 <style scoped>
-@keyframes spinDown {
-	0% {
-		transform: rotate(0deg);
-	}
-	70% {
-		transform: rotate(720deg);
-	}
-	85% {
-		transform: rotate(700deg);
-	}
-	95% {
-		transform: rotate(710deg);
-	}
-	100% {
-		transform: rotate(720deg);
-	}
-}
-.cross-button:hover {
-	animation: spinDown 1.2s ease-out forwards;
-	transform-origin: center;
-}
-
 .overlay-enter-active,
 .overlay-leave-active {
 	transition: opacity 0.2s ease;
