@@ -23,7 +23,12 @@ const formLoaded = ref(false);
 const modalRef = ref(null);
 const selectImage = ref("normal");
 
-const realViewportHeight = ref(0);
+const realViewportHeight = ref(
+	typeof window !== "undefined" ? window.innerHeight : 768
+);
+const containerSize = ref(
+	typeof window !== "undefined" ? (window.innerWidth < 768 ? 48 : 64) : 64
+);
 
 const { data: painting, error } = await useFetch(
 	`/api/paintings/${route.params.slug}`
@@ -33,10 +38,44 @@ if (error.value) {
 	console.error("Erreur lors de la récupération de la peinture :", error.value);
 }
 
+const responsiveContainerSize = computed(() => {
+	return (typeof window !== "undefined" ? window.innerWidth : 768) < 768
+		? 48
+		: 64;
+});
+
+const miniPreviewStyle = computed(() => {
+	if (!painting.value) return {};
+
+	const size = responsiveContainerSize.value;
+	const baseScale = 0.3;
+	const aspectRatio = painting.value.width / painting.value.height;
+
+	let finalWidth, finalHeight;
+
+	if (aspectRatio > 1) {
+		finalWidth = size * baseScale;
+		finalHeight = finalWidth / aspectRatio;
+	} else {
+		finalHeight = size * baseScale;
+		finalWidth = finalHeight * aspectRatio;
+	}
+
+	return {
+		width: `${finalWidth}px`,
+		height: `${finalHeight}px`,
+		left: `calc(50% - ${finalWidth / 2}px)`,
+		top: `calc(27% - ${finalHeight / 2}px)`,
+	};
+});
+
 const updateViewportHeight = () => {
-	realViewportHeight.value = window.innerHeight;
-	if (showContactOverlay.value && modalRef.value) {
-		updateModalHeight();
+	if (typeof window !== "undefined") {
+		realViewportHeight.value = window.innerHeight;
+		containerSize.value = window.innerWidth < 768 ? 48 : 64;
+		if (showContactOverlay.value && modalRef.value) {
+			updateModalHeight();
+		}
 	}
 };
 
@@ -77,6 +116,8 @@ const calculatePosition = (e) => {
 };
 
 const handleClick = (e) => {
+	e.preventDefault();
+	e.stopPropagation();
 	const pos = calculatePosition(e);
 	transformOrigin.value = `${pos.x}% ${pos.y}%`;
 	isZoomed.value = !isZoomed.value;
@@ -115,18 +156,24 @@ const goBack = () => {
 };
 
 onMounted(() => {
-	realViewportHeight.value = window.innerHeight;
-	updateViewportHeight();
+	if (typeof window !== "undefined") {
+		realViewportHeight.value = window.innerHeight;
+		updateViewportHeight();
 
-	window.addEventListener("resize", updateViewportHeight);
-	window.addEventListener("orientationchange", updateViewportHeight);
-	window.addEventListener("scroll", updateViewportHeight);
+		window.addEventListener("resize", updateViewportHeight);
+		window.addEventListener("orientationchange", updateViewportHeight);
+		window.addEventListener("scroll", updateViewportHeight);
 
-	window.addEventListener("keydown", (e) => {
-		if (e.key === "Escape" && showContactOverlay.value) {
-			closeContactOverlay();
-		}
-	});
+		window.addEventListener("orientationchange", () => {
+			setTimeout(updateViewportHeight, 100);
+		});
+
+		window.addEventListener("keydown", (e) => {
+			if (e.key === "Escape" && showContactOverlay.value) {
+				closeContactOverlay();
+			}
+		});
+	}
 });
 
 onUnmounted(() => {
@@ -287,15 +334,23 @@ useSchemaOrg([
 				class="grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
 				<!-- Figure avec preview ou image normale -->
 				<figure
-					v-if="selectImage === 'preview'"
-					class="relative overflow-hidden rounded-2xl aspect-square"
+					class="relative overflow-hidden rounded-2xl"
+					:class="[
+						selectImage === 'preview'
+							? 'aspect-square'
+							: painting.width === painting.height
+							? 'aspect-square'
+							: 'aspect-auto',
+					]"
 					@mousemove="handleMouseMove"
 					@mouseleave="handleMouseLeave"
 					@click="handleClick"
 					:style="{
 						cursor: isZoomed ? 'zoom-out' : 'zoom-in',
 					}">
+					<!-- Preview component -->
 					<painting-preview
+						v-if="selectImage === 'preview'"
 						:painting-image="painting.image"
 						:width="painting.width"
 						:height="painting.height"
@@ -308,66 +363,54 @@ useSchemaOrg([
 							opacity: imageLoaded ? 1 : 0,
 						}"
 						@contextmenu.prevent />
-				</figure>
 
-				<figure
-					v-else
-					class="relative overflow-hidden rounded-2xl"
-					:class="[
-						painting.width === painting.height
-							? 'aspect-square'
-							: 'aspect-auto',
-					]"
-					@mousemove="handleMouseMove"
-					@mouseleave="handleMouseLeave"
-					@click="handleClick"
-					:style="{
-						cursor: isZoomed ? 'zoom-out' : 'zoom-in',
-					}">
-					<!-- Loading placeholder -->
-					<div
-						v-if="!imageLoaded"
-						class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center"
-						aria-hidden="true">
-						<div class="w-16 h-16 text-gray-400">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="1"
-									d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-							</svg>
-						</div>
-					</div>
-
-					<!-- Image principale -->
-					<NuxtImg
-						:src="painting.image"
-						:alt="`Tableau '${painting.name}' peint par ${painting.artist}`"
-						:title="painting.name"
-						ref="imageRef"
-						@contextmenu.prevent
-						@load="handleImageLoad"
-						:style="{
-							transform: transform,
-							transformOrigin: transformOrigin,
-							transition: isZoomed ? 'none' : 'all 0.3s ease',
-							opacity: imageLoaded ? 1 : 0,
-						}"
-						width="800"
-						height="600"
-						:sizes="'(max-width: 768px) 100vw, 50vw'"
-						loading="eager"
-						class="rounded-2xl object-cover w-full h-full object-center" />
-
-					<!-- Sélecteur d'images pour la vue normale -->
+					<!-- Image normale -->
+					<template v-else>
+						<!-- Loading placeholder -->
 						<div
+							v-if="!imageLoaded"
+							class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center"
+							aria-hidden="true">
+							<div class="w-16 h-16 text-gray-400">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="1"
+										d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+								</svg>
+							</div>
+						</div>
+
+						<!-- Image principale -->
+						<NuxtImg
+							:src="painting.image"
+							:alt="`Tableau '${painting.name}' peint par ${painting.artist}`"
+							:title="painting.name"
+							ref="imageRef"
+							@contextmenu.prevent
+							@load="handleImageLoad"
+							:style="{
+								transform: transform,
+								transformOrigin: transformOrigin,
+								transition: isZoomed ? 'none' : 'all 0.3s ease',
+								opacity: imageLoaded ? 1 : 0,
+							}"
+							width="800"
+							height="600"
+							:sizes="'(max-width: 768px) 100vw, 50vw'"
+							loading="eager"
+							class="rounded-2xl object-cover w-full h-full object-center" />
+					</template>
+
+					<!-- Sélecteur d'images unique -->
+					<div
 						class="absolute bottom-4 md:top-4 right-4 flex md:flex-col gap-2">
-						<!-- Bouton image normale (actif) -->
+						<!-- Bouton image normale -->
 						<button
 							@click.stop="selectImage = 'normal'"
 							:class="[
@@ -400,13 +443,20 @@ useSchemaOrg([
 									style="
 										background-image: url('/img/mockup-living-room.webp');
 									"></div>
-								<!-- Mini tableau -->
-								<div
-									class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 md:w-4 md:h-4">
+								<!-- Mini tableau avec calcul proportionnel optimisé -->
+								<div class="absolute transform-gpu" :style="miniPreviewStyle">
+									<!-- Ombre du tableau -->
+									<div
+										class="absolute inset-0 transform translate-x-0.5 translate-y-1 bg-black opacity-20 blur-sm rounded-xs"></div>
+
+									<!-- Image du tableau -->
 									<NuxtImg
 										:src="painting.image"
 										alt="Mini aperçu"
-										class="w-full h-full object-cover rounded-xs shadow-sm" />
+										class="relative w-full h-full object-cover rounded-xs"
+										:style="{
+											filter: 'drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3))',
+										}" />
 								</div>
 							</div>
 						</button>
@@ -416,6 +466,7 @@ useSchemaOrg([
 						{{ painting.name }} - {{ painting.description }}
 					</figcaption>
 				</figure>
+
 				<div class="relative prose max-w-none text-grayDark">
 					<div
 						class="lg:absolute -mt-7 lg:mt-0 -top-20 right-0 text-end will-change-scroll flex flex-col lg:flex-row gap-4">

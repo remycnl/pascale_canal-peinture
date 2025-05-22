@@ -29,57 +29,6 @@
         />
       </div>
     </div>
-
-    <!-- Sélecteur d'images -->
-    <div class="absolute md:top-4 md:right-4 bottom-4 left-1/2 transform -translate-x-1/2 md:translate-x-0 flex md:flex-col gap-2">
-      <!-- Bouton image normale -->
-      <button
-        @click="$emit('select-view', 'normal')"
-        :class="[
-          'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
-          selectedView === 'normal' 
-            ? 'border-blue-500 shadow-lg scale-105' 
-            : 'border-white/50 hover:border-white hover:scale-105'
-        ]"
-        title="Vue normale"
-      >
-        <NuxtImg
-          :src="paintingImage"
-          alt="Vue normale"
-          class="w-full h-full object-cover"
-        />
-      </button>
-
-      <!-- Bouton preview salon -->
-      <button
-        @click="$emit('select-view', 'preview')"
-        :class="[
-          'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
-          selectedView === 'preview' 
-            ? 'border-blue-500 shadow-lg scale-105' 
-            : 'border-white/50 hover:border-white hover:scale-105'
-        ]"
-        title="Aperçu dans le salon"
-      >
-        <div class="relative w-full h-full">
-          <!-- Mini salon -->
-          <div
-            class="absolute inset-0 bg-cover bg-center"
-            style="background-image: url('/img/mockup-living-room.webp')"
-          ></div>
-          <!-- Mini tableau -->
-          <div
-            class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-2 md:w-4 md:h-3"
-          >
-            <NuxtImg
-              :src="paintingImage"
-              alt="Mini aperçu"
-              class="w-full h-full object-cover rounded-sm shadow-sm"
-            />
-          </div>
-        </div>
-      </button>
-    </div>
   </div>
 </template>
 
@@ -99,15 +48,8 @@ const props = defineProps({
   height: {
     type: Number,
     required: true,
-  },
-  selectedView: {
-    type: String,
-    default: 'normal'
   }
 });
-
-// Emits
-defineEmits(['select-view']);
 
 // Refs
 const containerRef = ref(null);
@@ -134,7 +76,7 @@ onMounted(() => {
 
 // Calcul du style du tableau
 const tableauStyle = computed(() => {
-  const baseScale = 0.3; // 35% de la taille du container
+  const baseScale = 0.3;
   const aspectRatio = props.width / props.height;
 
   let finalWidth, finalHeight;
