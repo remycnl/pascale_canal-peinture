@@ -27,7 +27,7 @@ const miniPreviewStyle = computed(() => {
 	if (!props.painting) return {};
 
 	const size = responsiveContainerSize.value;
-	const baseScale = 0.3;
+	const baseScale = 0.22;
 	const aspectRatio = props.painting.width / props.painting.height;
 
 	let finalWidth, finalHeight;

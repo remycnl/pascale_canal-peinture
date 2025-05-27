@@ -38,7 +38,7 @@ onUnmounted(() => {
 });
 
 const tableauStyle = computed(() => {
-	const baseScale = 0.3;
+	const baseScale = 0.22;
 	const aspectRatio = parseFloat(props.width) / parseFloat(props.height);
 
 	let finalWidth, finalHeight;

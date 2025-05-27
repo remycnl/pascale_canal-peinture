@@ -81,12 +81,10 @@ useSchemaOrg([
 				<section class="relative">
 					<p
 						class="z-50 relative text-shadow text-base sm:text-lg md:text-2xl lg:text-3xl 2xl:text-4xl sm:w-3/5">
-						C'est le cœur ancré dans les terres sauvages de l'Aubrac, ses
-						paysages bruts et puissants, que je puise mon inspiration. Entre
-						terres infinies et terre de labeur, ma peinture explore le lien
-						profond qui unit les hommes à ces paysages : vaches, taureaux et
-						veaux d'Aubrac, symboles à la fois de force et de douceur,
-						d'authenticité et de simplicité.
+						Je cherche à saisir une présence, un regard, une atmosphère. Mon
+						univers est peuplé de personnages, d'animaux et de paysages, posés à
+						la lisière du réel et de l'émotion. Chaque tableau est un instant
+						suspendu, un hommage à la simplicité qui nous relie à l'essentiel.
 					</p>
 					<span
 						class="lg:hidden z-10 select-none pointer-events-none absolute top-50 -left-130 w-200 h-auto opacity-50 md:opacity-90 blur-2xl">
@@ -103,14 +101,14 @@ useSchemaOrg([
 					<p
 						class="z-50 relative text-shadow text-base sm:text-lg md:text-2xl lg:text-3xl 2xl:text-4xl flex justify-end">
 						<span class="sm:w-3/5">
-							Je peins à l'huile, privilégiant des dominantes de noir, blanc,
-							gris et doré. Ces teintes, entre ombre et éclat, traduisent
-							l'essence même de l'Aubrac : le noir pour sa profondeur, sa pierre
-							volcanique et son ancrage, le blanc pour la neige mais aussi pour
-							la lumière qui sculpte les formes et révèle les contrastes, le
-							gris pour le temps qui passe et la brume des matins, et l'or
-							enfin, qui évoque l'éclat du soleil couchant sur les robes fauves
-							des troupeaux.
+							J'utilise la peinture à l'huile avec une palette volontairement
+							réduite: le noir, le blanc, le gris, et quelques touches d'or.
+							Ces couleurs ne sont pas seulement un choix esthétique, mais un
+							véritable langage. Le noir porte la profondeur et l'intensité, le
+							blanc apporte la lumière et l'espace pour respirer, le gris évoque
+							le temps qui passe, les silences, les nuances. Quant à l'or,
+							discret mais essentiel, il révèle l'émotion, la chaleur et l'éclat
+							intérieur.
 						</span>
 					</p>
 					<span
@@ -126,20 +124,21 @@ useSchemaOrg([
 				<section>
 					<p
 						class="z-50 relative text-shadow text-base sm:text-lg md:text-2xl lg:text-3xl 2xl:text-4xl sm:w-3/5">
-						À travers leurs yeux doux et maquillés, je cherche à capturer la
-						présence de ces animaux, ce lien ancestral qui les unit à leur
-						territoire et aux hommes et femmes passionnés qui veillent sur eux
-						avec exigence et respect.
+						Qu'il s'agisse d'un animal attachant, d'un visage inspirant ou d'un
+						paysage familier, je cherche à peindre au-delà de l'image pour
+						révéler ce qui vibre, ce qui touche, ce qui demeure.
 					</p>
 				</section>
 				<section>
 					<p
 						class="z-50 relative text-shadow text-base sm:text-lg md:text-2xl lg:text-3xl 2xl:text-4xl flex justify-end">
 						<span class="sm:w-3/5">
-							Chaque tableau est une rencontre, une émotion, une histoire.
-							Chaque toile est une invitation à la contemplation, à la
-							méditation, à la poésie. Chaque œuvre est un hommage à la nature,
-							à la vie, à la beauté.
+							Je réalise également des œuvres sur commande à partir de vos
+							photos. Chaque projet devient alors une rencontre, un dialogue
+							avec votre histoire, vos souvenirs, vos émotions, vos animaux. À
+							travers chaque toile, j'essaie de faire émerger une trace, un
+							reflet, un fragment d'âme, quelque chose de vrai et d'unique qui
+							vous touche.
 						</span>
 					</p>
 				</section>
