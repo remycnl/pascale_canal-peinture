@@ -315,7 +315,7 @@ const submitForm = async () => {
 						required
 						aria-required="true"
 						aria-describedby="description-error"
-						placeholder="Décrivez votre projet, sujet, style souhaité, ambiance, couleurs..."
+						placeholder="Décrivez votre projet..."
 						class="w-full bg-transparent border-b border-white/30 px-4 py-4 md:py-6 focus:outline-none focus:border-white text-white text-lg md:text-2xl resize-none overflow-hidden"></textarea>
 					<p
 						v-if="showErrors && formErrors.description"
