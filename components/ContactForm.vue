@@ -1,7 +1,7 @@
 <template>
 	<form
 		@submit.prevent="submitForm"
-		class="w-full max-w-5xl backdrop-blur-md bg-white20 rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 border border-white30">
+		class="w-full max-w-5xl backdrop-blur-md bg-white/20 rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 border border-white/30">
 		<!-- Progress Indicator -->
 		<div class="mb-18 sm:mb-20 px-10 relative">
 			<div class="flex justify-between relative">
@@ -10,7 +10,7 @@
 					<!-- Connecting Line (not for the last step) -->
 					<div
 						v-if="index < visibleSteps.length - 1"
-						class="absolute h-1.5 rounded-full bg-white20 transition-all duration-500 ease-out"
+						class="absolute h-1.5 rounded-full bg-white/20 transition-all duration-500 ease-out"
 						:style="`
 								left: calc(${(index / (visibleSteps.length - 1)) * 100}% + 20px); 
 								top: 12px;
@@ -35,7 +35,7 @@
 							:class="{
 								'bg-yellow/30 border-yellow shadow-md shadow-yellow/50 scale-110 backdrop-blur-sm':
 									currentVisibleStepIndex >= index,
-								'bg-white10 border-white30 backdrop-blur-sm':
+								'bg-white/10 border-white/30 backdrop-blur-sm':
 									currentVisibleStepIndex < index,
 							}">
 							<svg
@@ -54,7 +54,7 @@
 								class="text-sm font-apercuBold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 								:class="{
 									'text-white': currentVisibleStepIndex >= index,
-									'text-white70': currentVisibleStepIndex < index,
+									'text-white/70': currentVisibleStepIndex < index,
 								}">
 								{{ index + 1 }}
 							</span>
@@ -96,7 +96,7 @@
 				<h2 class="text-2xl font-apercuBold text-white">
 					Message envoyé avec succès !
 				</h2>
-				<p class="text-white80">
+				<p class="text-white/80">
 					Je vous répondrai dans les plus brefs délais.
 				</p>
 				<button
@@ -128,7 +128,7 @@
 				<h2 class="text-2xl font-apercuBold text-white">
 					Erreur lors de l'envoi
 				</h2>
-				<p class="text-white80">Veuillez réessayer ultérieurement.</p>
+				<p class="text-white/80">Veuillez réessayer ultérieurement.</p>
 				<button
 					@click="retrySubmit"
 					class="mt-6 px-6 py-3 backdrop-blur-md bg-yellow/80 text-black rounded-lg hover:bg-yellow shadow-lg shadow-yellow/30 transition-all duration-300 hover:scale-102">
@@ -139,7 +139,7 @@
 
 		<div
 			v-else
-			class="backdrop-blur-sm bg-white10 rounded-2xl p-4 sm:p-6 shadow-lg shadow-white5 border border-white20">
+			class="backdrop-blur-sm bg-white/10 rounded-2xl p-4 sm:p-6 shadow-lg shadow-white/5 border border-white/20">
 			<!-- Step 0: Contact Reason (Only if no pre-selected artwork) -->
 			<div v-if="currentStep === 0 && !preSelectedArtwork" class="text-center">
 				<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
@@ -151,7 +151,7 @@
 						:key="reason.value"
 						type="button"
 						@click="selectReason(reason)"
-						class="p-4 backdrop-blur-md bg-white20 rounded-xl hover:bg-white30 border border-white30 text-white shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300">
+						class="p-4 backdrop-blur-md bg-white/20 rounded-xl hover:bg-white/30 border border-white/30 text-white shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300">
 						{{ reason.label }}
 					</button>
 				</div>
@@ -174,7 +174,7 @@
 						<div
 							class="flex justify-center lg:justify-between mb-6 lg:mb-0 lg:w-1/2">
 							<div
-								class="relative h-fit max-w-sm rounded-xl overflow-hidden shadow-2xl backdrop-blur-md bg-white20 border border-white30">
+								class="relative h-fit max-w-sm rounded-xl overflow-hidden shadow-2xl backdrop-blur-md bg-white/20 border border-white/30">
 								<NuxtImg
 									:src="preSelectedArtwork.image"
 									:alt="preSelectedArtwork.name"
@@ -191,7 +191,7 @@
 									<h3 class="font-apercuBold text-xl mb-2 text-white">
 										{{ preSelectedArtwork.name }}
 									</h3>
-									<p class="text-white80">{{ preSelectedArtwork.price }} €</p>
+									<p class="text-white/80">{{ preSelectedArtwork.price }} €</p>
 								</div>
 							</div>
 						</div>
@@ -208,14 +208,14 @@
 									v-model="artworkSearchQuery"
 									type="text"
 									placeholder="Rechercher une œuvre..."
-									class="w-full p-3 rounded-lg backdrop-blur-md bg-white10 border border-white30 focus:border-yellow focus:outline-none text-white placeholder-white50"
+									class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
 									@input="searchArtworks"
 									@focus="showSearchResults = true"
 									@blur="handleSearchBlur" />
 								<!-- Search results dropdown -->
 								<div
 									v-if="artworkSearchQuery && showSearchResults"
-									class="absolute z-10 mt-1 w-full rounded-lg backdrop-blur-md bg-white30 shadow-lg border border-white30 max-h-60 overflow-y-auto">
+									class="absolute z-10 mt-1 w-full rounded-lg backdrop-blur-md bg-white/30 shadow-lg border border-white/30 max-h-60 overflow-y-auto">
 									<!-- No results message -->
 									<div
 										v-if="artworkSearchResults.length === 0"
@@ -228,7 +228,7 @@
 										v-for="result in artworkSearchResults"
 										:key="result.id"
 										@click="selectSearchResult(result)"
-										class="p-2 cursor-pointer hover:bg-white20 flex items-center gap-2 transition-colors duration-200">
+										class="p-2 cursor-pointer hover:bg-white/20 flex items-center gap-2 transition-colors duration-200">
 										<NuxtImg
 											:src="result.image"
 											:alt="result.name"
@@ -257,10 +257,10 @@
 								<div
 									v-for="i in 6"
 									:key="i"
-									class="backdrop-blur-sm bg-white10 border border-white20 rounded-xl p-2">
+									class="backdrop-blur-sm bg-white/10 border border-white/20 rounded-xl p-2">
 									<div class="animate-pulse">
-										<div class="bg-white20 rounded-lg aspect-square"></div>
-										<div class="h-4 bg-white20 rounded mt-2 w-3/4"></div>
+										<div class="bg-white/20 rounded-lg aspect-square"></div>
+										<div class="h-4 bg-white/20 rounded mt-2 w-3/4"></div>
 									</div>
 								</div>
 							</div>
@@ -274,7 +274,7 @@
 									:class="
 										isArtworkSelected(artwork)
 											? 'backdrop-blur-md bg-yellow/30 border border-yellow/50 shadow-lg shadow-yellow/30'
-											: 'backdrop-blur-sm bg-white10 border border-white20'
+											: 'backdrop-blur-sm bg-white/10 border border-white/20'
 									">
 									<div class="relative">
 										<NuxtImg
@@ -301,7 +301,7 @@
 								<button
 									@click="prevPage"
 									:disabled="currentPage === 1"
-									class="p-2 backdrop-blur-md bg-white10 rounded-lg border border-white30 text-white disabled:opacity-50 hover:bg-white20 transition-all duration-300">
+									class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										class="h-5 w-5"
@@ -321,7 +321,7 @@
 								<button
 									@click="nextPage"
 									:disabled="currentPage === totalPagesWithoutPreselected"
-									class="p-2 backdrop-blur-md bg-white10 rounded-lg border border-white30 text-white disabled:opacity-50 hover:bg-white20 transition-all duration-300">
+									class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										class="h-5 w-5"
@@ -350,14 +350,14 @@
 							v-model="artworkSearchQuery"
 							type="text"
 							placeholder="Rechercher une œuvre..."
-							class="w-full p-3 rounded-lg backdrop-blur-md bg-white10 border border-white30 focus:border-yellow focus:outline-none text-white placeholder-white50"
+							class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
 							@input="searchArtworks"
 							@focus="showSearchResults = true"
 							@blur="handleSearchBlur" />
 						<!-- Search results dropdown -->
 						<div
 							v-if="artworkSearchQuery && showSearchResults"
-							class="absolute z-10 mt-1 w-full rounded-lg backdrop-blur-md bg-white30 shadow-lg border border-white30 max-h-60 overflow-y-auto">
+							class="absolute z-10 mt-1 w-full rounded-lg backdrop-blur-md bg-white/30 shadow-lg border border-white/30 max-h-60 overflow-y-auto">
 							<!-- No results message -->
 							<div
 								v-if="artworkSearchResults.length === 0"
@@ -370,7 +370,7 @@
 								v-for="result in artworkSearchResults"
 								:key="result.id"
 								@click="selectSearchResult(result)"
-								class="p-2 cursor-pointer hover:bg-white20 flex items-center gap-2 transition-colors duration-200">
+								class="p-2 cursor-pointer hover:bg-white/20 flex items-center gap-2 transition-colors duration-200">
 								<NuxtImg
 									:src="result.image"
 									:alt="result.name"
@@ -399,10 +399,10 @@
 						<div
 							v-for="i in 6"
 							:key="i"
-							class="backdrop-blur-sm bg-white10 border border-white20 rounded-xl p-2">
+							class="backdrop-blur-sm bg-white/10 border border-white/20 rounded-xl p-2">
 							<div class="animate-pulse">
-								<div class="bg-white20 rounded-lg aspect-square"></div>
-								<div class="h-4 bg-white20 rounded mt-2 w-3/4"></div>
+								<div class="bg-white/20 rounded-lg aspect-square"></div>
+								<div class="h-4 bg-white/20 rounded mt-2 w-3/4"></div>
 							</div>
 						</div>
 					</div>
@@ -416,7 +416,7 @@
 							:class="
 								isArtworkSelected(artwork)
 									? 'backdrop-blur-md bg-yellow/30 border border-yellow/50 shadow-lg shadow-yellow/30'
-									: 'backdrop-blur-sm bg-white10 border border-white20'
+									: 'backdrop-blur-sm bg-white/10 border border-white/20'
 							">
 							<div class="relative">
 								<NuxtImg
@@ -441,7 +441,7 @@
 						<button
 							@click="prevPage"
 							:disabled="currentPage === 1"
-							class="p-2 backdrop-blur-md bg-white10 rounded-lg border border-white30 text-white disabled:opacity-50 hover:bg-white20 transition-all duration-300">
+							class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-5 w-5"
@@ -461,7 +461,7 @@
 						<button
 							@click="nextPage"
 							:disabled="currentPage === totalPages"
-							class="p-2 backdrop-blur-md bg-white10 rounded-lg border border-white30 text-white disabled:opacity-50 hover:bg-white20 transition-all duration-300">
+							class="p-2 backdrop-blur-md bg-white/10 rounded-lg border border-white/30 text-white disabled:opacity-50 hover:bg-white/20 transition-all duration-300">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-5 w-5"
@@ -488,7 +488,7 @@
 					<div
 						v-for="artwork in selectedArtworks"
 						:key="artwork.id"
-						class="backdrop-blur-md h-fit bg-white10 rounded-xl p-2 border border-white30 shadow-lg">
+						class="backdrop-blur-md h-fit bg-white/10 rounded-xl p-2 border border-white/30 shadow-lg">
 						<div class="relative">
 							<NuxtImg
 								:src="artwork.image"
@@ -506,7 +506,7 @@
 						<p class="text-sm mt-2 text-white truncate" :title="artwork.name">
 							{{ artwork.name }}
 						</p>
-						<p class="text-sm text-white70">{{ artwork.price }} €</p>
+						<p class="text-sm text-white/70">{{ artwork.price }} €</p>
 					</div>
 				</div>
 			</div>
@@ -521,20 +521,20 @@
 					<input
 						v-model="form.firstName"
 						placeholder="Prénom*"
-						class="p-3 rounded-lg backdrop-blur-md bg-white10 border border-white30 focus:border-yellow focus:outline-none text-white placeholder-white50" />
+						class="p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50" />
 					<input
 						v-model="form.lastName"
 						placeholder="Nom"
-						class="p-3 rounded-lg backdrop-blur-md bg-white10 border border-white30 focus:border-yellow focus:outline-none text-white placeholder-white50" />
+						class="p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50" />
 					<div class="col-span-1 sm:col-span-2 relative">
 						<input
 							v-model="form.email"
 							type="email"
 							placeholder="Email*"
 							:class="[
-								'w-full p-3 rounded-lg backdrop-blur-md bg-white10 border focus:outline-none text-white placeholder-white50',
+								'w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border focus:outline-none text-white placeholder-white/50',
 								isEmailValid || !form.email
-									? 'border-white30 focus:border-yellow'
+									? 'border-white/30 focus:border-yellow'
 									: 'border-red-500 focus:border-red-500',
 							]" />
 						<p
@@ -547,7 +547,7 @@
 						v-model="form.phone"
 						type="tel"
 						placeholder="Téléphone"
-						class="col-span-1 sm:col-span-2 p-3 rounded-lg backdrop-blur-md bg-white10 border border-white30 focus:border-yellow focus:outline-none text-white placeholder-white50" />
+						class="col-span-1 sm:col-span-2 p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50" />
 				</div>
 			</div>
 
@@ -564,7 +564,7 @@
 					>
 					<input
 						v-model="form.reasonDetails"
-						class="w-full p-3 rounded-lg backdrop-blur-md bg-white10 border border-white30 focus:border-yellow focus:outline-none text-white placeholder-white50"
+						class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
 						:placeholder="`Détails de votre ${selectedReason.label}`" />
 				</div>
 
@@ -574,7 +574,7 @@
 					<textarea
 						v-model="form.message"
 						@input="autoResize($event.target)"
-						class="w-full p-3 rounded-lg backdrop-blur-md bg-white10 border border-white30 focus:border-yellow focus:outline-none text-white placeholder-white50 h-32 overflow-hidden resize-none min-h-[80px]"
+						class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50 h-32 overflow-hidden resize-none min-h-[80px]"
 						placeholder="Écrivez votre message ici..."></textarea>
 				</div>
 
@@ -598,7 +598,7 @@
 							type="checkbox"
 							v-model="form.rgpdConsent" />
 						<label
-							class="cbx border bg-white10 border-white30"
+							class="cbx border bg-white/10 border-white/30"
 							for="rgpdConsent"></label>
 					</div>
 					<label for="rgpdConsent" class="cursor-pointer text-white text-sm">
@@ -621,7 +621,7 @@
 				v-if="currentStep > 0 && (!preSelectedArtwork || currentStep > 1)"
 				type="button"
 				@click="previousStep"
-				class="px-4 sm:px-6 py-2 disabled:active:scale-100 active:scale-97 backdrop-blur-md bg-white10 text-white rounded-lg border border-white30 hover:bg-white20 transition-all duration-300">
+				class="px-4 sm:px-6 py-2 disabled:active:scale-100 active:scale-97 backdrop-blur-md bg-white/10 text-white rounded-lg border border-white/30 hover:bg-white/20 transition-all duration-300">
 				Précédent
 			</button>
 			<button
