@@ -118,7 +118,7 @@ useSchemaOrg([
 					:aria-expanded="faq.isOpen ? 'true' : 'false'"
 					:aria-controls="`faq-answer-${faq.id}`">
 					<h2
-						class="w-11/12 text-base sm:text-lg md:text-xl lg:text-4xl font-aperçuBold"
+						class="w-11/12 text-base sm:text-lg md:text-xl lg:text-4xl font-apercuBold"
 						itemprop="name">
 						{{ faq.question }}
 					</h2>

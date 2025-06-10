@@ -63,7 +63,7 @@
 
 			<!-- Mode d'envoi de newsletter -->
 			<div class="mb-8 border p-4 rounded-lg bg-gray-50">
-				<h3 class="text-lg font-semibold mb-3">Envoyer une newsletter</h3>
+				<h3 class="text-lg font-apercuMedium mb-3">Envoyer une newsletter</h3>
 
 				<div class="mb-4">
 					<label class="block text-sm font-apercuMedium mb-1"
@@ -131,7 +131,7 @@
 			<div v-if="showPreview" class="mb-8 border rounded-lg overflow-hidden">
 				<!-- En-tête de la prévisualisation -->
 				<div class="bg-gray-100 px-6 py-4 border-b">
-					<h3 class="text-lg font-semibold">Prévisualisation de l'email</h3>
+					<h3 class="text-lg font-apercuMedium">Prévisualisation de l'email</h3>
 				</div>
 
 				<!-- Aperçu de l'email -->
@@ -139,17 +139,17 @@
 					<!-- Informations sur l'email -->
 					<div class="bg-gray-100 p-3 rounded-md mb-4">
 						<div>
-							<span class="font-semibold">De:</span> Pascale Canal &lt;{{
+							<span class="font-apercuMedium">De:</span> Pascale Canal &lt;{{
 								senderEmail || "noreply@example.com"
 							}}&gt;
 						</div>
 						<div>
-							<span class="font-semibold">À:</span> Abonnés ({{
+							<span class="font-apercuMedium">À:</span> Abonnés ({{
 								getRecipientTypeText()
 							}})
 						</div>
 						<div>
-							<span class="font-semibold">Sujet:</span>
+							<span class="font-apercuMedium">Sujet:</span>
 							{{ newsletter.subject || "[Aucun sujet]" }}
 						</div>
 					</div>
