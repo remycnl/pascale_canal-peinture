@@ -26,25 +26,36 @@ const responsiveContainerSize = computed(() => {
 const miniPreviewStyle = computed(() => {
 	if (!props.painting) return {};
 
-	const size = responsiveContainerSize.value;
-	const baseScale = 0.22;
-	const aspectRatio = props.painting.width / props.painting.height;
+	const baseScale = 0.4;
+	const width = parseFloat(props.painting.width);
+	const height = parseFloat(props.painting.height);
+	const aspectRatio = width / height;
 
 	let finalWidth, finalHeight;
 
 	if (aspectRatio > 1) {
-		finalWidth = size * baseScale;
+		// Tableau plus large que haut
+		finalWidth = responsiveContainerSize.value * baseScale;
 		finalHeight = finalWidth / aspectRatio;
 	} else {
-		finalHeight = size * baseScale;
+		// Tableau plus haut que large ou carré
+		finalHeight = responsiveContainerSize.value * baseScale;
 		finalWidth = finalHeight * aspectRatio;
 	}
+
+	// Ajuster la taille en fonction des dimensions réelles
+	const scaleFactor = Math.max(width, height) / 100;
+	finalWidth *= scaleFactor;
+	finalHeight *= scaleFactor;
+
+	const leftPosition = `calc(50% - ${finalWidth / 2}px)`;
+	const topPosition = `calc(27% - ${finalHeight / 2}px)`;
 
 	return {
 		width: `${finalWidth}px`,
 		height: `${finalHeight}px`,
-		left: `calc(50% - ${finalWidth / 2}px)`,
-		top: `calc(27% - ${finalHeight / 2}px)`,
+		left: leftPosition,
+		top: topPosition,
 	};
 });
 

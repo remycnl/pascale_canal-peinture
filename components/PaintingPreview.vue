@@ -38,8 +38,10 @@ onUnmounted(() => {
 });
 
 const tableauStyle = computed(() => {
-	const baseScale = 0.22;
-	const aspectRatio = parseFloat(props.width) / parseFloat(props.height);
+	const baseScale = 0.4;
+	const width = parseFloat(props.width);
+	const height = parseFloat(props.height);
+	const aspectRatio = width / height;
 
 	let finalWidth, finalHeight;
 
@@ -52,6 +54,11 @@ const tableauStyle = computed(() => {
 		finalHeight = containerSize.value * baseScale;
 		finalWidth = finalHeight * aspectRatio;
 	}
+
+	// Ajuster la taille en fonction des dimensions réelles
+	const scaleFactor = Math.max(width, height) / 100;
+	finalWidth *= scaleFactor;
+	finalHeight *= scaleFactor;
 
 	const leftPosition = `calc(50% - ${finalWidth / 2}px)`;
 	const topPosition = `calc(27% - ${finalHeight / 2}px)`;
@@ -74,7 +81,7 @@ const shadowStyle = computed(() => ({
 		<!-- Container principal avec aspect ratio carré -->
 		<div
 			ref="containerRef"
-			class="relative w-full aspect-square bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+			class="relative w-full aspect-square bg-gray-100 rounded-md md:rounded-lg overflow-hidden shadow-lg">
 			<!-- Image de fond du salon -->
 			<div
 				class="absolute inset-0 w-full h-full bg-cover bg-center"
@@ -87,13 +94,13 @@ const shadowStyle = computed(() => ({
 				:style="tableauStyle">
 				<!-- Ombre du tableau -->
 				<div
-					class="absolute inset-0 transform translate-x-1 translate-y-2 bg-black opacity-20 blur-sm rounded-sm"></div>
+					class="absolute inset-0 transform translate-x-1 translate-y-2 bg-black opacity-20 blur-sm rounded-xs md:rounded-sm"></div>
 
 				<!-- Image du tableau -->
 				<NuxtImg
 					:src="paintingImage"
 					alt="Tableau dans le salon"
-					class="relative w-full h-full object-cover rounded-sm"
+					class="relative w-full h-full object-cover rounded-xs md:rounded-sm"
 					:style="shadowStyle" />
 			</div>
 		</div>

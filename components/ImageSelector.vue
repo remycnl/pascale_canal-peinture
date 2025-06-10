@@ -53,14 +53,14 @@ const emit = defineEmits(["select-image"]);
 				<div class="absolute transform-gpu" :style="miniPreviewStyle">
 					<!-- Ombre du tableau -->
 					<div
-						class="absolute inset-0 transform translate-x-0.5 translate-y-1 bg-black opacity-20 blur-sm rounded-xs"></div>
+						class="absolute inset-0 transform translate-x-0.5 translate-y-1 bg-black opacity-20 blur-sm rounded-none md:rounded-xs"></div>
 
 					<!-- Image du tableau -->
 					<NuxtImg
 						:src="painting.image"
 						alt="Mini aperçu"
-            title="Mini aperçu"
-						class="relative w-full h-full object-cover rounded-xs"
+						title="Mini aperçu"
+						class="relative w-full h-full object-cover rounded-none md:rounded-xs"
 						:style="{
 							filter: 'drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3))',
 						}" />
