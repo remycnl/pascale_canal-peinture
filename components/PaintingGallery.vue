@@ -189,9 +189,6 @@ const imageTransitionClasses = {
 						transition: isZoomed ? 'none' : 'all 0.3s ease',
 						opacity: imageLoaded ? 1 : 0,
 					}"
-					width="800"
-					height="600"
-					:sizes="'(max-width: 768px) 100vw, 50vw'"
 					loading="eager"
 					class="rounded-2xl object-cover w-full h-full object-center" />
 			</div>
