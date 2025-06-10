@@ -41,7 +41,7 @@ model Painting {
   artist       String // Nom de l'artiste
   width        Decimal // Largeur en cm
   height       Decimal // Hauteur en cm
-  paintingType String // Type de peinture (ex : huile, aquarelle, acrylique, etc)
+  paintingType String // Technique de peinture (ex : huile, aquarelle, acrylique, etc)
 }
 
 model PaintingTag {

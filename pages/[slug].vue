@@ -33,7 +33,7 @@ if (error.value) {
 
 // Fonctions utilitaires
 const formatDate = (date) => {
-	const options = { year: "numeric", month: "long", day: "numeric" };
+	const options = { year: "numeric" };
 	return new Date(date).toLocaleDateString("fr-FR", options);
 };
 

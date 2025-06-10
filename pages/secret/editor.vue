@@ -410,9 +410,9 @@ useSeoMeta({
 								</div>
 							</div>
 
-							<!-- Type de peinture -->
+							<!-- Technique de peinture -->
 							<div class="form-group">
-								<label for="paintingType" class="label">Type de peinture</label>
+								<label for="paintingType" class="label">Technique de peinture</label>
 								<input
 									v-model="paintingType"
 									id="paintingType"

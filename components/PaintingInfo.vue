@@ -73,11 +73,11 @@ const emit = defineEmits(["open-contact"]);
 					{{ painting.width }} cm x {{ painting.height }} cm
 				</li>
 				<li>
-					<span class="font-apercuBold">Type de peinture:</span>
+					<span class="font-apercuBold">Technique:</span>
 					{{ painting.paintingType }}
 				</li>
 				<li>
-					<span class="font-apercuBold">Date: </span>
+					<span class="font-apercuBold">Date de création: </span>
 					<time :datetime="painting.date">
 						{{ formatDate(painting.date) }}
 					</time>
