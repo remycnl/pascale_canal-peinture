@@ -279,7 +279,7 @@ const submitForm = async () => {
 			<div class="flex justify-end">
 				<button
 					@click="resetForm"
-					class="px-8 md:px-16 py-4 md:py-6 bg-white text-black font-apercuBold rounded-full hover:bg-white/90 transition-all duration-200 active:scale-98 hover:scale-101 text-lg md:text-xl">
+					class="px-8 md:px-16 py-4 md:py-6 bg-white text-black font-apercuBold rounded-full hover:bg-white/90 transition-all duration-200 active:scale-98 cursor-pointer hover:scale-101 text-lg md:text-xl">
 					Nouvelle demande
 				</button>
 			</div>
@@ -473,7 +473,7 @@ const submitForm = async () => {
 							class="cursor-pointer flex flex-col items-center justify-center py-16 md:py-32 group px-16 md:px-32 w-full h-full">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								class="h-14 w-14 md:h-20 md:w-20 mb-4 md:mb-8 transition-transform duration-300 group-hover:scale-110 group-active:scale-95"
+								class="h-14 w-14 md:h-20 md:w-20 mb-4 md:mb-8 transition-transform duration-300 group-hover:scale-110 group-active:scale-95 cursor-pointer"
 								fill="none"
 								viewBox="0 0 24 24"
 								stroke="currentColor"
@@ -520,7 +520,7 @@ const submitForm = async () => {
 								@click="removePhoto(photo.id)"
 								type="button"
 								aria-label="Supprimer cette photo"
-								class="absolute top-2 right-2 md:top-4 md:right-4 bg-black/60 p-1 md:p-2 rounded-full hover:bg-black/90 hover:rotate-90 transition-all duration-200 active:scale-95 transform">
+								class="absolute top-2 right-2 md:top-4 md:right-4 bg-black/60 p-1 md:p-2 rounded-full hover:bg-black/90 hover:rotate-90 transition-all duration-200 active:scale-95 transform cursor-pointer">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									class="h-4 w-4 md:h-6 md:w-6"
@@ -602,7 +602,7 @@ const submitForm = async () => {
 				<div
 					class="md:col-span-3 md:col-start-9 flex justify-end lg:mx-6 md:mt-8">
 					<div
-						class="w-fit transition-transform duration-200 active:scale-98 hover:scale-101">
+						class="w-fit transition-transform duration-200 active:scale-98 hover:scale-101 cursor-pointer">
 						<button
 							type="submit"
 							:disabled="isSubmitting"

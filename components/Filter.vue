@@ -172,7 +172,7 @@ onUnmounted(() => {
 		<div class="mt-5 w-full">
 			<button
 				@click="toggleFilters"
-				class="flex items-center justify-between gap-x-4 w-full px-4 py-3 bg-white border border-black rounded-lg shadow-sm hover:bg-gray-100 active:scale-98 transition-all duration-200">
+				class="flex items-center justify-between gap-x-4 w-full px-4 py-3 bg-white border border-black rounded-lg shadow-sm hover:bg-gray-100 active:scale-98 transition-all duration-200 cursor-pointer">
 				<span class="font-apercuMedium flex items-center">
 					<span>Filtrer</span>
 					<span
@@ -283,7 +283,7 @@ onUnmounted(() => {
 										v-for="tag in props.allTags"
 										:key="tag.value"
 										@click="toggleTag(tag.value)"
-										class="px-3.5 py-2 rounded-md border text-sm transition-all duration-200 active:scale-95"
+										class="px-3.5 py-2 rounded-md border text-sm transition-all duration-200 active:scale-95 cursor-pointer"
 										:class="
 											isTagSelected(tag.value)
 												? 'bg-yellow border-black font-apercuMedium'
@@ -305,7 +305,7 @@ onUnmounted(() => {
 									</span>
 									<button
 										@click="clearFilters"
-										class="text-sm px-4 py-2 border rounded-lg transition-all duration-200 active:scale-95"
+										class="text-sm px-4 py-2 border rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
 										:class="
 											activeFiltersCount === 0
 												? 'opacity-40 cursor-not-allowed border-gray-300 text-gray-400'

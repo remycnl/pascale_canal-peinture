@@ -112,7 +112,7 @@ useSchemaOrg([
 			<article
 				v-for="(faq, index) in sortedFAQs"
 				:key="faq.id"
-				class="bg-black active:scale-99 transition-transform border-4 md:border-5 border-black text-white rounded-2xl overflow-hidden opacity-0 animate-fade-in"
+				class="bg-black cursor-pointer active:scale-99 transition-transform border-4 md:border-5 border-black text-white rounded-2xl overflow-hidden opacity-0 animate-fade-in"
 				:class="`delay-[${index * 150}ms]`"
 				itemscope
 				itemtype="https://schema.org/Question">

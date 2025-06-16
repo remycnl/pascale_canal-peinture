@@ -256,7 +256,7 @@ const share = (platform) => {
 		<button
 			ref="buttonRef"
 			@click="toggleShareMenu"
-			class="border border-black text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-apercuBold hover:bg-black hover:text-white transition duration-200 focus:ring-opacity-50"
+			class="border border-black text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-apercuBold hover:bg-black hover:text-white transition duration-200 focus:ring-opacity-50 cursor-pointer"
 			:aria-expanded="isOpen"
 			:aria-controls="'share-menu'"
 			aria-haspopup="true"
@@ -303,7 +303,7 @@ const share = (platform) => {
 					<!-- Copier le lien -->
 					<button
 						@click="copyLink"
-						class="flex items-center space-x-2 p-2 rounded-md active:scale-97 hover:bg-blue-100 transition duration-200"
+						class="flex items-center space-x-2 p-2 rounded-md active:scale-97 hover:bg-blue-100 transition duration-200 cursor-pointer"
 						aria-label="Copier le lien"
 						role="menuitem">
 						<span class="ml-0.5 flex items-center justify-center">
@@ -345,7 +345,7 @@ const share = (platform) => {
 						v-for="network in filteredNetworks"
 						:key="network.id"
 						@click="share(network.id)"
-						class="flex items-center space-x-2 p-2 rounded-md hover:bg-blue-100 active:scale-97 transition duration-200"
+						class="flex items-center space-x-2 p-2 rounded-md hover:bg-blue-100 active:scale-97 transition duration-200 cursor-pointer"
 						:aria-label="`Partager sur ${network.name}`"
 						role="menuitem">
 						<span class="flex items-center justify-center">

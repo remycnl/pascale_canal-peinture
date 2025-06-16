@@ -117,7 +117,7 @@ onUnmounted(() => {
 				<NuxtLink
 					:to="`/${painting.slug}`"
 					:aria-label="`Découvrir ${painting.name} - ${painting.price}€`"
-					class="group relative block overflow-hidden rounded-xl md:rounded-2xl active:scale-98 transition-transform duration-200">
+					class="group relative block overflow-hidden rounded-xl md:rounded-2xl active:scale-98 transition-transform duration-200 cursor-pointer">
 					<div class="aspect-square overflow-hidden">
 						<NuxtImg
 							:src="painting.image"

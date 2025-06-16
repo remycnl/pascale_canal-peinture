@@ -206,7 +206,7 @@ const submitSubscription = async () => {
 					</button>
 					<button
 						@click="submitSubscription"
-						class="px-2 py-1 bg-black text-white rounded-full hover:opacity-80 transition-all duration-300 text-xs sm:text-sm font-apercuMedium flex items-center justify-center min-w-15 sm:min-w-18 active:scale-90"
+						class="px-2 py-1 bg-black text-white rounded-full hover:opacity-80 transition-all duration-300 text-xs sm:text-sm font-apercuMedium flex items-center justify-center min-w-15 sm:min-w-18 active:scale-90 cursor-pointer"
 						:disabled="isLoading">
 						<svg
 							v-if="isLoading"

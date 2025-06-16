@@ -25,13 +25,13 @@ const emit = defineEmits(["open-contact"]);
 			<NuxtLink
 				v-if="painting.state === 'OFF_SALE'"
 				to="/"
-				class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center">
+				class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
 				Retourner à la galerie
 			</NuxtLink>
 			<button
 				v-else
 				@click="emit('open-contact', 'achat')"
-				class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center">
+				class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
 				Contacter pour acheter
 			</button>
 			<ShareButton

@@ -56,7 +56,7 @@ watch(isOpen, (newValue) => {
 				<!-- Logo -->
 				<NuxtLink
 					to="/"
-					class="pointer-events-auto active:scale-95 transition-transform duration-200"
+					class="pointer-events-auto active:scale-95 transition-transform duration-200 cursor-pointer"
 					aria-label="Pascale Canal Peinture - Accueil">
 					<NuxtImg
 						src="/img/logo-reversed.png"
@@ -72,37 +72,37 @@ watch(isOpen, (newValue) => {
 					class="hidden md:flex flex-row text-white justify-end space-x-10 uppercase font-apercuMedium">
 					<NuxtLink
 						to="/"
-						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						class="active:scale-95 transition-transform duration-200 text-line-animation cursor-pointer pointer-events-auto"
 						aria-label="Tableaux de peinture"
 						>Tableaux</NuxtLink
 					>
 					<NuxtLink
 						to="/comment-ca-marche"
-						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						class="active:scale-95 transition-transform duration-200 text-line-animation cursor-pointer pointer-events-auto"
 						aria-label="Comment fonctionne mon processus de commande"
 						>Comment ça marche ?</NuxtLink
 					>
 					<NuxtLink
 						to="/commande-personnalisee"
-						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						class="active:scale-95 transition-transform duration-200 text-line-animation cursor-pointer pointer-events-auto"
 						aria-label="Commander un tableau personnalisé"
 						>Commande personnalisée</NuxtLink
 					>
 					<NuxtLink
 						to="/qui-suis-je"
-						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						class="active:scale-95 transition-transform duration-200 text-line-animation cursor-pointer pointer-events-auto"
 						aria-label="À propos de l'artiste"
 						>Qui suis-je ?</NuxtLink
 					>
 					<NuxtLink
 						to="/mes-evenements"
-						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						class="active:scale-95 transition-transform duration-200 text-line-animation cursor-pointer pointer-events-auto"
 						aria-label="Expositions et événements de l'artiste"
 						>Mes évènements</NuxtLink
 					>
 					<NuxtLink
 						to="/contact"
-						class="active:scale-95 transition-transform duration-200 text-line-animation pointer-events-auto"
+						class="active:scale-95 transition-transform duration-200 text-line-animation cursor-pointer pointer-events-auto"
 						aria-label="Contactez-moi"
 						>Contact</NuxtLink
 					>
@@ -112,7 +112,7 @@ watch(isOpen, (newValue) => {
 				<button
 					ref="buttonRef"
 					@click="toggleMenu"
-					class="pointer-events-auto z-150 md:hidden active:scale-90 transition-transform duration-200"
+					class="pointer-events-auto z-150 md:hidden active:scale-90 transition-transform duration-200 cursor-pointer"
 					aria-expanded="isOpen"
 					aria-controls="mobile-menu"
 					aria-label="Menu de navigation">
@@ -156,42 +156,42 @@ watch(isOpen, (newValue) => {
 							<NuxtLink
 								@click="isOpen = false"
 								to="/"
-								class="w-fit active:scale-90 transition-transform duration-200"
+								class="w-fit active:scale-90 transition-transform duration-200 cursor-pointer"
 								aria-label="Voir nos tableaux">
 								Tableaux
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"
 								to="/comment-ca-marche"
-								class="w-fit active:scale-90 transition-transform duration-200"
+								class="w-fit active:scale-90 transition-transform duration-200 cursor-pointer"
 								aria-label="Découvrir mon processus de commande">
 								Comment ça marche ?
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"
 								to="/commande-personnalisee"
-								class="w-fit active:scale-90 transition-transform duration-200"
+								class="w-fit active:scale-90 transition-transform duration-200 cursor-pointer"
 								aria-label="Commander un tableau personnalisé">
 								Commande personnalisée
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"
 								to="/qui-suis-je"
-								class="w-fit active:scale-90 transition-transform duration-200"
+								class="w-fit active:scale-90 transition-transform duration-200 cursor-pointer"
 								aria-label="À propos de l'artiste">
 								Qui suis-je ?
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"
 								to="/mes-evenements"
-								class="w-fit active:scale-90 transition-transform duration-200"
+								class="w-fit active:scale-90 transition-transform duration-200 cursor-pointer"
 								aria-label="Voir les expositions et événements">
 								Mes évènements
 							</NuxtLink>
 							<NuxtLink
 								@click="isOpen = false"
 								to="/contact"
-								class="w-fit active:scale-90 transition-transform duration-200"
+								class="w-fit active:scale-90 transition-transform duration-200 cursor-pointer"
 								aria-label="Contactez-moi">
 								Contact
 							</NuxtLink>

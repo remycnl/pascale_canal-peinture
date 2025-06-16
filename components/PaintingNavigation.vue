@@ -6,7 +6,7 @@ defineEmits(["go-back"]);
 	<nav aria-label="Navigation">
 		<button
 			@click="$emit('go-back')"
-			class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 pointer-cursor hover:-translate-x-2 transition-transform duration-200">
+			class="rotate-180 active:scale-95 w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 cursor-pointer hover:-translate-x-2 transition-transform duration-200">
 			<NuxtImg
 				src="/svg/arrow-black.svg"
 				alt="Retour"

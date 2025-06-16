@@ -86,7 +86,7 @@ watch(
 			<button
 				@click="goToPrevPage"
 				:disabled="currentPage === 1 || isLoading"
-				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-apercuMedium transition-all duration-200 active:scale-95"
+				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-apercuMedium transition-all duration-200 active:scale-95 cursor-pointer"
 				:class="[
 					currentPage === 1 || isLoading
 						? 'opacity-50 cursor-not-allowed bg-gray-100'
@@ -112,7 +112,7 @@ watch(
 					:key="index"
 					@click="goToPage(page)"
 					:disabled="page === '...' || page === currentPage || isLoading"
-					class="relative inline-flex items-center min-w-[40px] justify-center px-3 py-2 rounded-md border text-sm font-apercuMedium transition-all duration-200 active:scale-95"
+					class="relative inline-flex items-center min-w-[40px] justify-center px-3 py-2 rounded-md border text-sm font-apercuMedium transition-all duration-200 active:scale-95 cursor-pointer"
 					:class="[
 						page === currentPage
 							? 'bg-yellow border-black font-apercuBold z-10'
@@ -134,7 +134,7 @@ watch(
 			<button
 				@click="goToNextPage"
 				:disabled="currentPage === totalPages || isLoading"
-				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-apercuMedium transition-all duration-200 active:scale-95"
+				class="relative inline-flex items-center px-3 py-2 rounded-md border border-black text-sm font-apercuMedium transition-all duration-200 active:scale-95 cursor-pointer"
 				:class="[
 					currentPage === totalPages || isLoading
 						? 'opacity-50 cursor-not-allowed bg-gray-100'

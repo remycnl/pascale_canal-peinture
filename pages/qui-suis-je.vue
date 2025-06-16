@@ -159,12 +159,12 @@ useSchemaOrg([
 					aria-label="Navigation principale">
 					<NuxtLink
 						to="/contact"
-						class="bg-white text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:opacity-80 transition duration-200"
+						class="bg-white text-black active:scale-95 py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:opacity-80 transition duration-200 cursor-pointer"
 						>Me contacter</NuxtLink
 					>
 					<NuxtLink
 						to="/"
-						class="border border-white active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold hover:bg-white hover:text-black transition duration-200"
+						class="border border-white active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold hover:bg-white hover:text-black transition duration-200 cursor-pointer"
 						>Voir mes tableaux</NuxtLink
 					>
 				</nav>

@@ -124,7 +124,7 @@ const initializeTextareas = () => {
 				</h2>
 				<button
 					@click="addFAQ"
-					class="bg-yellow active:scale-95 text-black px-4 py-2 rounded-lg hover:bg-yellow/90 transition-all duration-200 flex items-center">
+					class="bg-yellow active:scale-95 text-black px-4 py-2 rounded-lg hover:bg-yellow/90 transition-all duration-200 flex items-center cursor-pointer">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						class="h-5 w-5 mr-2"
@@ -165,7 +165,7 @@ const initializeTextareas = () => {
 					<div class="absolute top-4 right-4">
 						<button
 							@click="removeFAQ(faq.id)"
-							class="text-red-500 hover:text-red-700 active:scale-95 transition-colors duration-200">
+							class="text-red-500 hover:text-red-700 active:scale-95 transition-colors duration-200 cursor-pointer">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-6 w-6"
@@ -189,7 +189,7 @@ const initializeTextareas = () => {
 								<button
 									@click="moveUp(faq)"
 									:disabled="index === 0"
-									class="p-2 rounded-md active:scale-95 transition-colors duration-200"
+									class="p-2 rounded-md active:scale-95 transition-colors duration-200 cursor-pointer"
 									:class="
 										index === 0
 											? 'text-gray-300'
@@ -209,7 +209,7 @@ const initializeTextareas = () => {
 								<button
 									@click="moveDown(faq)"
 									:disabled="index === sortedFaqs.length - 1"
-									class="p-2 rounded-md active:scale-95 transition-colors duration-200"
+									class="p-2 rounded-md active:scale-95 transition-colors duration-200 cursor-pointer"
 									:class="
 										index === sortedFaqs.length - 1
 											? 'text-gray-300'

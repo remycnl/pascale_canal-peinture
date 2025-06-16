@@ -621,7 +621,7 @@
 				v-if="currentStep > 0 && (!preSelectedArtwork || currentStep > 1)"
 				type="button"
 				@click="previousStep"
-				class="px-4 sm:px-6 py-2 disabled:active:scale-100 active:scale-97 backdrop-blur-md bg-white/10 text-white rounded-lg border border-white/30 hover:bg-white/20 transition-all duration-300">
+				class="px-4 sm:px-6 py-2 disabled:active:scale-100 active:scale-97 backdrop-blur-md bg-white/10 text-white rounded-lg border border-white/30 hover:bg-white/20 transition-all duration-300 cursor-pointer">
 				Précédent
 			</button>
 			<button
@@ -633,14 +633,14 @@
 				type="button"
 				@click="nextStep"
 				:disabled="!isStepValid"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg disabled:active:scale-100 active:scale-97 shadow-yellow/30 transition-all duration-300 hover:scale-102 disabled:hover:scale-100">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-yellow/80 text-black rounded-lg disabled:opacity-50 hover:bg-yellow shadow-lg disabled:active:scale-100 active:scale-97 shadow-yellow/30 transition-all duration-300 hover:scale-102 disabled:hover:scale-100 cursor-pointer">
 				Suivant
 			</button>
 			<button
 				v-if="currentStep === getMaxStep()"
 				type="submit"
 				:disabled="submitting"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-gradient-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 disabled:active:scale-100 active:scale-97 hover:shadow-xl hover:scale-102 transition-all duration-200">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-gradient-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 disabled:active:scale-100 active:scale-97 hover:shadow-xl hover:scale-102 transition-all duration-200 cursor-pointer">
 				{{ submitting ? "Envoi en cours..." : "Envoyer" }}
 			</button>
 		</div>

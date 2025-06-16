@@ -243,7 +243,7 @@ const initializeTextareas = () => {
 					</h2>
 					<button
 						@click="addEvent"
-						class="bg-yellow active:scale-95 text-black px-4 py-2 rounded-lg hover:bg-yellow/90 transition-all duration-200 flex items-center shadow-md"
+						class="bg-yellow active:scale-95 text-black px-4 py-2 rounded-lg hover:bg-yellow/90 transition-all duration-200 flex items-center shadow-md cursor-pointer"
 						:disabled="isAdding">
 						<svg
 							v-if="!isAdding"
@@ -433,7 +433,7 @@ const initializeTextareas = () => {
 
 									<button
 										@click="removeEvent(event.id)"
-										class="text-gray-500 hover:text-red-600 active:scale-95 transition-all p-2 rounded-full duration-200"
+										class="text-gray-500 hover:text-red-600 active:scale-95 transition-all p-2 rounded-full duration-200 cursor-pointer"
 										title="Supprimer">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"

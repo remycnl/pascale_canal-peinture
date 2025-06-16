@@ -88,7 +88,7 @@ onUnmounted(() => {
 					}
 				"
 				@click="setActiveTab(tab.id)"
-				class="relative z-10 rounded-full px-6 py-3 text-sm sm:text-base md:text-lg font-apercuMedium transition-all duration-200"
+				class="relative z-10 rounded-full px-6 py-3 text-sm sm:text-base md:text-lg font-apercuMedium transition-all duration-200 cursor-pointer"
 				:class="
 					activeTabId === tab.id
 						? 'text-black'

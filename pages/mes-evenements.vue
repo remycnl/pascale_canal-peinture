@@ -185,7 +185,7 @@ useSchemaOrg([
 					<div class="flex justify-end">
 						<button
 							@click="refresh"
-							class="mt-4 w-fit rounded-full bg-red-600 px-6 py-1 text-white hover:bg-red-700 transition-all duation-200 active:scale-97 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+							class="mt-4 w-fit rounded-full bg-red-600 px-6 py-1 text-white hover:bg-red-700 transition-all duation-200 active:scale-97 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 cursor-pointer">
 							Réessayer
 						</button>
 					</div>
@@ -291,7 +291,7 @@ useSchemaOrg([
 							<button
 								v-if="activeTab === 'past'"
 								@click="activeTab = 'upcoming'"
-								class="relative inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-full bg-black text-white overflow-hidden transition-all duration-300 hover:bg-black/90 active:scale-97 text-sm sm:text-base"
+								class="relative inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-full bg-black text-white overflow-hidden transition-all duration-300 hover:bg-black/90 active:scale-97 text-sm sm:text-base cursor-pointer"
 								aria-label="Voir les événements à venir">
 								<span
 									class="absolute inset-0 w-full h-full bg-white blur-md opacity-0"
@@ -472,7 +472,7 @@ useSchemaOrg([
 										:to="event.url"
 										target="_blank"
 										rel="noopener noreferrer"
-										class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full w-fit bg-black hover:bg-black/90 text-white font-apercuMedium transition-colors active:scale-97 duration-200 shadow-sm text-xs sm:text-sm flex items-center"
+										class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full w-fit bg-black hover:bg-black/90 text-white font-apercuMedium transition-colors active:scale-97 duration-200 shadow-sm text-xs sm:text-sm flex items-center cursor-pointer"
 										:aria-label="`Voir les détails de l'événement: ${event.title}`">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
