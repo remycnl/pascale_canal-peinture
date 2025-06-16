@@ -1,78 +1,127 @@
-// plugins/haptic-feedback.client.js
+// plugins/haptic-feedback.client.js - Version iOS compatible
 export default defineNuxtPlugin(() => {
-	// Vérifier si on est côté client
 	if (process.server) return;
 
-	// Détection mobile améliorée
-	const isMobile = () => {
-		if (typeof window === "undefined" || typeof navigator === "undefined")
-			return false;
-
+	// Détection spécifique iOS et navigateur
+	const isIOS = () => {
 		return (
-			/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-				navigator.userAgent
-			) ||
-			"ontouchstart" in window ||
-			(navigator.maxTouchPoints && navigator.maxTouchPoints > 0)
+			/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+			(navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
 		);
 	};
 
-	// Vérifier si on est sur mobile
-	if (!isMobile()) {
-		console.log("Haptic: Not on mobile device");
-		return {
-			provide: {
-				haptic: {
-					vibrate: () => console.log("Haptic: Not available on desktop"),
-					test: () => console.log("Haptic: Not available on desktop"),
-				},
-			},
-		};
-	}
-
-	// Vérifier le support de vibration
-	if (!navigator.vibrate) {
-		console.log("Haptic: Vibration API not supported");
-		return {
-			provide: {
-				haptic: {
-					vibrate: () => console.log("Haptic: API not supported"),
-					test: () => console.log("Haptic: API not supported"),
-				},
-			},
-		};
-	}
-
-	console.log("Haptic: Plugin initialized on mobile device");
-
-	// Fonction de vibration avec gestion d'erreur améliorée
-	let lastVibration = 0;
-	const vibrate = (pattern = [10]) => {
-		const now = Date.now();
-		// Throttle à 100ms pour éviter le spam
-		if (now - lastVibration < 100) return false;
-
-		lastVibration = now;
-
-		try {
-			// S'assurer que le pattern est correct
-			let vibrationPattern;
-			if (Array.isArray(pattern)) {
-				vibrationPattern = pattern;
-			} else if (typeof pattern === "number") {
-				vibrationPattern = [pattern];
-			} else {
-				vibrationPattern = [10];
-			}
-
-			const result = navigator.vibrate(vibrationPattern);
-			console.log("Haptic triggered:", vibrationPattern, "Success:", result);
-			return result;
-		} catch (error) {
-			console.error("Haptic error:", error);
-			return false;
-		}
+	const isSafari = () => {
+		return (
+			/Safari/.test(navigator.userAgent) &&
+			!/Chrome|CriOS|FxiOS/.test(navigator.userAgent)
+		);
 	};
+
+	const isChrome = () => {
+		return (
+			/CriOS/.test(navigator.userAgent) || /Chrome/.test(navigator.userAgent)
+		);
+	};
+
+	const isAndroid = () => {
+		return /Android/.test(navigator.userAgent);
+	};
+
+	console.log("Haptic: Device detection", {
+		isIOS: isIOS(),
+		isSafari: isSafari(),
+		isChrome: isChrome(),
+		isAndroid: isAndroid(),
+		hasVibrate: "vibrate" in navigator,
+		userAgent: navigator.userAgent,
+	});
+
+	// Fonction de vibration avec fallbacks iOS
+	const createHapticFunction = () => {
+		// 1. Safari sur iOS - API Vibration classique
+		if (isIOS() && isSafari() && "vibrate" in navigator) {
+			console.log("Haptic: Using Safari iOS vibration API");
+			return (pattern = [10]) => {
+				try {
+					return navigator.vibrate(pattern);
+				} catch (error) {
+					console.error("Safari vibration error:", error);
+					return false;
+				}
+			};
+		}
+
+		// 2. Chrome sur iOS - Pas de vibration disponible, utiliser alternatives
+		if (isIOS() && isChrome()) {
+			console.log("Haptic: Chrome on iOS - No vibration support");
+			return (pattern = [10]) => {
+				console.log("Haptic: Chrome iOS - Vibration would trigger:", pattern);
+				// Alternative : animation visuelle ou son
+				triggerVisualFeedback();
+				return false;
+			};
+		}
+
+		// 3. Android - API Vibration standard
+		if (isAndroid() && "vibrate" in navigator) {
+			console.log("Haptic: Using Android vibration API");
+			return (pattern = [10]) => {
+				try {
+					return navigator.vibrate(pattern);
+				} catch (error) {
+					console.error("Android vibration error:", error);
+					return false;
+				}
+			};
+		}
+
+		// 4. Fallback - Pas de support
+		console.log("Haptic: No vibration support available");
+		return (pattern = [10]) => {
+			console.log("Haptic: No support - would vibrate:", pattern);
+			triggerVisualFeedback();
+			return false;
+		};
+	};
+
+	// Alternative visuelle pour les navigateurs sans support vibration
+	const triggerVisualFeedback = () => {
+		// Créer un feedback visuel subtil
+		const feedback = document.createElement("div");
+		feedback.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      background: rgba(0, 123, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      animation: hapticPulse 0.15s ease-out;
+    `;
+
+		// Ajouter l'animation CSS si elle n'existe pas
+		if (!document.querySelector("#hapticAnimation")) {
+			const style = document.createElement("style");
+			style.id = "hapticAnimation";
+			style.textContent = `
+        @keyframes hapticPulse {
+          0% { transform: translate(-50%, -50%) scale(0); opacity: 0.7; }
+          50% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+          100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+      `;
+			document.head.appendChild(style);
+		}
+
+		document.body.appendChild(feedback);
+		setTimeout(() => feedback.remove(), 150);
+	};
+
+	// Initialiser la fonction de vibration
+	const vibrate = createHapticFunction();
 
 	// Patterns de vibration
 	const patterns = {
@@ -84,7 +133,7 @@ export default defineNuxtPlugin(() => {
 		error: [100, 50, 100, 50, 100],
 	};
 
-	// Sélecteurs d'éléments interactifs
+	// Détection d'éléments interactifs (identique)
 	const isInteractive = (element) => {
 		if (!element || !element.tagName) return false;
 
@@ -102,56 +151,41 @@ export default defineNuxtPlugin(() => {
 			element.classList.contains("nuxt-link-exact-active") ||
 			element.hasAttribute("href") ||
 			element.hasAttribute("data-haptic") ||
-			element.onclick !== null ||
-			element.getAttribute("tabindex") === "0"
+			element.onclick !== null
 		);
 	};
 
-	// Gestionnaire d'événement avec meilleure logique
+	// Gestionnaire tactile avec throttling
+	let lastHaptic = 0;
 	const handleTouch = (event) => {
-		if (!event.target) return;
+		const now = Date.now();
+		if (now - lastHaptic < 100) return; // Throttle 100ms
 
 		let target = event.target;
 		let depth = 0;
-		const maxDepth = 5;
 
-		// Remonter dans l'arbre DOM pour trouver un élément interactif
-		while (target && depth < maxDepth) {
+		while (target && depth < 5) {
 			if (isInteractive(target)) {
-				// Ignorer les éléments désactivés
 				if (
 					target.disabled ||
-					target.getAttribute("aria-disabled") === "true" ||
-					target.classList.contains("disabled")
+					target.getAttribute("aria-disabled") === "true"
 				) {
 					return;
 				}
 
-				// Déterminer le type de vibration
 				let patternType = "light";
 
 				if (target.hasAttribute("data-haptic-type")) {
 					patternType = target.getAttribute("data-haptic-type");
 				} else if (target.hasAttribute("data-haptic")) {
 					patternType = target.getAttribute("data-haptic") || "light";
-				} else if (
-					target.tagName.toLowerCase() === "button" ||
-					target.getAttribute("role") === "button" ||
-					target.getAttribute("type") === "button"
-				) {
+				} else if (target.tagName.toLowerCase() === "button") {
 					patternType = "medium";
-				} else if (target.tagName.toLowerCase() === "a") {
-					patternType = "light";
 				}
 
-				const success = vibrate(patterns[patternType] || patterns.light);
-				if (success) {
-					console.log(
-						"Haptic triggered for:",
-						target.tagName,
-						target.className || target.id || "unnamed"
-					);
-				}
+				lastHaptic = now;
+				vibrate(patterns[patternType] || patterns.light);
+				console.log("Haptic triggered for:", target.tagName, patternType);
 				break;
 			}
 			target = target.parentElement;
@@ -159,78 +193,68 @@ export default defineNuxtPlugin(() => {
 		}
 	};
 
-	// Fonction d'initialisation avec gestion des erreurs
+	// Initialisation
 	const initializeHaptic = () => {
-		try {
-			// Ajouter l'event listener
-			document.addEventListener("touchstart", handleTouch, {
-				passive: true,
-				capture: false,
-			});
+		document.addEventListener("touchstart", handleTouch, { passive: true });
+		console.log("Haptic: Event listener added");
 
-			console.log("Haptic: Event listener added");
-
-			// Test initial avec délai pour s'assurer que tout est chargé
-			setTimeout(() => {
-				console.log("Haptic: Testing vibration...");
-				const testResult = vibrate([50]);
-				if (!testResult) {
-					console.warn(
-						"Haptic: Test vibration failed - may need user interaction first"
-					);
-				}
-			}, 2000);
-		} catch (error) {
-			console.error("Haptic: Failed to initialize:", error);
-		}
+		// Test initial avec délai
+		setTimeout(() => {
+			console.log("Haptic: Running initial test...");
+			vibrate([50]);
+		}, 1000);
 	};
 
-	// Initialiser quand le DOM est prêt
 	if (document.readyState === "loading") {
 		document.addEventListener("DOMContentLoaded", initializeHaptic);
 	} else {
 		initializeHaptic();
 	}
 
-	// API publique améliorée
+	// API publique avec information sur le support
 	const hapticAPI = {
 		vibrate: (type = "light") => {
 			if (typeof type === "string") {
 				return vibrate(patterns[type] || patterns.light);
 			} else if (Array.isArray(type) || typeof type === "number") {
 				return vibrate(type);
-			} else {
-				return vibrate(patterns.light);
 			}
+			return vibrate(patterns.light);
 		},
 
 		test: () => vibrate([100, 50, 100]),
 
 		patterns,
 
-		// Nouvelle méthode pour tester si l'API fonctionne
-		isSupported: () => !!navigator.vibrate && isMobile(),
+		// Informations sur le support
+		isSupported: () => {
+			if (isIOS() && isSafari()) return "vibrate" in navigator;
+			if (isIOS() && isChrome()) return false;
+			if (isAndroid()) return "vibrate" in navigator;
+			return false;
+		},
 
-		// Méthode pour arrêter toute vibration
+		getDeviceInfo: () => ({
+			isIOS: isIOS(),
+			isSafari: isSafari(),
+			isChrome: isChrome(),
+			isAndroid: isAndroid(),
+			hasVibrate: "vibrate" in navigator,
+			recommendation:
+				isIOS() && isChrome()
+					? "Use Safari for vibration support"
+					: "Supported",
+		}),
+
 		stop: () => {
 			try {
-				return navigator.vibrate(0);
+				return navigator.vibrate && navigator.vibrate(0);
 			} catch (error) {
-				console.error("Haptic stop error:", error);
 				return false;
 			}
 		},
 	};
 
-	// Nettoyer en mode dev (fix pour la syntaxe Nuxt 3)
-	if (process.dev) {
-		// Utiliser onBeforeUnmount ou window.addEventListener('beforeunload')
-		window.addEventListener("beforeunload", () => {
-			document.removeEventListener("touchstart", handleTouch);
-		});
-	}
-
-	// Fournir l'API globale
 	return {
 		provide: {
 			haptic: hapticAPI,
