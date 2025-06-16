@@ -1,11 +1,14 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watchEffect } from "vue";
 import { useRuntimeConfig } from "nuxt/app";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 const secretKey = config.public.NUXT_SECRET_KEY;
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
+
+const { setPageTitle } = usePageTitle();
 
 const secretKeyInput = ref("");
 const showPassword = ref(false);
@@ -93,6 +96,14 @@ const checkSecretKey = () => {
 		alert("Mot de passe incorrect");
 	}
 };
+
+watchEffect(() => {
+	if (isSecretPage.value) {
+		setPageTitle("Éditeur | " + siteName);
+	} else {
+		setPageTitle("Accès restreint | " + siteName);
+	}
+});
 
 onMounted(() => {
 	if (isSecretPage.value) {

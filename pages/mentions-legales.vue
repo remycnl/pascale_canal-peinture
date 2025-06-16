@@ -1,11 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 const contactEmail = config.public.contactEmail;
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(`Mentions Légales | ${siteName}`);
 
 const lastUpdated = ref(new Date().toLocaleDateString("fr-FR"));
 

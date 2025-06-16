@@ -2,9 +2,16 @@
 import { useSchemaOrg } from "#imports";
 import { ref, onMounted, computed, watch, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const route = useRoute();
 const router = useRouter();
+
+const config = useRuntimeConfig();
+const siteName = config.public.siteName;
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(siteName);
 
 const filteredPaintings = ref([]);
 const allTags = ref([]);

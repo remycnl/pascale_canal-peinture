@@ -2,6 +2,7 @@
 import { useSchemaOrg } from "#imports";
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 const baseUrl = config.public.siteUrl;
@@ -10,7 +11,8 @@ const siteName = config.public.siteName;
 const route = useRoute();
 const router = useRouter();
 
-// États réactifs
+const { setPageTitle } = usePageTitle();
+
 const showContactOverlay = ref(false);
 const contactType = ref("");
 const formLoaded = ref(false);
@@ -22,7 +24,6 @@ const realViewportHeight = ref(
 	typeof window !== "undefined" ? window.innerHeight : 768
 );
 
-// Récupération des données
 const { data: painting, error } = await useFetch(
 	`/api/paintings/${route.params.slug}`
 );
@@ -31,7 +32,6 @@ if (error.value) {
 	console.error("Erreur lors de la récupération de la peinture :", error.value);
 }
 
-// Fonctions utilitaires
 const formatDate = (date) => {
 	const options = { year: "numeric" };
 	return new Date(date).toLocaleDateString("fr-FR", options);
@@ -77,8 +77,12 @@ const goBack = () => {
 	router.back();
 };
 
-// Lifecycle hooks
 onMounted(() => {
+	if (painting.value) {
+		setPageTitle(`${painting.value.name} | ${siteName}`);
+	} else {
+		setPageTitle("Page non trouvée");
+	}
 	if (typeof window !== "undefined") {
 		realViewportHeight.value = window.innerHeight;
 		updateViewportHeight();
@@ -106,7 +110,6 @@ onUnmounted(() => {
 	window.removeEventListener("scroll", updateViewportHeight);
 });
 
-// SEO et Schema.org
 useSeoMeta({
 	title: () =>
 		painting.value

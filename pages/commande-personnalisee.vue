@@ -2,10 +2,14 @@
 import { useSchemaOrg } from "#imports";
 import { computed } from "vue";
 import CustomOrderForm from "@/components/CustomOrderForm.vue";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(`Commande personnalisée | ${siteName}`);
 
 const metaTitle = computed(() => `Commande personnalisée | ${siteName}`);
 const metaDescription = computed(

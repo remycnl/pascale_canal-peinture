@@ -1,11 +1,15 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
 import { ref, reactive } from "vue";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(`Comment ça marche ? | ${siteName}`);
 
 const activeTab = ref("standard");
 const isTransitioning = ref(false);

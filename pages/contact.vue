@@ -1,11 +1,15 @@
 <script setup>
 import { useSchemaOrg } from "#imports";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 const contactEmail = config.public.contactEmail;
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(`Contact | ${siteName}`);
 
 useSeoMeta({
 	title: () => `Contact | ${siteName}`,

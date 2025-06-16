@@ -2,11 +2,15 @@
 import { useEvents } from "@/composables/useEvents";
 import { ref, computed, watch, onMounted } from "vue";
 import { useSchemaOrg } from "#imports";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(`Mes évènements | ${siteName}`);
 
 const {
 	upcomingEvents,

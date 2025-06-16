@@ -1,10 +1,14 @@
 <script setup>
 import { ref } from "vue";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(`Politique de Confidentialité | ${siteName}`);
 
 const lastUpdated = ref(new Date().toLocaleDateString("fr-FR"));
 

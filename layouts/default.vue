@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { Analytics } from "@vercel/analytics/nuxt";
 import Header from "@/layouts/Header.vue";
 import Footer from "@/layouts/Footer.vue";
 import { useSchemaOrg } from "#imports";
+import { usePageTitle } from "@/composables/usePageTitle";
 
 const config = useRuntimeConfig();
 const route = useRoute();
@@ -11,11 +12,7 @@ const route = useRoute();
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
-const inactiveTitle = ref("Psst... Reviens vite ! 🥺");
-
-const pageTitle = ref(
-	siteName || "Pascale Canal | Artiste Peintre • Exposition en ligne"
-);
+const { pageTitle, inactiveTitle } = usePageTitle();
 
 useSeoMeta({
 	title: siteName,
@@ -84,7 +81,9 @@ useSchemaOrg([
 
 onMounted(() => {
 	if (import.meta.client) {
-		pageTitle.value = document.title;
+		if (document.title !== pageTitle.value) {
+			pageTitle.value = document.title;
+		}
 
 		const handleVisibilityChange = () => {
 			document.title =
@@ -94,9 +93,10 @@ onMounted(() => {
 		};
 
 		document.addEventListener("visibilitychange", handleVisibilityChange);
-		onBeforeUnmount(() =>
-			document.removeEventListener("visibilitychange", handleVisibilityChange)
-		);
+
+		onUnmounted(() => {
+			document.removeEventListener("visibilitychange", handleVisibilityChange);
+		});
 
 		console.log(
 			`%c

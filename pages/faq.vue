@@ -2,8 +2,17 @@
 import { computed } from "vue";
 import { useFAQs } from "@/composables/useFAQs";
 import { useSchemaOrg } from "#imports";
+import { usePageTitle } from "@/composables/usePageTitle";
+
+const config = useRuntimeConfig();
+
+const baseUrl = config.public.siteUrl;
+const siteName = config.public.siteName;
 
 const { faqs, pending, error, refresh } = useFAQs();
+
+const { setPageTitle } = usePageTitle();
+setPageTitle(`Foire aux questions | ${siteName}`);
 
 const sortedFAQs = computed(() =>
 	(faqs.value || [])
@@ -17,11 +26,6 @@ const sortedFAQs = computed(() =>
 const toggleFAQ = (faq) => {
 	faq.isOpen = !faq.isOpen;
 };
-
-const config = useRuntimeConfig();
-
-const baseUrl = config.public.siteUrl;
-const siteName = config.public.siteName;
 
 useSeoMeta({
 	title: () => `Foire aux questions | ${siteName}`,
