@@ -1,171 +1,123 @@
 // plugins/haptic-feedback.client.js
 export default defineNuxtPlugin(() => {
-	// Vérification des capacités haptiques
-	const hasHapticSupport = () => {
-		return (
-			"vibrate" in navigator ||
-			"hapticActuators" in navigator ||
-			(window.DeviceMotionEvent &&
-				typeof DeviceMotionEvent.requestPermission === "function")
-		);
-	};
+  // Détection mobile simple et fiable
+  const isMobile = () => {
+    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           ('ontouchstart' in window) ||
+           (navigator.maxTouchPoints > 0)
+  }
 
-	// Détection mobile optimisée
-	const isMobile = () => {
-		return (
-			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-				navigator.userAgent
-			) ||
-			(navigator.maxTouchPoints && navigator.maxTouchPoints > 2)
-		);
-	};
+  // Vérifier si on est sur mobile
+  if (!isMobile()) {
+    console.log('Haptic: Not on mobile device')
+    return
+  }
 
-	// Détection iOS pour utiliser les haptics natifs si disponibles
-	const isIOS = () => {
-		return /iPad|iPhone|iPod/.test(navigator.userAgent);
-	};
+  // Vérifier le support de vibration
+  if (!('vibrate' in navigator)) {
+    console.log('Haptic: Vibration API not supported')
+    return
+  }
 
-	// Cache pour éviter les recalculs
-	const deviceInfo = {
-		mobile: isMobile(),
-		ios: isIOS(),
-		hapticSupport: hasHapticSupport(),
-	};
+  console.log('Haptic: Plugin initialized on mobile device')
 
-	// Si pas mobile ou pas de support haptique, on sort
-	if (!deviceInfo.mobile || !deviceInfo.hapticSupport) {
-		return;
-	}
+  // Fonction de vibration simple
+  let lastVibration = 0
+  const vibrate = (pattern = [10]) => {
+    const now = Date.now()
+    // Throttle à 100ms pour éviter le spam
+    if (now - lastVibration < 100) return
+    
+    lastVibration = now
+    
+    try {
+      navigator.vibrate(pattern)
+      console.log('Haptic triggered:', pattern)
+    } catch (error) {
+      console.error('Haptic error:', error)
+    }
+  }
 
-	// Fonction de vibration optimisée avec throttling
-	let lastHapticTime = 0;
-	const HAPTIC_THROTTLE = 50; // 50ms minimum entre les haptics
+  // Patterns de vibration
+  const patterns = {
+    light: [10],
+    medium: [20],
+    heavy: [30, 10, 30],
+    click: [5]
+  }
 
-	const triggerHaptic = (type = "light") => {
-		const now = Date.now();
-		if (now - lastHapticTime < HAPTIC_THROTTLE) return;
+  // Sélecteurs d'éléments interactifs
+  const isInteractive = (element) => {
+    if (!element) return false
+    
+    const tagName = element.tagName.toLowerCase()
+    const role = element.getAttribute('role')
+    
+    return (
+      tagName === 'a' ||
+      tagName === 'button' ||
+      element.type === 'button' ||
+      element.type === 'submit' ||
+      role === 'button' ||
+      element.classList.contains('nuxt-link-active') ||
+      element.classList.contains('nuxt-link-exact-active') ||
+      element.hasAttribute('href') ||
+      element.hasAttribute('data-haptic')
+    )
+  }
 
-		lastHapticTime = now;
+  // Gestionnaire d'événement simple
+  const handleTouch = (event) => {
+    let target = event.target
+    
+    // Remonter dans l'arbre DOM pour trouver un élément interactif
+    for (let i = 0; i < 5 && target; i++) {
+      if (isInteractive(target)) {
+        // Ignorer les éléments désactivés
+        if (target.disabled || target.getAttribute('aria-disabled') === 'true') {
+          return
+        }
+        
+        // Déterminer le type de vibration
+        let patternType = 'light'
+        
+        if (target.hasAttribute('data-haptic-type')) {
+          patternType = target.getAttribute('data-haptic-type')
+        } else if (target.tagName.toLowerCase() === 'button' || target.getAttribute('role') === 'button') {
+          patternType = 'medium'
+        }
+        
+        vibrate(patterns[patternType] || patterns.light)
+        console.log('Haptic triggered for:', target.tagName, target.className)
+        break
+      }
+      target = target.parentElement
+    }
+  }
 
-		try {
-			// iOS avec Haptic Feedback API (si disponible)
-			if (deviceInfo.ios && window.Haptics) {
-				switch (type) {
-					case "light":
-						window.Haptics.impact({ style: "light" });
-						break;
-					case "medium":
-						window.Haptics.impact({ style: "medium" });
-						break;
-					case "heavy":
-						window.Haptics.impact({ style: "heavy" });
-						break;
-				}
-				return;
-			}
+  // Ajouter l'event listener
+  document.addEventListener('touchstart', handleTouch, { passive: true })
+  
+  // Test initial pour vérifier que ça fonctionne
+  setTimeout(() => {
+    console.log('Haptic: Testing vibration...')
+    vibrate([50])
+  }, 1000)
 
-			// Fallback avec l'API Vibration standard
-			if ("vibrate" in navigator) {
-				const patterns = {
-					light: [10],
-					medium: [20],
-					heavy: [30],
-					click: [5],
-				};
-				navigator.vibrate(patterns[type] || patterns.light);
-			}
-		} catch (error) {
-			// Silencieux en cas d'erreur
-			console.debug("Haptic feedback not available:", error);
-		}
-	};
+  // Nettoyer en mode dev
+  if (process.dev && typeof module !== 'undefined' && module.hot) {
+    module.hot.dispose(() => {
+      document.removeEventListener('touchstart', handleTouch)
+    })
+  }
 
-	// Sélecteurs optimisés pour les éléments interactifs
-	const interactiveSelectors = [
-		"a[href]",
-		"button",
-		'[role="button"]',
-		'[tabindex]:not([tabindex="-1"])',
-		'input[type="button"]',
-		'input[type="submit"]',
-		'input[type="checkbox"]',
-		'input[type="radio"]',
-		".nuxt-link",
-		".haptic-enabled",
-	];
-
-	// Gestionnaire d'événements optimisé avec délégation
-	const handleInteraction = (event) => {
-		const target = event.target.closest(interactiveSelectors.join(","));
-
-		if (!target) return;
-
-		// Éviter les haptics sur les éléments désactivés
-		if (target.disabled || target.getAttribute("aria-disabled") === "true")
-			return;
-
-		// Type de haptic basé sur l'élément
-		let hapticType = "light";
-
-		if (target.hasAttribute("data-haptic-type")) {
-			hapticType = target.getAttribute("data-haptic-type");
-		} else if (
-			target.tagName === "BUTTON" ||
-			target.getAttribute("role") === "button"
-		) {
-			hapticType = "medium";
-		} else if (target.type === "submit") {
-			hapticType = "heavy";
-		}
-
-		triggerHaptic(hapticType);
-	};
-
-	// Options pour l'event listener (passive pour les performances)
-	const listenerOptions = {
-		passive: true,
-		capture: true,
-	};
-
-	// Ajout des event listeners avec délégation d'événements
-	document.addEventListener("touchstart", handleInteraction, listenerOptions);
-
-	// Fallback pour les clics (au cas où touchstart ne fonctionne pas)
-	document.addEventListener(
-		"click",
-		(event) => {
-			// Seulement si pas de touch
-			if (event.detail === 0) return; // Évite les clics programmatiques
-			handleInteraction(event);
-		},
-		listenerOptions
-	);
-
-	// Cleanup function pour le Hot Module Replacement
-	if (process.dev) {
-		const cleanup = () => {
-			document.removeEventListener(
-				"touchstart",
-				handleInteraction,
-				listenerOptions
-			);
-			document.removeEventListener("click", handleInteraction, listenerOptions);
-		};
-
-		// Nettoyage lors du HMR
-		if (module.hot) {
-			module.hot.dispose(cleanup);
-		}
-	}
-
-	// Exposition d'une fonction utilitaire globale
-	return {
-		provide: {
-			haptic: {
-				trigger: triggerHaptic,
-				isSupported: () => deviceInfo.mobile && deviceInfo.hapticSupport,
-				deviceInfo,
-			},
-		},
-	};
-});
+  // Fournir une API globale
+  return {
+    provide: {
+      haptic: {
+        vibrate: (type = 'light') => vibrate(patterns[type] || patterns.light),
+        test: () => vibrate([100, 50, 100])
+      }
+    }
+  }
+})
