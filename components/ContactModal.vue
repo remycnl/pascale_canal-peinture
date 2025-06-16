@@ -49,7 +49,7 @@ onMounted(() => {
 			<!-- Bouton de fermeture -->
 			<button
 				@click="emit('close')"
-				class="cross-button absolute top-4 right-4 text-gray-400 active:scale-90 hover:text-white transition-colors duration-200 z-20 cursor-pointer"
+				class="cross-button absolute top-4 right-4 text-gray-400 active:scale-80 hover:text-white transition-colors duration-200 z-20 cursor-pointer"
 				aria-label="Fermer">
 				<svg
 					class="h-10 w-10 md:h-12 md:w-12 lg:h-15 lg:w-15"
