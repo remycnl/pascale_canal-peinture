@@ -440,7 +440,7 @@ useSeoMeta({
 										:key="tag.value"
 										type="button"
 										@click="toggleTag(tag.value)"
-										class="px-4 py-2 font-apercuMedium whitespace-nowrap rounded-lg text-sm transition-all active:scale-97 duration-200"
+										class="px-4 py-2 font-apercuMedium whitespace-nowrap rounded-lg text-sm transition-all active:scale-97 duration-200 cursor-pointer"
 										:class="
 											selectedTags.includes(tag.value)
 												? 'bg-yellow text-black border border-yellow'
@@ -498,14 +498,14 @@ useSeoMeta({
 						<div class="flex gap-4 mt-8">
 							<button
 								type="submit"
-								class="flex-1 bg-yellow text-black py-3 px-6 rounded-lg hover:bg-yellow/70 transition-all active:scale-99 duration-200">
+								class="flex-1 bg-yellow text-black py-3 px-6 rounded-lg hover:bg-yellow/70 transition-all active:scale-99 duration-200 cursor-pointer">
 								{{ isEditMode ? "Mettre à jour" : "Ajouter" }}
 							</button>
 							<button
 								v-if="isEditMode"
 								type="button"
 								@click="resetForm"
-								class="bg-grayDark text-white py-3 px-6 rounded-lg hover:bg-grayDark/70 transition-all active:scale-98 duration-200">
+								class="bg-grayDark text-white py-3 px-6 rounded-lg hover:bg-grayDark/70 transition-all active:scale-98 duration-200 cursor-pointer">
 								Annuler
 							</button>
 						</div>

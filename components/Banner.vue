@@ -99,7 +99,7 @@ const targetRoute = computed(() => {
 				<NuxtLink
 					:to="targetRoute"
 					:aria-label="buttonText"
-					class="group relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-apercuMedium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden">
+					class="group relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-apercuMedium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden cursor-pointer">
 					<span
 						class="absolute inset-0 w-0 bg-gradient-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out group-hover:w-full"
 						aria-hidden="true"></span>
