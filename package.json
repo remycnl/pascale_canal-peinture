@@ -16,12 +16,12 @@
 	"dependencies": {
 		"@neondatabase/serverless": "^1.0.1",
 		"@nuxt/image": "^1.10.0",
-		"@nuxtjs/robots": "^5.2.10",
-		"@nuxtjs/sitemap": "^7.4.0",
-		"@prisma/client": "^6.9.0",
+		"@nuxtjs/robots": "^5.2.11",
+		"@nuxtjs/sitemap": "^7.4.2",
+		"@prisma/client": "^6.10.1",
 		"@prisma/nuxt": "^0.3.0",
 		"@vercel/analytics": "^1.5.0",
-		"cloudinary": "^2.6.1",
+		"cloudinary": "^2.7.0",
 		"gsap": "^3.13.0",
 		"nodemailer": "^7.0.3",
 		"nuxt": "^3.17.5",
@@ -31,7 +31,7 @@
 	},
 	"devDependencies": {
 		"@tailwindcss/vite": "^4.1.10",
-		"prisma": "^6.9.0",
+		"prisma": "^6.10.1",
 		"tailwindcss": "^4.1.10"
 	}
 }
