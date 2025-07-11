@@ -126,6 +126,7 @@ onMounted(() => {
 <template>
 	<main class="overflow-hidden">
 		<Analytics />
+		<AwwwardsToggle />
 		<LogoBackground />
 		<SplashScreen />
 		<Header />
