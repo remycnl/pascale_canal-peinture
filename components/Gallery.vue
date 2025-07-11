@@ -53,7 +53,7 @@ const {
 	cleanupMagneticEffect,
 	cleanupClickEffect,
 	handleDesktopDetection,
-	cleanup: cleanupAnimations
+	cleanup: cleanupAnimations,
 } = useGalleryAnimations();
 
 const noResultsFound = computed(
@@ -68,34 +68,19 @@ const updateSkeletonCount = () => {
 			: props.pagination.limit;
 };
 
-// Image loading handler
 const handleImageLoad = (paintingId) => {
 	isImageLoaded.value[paintingId] = true;
 };
 
 const startSequentialDisplay = () => {
 	if (import.meta.client) {
-		let currentCount = displayedCount.value;
-		const interval = 100;
-		const batchSize = 3;
+		displayedCount.value = 0;
 
-		const incrementDisplayCount = () => {
-			if (currentCount < props.paintings.length) {
-				const newCount = Math.min(
-					currentCount + batchSize,
-					props.paintings.length
-				);
-
-				displayedCount.value = newCount;
-				currentCount = newCount;
-
-				if (currentCount < props.paintings.length) {
-					setTimeout(incrementDisplayCount, interval);
-				}
-			}
-		};
-
-		setTimeout(incrementDisplayCount, 50);
+		props.paintings.forEach((_painting, index) => {
+			setTimeout(() => {
+				displayedCount.value = index + 1;
+			}, index * 150);
+		});
 	}
 };
 
@@ -115,7 +100,7 @@ const getImageClass = (paintingId, index) => {
 const setCardRef = (el, index) => {
 	if (el) {
 		cardRefs.value[index] = el;
-		
+
 		if (el instanceof HTMLElement) {
 			magneticElements.value[index] = el;
 		}
@@ -186,10 +171,10 @@ const debouncedResize = performanceManager.debounce(() => {
 const resetDisplayState = () => {
 	displayedCount.value = 0;
 	observedItems.value.clear();
-	
+
 	cleanupClickEffect();
 	cleanupMagneticEffect();
-	
+
 	magneticElements.value = [];
 
 	props.paintings.forEach((painting) => {
@@ -203,15 +188,15 @@ const resetDisplayState = () => {
 			setCardSize();
 			setupImageObserver();
 			startSequentialDisplay();
-		}, 'high');
+		}, "high");
 
 		setTimeout(() => {
 			performanceManager.scheduleTask(() => {
-				const validElements = magneticElements.value.filter(el => el);
+				const validElements = magneticElements.value.filter((el) => el);
 				if (validElements.length > 0) {
 					setupMagneticEffect();
 				}
-			}, 'normal');
+			}, "normal");
 		}, 800);
 	});
 };
@@ -220,7 +205,6 @@ watch(
 	() => props.isLoading,
 	(newValue, oldValue) => {
 		if (newValue) {
-			
 			if (oldValue === false && props.paintings.length > 0) {
 				isContentFading.value = true;
 
@@ -248,20 +232,20 @@ watch(() => props.pagination, updateSkeletonCount, { deep: true });
 
 onMounted(() => {
 	window.addEventListener("resize", debouncedResize);
-	
+
 	isDesktop.value = deviceUtils.isDesktop();
-	
+
 	updateSkeletonCount();
 	resetDisplayState();
 });
 
 onBeforeUnmount(() => {
 	cleanupAnimations();
-	
+
 	performanceManager.cleanup();
-	
+
 	deviceUtils.clearCache();
-	
+
 	if (imageObserver.value) {
 		imageObserver.value.disconnect();
 		imageObserver.value = null;
@@ -325,7 +309,6 @@ const handleRetry = () => {
 					<article
 						v-for="(painting, index) in paintings"
 						:key="painting.id"
-						:class="[getImageClass(painting.id, index)]"
 						class="magnetic-card cursor-pointer z-10 w-full h-auto group flex flex-col justify-self-center will-change-transform"
 						:ref="(el) => setCardRef(el, index)">
 						<NuxtLink
@@ -334,10 +317,10 @@ const handleRetry = () => {
 								painting.state === 'OFF_SALE'
 									? '(Hors vente)'
 									: `(${painting.price} €)`
-							}`">
+							}`"
+							:class="[getImageClass(painting.id, index)]"
+							class="block transition-all duration-700">
 							<div class="overflow-hidden relative w-full">
-								<!-- Using v-if to ensure we don't create duplicate images -->
-
 								<NuxtImg
 									v-if="observedItems && !observedItems.has(painting.id)"
 									:ref="(el) => observeImage(el, painting.id)"
@@ -396,7 +379,10 @@ const handleRetry = () => {
 				<article
 					v-for="i in skeletonCount"
 					:key="i"
-					class="z-10 w-full h-auto group rounded-xs flex flex-col transition-all duration-500 justify-self-center">
+					class="z-10 w-full h-auto group rounded-xs flex flex-col justify-self-center opacity-0 translate-y-12 animate-fade-in-up"
+					:style="{
+						animationDelay: `${(i - 1) * 100}ms`,
+					}">
 					<div>
 						<div class="overflow-hidden relative w-full">
 							<!-- Image skeleton -->
@@ -436,5 +422,21 @@ const handleRetry = () => {
 .content-fade-enter-from,
 .content-fade-leave-to {
 	opacity: 0;
+}
+
+/* Animation for skeleton items */
+@keyframes fade-in-up {
+	from {
+		opacity: 0;
+		transform: translateY(3rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-in-up {
+	animation: fade-in-up 0.7s ease-out forwards;
 }
 </style>
