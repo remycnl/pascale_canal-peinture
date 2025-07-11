@@ -7,6 +7,8 @@ import {
 	nextTick,
 	watch,
 } from "vue";
+import { useGalleryAnimations } from "~/composables/useGalleryAnimations";
+import { performanceManager, deviceUtils } from "~/utils/animationPerformance";
 
 const props = defineProps({
 	paintings: {
@@ -44,14 +46,22 @@ const skeletonCount = ref(9);
 const isShowingSkeleton = ref(true);
 const isContentFading = ref(false);
 
+const {
+	magneticElements,
+	isDesktop,
+	setupMagneticEffect,
+	cleanupMagneticEffect,
+	cleanupClickEffect,
+	handleDesktopDetection,
+	cleanup: cleanupAnimations
+} = useGalleryAnimations();
+
 const noResultsFound = computed(
 	() =>
 		props.pagination.totalCount === 0 && !props.isLoading && !props.loadError
 );
 
-// Calculate the number of skeletons to show based on expected items
 const updateSkeletonCount = () => {
-	// Use the actual number of paintings coming in the next batch
 	skeletonCount.value =
 		props.pagination.totalCount > 0
 			? Math.min(props.pagination.limit, props.pagination.totalCount)
@@ -63,16 +73,14 @@ const handleImageLoad = (paintingId) => {
 	isImageLoaded.value[paintingId] = true;
 };
 
-// Sequential display animation
 const startSequentialDisplay = () => {
 	if (import.meta.client) {
 		let currentCount = displayedCount.value;
-		const interval = 100; // ms between each display
-		const batchSize = 3; // Number of items to display per batch
+		const interval = 100;
+		const batchSize = 3;
 
 		const incrementDisplayCount = () => {
 			if (currentCount < props.paintings.length) {
-				// Calculate new display count (by batch for performance)
 				const newCount = Math.min(
 					currentCount + batchSize,
 					props.paintings.length
@@ -81,24 +89,20 @@ const startSequentialDisplay = () => {
 				displayedCount.value = newCount;
 				currentCount = newCount;
 
-				// Continue if not finished
 				if (currentCount < props.paintings.length) {
 					setTimeout(incrementDisplayCount, interval);
 				}
 			}
 		};
 
-		// Start sequential display
 		setTimeout(incrementDisplayCount, 50);
 	}
 };
 
-// Check if an image should be displayed yet
 const shouldDisplayImage = (index) => {
 	return index < displayedCount.value;
 };
 
-// CSS class for image entrance animation
 const getImageClass = (paintingId, index) => {
 	const isLoaded = isImageLoaded.value[paintingId];
 	const shouldDisplay = shouldDisplayImage(index);
@@ -108,12 +112,14 @@ const getImageClass = (paintingId, index) => {
 		: "opacity-0 translate-y-8";
 };
 
-// Set up refs for card elements
 const setCardRef = (el, index) => {
 	if (el) {
 		cardRefs.value[index] = el;
+		
+		if (el instanceof HTMLElement) {
+			magneticElements.value[index] = el;
+		}
 
-		// Use the first card to set our cardSize
 		if (index === 0) {
 			const { width } = el.getBoundingClientRect();
 			cardSize.value = width;
@@ -121,41 +127,34 @@ const setCardRef = (el, index) => {
 	}
 };
 
-// Setup IntersectionObserver for lazy loading images
 const setupImageObserver = () => {
 	if (typeof window !== "undefined" && "IntersectionObserver" in window) {
-		// Clean up previous observer if it exists
 		if (imageObserver.value) {
 			imageObserver.value.disconnect();
 		}
 
-		imageObserver.value = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						const imgElement = entry.target;
-						const paintingId = imgElement.dataset.paintingId;
+		imageObserver.value = performanceManager.createOptimizedObserver(
+			(entry) => {
+				if (entry.isIntersecting) {
+					const imgElement = entry.target;
+					const paintingId = imgElement.dataset.paintingId;
 
-						// Set image source from data attribute
-						if (imgElement.dataset.src) {
-							imgElement.src = imgElement.dataset.src;
+					if (imgElement.dataset.src) {
+						imgElement.src = imgElement.dataset.src;
 
-							// Stop observing this image
-							imageObserver.value.unobserve(imgElement);
-							observedItems.value.add(paintingId);
-						}
+						imageObserver.value.unobserve(imgElement);
+						observedItems.value.add(paintingId);
 					}
-				});
+				}
 			},
 			{
-				rootMargin: "300px", // Start loading when image is 300px away from viewport
+				rootMargin: "300px",
 				threshold: 0.01,
 			}
 		);
 	}
 };
 
-// Observe image element for lazy loading
 const observeImage = (el, paintingId) => {
 	if (
 		!el ||
@@ -170,7 +169,6 @@ const observeImage = (el, paintingId) => {
 	}
 };
 
-// Handle window resize to recalculate card size
 const setCardSize = () => {
 	if (cardRefs.value.length > 0 && cardRefs.value[0]) {
 		const { width } = cardRefs.value[0].getBoundingClientRect();
@@ -180,64 +178,62 @@ const setCardSize = () => {
 	}
 };
 
-// Debounced resize handler for performance
-const debounce = (fn, delay) => {
-	let timeoutId;
-	return function (...args) {
-		clearTimeout(timeoutId);
-		timeoutId = setTimeout(() => fn.apply(this, args), delay);
-	};
-};
-
-const debouncedResize = debounce(() => {
+const debouncedResize = performanceManager.debounce(() => {
 	setCardSize();
+	handleDesktopDetection();
 }, 200);
 
-// Reset display when paintings change
 const resetDisplayState = () => {
 	displayedCount.value = 0;
 	observedItems.value.clear();
+	
+	cleanupClickEffect();
+	cleanupMagneticEffect();
+	
+	magneticElements.value = [];
 
-	// Reset image loading status for new paintings
 	props.paintings.forEach((painting) => {
 		if (!isImageLoaded.value[painting.id]) {
 			isImageLoaded.value[painting.id] = false;
 		}
 	});
 
-	// Setup observers and animation after DOM update
 	nextTick(() => {
-		setCardSize();
-		setupImageObserver();
-		startSequentialDisplay();
+		performanceManager.scheduleTask(() => {
+			setCardSize();
+			setupImageObserver();
+			startSequentialDisplay();
+		}, 'high');
+
+		setTimeout(() => {
+			performanceManager.scheduleTask(() => {
+				const validElements = magneticElements.value.filter(el => el);
+				if (validElements.length > 0) {
+					setupMagneticEffect();
+				}
+			}, 'normal');
+		}, 800);
 	});
 };
 
-// Watch for loading state changes
 watch(
 	() => props.isLoading,
 	(newValue, oldValue) => {
 		if (newValue) {
-			// Loading started
-			// If this is a new loading state (not initial)
+			
 			if (oldValue === false && props.paintings.length > 0) {
-				// Start content fade out transition
 				isContentFading.value = true;
 
-				// After content has faded out, show skeletons
 				setTimeout(() => {
 					updateSkeletonCount();
 					isShowingSkeleton.value = true;
 					isContentFading.value = false;
-				}, 300); // Match fade-out duration
+				}, 300);
 			} else {
-				// Initial load or reload, show skeletons immediately
 				updateSkeletonCount();
 				isShowingSkeleton.value = true;
 			}
 		} else {
-			// Loading finished
-			// Delay hiding the skeletons slightly for a smoother transition
 			setTimeout(() => {
 				isShowingSkeleton.value = false;
 			}, 300);
@@ -246,19 +242,26 @@ watch(
 	{ immediate: true }
 );
 
-// Watch for new paintings to restart animations
 watch(() => props.paintings, resetDisplayState, { deep: true });
 
-// Watch for pagination changes to update skeleton count
 watch(() => props.pagination, updateSkeletonCount, { deep: true });
 
 onMounted(() => {
 	window.addEventListener("resize", debouncedResize);
+	
+	isDesktop.value = deviceUtils.isDesktop();
+	
 	updateSkeletonCount();
 	resetDisplayState();
 });
 
 onBeforeUnmount(() => {
+	cleanupAnimations();
+	
+	performanceManager.cleanup();
+	
+	deviceUtils.clearCache();
+	
 	if (imageObserver.value) {
 		imageObserver.value.disconnect();
 		imageObserver.value = null;
@@ -323,7 +326,8 @@ const handleRetry = () => {
 						v-for="(painting, index) in paintings"
 						:key="painting.id"
 						:class="[getImageClass(painting.id, index)]"
-						class="cursor-pointer z-10 w-full h-auto group rounded-xs flex flex-col transition-all duration-500 justify-self-center active:ring-4 active:ring-black active:ring-offset-5 active:outline-none focus-within:ring-4 focus-within:ring-black focus-within:ring-offset-5 focus-within:outline-none active:scale-97 [&:active]:duration-200 lg:hover:ring-4 lg:hover:ring-black lg:hover:ring-offset-5 lg:hover:outline-none lg:[&:hover]:duration-300 lg:active:ring-black/70">
+						class="magnetic-card cursor-pointer z-10 w-full h-auto group flex flex-col justify-self-center will-change-transform"
+						:ref="(el) => setCardRef(el, index)">
 						<NuxtLink
 							:to="`/${painting.slug}`"
 							:aria-label="`Voir les détails de l'œuvre: ${painting.name} ${
@@ -331,9 +335,7 @@ const handleRetry = () => {
 									? '(Hors vente)'
 									: `(${painting.price} €)`
 							}`">
-							<div
-								:ref="(el) => setCardRef(el, index)"
-								class="overflow-hidden relative w-full">
+							<div class="overflow-hidden relative w-full">
 								<!-- Using v-if to ensure we don't create duplicate images -->
 
 								<NuxtImg

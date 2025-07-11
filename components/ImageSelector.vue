@@ -23,7 +23,7 @@ const emit = defineEmits(["select-image"]);
 		<button
 			@click.stop="emit('select-image', 'normal')"
 			:class="[
-				'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
+				'w-12 h-12 md:w-16 md:h-16 cursor-pointer rounded-lg active:scale-98 border-2 overflow-hidden transition-all duration-200',
 				selectImage === 'normal'
 					? 'border-yellow shadow-lg scale-105'
 					: 'border-white/50 hover:border-white hover:scale-105',
@@ -38,7 +38,7 @@ const emit = defineEmits(["select-image"]);
 		<button
 			@click.stop="emit('select-image', 'preview')"
 			:class="[
-				'w-12 h-12 md:w-16 md:h-16 rounded-lg border-2 overflow-hidden transition-all duration-200',
+				'w-12 h-12 md:w-16 md:h-16 cursor-pointer rounded-lg border-2 active:scale-98 overflow-hidden transition-all duration-200',
 				selectImage === 'preview'
 					? 'border-yellow shadow-lg scale-105'
 					: 'border-white/50 hover:border-white hover:scale-105',
