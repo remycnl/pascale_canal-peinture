@@ -55,13 +55,13 @@ export const useGalleryAnimations = () => {
 				});
 
 				tl.to(element, {
-					scale: 0.97,
+					scale: 0.9,
 					duration: 0.2,
 					ease: "power2.out",
 				}).to(element, {
 					scale: 1,
 					duration: 0.8,
-					ease: "elastic.out(1, 0.25)",
+					ease: "elastic.out(1, 0.4)",
 				});
 			};
 
@@ -138,8 +138,8 @@ export const useGalleryAnimations = () => {
 
 				const centerX = boundingRect.width / 2;
 				const centerY = boundingRect.height / 2;
-				const moveX = (e.clientX - boundingRect.left - centerX) * 0.15;
-				const moveY = (e.clientY - boundingRect.top - centerY) * 0.15;
+				const moveX = (e.clientX - boundingRect.left - centerX) * 0.25;
+				const moveY = (e.clientY - boundingRect.top - centerY) * 0.25;
 
 				const currentTween = animationPool.currentTweens.get(element);
 				if (currentTween) currentTween.kill();
@@ -147,8 +147,8 @@ export const useGalleryAnimations = () => {
 				const newTween = gsap.to(element, {
 					x: moveX,
 					y: moveY,
-					duration: 1.2,
-					ease: "power2.out",
+					duration: 0.7,
+					ease: "power1.out",
 					overwrite: "auto",
 				});
 
@@ -167,7 +167,7 @@ export const useGalleryAnimations = () => {
 				const leaveTween = gsap.to(element, {
 					x: 0,
 					y: 0,
-					duration: 1.6,
+					duration: 1.2,
 					ease: "elastic.out(1, 0.3)",
 					overwrite: "auto",
 				});
