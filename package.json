@@ -24,7 +24,7 @@
 		"cloudinary": "^2.7.0",
 		"gsap": "^3.13.0",
 		"nodemailer": "^7.0.5",
-		"nuxt": "^3.17.7",
+		"nuxt": "^4.0.1",
 		"nuxt-schema-org": "^5.0.6",
 		"vue": "latest",
 		"vue-router": "latest"
