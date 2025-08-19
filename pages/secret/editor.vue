@@ -635,6 +635,7 @@ useSeoMeta({
 			</div>
 			<event-editable />
 			<FAQeditable />
+			<poster-size-manager />
 			<newsletter-subscribers />
 		</div>
 

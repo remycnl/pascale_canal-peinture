@@ -28,12 +28,24 @@ enum SubscriptionType {
   BOTH        // Les deux
 }
 
+model GlobalPosterSize {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique // Ex: "A4", "A3", "A2", "30x40cm"
+  width       Decimal // Largeur en cm
+  height      Decimal // Hauteur en cm
+  price       Decimal // Prix pour cette taille
+  isActive    Boolean @default(true) // Permet d'activer/désactiver une taille
+  order       Int     @default(0) // Ordre d'affichage
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Painting {
   id           Int           @id @default(autoincrement())
   name         String // Nom de la peinture
   description  String? // Description détaillée de l'œuvre
   date         DateTime      @default(now()) // Date de création ou d'exposition
-  price        Decimal // Prix de la peinture
+  price        Decimal // Prix de la peinture originale
   image        String // URL ou chemin d'image
   tags         PaintingTag[] // Relation many-to-many avec les tags
   state        PaintingState @default(FOR_SALE) // État : "vendu" ou "à vendre"
@@ -42,6 +54,8 @@ model Painting {
   width        Decimal // Largeur en cm
   height       Decimal // Hauteur en cm
   paintingType String // Technique de peinture (ex : huile, aquarelle, acrylique, etc)
+  
+  // Les affiches sont toujours disponibles en utilisant GlobalPosterSize
 }
 
 model PaintingTag {

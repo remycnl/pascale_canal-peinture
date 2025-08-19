@@ -46,46 +46,53 @@ const standardSections = [
 		number: "02",
 		title: "Sélectionne ton tableau",
 		description: {
-			text: 'Une fois ton tableau préféré trouvé, clique sur le bouton "Contacter pour acheter" présent sur sa page pour débuter le processus d\'achat.',
+			text: "Une fois ton tableau préféré trouvé, clique dessus pour accéder à sa page détaillée où tu pourras voir toutes les informations sur l'œuvre.",
 		},
 	},
 	{
 		number: "03",
-		title: "Remplis le formulaire",
+		title: "Choisis ton format",
 		description: {
-			text: "Suis les étapes du formulaire pour renseigner tes informations de contact. Si tu as des demandes spécifiques, tu peux les mentionner dans la section prévue à cet effet.",
+			text: "Décide si tu souhaites acquérir l'œuvre originale (unique et disponible en un seul exemplaire) ou opter pour une affiche en sélectionnant parmi les formats disponibles proposés.",
 		},
 	},
 	{
 		number: "04",
+		title: "Remplis le formulaire",
+		description: {
+			text: 'Clique sur le bouton "Contacter pour acheter" et suis les étapes du formulaire pour renseigner tes informations de contact. Si tu as des demandes spécifiques, tu peux les mentionner dans la section prévue à cet effet.',
+		},
+	},
+	{
+		number: "05",
 		title: "Confirmation de ta demande",
 		description: {
 			text: "Après avoir soumis le formulaire, je te contacterai sous 48 heures ouvrées pour valider ta commande, répondre à tes questions et discuter des détails du paiement et de la livraison.",
 		},
 	},
 	{
-		number: "05",
+		number: "06",
 		title: "Validation du paiement",
 		description: {
 			text: "Une fois que nous avons confirmé ensemble les modalités de paiement, effectue le règlement via le moyen convenu (virement bancaire, PayPal, etc.).",
 		},
 	},
 	{
-		number: "06",
+		number: "07",
 		title: "Préparation et expédition",
 		description: {
 			text: "Dès réception du paiement, je prépare soigneusement ton tableau pour l'expédition. Il sera emballé avec précaution afin d'assurer sa protection lors du transport.",
 		},
 	},
 	{
-		number: "07",
+		number: "08",
 		title: "Livraison",
 		description: {
 			text: "Ton tableau sera expédié à l'adresse indiquée selon le mode de livraison choisi. Un numéro de suivi te sera communiqué pour suivre son acheminement.",
 		},
 	},
 	{
-		number: "08",
+		number: "09",
 		title: "Réception et satisfaction",
 		description: {
 			text: "Une fois ton tableau reçu, assure-toi qu'il est en parfait état. Si tout est conforme, profite pleinement de ton œuvre !",

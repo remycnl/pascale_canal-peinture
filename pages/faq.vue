@@ -68,7 +68,6 @@ useSchemaOrg([
 			jobTitle: "Artiste peintre",
 			sameAs: [
 				"https://www.instagram.com/pascale.canal.art/",
-				"https://www.facebook.com/pascale.canal.art/",
 			],
 		},
 		publisher: {

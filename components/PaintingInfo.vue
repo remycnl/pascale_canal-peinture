@@ -1,4 +1,6 @@
 <script setup>
+import { ref, computed } from 'vue';
+
 const props = defineProps({
 	painting: {
 		type: Object,
@@ -15,6 +17,74 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["open-contact"]);
+
+// Gestion de la sélection entre original et affiche
+const selectedFormat = ref('original');
+const selectedPosterSize = ref(null);
+
+// Prix calculé selon le format sélectionné
+const currentPrice = computed(() => {
+	if (selectedFormat.value === 'original') {
+		return props.painting.price;
+	} else if (selectedPosterSize.value) {
+		return selectedPosterSize.value.price;
+	}
+	return props.painting.posterSizes?.[0]?.price || 0;
+});
+
+// Prix minimum pour les affiches
+const minPosterPrice = computed(() => {
+	if (!props.painting.posterSizes || props.painting.posterSizes.length === 0) {
+		return 0;
+	}
+	return Math.min(...props.painting.posterSizes.map(size => parseFloat(size.price)));
+});
+
+// Dimensions calculées selon le format sélectionné
+const currentDimensions = computed(() => {
+	if (selectedFormat.value === 'original') {
+		return {
+			width: props.painting.width,
+			height: props.painting.height
+		};
+	} else if (selectedPosterSize.value) {
+		return {
+			width: selectedPosterSize.value.width,
+			height: selectedPosterSize.value.height
+		};
+	}
+	return {
+		width: props.painting.posterSizes?.[0]?.width || 0,
+		height: props.painting.posterSizes?.[0]?.height || 0
+	};
+});
+
+// Initialiser la première taille d'affiche si disponible
+const initializePosterSize = () => {
+	if (props.painting.posterSizes && props.painting.posterSizes.length > 0) {
+		selectedPosterSize.value = props.painting.posterSizes[0];
+		// Si l'original n'est plus en vente, sélectionner automatiquement l'affiche
+		if (props.painting.state === 'OFF_SALE') {
+			selectedFormat.value = 'poster';
+		}
+	}
+};
+
+// Initialiser au montage
+onMounted(() => {
+	initializePosterSize();
+});
+
+// Fonction pour gérer le contact avec les détails du format sélectionné
+const handleContactClick = () => {
+	const contactData = {
+		format: selectedFormat.value,
+		...(selectedFormat.value === 'poster' && selectedPosterSize.value && {
+			posterSize: selectedPosterSize.value
+		})
+	};
+	emit('open-contact', 'achat', contactData);
+};
 </script>
 
 <template>
@@ -22,37 +92,192 @@ const emit = defineEmits(["open-contact"]);
 		<!-- Actions en haut -->
 		<div
 			class="lg:absolute -mt-7 lg:mt-0 -top-20 right-0 text-end will-change-scroll flex flex-col lg:flex-row gap-4">
-			<NuxtLink
-				v-if="painting.state === 'OFF_SALE'"
-				to="/"
-				class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
-				Retourner à la galerie
-			</NuxtLink>
+			<!-- Afficher le bouton d'achat si l'original est en vente OU si des affiches sont disponibles -->
 			<button
-				v-else
-				@click="emit('open-contact', 'achat')"
-				class="bg-black active:scale-98 md:active:scale-95 text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
+				v-if="painting.state === 'FOR_SALE' || (painting.posterSizes && painting.posterSizes.length > 0)"
+				@click="handleContactClick"
+				class="bg-black text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
 				Contacter pour acheter
 			</button>
+			<NuxtLink
+				v-else
+				to="/"
+				class="bg-black text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
+				Retourner à la galerie
+			</NuxtLink>
 			<ShareButton
 				:title="`Découvre '${painting.name}' peint par ${painting.artist}`"
 				:description="painting.description"
 				position="bottom-right" />
 		</div>
 
+		<!-- Sélection du format (Original ou Affiche) -->
+		<section class="mt-10 lg:mt-0">
+			<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black mb-6">
+				Choisir le format
+			</h2>
+			
+			<!-- Sélecteur de format -->
+			<div class="space-y-2 mb-8">
+				<!-- Option Original (si en vente) -->
+				<div 
+					v-if="painting.state === 'FOR_SALE'"
+					@click="selectedFormat = 'original'"
+					:class="[
+						'group relative overflow-hidden rounded-xl border cursor-pointer transition-all duration-200 ease-out h-fit',
+						selectedFormat === 'original' 
+							? 'border-black bg-gray-50' 
+							: 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+					]">
+					<div class="p-4">
+						<div class="flex justify-between items-start">
+							<div class="flex-1">
+								<div class="flex items-center gap-3 mb-2">
+									<!-- Radio button custom -->
+									<div class="relative">
+										<div 
+											:class="[
+												'w-4 h-4 rounded-full border transition-all duration-200',
+												selectedFormat === 'original' 
+													? 'border-black bg-black' 
+													: 'border-gray-300'
+											]">
+											<div 
+												v-if="selectedFormat === 'original'" 
+												class="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+											</div>
+										</div>
+									</div>
+									<div class="flex items-center gap-2">
+										<h3 class="font-apercuMedium text-black">Tableau original</h3>
+										<span class="bg-yellow/70 text-black text-xs px-2 py-0.5 rounded-md font-apercuMedium">
+											Unique
+										</span>
+									</div>
+								</div>
+								<p class="text-gray-600 text-sm ml-7">
+									Œuvre originale peinte à la main
+								</p>
+							</div>
+							<div class="text-right ml-4">
+								<div class="text-lg font-apercuBold text-black">
+									{{ formatPrice(painting.price) }} €
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Option Affiche (toujours disponible) -->
+				<div 
+					v-if="painting.posterSizes && painting.posterSizes.length > 0"
+					@click="selectedFormat = 'poster'"
+					:class="[
+						'group relative overflow-hidden rounded-xl border cursor-pointer transition-all duration-200 ease-out h-fit',
+						selectedFormat === 'poster' 
+							? 'border-black bg-gray-50' 
+							: 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+					]">
+					<div class="p-4">
+						<div class="flex justify-between items-start">
+							<div class="flex-1">
+								<div class="flex items-center gap-3 mb-2">
+									<!-- Radio button custom -->
+									<div class="relative">
+										<div 
+											:class="[
+												'w-4 h-4 rounded-full border transition-all duration-200',
+												selectedFormat === 'poster' 
+													? 'border-black bg-black' 
+													: 'border-gray-300'
+											]">
+											<div 
+												v-if="selectedFormat === 'poster'" 
+												class="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+											</div>
+										</div>
+									</div>
+									<div class="flex items-center gap-2">
+										<h3 class="font-apercuMedium text-black">Affiche</h3>
+									</div>
+								</div>
+								<p class="text-gray-600 text-sm ml-7">
+									Reproduction fidèle sur papier d'art
+								</p>
+								
+								<!-- Sélection des tailles d'affiches avec scroll -->
+								<div 
+									v-if="selectedFormat === 'poster'" 
+									class="ml-7 mt-3 -mr-6">
+									<label class="text-sm font-apercuMedium text-black block mb-3">
+										Taille :
+									</label>
+									<div>
+										<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-2">
+											<div 
+												v-for="(posterSize, index) in painting.posterSizes" 
+												:key="posterSize.id"
+												@click.stop="selectedPosterSize = posterSize"
+												:style="{ animationDelay: `${index * 50}ms` }"
+												:class="[
+													'border rounded-lg p-3 cursor-pointer transition-all duration-150 text-sm animate-in fade-in-item',
+													selectedPosterSize?.id === posterSize.id 
+														? 'border-black bg-black text-white' 
+														: 'border-gray-200 hover:border-gray-300 bg-white'
+												]">
+												<div class="flex flex-row justify-between items-center gap-2">
+													<div class="flex items-center gap-2 flex-1 min-w-0">
+														<div class="min-w-0 flex-1">
+															<div class="font-apercuMedium truncate">{{ posterSize.name }}</div>
+															<div 
+																:class="[
+																	'text-xs',
+																	selectedPosterSize?.id === posterSize.id 
+																		? 'text-white/75' 
+																		: 'text-gray-500'
+																]">
+																{{ posterSize.width }} × {{ posterSize.height }} cm
+															</div>
+														</div>
+													</div>
+													<span class="font-apercuBold text-sm whitespace-nowrap flex-shrink-0">
+														{{ formatPrice(posterSize.price) }} €
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="text-right ml-4">
+								<div v-if="selectedFormat === 'poster' && selectedPosterSize" class="text-lg font-apercuBold text-black">
+									{{ formatPrice(currentPrice) }} €
+								</div>
+								<div v-else class="text-lg font-apercuBold text-black flex flex-col items-end">
+									<span class="text-[9px] uppercase text-gray-400 tracking-wide">À partir de</span>
+									<span>{{ formatPrice(minPosterPrice) }} €</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<!-- Détails de l'œuvre -->
 		<section>
 			<h2
-				class="text-lg md:text-xl mt-10 lg:mt-0 lg:text-3xl font-apercuBold text-black">
+				class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 				Détails
 			</h2>
 			<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2">
 				<li v-if="painting.state === 'OFF_SALE'">
 					<span
 						class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-						Ce tableau n'est pas disponible à la vente et est présentée
-						uniquement à titre d'exposition. Si vous souhaitez acquérir une
-						œuvre, vous avez la possibilité de
+						Le tableau original n'est pas disponible à la vente et est présenté
+						uniquement à titre d'exposition. Cependant, vous pouvez acquérir une
+						affiche de cette œuvre ci-dessus. Si vous souhaitez acquérir une
+						œuvre originale, vous avez la possibilité de
 						<NuxtLink
 							to="/commande-personnalisee"
 							class="text-[#B60071] underline">
@@ -60,21 +285,25 @@ const emit = defineEmits(["open-contact"]);
 						</NuxtLink>
 						ou de
 						<NuxtLink to="/?forSale=true" class="text-[#B60071] underline">
-							découvrir les œuvres actuellement disponibles à l'achat </NuxtLink
+							découvrir les œuvres originales actuellement disponibles à l'achat </NuxtLink
 						>.
 					</span>
 				</li>
 				<li v-if="painting.state === 'FOR_SALE'">
 					<span class="font-apercuBold">Prix: </span>
-					{{ formatPrice(painting.price) }} €
+					{{ formatPrice(currentPrice) }} €
 				</li>
 				<li>
 					<span class="font-apercuBold">Dimensions: </span>
-					{{ painting.width }} cm x {{ painting.height }} cm
+					{{ currentDimensions.width }} cm x {{ currentDimensions.height }} cm
 				</li>
-				<li>
+				<li v-if="selectedFormat === 'original'">
 					<span class="font-apercuBold">Technique:</span>
 					{{ painting.paintingType }}
+				</li>
+				<li v-else-if="selectedFormat === 'poster'">
+					<span class="font-apercuBold">Support:</span>
+					Papier d'art haute qualité
 				</li>
 				<li>
 					<span class="font-apercuBold">Date de création: </span>
@@ -86,3 +315,37 @@ const emit = defineEmits(["open-contact"]);
 		</section>
 	</div>
 </template>
+
+<style scoped>
+/* Animation d'entrée fluide */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fade-in-item {
+	from {
+		opacity: 0;
+		transform: translateY(-8px) scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.animate-in {
+	animation: fade-in 0.2s ease-out;
+}
+
+.fade-in-item {
+	animation: fade-in-item 0.3s ease-out forwards;
+	opacity: 0;
+}
+</style>

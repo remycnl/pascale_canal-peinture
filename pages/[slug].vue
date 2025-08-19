@@ -58,8 +58,12 @@ const updateModalHeight = () => {
 	}
 };
 
-const openContactOverlay = (type) => {
+const openContactOverlay = (type, contactData = null) => {
 	contactType.value = type;
+	if (contactData) {
+		// Stocker les données du format sélectionné pour le formulaire de contact
+		window.selectedContactData = contactData;
+	}
 	showContactOverlay.value = true;
 	document.body.style.overflow = "hidden";
 	nextTick(() => {

@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 		const { slug } = event.context.params;
 
 		const painting = await prisma.painting.findUnique({
-			where: { slug },
+			where: { slug }
 		});
 
 		if (!painting) {
@@ -15,7 +15,19 @@ export default defineEventHandler(async (event) => {
 			});
 		}
 
-		return painting;
+		// Récupérer les tailles d'affiches globales disponibles
+		const posterSizes = await prisma.globalPosterSize.findMany({
+			where: { isActive: true },
+			orderBy: { order: 'asc' }
+		});
+
+		// Ajouter les tailles d'affiches à la peinture
+		const paintingWithPosters = {
+			...painting,
+			posterSizes
+		};
+
+		return paintingWithPosters;
 	} catch (error) {
 		return createError({
 			statusCode: 500,
