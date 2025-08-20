@@ -286,8 +286,9 @@
 											class="w-full object-cover rounded-lg aspect-square" />
 										<span
 											v-if="artwork.state === 'OFF_SALE'"
-											class="absolute top-2 flex items-center right-2 bg-yellow/80 text-black text-xs px-2 py-0.5 rounded-full">
-											Affiche uniquement
+											class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-yellow/80 text-black text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5 flex items-center rounded-full">
+											<span class="hidden sm:inline">Affiche uniquement</span>
+											<span class="sm:hidden">Affiche</span>
 										</span>
 									</div>
 									<p class="text-sm mt-2 text-white truncate">
@@ -428,8 +429,9 @@
 									class="w-full rounded-lg object-cover aspect-square" />
 								<span
 									v-if="artwork.state === 'OFF_SALE'"
-									class="absolute top-2 right-2 bg-yellow/80 text-black text-xs px-2 py-0.5 flex items-center rounded-full">
-									Affiche uniquement
+									class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-yellow/80 text-black text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5 flex items-center rounded-full">
+									<span class="hidden sm:inline">Affiche uniquement</span>
+									<span class="sm:hidden">Affiche</span>
 								</span>
 							</div>
 							<p class="text-sm mt-2 text-white truncate">{{ artwork.name }}</p>

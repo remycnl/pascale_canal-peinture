@@ -91,7 +91,7 @@ const handleContactClick = () => {
 	<div class="relative prose max-w-none text-grayDark">
 		<!-- Actions en haut -->
 		<div
-			class="lg:absolute -mt-7 lg:mt-0 -top-20 right-0 text-end will-change-scroll flex flex-col lg:flex-row gap-4">
+			class="-mt-7 lg:mt-0 lg:mb-8 right-0 justify-end text-end will-change-scroll flex flex-col lg:flex-row gap-4">
 			<!-- Afficher le bouton d'achat si l'original est en vente OU si des affiches sont disponibles -->
 			<button
 				v-if="painting.state === 'FOR_SALE' || (painting.posterSizes && painting.posterSizes.length > 0)"
