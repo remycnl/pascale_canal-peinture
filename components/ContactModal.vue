@@ -14,6 +14,15 @@ const props = defineProps({
 		type: Boolean,
 		required: true,
 	},
+	selectedFormat: {
+		type: String,
+		default: null,
+		validator: (value) => !value || ['original', 'poster'].includes(value)
+	},
+	selectedPosterSizeId: {
+		type: Number,
+		default: null,
+	},
 });
 
 const emit = defineEmits(["close", "form-loaded", "modal-ref"]);
@@ -108,6 +117,8 @@ onMounted(() => {
 
 				<ContactForm
 					:pre-selected-artwork-id="painting.id"
+					:pre-selected-format="selectedFormat"
+					:pre-selected-poster-size-id="selectedPosterSizeId"
 					@form-loaded="emit('form-loaded')" />
 
 				<div

@@ -12,7 +12,7 @@ const route = useRoute();
 const baseUrl = config.public.siteUrl;
 const siteName = config.public.siteName;
 
-const { pageTitle, inactiveTitle } = usePageTitle();
+const { pageTitle, inactiveTitle, setPageTitle } = usePageTitle();
 
 useSeoMeta({
 	title: siteName,
@@ -82,7 +82,7 @@ useSchemaOrg([
 onMounted(() => {
 	if (import.meta.client) {
 		if (document.title !== pageTitle.value) {
-			pageTitle.value = document.title;
+			setPageTitle(document.title);
 		}
 
 		const handleVisibilityChange = () => {

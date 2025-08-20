@@ -17,6 +17,8 @@ const showContactOverlay = ref(false);
 const contactType = ref("");
 const formLoaded = ref(false);
 const modalRef = ref(null);
+const selectedContactFormat = ref(null);
+const selectedContactPosterSizeId = ref(null);
 const setModalRef = (ref) => {
 	modalRef.value = ref;
 };
@@ -60,10 +62,16 @@ const updateModalHeight = () => {
 
 const openContactOverlay = (type, contactData = null) => {
 	contactType.value = type;
+	
+	// Récupérer les informations de format depuis contactData
 	if (contactData) {
-		// Stocker les données du format sélectionné pour le formulaire de contact
-		window.selectedContactData = contactData;
+		selectedContactFormat.value = contactData.format;
+		selectedContactPosterSizeId.value = contactData.posterSize?.id || null;
+	} else {
+		selectedContactFormat.value = null;
+		selectedContactPosterSizeId.value = null;
 	}
+	
 	showContactOverlay.value = true;
 	document.body.style.overflow = "hidden";
 	nextTick(() => {
@@ -74,6 +82,8 @@ const openContactOverlay = (type, contactData = null) => {
 const closeContactOverlay = () => {
 	showContactOverlay.value = false;
 	formLoaded.value = false;
+	selectedContactFormat.value = null;
+	selectedContactPosterSizeId.value = null;
 	document.body.style.overflow = "";
 };
 
@@ -284,6 +294,8 @@ useSchemaOrg([
 					:painting="painting"
 					:contact-type="contactType"
 					:form-loaded="formLoaded"
+					:selected-format="selectedContactFormat"
+					:selected-poster-size-id="selectedContactPosterSizeId"
 					@close="closeContactOverlay"
 					@form-loaded="formLoaded = true"
 					@modal-ref="setModalRef" />
