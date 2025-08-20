@@ -287,8 +287,7 @@
 										<span
 											v-if="artwork.state === 'OFF_SALE'"
 											class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-yellow/80 text-black text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5 flex items-center rounded-full">
-											<span class="hidden sm:inline">Affiche uniquement</span>
-											<span class="sm:hidden">Affiche</span>
+											<span>Affiche</span>
 										</span>
 									</div>
 									<p class="text-sm mt-2 text-white truncate">
@@ -430,8 +429,8 @@
 								<span
 									v-if="artwork.state === 'OFF_SALE'"
 									class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-yellow/80 text-black text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5 flex items-center rounded-full">
-									<span class="hidden sm:inline">Affiche uniquement</span>
-									<span class="sm:hidden">Affiche</span>
+									<span class="hidden lg:inline">Affiche uniquement</span>
+									<span class="lg:hidden">Affiche</span>
 								</span>
 							</div>
 							<p class="text-sm mt-2 text-white truncate">{{ artwork.name }}</p>
@@ -524,7 +523,7 @@
 									? 'border-yellow bg-yellow/10' 
 									: 'border-white/30 bg-white/5 hover:bg-white/10'"
 								@click="selectFormat(artwork.id, 'original')">
-								<div class="text-white font-medium">Œuvre originale</div>
+								<div class="text-white font-apercuMedium">Œuvre originale</div>
 								<div class="text-white/70 text-sm">Unique exemplaire - {{ artwork.price }} €</div>
 							</div>
 
@@ -535,7 +534,7 @@
 									? 'border-yellow bg-yellow/10' 
 									: 'border-white/30 bg-white/5 hover:bg-white/10'"
 								@click="selectFormat(artwork.id, 'poster')">
-								<div class="text-white font-medium">Affiche</div>
+								<div class="text-white font-apercuMedium">Affiche</div>
 								<div class="text-white/70 text-sm">Reproduction haute qualité</div>
 							</div>
 
@@ -543,7 +542,7 @@
 							<div
 								v-if="selectedFormats[artwork.id]?.type === 'poster'"
 								class="ml-0 mt-4">
-								<h4 class="text-white font-medium text-sm mb-3 text-left lg:text-center">Choisissez la taille :</h4>
+								<h4 class="text-white font-apercuMedium text-sm mb-3 text-left lg:text-center">Choisissez la taille :</h4>
 								<div
 									v-if="!posterSizesLoaded"
 									class="text-white/50 text-sm text-center">
@@ -558,9 +557,9 @@
 											? 'border-yellow bg-yellow/10' 
 											: 'border-white/30 bg-white/5 hover:bg-white/10'"
 										@click="selectFormat(artwork.id, 'poster', size.id)">
-										<div class="text-white text-sm font-medium">{{ size.name }}</div>
+										<div class="text-white text-sm font-apercuMedium">{{ size.name }}</div>
 										<div class="text-white/70 text-xs">{{ size.width }}×{{ size.height }}cm</div>
-										<div class="text-white/90 text-sm font-medium mt-1">{{ size.price }} €</div>
+										<div class="text-white/90 text-sm font-apercuMedium mt-1">{{ size.price }} €</div>
 									</div>
 								</div>
 							</div>
@@ -596,7 +595,7 @@
 									class="w-full h-full object-cover rounded-lg" />
 							</div>
 							<div class="flex-1 text-left">
-								<h3 class="text-white font-medium mb-1" :title="artwork.name">
+								<h3 class="text-white font-apercuMedium mb-1" :title="artwork.name">
 									{{ artwork.name }}
 								</h3>
 								<div class="space-y-1">

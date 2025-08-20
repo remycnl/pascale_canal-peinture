@@ -255,7 +255,7 @@ useSchemaOrg([
 
 			<!-- Contenu principal -->
 			<section
-				class="md:mt-30 lg:mt-40 grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
+				class="md:mt-30 lg:mt-40 2xl:mt-20 grid grid-cols-1 md:grid-cols-2 items-end gap-10 md:gap-15 lg:gap-20">
 				<!-- Galerie d'images -->
 				<PaintingGallery :painting="painting" />
 
