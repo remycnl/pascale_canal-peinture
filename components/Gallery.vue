@@ -45,6 +45,7 @@ const imageObserver = ref(null);
 const skeletonCount = ref(9);
 const isShowingSkeleton = ref(true);
 const isContentFading = ref(false);
+const posterSizes = ref([]);
 
 const {
 	magneticElements,
@@ -56,10 +57,34 @@ const {
 	cleanup: cleanupAnimations,
 } = useGalleryAnimations();
 
+// Computed pour le prix minimum des affiches actives
+const minPosterPrice = computed(() => {
+	if (!posterSizes.value || posterSizes.value.length === 0) return null;
+	const activeSizes = posterSizes.value.filter((size) => size.isActive);
+	if (activeSizes.length === 0) return null;
+	return Math.min(...activeSizes.map((size) => Number(size.price)));
+});
+
+// Computed pour vérifier s'il n'y a aucun résultat
 const noResultsFound = computed(
 	() =>
 		props.pagination.totalCount === 0 && !props.isLoading && !props.loadError
 );
+
+onMounted(async () => {
+	try {
+		const response = await $fetch("/api/global-poster-sizes");
+		posterSizes.value = response || [];
+	} catch (error) {
+		console.error("Erreur lors de la récupération des tailles d'affiche :", error);
+	}
+	
+	// Setup initial state
+	window.addEventListener("resize", debouncedResize);
+	isDesktop.value = deviceUtils.isDesktop();
+	updateSkeletonCount();
+	resetDisplayState();
+});
 
 const updateSkeletonCount = () => {
 	skeletonCount.value =
@@ -126,7 +151,6 @@ const setupImageObserver = () => {
 
 					if (imgElement.dataset.src) {
 						imgElement.src = imgElement.dataset.src;
-
 						imageObserver.value.unobserve(imgElement);
 						observedItems.value.add(paintingId);
 					}
@@ -174,7 +198,6 @@ const resetDisplayState = () => {
 
 	cleanupClickEffect();
 	cleanupMagneticEffect();
-
 	magneticElements.value = [];
 
 	props.paintings.forEach((painting) => {
@@ -201,6 +224,11 @@ const resetDisplayState = () => {
 	});
 };
 
+const handleRetry = () => {
+	emit("retry");
+};
+
+// Watchers
 watch(
 	() => props.isLoading,
 	(newValue, oldValue) => {
@@ -227,23 +255,11 @@ watch(
 );
 
 watch(() => props.paintings, resetDisplayState, { deep: true });
-
 watch(() => props.pagination, updateSkeletonCount, { deep: true });
-
-onMounted(() => {
-	window.addEventListener("resize", debouncedResize);
-
-	isDesktop.value = deviceUtils.isDesktop();
-
-	updateSkeletonCount();
-	resetDisplayState();
-});
 
 onBeforeUnmount(() => {
 	cleanupAnimations();
-
 	performanceManager.cleanup();
-
 	deviceUtils.clearCache();
 
 	if (imageObserver.value) {
@@ -253,15 +269,11 @@ onBeforeUnmount(() => {
 
 	window.removeEventListener("resize", debouncedResize);
 });
-
-const handleRetry = () => {
-	emit("retry");
-};
 </script>
 
 <template>
-	<!-- Error state -->
 	<div>
+		<!-- Error state -->
 		<div v-if="loadError" class="text-center py-10">
 			<div
 				class="inline-block bg-red-50 text-red-600 px-6 py-4 rounded-lg border border-red-200">
@@ -300,7 +312,7 @@ const handleRetry = () => {
 				</p>
 			</div>
 
-			<!-- Gallery grid with a transition wrapper -->
+			<!-- Gallery grid with transition wrapper -->
 			<Transition name="content-fade">
 				<section
 					v-if="!isContentFading && paintings.length > 0 && !isLoading"
@@ -360,7 +372,12 @@ const handleRetry = () => {
 									<span v-if="painting.state !== 'OFF_SALE'">
 										{{ painting.price + " €" }}
 									</span>
-									<span v-if="painting.state === 'OFF_SALE'"> Hors vente </span>
+									<span v-else-if="minPosterPrice !== null">
+										Affiche dès {{ minPosterPrice }} €
+									</span>
+									<span v-else>
+										Hors vente
+									</span>
 								</div>
 							</div>
 						</NuxtLink>
@@ -414,7 +431,6 @@ const handleRetry = () => {
 	opacity: 0;
 }
 
-/* Transition for content fading in/out during page changes */
 .content-fade-enter-active,
 .content-fade-leave-active {
 	transition: opacity 0.3s ease;
@@ -424,7 +440,6 @@ const handleRetry = () => {
 	opacity: 0;
 }
 
-/* Animation for skeleton items */
 @keyframes fade-in-up {
 	from {
 		opacity: 0;

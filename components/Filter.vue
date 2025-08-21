@@ -265,7 +265,7 @@ onUnmounted(() => {
 										class="cbx flex items-center justify-center w-5 h-5 border border-gray-700 rounded mr-3 transition-colors duration-200"
 										:class="showOnlyForSale ? 'bg-yellow' : 'bg-white'"></div>
 									<span class="font-apercuMedium text-sm">
-										Disponibles à la vente uniquement
+										Œuvres originales disponibles à la vente uniquement
 									</span>
 								</div>
 							</div>

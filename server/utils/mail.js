@@ -60,7 +60,7 @@ export async function sendSubscriptionConfirmation(
 }
 
 /**
- * Envoie un email de contact
+ * Envoie un email de contact - VERSION MISE À JOUR
  * @param {Object} formData - Données du formulaire de contact
  */
 export async function sendContactEmail(formData) {
@@ -68,57 +68,50 @@ export async function sendContactEmail(formData) {
 		// Formatage des informations du formulaire pour l'email
 		const fullName = `${formData.firstName} ${formData.lastName}`.trim();
 
-		// Construction du corps de l'email en HTML
-		let htmlContent = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2>Nouveau message de contact</h2>
-      <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
-        <p><strong>De:</strong> ${fullName}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        ${
-					formData.phone
-						? `<p><strong>Téléphone:</strong> ${formData.phone}</p>`
-						: ""
-				}
-        <p><strong>Raison du contact:</strong> ${formData.reason}</p>
-        ${
-					formData.reasonDetails
-						? `<p><strong>Détails supplémentaires:</strong> ${formData.reasonDetails}</p>`
-						: ""
-				}
-      </div>
-      <div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
-        <h3>Message:</h3>
-        <p>${formData.message.replace(/\n/g, "<br>")}</p>
-      </div>`;
+		let htmlContent;
 
-		// Ajout des informations sur les œuvres si applicable
-		if (
-			formData.reason === "artwork" &&
-			formData.selectedArtworks &&
-			formData.selectedArtworks.length > 0
-		) {
-			htmlContent += `<div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
-        <h3>Œuvres sélectionnées:</h3>
-        <ul>`;
-			formData.selectedArtworks.forEach((artwork) => {
-				htmlContent += `<li>${artwork.name || "Sans titre"} ${
-					artwork.reference ? `(Réf: ${artwork.reference})` : ""
-				}</li>`;
-			});
-			htmlContent += `</ul></div>`;
+		// Si c'est un achat d'œuvre avec ticket HTML généré
+		if (formData.fullTicketHtml && formData.reason === "artwork") {
+			htmlContent = `<div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto;">
+				<div style="margin-bottom: 25px;">
+					${formData.fullTicketHtml}
+				</div>
+			`;
+		} else {
+			// Email standard pour les autres types de contact
+			htmlContent = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+				<h2>Nouveau message de contact</h2>
+				<div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+					<p><strong>De:</strong> ${fullName}</p>
+					<p><strong>Email:</strong> ${formData.email}</p>
+					${formData.phone ? `<p><strong>Téléphone:</strong> ${formData.phone}</p>` : ""}
+					<p><strong>Raison du contact:</strong> ${formData.reason}</p>
+					${
+						formData.reasonDetails
+							? `<p><strong>Détails supplémentaires:</strong> ${formData.reasonDetails}</p>`
+							: ""
+					}
+				</div>
+				<div style="margin-bottom: 20px; padding: 15px; background-color: #f7f7f7; border-radius: 5px;">
+					<h3>Message:</h3>
+					<p>${formData.message.replace(/\n/g, "<br>")}</p>
+				</div>`;
 		}
 
-		// Clôture de l'email
+		// Clôture commune de l'email
 		htmlContent += `<div style="font-size: 12px; color: #666; margin-top: 30px; padding-top: 10px; border-top: 1px solid #eee;">
-      <p>Ce message a été envoyé depuis le formulaire de contact du site web.</p>
-      <p>RGPD: Le contact a donné son consentement pour le traitement de ses données.</p>
-    </div></div>`;
+			<p>Ce message a été envoyé depuis le formulaire de contact du site web.</p>
+			<p><strong>RGPD:</strong> Le contact a donné son consentement pour le traitement de ses données.</p>
+		</div></div>`;
 
 		// Configuration de base pour l'email
 		let mailOptions = {
-			from: `"Formulaire de Contact" <${process.env.SENDER_EMAIL}>`,
-			to: process.env.CONTACT_EMAIL || process.env.SENDER_EMAIL,
-			subject: `Nouveau message de contact: ${formData.reason}`,
+			from: `"Formulaire de Contact" <${process.env.GMAIL_USER}>`,
+			to: process.env.CONTACT_EMAIL || process.env.GMAIL_USER,
+			subject:
+				formData.reason === "artwork"
+					? `🎨 Nouvelle demande d'acquisition - ${fullName}`
+					: `Nouveau message de contact: ${formData.reason} - ${fullName}`,
 			html: htmlContent,
 			replyTo: formData.email,
 		};

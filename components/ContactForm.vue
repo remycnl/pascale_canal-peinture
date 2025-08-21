@@ -191,7 +191,9 @@
 									<h3 class="font-apercuBold text-xl mb-2 text-white">
 										{{ preSelectedArtwork.name }}
 									</h3>
-									<p class="text-white/80">{{ getArtworkPrice(preSelectedArtwork) }} €</p>
+									<p class="text-white/80">
+										{{ getArtworkPrice(preSelectedArtwork) }} €
+									</p>
 								</div>
 							</div>
 						</div>
@@ -485,13 +487,12 @@
 				<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
 					Choisissez le format pour chaque œuvre
 				</h2>
-				
+
 				<div class="space-y-6">
 					<div
 						v-for="artwork in getArtworksForFormatSelection()"
 						:key="artwork.id"
 						class="backdrop-blur-md bg-white/10 rounded-xl p-4 border border-white/30 shadow-lg">
-						
 						<!-- Artwork info -->
 						<div class="flex flex-col sm:flex-row gap-4 mb-4">
 							<div class="w-full sm:w-32 h-32 flex-shrink-0">
@@ -501,15 +502,20 @@
 									class="w-full h-full object-cover rounded-lg" />
 							</div>
 							<div class="flex-1 text-left">
-								<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-									<h3 class="text-lg font-apercuBold text-white">{{ artwork.name }}</h3>
+								<div
+									class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+									<h3 class="text-lg font-apercuBold text-white">
+										{{ artwork.name }}
+									</h3>
 									<span
 										v-if="artwork.state === 'OFF_SALE'"
 										class="inline-block w-fit px-2 py-1 text-xs bg-yellow/80 text-black rounded-full mt-1 sm:mt-0">
 										Affiche uniquement
 									</span>
 								</div>
-								<p class="text-white/70 text-sm">{{ getArtworkPrice(artwork) }} €</p>
+								<p class="text-white/70 text-sm">
+									{{ getArtworkPrice(artwork) }} €
+								</p>
 							</div>
 						</div>
 
@@ -519,47 +525,68 @@
 							<div
 								v-if="artwork.state !== 'OFF_SALE'"
 								class="p-3 rounded-lg border transition-all duration-300 cursor-pointer"
-								:class="selectedFormats[artwork.id]?.type === 'original' 
-									? 'border-yellow bg-yellow/10' 
-									: 'border-white/30 bg-white/5 hover:bg-white/10'"
+								:class="
+									selectedFormats[artwork.id]?.type === 'original'
+										? 'border-yellow bg-yellow/10'
+										: 'border-white/30 bg-white/5 hover:bg-white/10'
+								"
 								@click="selectFormat(artwork.id, 'original')">
 								<div class="text-white font-apercuMedium">Œuvre originale</div>
-								<div class="text-white/70 text-sm">Unique exemplaire - {{ artwork.price }} €</div>
+								<div class="text-white/70 text-sm">
+									Unique exemplaire - {{ artwork.price }} €
+								</div>
 							</div>
 
 							<!-- Poster option -->
 							<div
 								class="p-3 rounded-lg border transition-all duration-300 cursor-pointer"
-								:class="selectedFormats[artwork.id]?.type === 'poster' 
-									? 'border-yellow bg-yellow/10' 
-									: 'border-white/30 bg-white/5 hover:bg-white/10'"
+								:class="
+									selectedFormats[artwork.id]?.type === 'poster'
+										? 'border-yellow bg-yellow/10'
+										: 'border-white/30 bg-white/5 hover:bg-white/10'
+								"
 								@click="selectFormat(artwork.id, 'poster')">
 								<div class="text-white font-apercuMedium">Affiche</div>
-								<div class="text-white/70 text-sm">Reproduction haute qualité</div>
+								<div class="text-white/70 text-sm">
+									Reproduction haute qualité
+								</div>
 							</div>
 
 							<!-- Poster size selection (when poster is selected) -->
 							<div
 								v-if="selectedFormats[artwork.id]?.type === 'poster'"
 								class="ml-0 mt-4">
-								<h4 class="text-white font-apercuMedium text-sm mb-3 text-left lg:text-center">Choisissez la taille :</h4>
+								<h4
+									class="text-white font-apercuMedium text-sm mb-3 text-left lg:text-center">
+									Choisissez la taille :
+								</h4>
 								<div
 									v-if="!posterSizesLoaded"
 									class="text-white/50 text-sm text-center">
 									Chargement des tailles...
 								</div>
-								<div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-3 w-full">
+								<div
+									v-else
+									class="grid grid-cols-1 lg:grid-cols-3 gap-3 w-full">
 									<div
 										v-for="size in posterSizes"
 										:key="size.id"
 										class="p-3 rounded border transition-all duration-300 cursor-pointer"
-										:class="selectedFormats[artwork.id]?.posterSizeId === size.id 
-											? 'border-yellow bg-yellow/10' 
-											: 'border-white/30 bg-white/5 hover:bg-white/10'"
+										:class="
+											selectedFormats[artwork.id]?.posterSizeId === size.id
+												? 'border-yellow bg-yellow/10'
+												: 'border-white/30 bg-white/5 hover:bg-white/10'
+										"
 										@click="selectFormat(artwork.id, 'poster', size.id)">
-										<div class="text-white text-sm font-apercuMedium">{{ size.name }}</div>
-										<div class="text-white/70 text-xs">{{ size.width }}×{{ size.height }}cm</div>
-										<div class="text-white/90 text-sm font-apercuMedium mt-1">{{ size.price }} €</div>
+										<div class="text-white text-sm font-apercuMedium">
+											{{ size.name }}
+										</div>
+										<div class="text-white/70 text-xs">
+											{{ size.width }}×{{ size.height }}cm
+										</div>
+										<div class="text-white/90 text-sm font-apercuMedium mt-1">
+											{{ size.price }} €
+										</div>
 									</div>
 								</div>
 							</div>
@@ -575,11 +602,14 @@
 				<h2 class="text-xl sm:text-2xl font-apercuBold mb-6 text-white">
 					Résumé de votre commande
 				</h2>
-				
+
 				<!-- Price summary at the top -->
-				<div class="backdrop-blur-md bg-yellow/10 rounded-xl p-4 border border-yellow/30 shadow-lg mb-6">
+				<div
+					class="backdrop-blur-md bg-yellow/10 rounded-xl p-4 border border-yellow/30 shadow-lg mb-6">
 					<h3 class="text-lg font-apercuBold text-yellow mb-2">Prix total</h3>
-					<div class="text-2xl font-apercuBold text-white">{{ getTotalPrice().toFixed(2) }} €</div>
+					<div class="text-2xl font-apercuBold text-white">
+						{{ getTotalPrice().toFixed(2) }} €
+					</div>
 				</div>
 
 				<div class="grid grid-cols-1 gap-4">
@@ -595,7 +625,9 @@
 									class="w-full h-full object-cover rounded-lg" />
 							</div>
 							<div class="flex-1 text-left">
-								<h3 class="text-white font-apercuMedium mb-1" :title="artwork.name">
+								<h3
+									class="text-white font-apercuMedium mb-1"
+									:title="artwork.name">
 									{{ artwork.name }}
 								</h3>
 								<div class="space-y-1">
@@ -605,10 +637,26 @@
 										Œuvre originale - {{ artwork.price }} €
 									</div>
 									<div
-										v-else-if="selectedFormats[artwork.id]?.type === 'poster' && selectedFormats[artwork.id]?.posterSizeId"
+										v-else-if="
+											selectedFormats[artwork.id]?.type === 'poster' &&
+											selectedFormats[artwork.id]?.posterSizeId
+										"
 										class="text-white/70 text-sm">
-										Affiche {{ posterSizes.find(size => size.id === selectedFormats[artwork.id]?.posterSizeId)?.name }} 
-										- {{ posterSizes.find(size => size.id === selectedFormats[artwork.id]?.posterSizeId)?.price }} €
+										Affiche
+										{{
+											posterSizes.find(
+												(size) =>
+													size.id === selectedFormats[artwork.id]?.posterSizeId
+											)?.name
+										}}
+										-
+										{{
+											posterSizes.find(
+												(size) =>
+													size.id === selectedFormats[artwork.id]?.posterSizeId
+											)?.price
+										}}
+										€
 									</div>
 								</div>
 							</div>
@@ -663,11 +711,12 @@
 					class="text-xl sm:text-2xl font-apercuBold text-center mb-6 text-white">
 					Votre message
 				</h2>
+
 				<!-- Reason details input for non-artwork contacts -->
 				<div v-if="selectedReason.value !== 'artwork'" class="mb-4">
-					<label class="block mb-2 text-white"
-						>Objet de votre {{ selectedReason.label }}</label
-					>
+					<label class="block mb-2 text-white">
+						Objet de votre {{ selectedReason.label }}
+					</label>
 					<input
 						v-model="form.reasonDetails"
 						class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50"
@@ -677,18 +726,26 @@
 				<!-- Message textarea -->
 				<div class="mb-4">
 					<label class="block mb-2 text-white">Votre message</label>
+
+					<!-- Textarea éditable -->
 					<textarea
 						v-model="form.message"
 						@input="autoResize($event.target)"
-						class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50 h-32 overflow-hidden resize-none min-h-[80px]"
-						placeholder="Écrivez votre message ici..."></textarea>
+						class="w-full p-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/30 focus:border-yellow focus:outline-none text-white placeholder-white/50 overflow-hidden resize-none min-h-[120px]"
+						:placeholder="
+							selectedReason.value === 'artwork'
+								? 'Écrivez votre message ici...'
+								: 'Écrivez votre message ici...'
+						"
+						rows="6">
+					</textarea>
 				</div>
 
 				<!-- File upload for non-artwork contacts -->
 				<div v-if="selectedReason.value !== 'artwork'">
-					<label class="block mb-2 text-white"
-						>Joindre un document (optionnel)</label
-					>
+					<label class="block mb-2 text-white">
+						Joindre un document (optionnel)
+					</label>
 					<input
 						type="file"
 						@change="handleFileUpload"
@@ -705,7 +762,8 @@
 							v-model="form.rgpdConsent" />
 						<label
 							class="cbx border bg-white/10 border-white/30"
-							for="rgpdConsent"></label>
+							for="rgpdConsent">
+						</label>
 					</div>
 					<label for="rgpdConsent" class="cursor-pointer text-white text-sm">
 						J'accepte l'utilisation de mes données personnelles pour le
@@ -764,7 +822,7 @@ const props = defineProps({
 	preSelectedFormat: {
 		type: String,
 		default: null,
-		validator: (value) => !value || ['original', 'poster'].includes(value)
+		validator: (value) => !value || ["original", "poster"].includes(value),
 	},
 	preSelectedPosterSizeId: {
 		type: Number,
@@ -795,11 +853,11 @@ const showSearchResults = ref(false);
 let isEmailValid = ref(true);
 let blurTimeout = null;
 const showRgpdError = ref(false);
+const messageTemplate = ref("");
 
-// New data for format selection
 const posterSizes = ref([]);
 const posterSizesLoaded = ref(false);
-const selectedFormats = ref({}); // { artworkId: { type: 'original' | 'poster', posterSizeId?: number } }
+const selectedFormats = ref({});
 
 const form = ref({
 	firstName: "",
@@ -815,14 +873,12 @@ const form = ref({
 	rgpdConsent: false,
 });
 
-// Email validation function
 const validateEmail = (email) => {
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	isEmailValid.value = emailRegex.test(email);
 	return isEmailValid.value;
 };
 
-// Watch email changes for validation
 watch(
 	() => form.value.email,
 	(newEmail) => {
@@ -844,28 +900,6 @@ watch(
 	{ deep: true }
 );
 
-// Watch for format and poster size changes to update message
-watch(
-	selectedFormats,
-	(newFormats) => {
-		if (selectedReason.value.value === "artwork" && selectedArtworks.value.length > 0) {
-			form.value.message = getMessageTemplate();
-		}
-	},
-	{ deep: true }
-);
-
-// Watch for poster sizes loading to update message
-watch(
-	posterSizesLoaded,
-	(loaded) => {
-		if (loaded && selectedReason.value.value === "artwork" && selectedArtworks.value.length > 0) {
-			form.value.message = getMessageTemplate();
-		}
-	}
-);
-
-// Watch RGPD consent changes to hide error when checkbox is checked
 watch(
 	() => form.value.rgpdConsent,
 	(newValue) => {
@@ -875,44 +909,54 @@ watch(
 	}
 );
 
+watch(
+	[() => form.value.firstName, () => form.value.lastName],
+	() => {
+		if (
+			selectedReason.value.value === "artwork" &&
+			selectedArtworks.value.length > 0
+		) {
+			// Regénérer complètement le template avec les nouvelles infos
+			const newTemplate = getMessageTemplate();
+			form.value.message = newTemplate;
+		}
+	},
+	{ immediate: false }
+);
+
 const loadArtworks = async () => {
 	if (artworksLoaded.value) return;
-
 	try {
 		const response = await $fetch("/api/allPaintings");
 		artworks.value = response;
 		artworksLoaded.value = true;
-
 		if (props.preSelectedArtworkId) {
 			preSelectedArtwork.value = artworks.value.find(
 				(artwork) => artwork.id === props.preSelectedArtworkId
 			);
-
 			if (preSelectedArtwork.value) {
 				selectedArtworks.value = [preSelectedArtwork.value];
-				// Initialize format for preselected artwork based on props or defaults
 				if (!selectedFormats.value[preSelectedArtwork.value.id]) {
 					if (props.preSelectedFormat) {
-						// Use the format specified in props
 						selectedFormats.value[preSelectedArtwork.value.id] = {
 							type: props.preSelectedFormat,
-							posterSizeId: props.preSelectedPosterSizeId || null
+							posterSizeId: props.preSelectedPosterSizeId || null,
 						};
 					} else {
-						// Use default format based on artwork state
 						if (preSelectedArtwork.value.state === "OFF_SALE") {
-							selectedFormats.value[preSelectedArtwork.value.id] = { type: 'poster' };
+							selectedFormats.value[preSelectedArtwork.value.id] = {
+								type: "poster",
+							};
 						} else {
-							selectedFormats.value[preSelectedArtwork.value.id] = { type: 'original' };
+							selectedFormats.value[preSelectedArtwork.value.id] = {
+								type: "original",
+							};
 						}
 					}
 				}
-				
-				// Load poster sizes if preselected format is poster
-				if (props.preSelectedFormat === 'poster' && !posterSizesLoaded.value) {
+				if (props.preSelectedFormat === "poster" && !posterSizesLoaded.value) {
 					loadPosterSizes();
 				}
-				
 				currentStep.value = 1;
 				selectedReason.value = { value: "artwork", label: "Achat d'œuvre" };
 				form.value.reason = "artwork";
@@ -930,7 +974,6 @@ const loadArtworks = async () => {
 
 const loadPosterSizes = async () => {
 	if (posterSizesLoaded.value) return;
-
 	try {
 		const response = await $fetch("/api/global-poster-sizes");
 		posterSizes.value = response;
@@ -948,8 +991,9 @@ const otherArtworks = computed(() =>
 
 const visibleSteps = computed(() => {
 	if (preSelectedArtwork.value) {
-		// Check if there are other artworks selected besides the preselected one
-		const otherSelectedArtworks = selectedArtworks.value.filter(a => a.id !== preSelectedArtwork.value.id);
+		const otherSelectedArtworks = selectedArtworks.value.filter(
+			(a) => a.id !== preSelectedArtwork.value.id
+		);
 		if (otherSelectedArtworks.length > 0) {
 			return ["Œuvre", "Format", "Résumé", "Coordonnées", "Message"];
 		} else {
@@ -964,20 +1008,20 @@ const visibleSteps = computed(() => {
 
 const currentVisibleStepIndex = computed(() => {
 	if (preSelectedArtwork.value) {
-		const otherSelectedArtworks = selectedArtworks.value.filter(a => a.id !== preSelectedArtwork.value.id);
+		const otherSelectedArtworks = selectedArtworks.value.filter(
+			(a) => a.id !== preSelectedArtwork.value.id
+		);
 		if (otherSelectedArtworks.length > 0) {
-			// With format step: Œuvre, Format, Résumé, Coordonnées, Message
-			if (currentStep.value === 1) return 0;  // Œuvre
-			if (currentStep.value === 2) return 1;  // Format
-			if (currentStep.value === 3) return 2;  // Résumé
-			if (currentStep.value === 4) return 3;  // Coordonnées 
-			if (currentStep.value === 5) return 4;  // Message
+			if (currentStep.value === 1) return 0;
+			if (currentStep.value === 2) return 1;
+			if (currentStep.value === 3) return 2;
+			if (currentStep.value === 4) return 3;
+			if (currentStep.value === 5) return 4;
 		} else {
-			// Without format step: Œuvre, Résumé, Coordonnées, Message
-			if (currentStep.value === 1) return 0;  // Œuvre
-			if (currentStep.value === 3) return 1;  // Résumé (step 3 maps to visible index 1)
-			if (currentStep.value === 4) return 2;  // Coordonnées 
-			if (currentStep.value === 5) return 3;  // Message
+			if (currentStep.value === 1) return 0;
+			if (currentStep.value === 3) return 1;
+			if (currentStep.value === 4) return 2;
+			if (currentStep.value === 5) return 3;
 		}
 	} else if (selectedReason.value.value === "artwork") {
 		return currentStep.value;
@@ -1021,23 +1065,22 @@ const isStepValid = computed(() => {
 			return form.value.firstName && form.value.email && isEmailValid.value;
 		case 2:
 			if (selectedReason.value.value === "artwork") {
-				// Format selection step: check that all artworks requiring format selection have one chosen
 				const artworksForFormatSelection = getArtworksForFormatSelection();
-				return artworksForFormatSelection.every(artwork => 
-					selectedFormats.value[artwork.id] && 
-					selectedFormats.value[artwork.id].type &&
-					(selectedFormats.value[artwork.id].type === 'original' || 
-					 selectedFormats.value[artwork.id].posterSizeId)
+				return artworksForFormatSelection.every(
+					(artwork) =>
+						selectedFormats.value[artwork.id] &&
+						selectedFormats.value[artwork.id].type &&
+						(selectedFormats.value[artwork.id].type === "original" ||
+							selectedFormats.value[artwork.id].posterSizeId)
 				);
 			}
 			return true;
 		case 3:
 			if (selectedReason.value.value === "artwork") {
 				if (preSelectedArtwork.value) {
-					// Summary step for preselected artwork
 					return true;
 				}
-				return true; // Summary step for regular artwork selection
+				return true;
 			}
 			return (
 				form.value.message.length > 10 &&
@@ -1047,10 +1090,8 @@ const isStepValid = computed(() => {
 		case 4:
 			if (selectedReason.value.value === "artwork") {
 				if (preSelectedArtwork.value) {
-					// Personal details step for preselected artwork
 					return form.value.firstName && form.value.email && isEmailValid.value;
 				}
-				// Personal details step for regular artwork selection
 				return form.value.firstName && form.value.email && isEmailValid.value;
 			}
 			return form.value.message.length > 10 && form.value.rgpdConsent;
@@ -1073,19 +1114,14 @@ const selectReason = (reason) => {
 		document: null,
 		rgpdConsent: false,
 	};
-
 	showRgpdError.value = false;
-
 	if (selectedReason.value.value !== reason.value) {
 		selectedArtworks.value = [];
 	}
-
 	selectedReason.value = reason;
-
 	if (reason.value === "artwork") {
 		form.value.reasonDetails = "Intéressé(e) à l'achat";
 	}
-
 	if (reason.value === "artwork" && !artworksLoaded.value) {
 		loadArtworks();
 		nextStep();
@@ -1100,17 +1136,13 @@ const toggleArtworkSelection = (artwork) => {
 	const index = selectedArtworks.value.findIndex((a) => a.id === artwork.id);
 	if (index > -1) {
 		selectedArtworks.value.splice(index, 1);
-		// Remove format selection when artwork is deselected
 		delete selectedFormats.value[artwork.id];
 	} else {
 		selectedArtworks.value.push(artwork);
-		// Initialize default format selection
 		if (artwork.state === "OFF_SALE") {
-			// For OFF_SALE artworks, default to poster (no original available)
-			selectedFormats.value[artwork.id] = { type: 'poster' };
+			selectedFormats.value[artwork.id] = { type: "poster" };
 		} else {
-			// For available artworks, default to original
-			selectedFormats.value[artwork.id] = { type: 'original' };
+			selectedFormats.value[artwork.id] = { type: "original" };
 		}
 	}
 };
@@ -1118,24 +1150,21 @@ const toggleArtworkSelection = (artwork) => {
 const selectFormat = (artworkId, formatType, posterSizeId = null) => {
 	selectedFormats.value[artworkId] = {
 		type: formatType,
-		posterSizeId: posterSizeId
+		posterSizeId: posterSizeId,
 	};
-	
-	// Force message update immediately
-	if (selectedReason.value.value === "artwork" && selectedArtworks.value.length > 0) {
-		form.value.message = getMessageTemplate();
-	}
 };
 
 const getTotalPrice = () => {
 	let total = 0;
-	selectedArtworks.value.forEach(artwork => {
+	selectedArtworks.value.forEach((artwork) => {
 		const format = selectedFormats.value[artwork.id];
 		if (format) {
-			if (format.type === 'original' && artwork.state !== 'OFF_SALE') {
+			if (format.type === "original" && artwork.state !== "OFF_SALE") {
 				total += parseFloat(artwork.price);
-			} else if (format.type === 'poster' && format.posterSizeId) {
-				const posterSize = posterSizes.value.find(size => size.id === format.posterSizeId);
+			} else if (format.type === "poster" && format.posterSizeId) {
+				const posterSize = posterSizes.value.find(
+					(size) => size.id === format.posterSizeId
+				);
 				if (posterSize) {
 					total += parseFloat(posterSize.price);
 				}
@@ -1146,41 +1175,43 @@ const getTotalPrice = () => {
 };
 
 const getArtworkPrice = (artwork) => {
-	// Special case for preselected artwork: use props to determine price
 	if (preSelectedArtwork.value && artwork.id === preSelectedArtwork.value.id) {
-		if (props.preSelectedFormat === 'poster' && props.preSelectedPosterSizeId) {
-			const posterSize = posterSizes.value.find(size => size.id === props.preSelectedPosterSizeId);
+		if (props.preSelectedFormat === "poster" && props.preSelectedPosterSizeId) {
+			const posterSize = posterSizes.value.find(
+				(size) => size.id === props.preSelectedPosterSizeId
+			);
 			if (posterSize) {
 				return posterSize.price;
 			}
-		} else if (props.preSelectedFormat === 'original' && artwork.state !== 'OFF_SALE') {
+		} else if (
+			props.preSelectedFormat === "original" &&
+			artwork.state !== "OFF_SALE"
+		) {
 			return artwork.price;
 		}
-		// If props don't specify format, fall back to selectedFormats
 	}
-	
-	// For other artworks or when props don't specify format, use selectedFormats
 	const format = selectedFormats.value[artwork.id];
 	if (format) {
-		if (format.type === 'original' && artwork.state !== 'OFF_SALE') {
+		if (format.type === "original" && artwork.state !== "OFF_SALE") {
 			return artwork.price;
-		} else if (format.type === 'poster' && format.posterSizeId) {
-			const posterSize = posterSizes.value.find(size => size.id === format.posterSizeId);
+		} else if (format.type === "poster" && format.posterSizeId) {
+			const posterSize = posterSizes.value.find(
+				(size) => size.id === format.posterSizeId
+			);
 			if (posterSize) {
 				return posterSize.price;
 			}
 		}
 	}
-	// Fallback to original price
 	return artwork.price;
 };
 
 const getArtworksForFormatSelection = () => {
-	// For preselected artwork case, exclude the preselected artwork from format selection
 	if (preSelectedArtwork.value) {
-		return selectedArtworks.value.filter(artwork => artwork.id !== preSelectedArtwork.value.id);
+		return selectedArtworks.value.filter(
+			(artwork) => artwork.id !== preSelectedArtwork.value.id
+		);
 	}
-	// For regular case, return all selected artworks
 	return selectedArtworks.value;
 };
 
@@ -1195,10 +1226,8 @@ const handleFileUpload = (event) => {
 		form.value.documentName = null;
 		return;
 	}
-
 	form.value.document = file;
 	form.value.documentName = file.name;
-
 	const reader = new FileReader();
 	reader.onload = (e) => {
 		form.value.documentBase64 = e.target.result;
@@ -1207,154 +1236,38 @@ const handleFileUpload = (event) => {
 };
 
 const getMessageTemplate = () => {
-	const currentDate = new Date().toLocaleDateString('fr-FR', {
-		weekday: 'long',
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
-	});
-	
-	const currentTime = new Date().toLocaleTimeString('fr-FR', {
-		hour: '2-digit',
-		minute: '2-digit'
-	});
+	return getTicketTemplate();
+};
 
-	let message = `# 🎨 Demande d'acquisition d'œuvres d'art\n\n`;
-	message += `**Date de la demande :** ${currentDate} à ${currentTime}\n`;
-	message += `**Nombre d'œuvres sélectionnées :** ${selectedArtworks.value.length}\n\n`;
-	
-	message += `---\n\n`;
-	message += `## 📋 Détail de ma sélection\n\n`;
+const getTicketTemplate = () => {
+	const signature =
+		form.value.firstName && form.value.lastName
+			? `${form.value.firstName} ${form.value.lastName}`
+			: form.value.firstName || "";
 
-	let totalPrice = 0;
-	let itemNumber = 1;
+	const editableMessage = `Bonjour,
 
-	selectedArtworks.value.forEach(artwork => {
-		const format = selectedFormats.value[artwork.id];
-		let itemPrice = 0;
-		let formatDetails = "";
-		
-		message += `### ${itemNumber}. **${artwork.name}**\n\n`;
-		
-		// Special handling for preselected artwork
-		if (preSelectedArtwork.value && artwork.id === preSelectedArtwork.value.id) {
-			if (props.preSelectedFormat === 'poster' && props.preSelectedPosterSizeId) {
-				const posterSize = posterSizes.value.find(size => size.id === props.preSelectedPosterSizeId);
-				if (posterSize) {
-					formatDetails = `**Format :** Affiche haute qualité\n**Dimensions :** ${posterSize.width} × ${posterSize.height} cm\n**Taille :** ${posterSize.name}`;
-					itemPrice = parseFloat(posterSize.price);
-				}
-			} else if (props.preSelectedFormat === 'original' && artwork.state !== 'OFF_SALE') {
-				formatDetails = "**Format :** Œuvre originale (exemplaire unique)";
-				itemPrice = parseFloat(artwork.price);
-			}
-		} else {
-			// For other artworks, use selectedFormats
-			if (format) {
-				if (format.type === 'original' && artwork.state !== 'OFF_SALE') {
-					formatDetails = "**Format :** Œuvre originale (exemplaire unique)";
-					itemPrice = parseFloat(artwork.price);
-				} else if (format.type === 'poster' && format.posterSizeId) {
-					const posterSize = posterSizes.value.find(size => size.id === format.posterSizeId);
-					if (posterSize) {
-						formatDetails = `**Format :** Affiche haute qualité\n**Dimensions :** ${posterSize.width} × ${posterSize.height} cm\n**Taille :** ${posterSize.name}`;
-						itemPrice = parseFloat(posterSize.price);
-					}
-				} else if (format.type === 'poster' && !format.posterSizeId) {
-					formatDetails = "**Format :** Affiche haute qualité (taille non sélectionnée)";
-					itemPrice = 0;
-				}
-			} else {
-				// Fallback pour artwork sans format sélectionné
-				if (artwork.state === 'OFF_SALE') {
-					formatDetails = "**Format :** Affiche haute qualité (format non défini)";
-					itemPrice = 0;
-				} else {
-					formatDetails = "**Format :** Œuvre originale (exemplaire unique)";
-					itemPrice = parseFloat(artwork.price);
-				}
-			}
-		}
-		
-		message += `${formatDetails}\n`;
-		message += `**Prix :** ${itemPrice.toFixed(2)} €\n\n`;
-		
-		totalPrice += itemPrice;
-		itemNumber++;
-	});
+Je vous contacte concernant l'acquisition ${
+		selectedArtworks.value.length > 1 ? "des œuvres" : "de l'œuvre"
+	} sélectionnée${selectedArtworks.value.length > 1 ? "s" : ""}.
 
-	message += `---\n\n`;
-	message += `## 💰 Récapitulatif financier\n\n`;
-	message += `| Description | Quantité | Prix unitaire | Total |\n`;
-	message += `|-------------|----------|---------------|-------|\n`;
-	
-	selectedArtworks.value.forEach(artwork => {
-		const format = selectedFormats.value[artwork.id];
-		let itemPrice = 0;
-		let formatType = "";
-		
-		// Special handling for preselected artwork
-		if (preSelectedArtwork.value && artwork.id === preSelectedArtwork.value.id) {
-			if (props.preSelectedFormat === 'poster' && props.preSelectedPosterSizeId) {
-				const posterSize = posterSizes.value.find(size => size.id === props.preSelectedPosterSizeId);
-				if (posterSize) {
-					formatType = `Affiche ${posterSize.name}`;
-					itemPrice = parseFloat(posterSize.price);
-				}
-			} else if (props.preSelectedFormat === 'original' && artwork.state !== 'OFF_SALE') {
-				formatType = "Œuvre originale";
-				itemPrice = parseFloat(artwork.price);
-			}
-		} else {
-			if (format) {
-				if (format.type === 'original' && artwork.state !== 'OFF_SALE') {
-					formatType = "Œuvre originale";
-					itemPrice = parseFloat(artwork.price);
-				} else if (format.type === 'poster' && format.posterSizeId) {
-					const posterSize = posterSizes.value.find(size => size.id === format.posterSizeId);
-					if (posterSize) {
-						formatType = `Affiche ${posterSize.name}`;
-						itemPrice = parseFloat(posterSize.price);
-					}
-				}
-			} else {
-				if (artwork.state === 'OFF_SALE') {
-					formatType = "Format non défini";
-				} else {
-					formatType = "Œuvre originale";
-					itemPrice = parseFloat(artwork.price);
-				}
-			}
-		}
-		
-		message += `| ${artwork.name} (${formatType}) | 1 | ${itemPrice.toFixed(2)} € | ${itemPrice.toFixed(2)} € |\n`;
-	});
-	
-	message += `\n**TOTAL GÉNÉRAL : ${totalPrice.toFixed(2)} €**\n\n`;
-	
-	message += `---\n\n`;
-	message += `## 📝 Ma demande\n\n`;
-	message += `Bonjour,\n\n`;
-	message += `Je vous contacte concernant l'acquisition des œuvres détaillées ci-dessus.\n\n`;
-	message += `Je suis intéressé(e) par ${selectedArtworks.value.length > 1 ? 'ces œuvres' : 'cette œuvre'} dans ${selectedArtworks.value.length > 1 ? 'les formats sélectionnés' : 'le format sélectionné'}.\n\n`;
-	
-	message += `Pourriez-vous me confirmer :\n`;
-	message += `- ✅ La disponibilité des œuvres sélectionnées\n`;
-	message += `- 📦 Les modalités de livraison\n`;
-	message += `- 💳 Les options de paiement\n`;
-	message += `- ⏱️ Les délais de préparation\n\n`;
-	
-	message += `Je reste à votre disposition pour tout complément d'information.\n\n`;
-	message += `Cordialement,\n\n`;
-	message += `---\n`;
-	message += `*Message généré automatiquement le ${currentDate} à ${currentTime}*`;
+Pourriez-vous me confirmer :
+- La disponibilité
+- Les modalités de livraison
+- Les options de paiement
+- Les délais de préparation
 
-	return message;
+Je reste à votre disposition pour tout complément d'information.
+
+Cordialement,
+${signature}`;
+
+	messageTemplate.value = editableMessage;
+	return editableMessage;
 };
 
 const nextStep = () => {
 	if (currentStep.value < getMaxStep()) {
-		// Validate email if it's a step with email input
 		if (
 			(currentStep.value === 1 && selectedReason.value.value !== "artwork") ||
 			(currentStep.value === 4 && selectedReason.value.value === "artwork")
@@ -1363,10 +1276,8 @@ const nextStep = () => {
 				return;
 			}
 		}
-
 		stepHistory.value.push(currentStep.value);
 		currentStep.value++;
-
 		if (
 			selectedReason.value.value &&
 			selectedReason.value.value !== "artwork"
@@ -1375,20 +1286,18 @@ const nextStep = () => {
 				currentStep.value = getMessageStep();
 			}
 		}
-
-		// Skip format step if preselected artwork and no other artworks selected
 		if (
-			preSelectedArtwork.value && 
-			currentStep.value === 2 && 
+			preSelectedArtwork.value &&
+			currentStep.value === 2 &&
 			selectedReason.value.value === "artwork"
 		) {
-			const otherSelectedArtworks = selectedArtworks.value.filter(a => a.id !== preSelectedArtwork.value.id);
+			const otherSelectedArtworks = selectedArtworks.value.filter(
+				(a) => a.id !== preSelectedArtwork.value.id
+			);
 			if (otherSelectedArtworks.length === 0) {
-				currentStep.value = 3; // Skip to summary
+				currentStep.value = 3;
 			}
 		}
-
-		// Load poster sizes when entering format selection step
 		if (
 			selectedReason.value.value === "artwork" &&
 			currentStep.value === 2 &&
@@ -1396,7 +1305,6 @@ const nextStep = () => {
 		) {
 			loadPosterSizes();
 		}
-
 		if (
 			currentStep.value === getMessageStep() &&
 			selectedReason.value.value === "artwork"
@@ -1413,7 +1321,6 @@ const previousStep = () => {
 		if (preSelectedArtwork.value && currentStep.value === 1) {
 			return;
 		}
-
 		if (
 			selectedReason.value.value &&
 			selectedReason.value.value !== "artwork"
@@ -1423,46 +1330,38 @@ const previousStep = () => {
 				return;
 			}
 		}
-
-		// Handle going back from summary step when format step was skipped
 		if (
-			preSelectedArtwork.value && 
-			currentStep.value === 3 && 
+			preSelectedArtwork.value &&
+			currentStep.value === 3 &&
 			selectedReason.value.value === "artwork"
 		) {
-			const otherSelectedArtworks = selectedArtworks.value.filter(a => a.id !== preSelectedArtwork.value.id);
+			const otherSelectedArtworks = selectedArtworks.value.filter(
+				(a) => a.id !== preSelectedArtwork.value.id
+			);
 			if (otherSelectedArtworks.length === 0) {
-				currentStep.value = 1; // Skip back to artwork selection
+				currentStep.value = 1;
 				return;
 			}
 		}
-
 		currentStep.value--;
 	}
 };
 
 const submitForm = async () => {
-	// Final email validation before submit
 	if (form.value.email && !validateEmail(form.value.email)) {
 		return;
 	}
-
-	// Check RGPD consent before submission
 	if (!form.value.rgpdConsent) {
 		showRgpdError.value = true;
 		return;
 	}
-
 	submitting.value = true;
-
 	try {
 		const formData = { ...form.value };
-
 		if (selectedReason.value.value === "artwork") {
 			formData.selectedArtworks = selectedArtworks.value;
 			formData.selectedFormats = selectedFormats.value;
 		}
-
 		const response = await fetch("/api/contact", {
 			method: "POST",
 			headers: {
@@ -1470,16 +1369,12 @@ const submitForm = async () => {
 			},
 			body: JSON.stringify(formData),
 		});
-
 		const result = await response.json();
-
 		if (!result.success) {
 			throw new Error(result.error || "Erreur lors de l'envoi du message");
 		}
-
 		submitSuccess.value = true;
 		formSubmitted.value = true;
-
 		resetForm();
 	} catch (error) {
 		console.error("Erreur lors de l'envoi du formulaire:", error);
@@ -1503,12 +1398,11 @@ const resetForm = () => {
 		rgpdConsent: false,
 	};
 	selectedArtworks.value = [];
-	// Only reset formats if not preselected artwork, or preserve preselected artwork format
 	if (!props.preSelectedArtworkId || !preSelectedArtwork.value) {
 		selectedFormats.value = {};
 	} else {
-		// Keep only the preselected artwork format
-		const preselectedFormat = selectedFormats.value[preSelectedArtwork.value.id];
+		const preselectedFormat =
+			selectedFormats.value[preSelectedArtwork.value.id];
 		selectedFormats.value = {};
 		if (preselectedFormat) {
 			selectedFormats.value[preSelectedArtwork.value.id] = preselectedFormat;
@@ -1521,32 +1415,29 @@ const resetForm = () => {
 		submitSuccess.value = false;
 		formSubmitted.value = false;
 	}, 5000);
-
 	if (props.preSelectedArtworkId && preSelectedArtwork.value) {
 		selectedArtworks.value = [preSelectedArtwork.value];
-		// Initialize format for preselected artwork based on props or defaults
 		if (!selectedFormats.value[preSelectedArtwork.value.id]) {
 			if (props.preSelectedFormat) {
-				// Use the format specified in props
 				selectedFormats.value[preSelectedArtwork.value.id] = {
 					type: props.preSelectedFormat,
-					posterSizeId: props.preSelectedPosterSizeId || null
+					posterSizeId: props.preSelectedPosterSizeId || null,
 				};
 			} else {
-				// Use default format based on artwork state
 				if (preSelectedArtwork.value.state === "OFF_SALE") {
-					selectedFormats.value[preSelectedArtwork.value.id] = { type: 'poster' };
+					selectedFormats.value[preSelectedArtwork.value.id] = {
+						type: "poster",
+					};
 				} else {
-					selectedFormats.value[preSelectedArtwork.value.id] = { type: 'original' };
+					selectedFormats.value[preSelectedArtwork.value.id] = {
+						type: "original",
+					};
 				}
 			}
 		}
-		
-		// Load poster sizes if preselected format is poster
-		if (props.preSelectedFormat === 'poster' && !posterSizesLoaded.value) {
+		if (props.preSelectedFormat === "poster" && !posterSizesLoaded.value) {
 			loadPosterSizes();
 		}
-		
 		currentStep.value = 1;
 		selectedReason.value = { value: "artwork", label: "Achat d'œuvre" };
 		form.value.reason = "artwork";
@@ -1565,7 +1456,6 @@ const retrySubmit = () => {
 
 const artworkSearchQuery = ref("");
 const artworkSearchResults = ref([]);
-
 const itemsPerPage = 6;
 const currentPage = ref(1);
 
@@ -1574,12 +1464,12 @@ const searchArtworks = () => {
 		artworkSearchResults.value = [];
 		return;
 	}
-
 	const query = artworkSearchQuery.value.toLowerCase();
 	artworkSearchResults.value = artworks.value
 		.filter((artwork) => artwork.name.toLowerCase().includes(query))
 		.slice(0, 5);
 };
+
 const selectSearchResult = (artwork) => {
 	toggleArtworkSelection(artwork);
 	artworkSearchQuery.value = "";
@@ -1595,7 +1485,6 @@ const handleSearchBlur = () => {
 	if (blurTimeout) {
 		clearTimeout(blurTimeout);
 	}
-
 	blurTimeout = setTimeout(() => {
 		showSearchResults.value = false;
 		blurTimeout = null;
@@ -1605,11 +1494,9 @@ const handleSearchBlur = () => {
 const filteredArtworks = computed(() => {
 	const startIndex = (currentPage.value - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
-
 	if (!artworkSearchQuery.value) {
 		return artworks.value.slice(startIndex, endIndex);
 	}
-
 	const query = artworkSearchQuery.value.toLowerCase();
 	return artworks.value
 		.filter((artwork) => artwork.name.toLowerCase().includes(query))
@@ -1620,41 +1507,34 @@ const totalPages = computed(() => {
 	if (!artworkSearchQuery.value) {
 		return Math.ceil(artworks.value.length / itemsPerPage);
 	}
-
 	const query = artworkSearchQuery.value.toLowerCase();
 	const filteredCount = artworks.value.filter((artwork) =>
 		artwork.name.toLowerCase().includes(query)
 	).length;
-
 	return Math.ceil(filteredCount / itemsPerPage);
 });
 
 const otherFilteredArtworks = computed(() => {
 	const startIndex = (currentPage.value - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
-
 	let filteredArtworks = otherArtworks.value;
-
 	if (artworkSearchQuery.value) {
 		const query = artworkSearchQuery.value.toLowerCase();
 		filteredArtworks = otherArtworks.value.filter((artwork) =>
 			artwork.name.toLowerCase().includes(query)
 		);
 	}
-
 	return filteredArtworks.slice(startIndex, endIndex);
 });
 
 const totalPagesWithoutPreselected = computed(() => {
 	let filteredCount = otherArtworks.value.length;
-
 	if (artworkSearchQuery.value) {
 		const query = artworkSearchQuery.value.toLowerCase();
 		filteredCount = otherArtworks.value.filter((artwork) =>
 			artwork.name.toLowerCase().includes(query)
 		).length;
 	}
-
 	return Math.max(1, Math.ceil(filteredCount / itemsPerPage));
 });
 
