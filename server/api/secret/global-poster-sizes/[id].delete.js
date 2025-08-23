@@ -8,12 +8,12 @@ export default defineEventHandler(async (event) => {
 			where: { id: parseInt(id) }
 		});
 
-		return { success: true, message: "Taille d'affiche supprimée avec succès" };
+		return { success: true, message: "Taille de poster supprimée avec succès" };
 	} catch (error) {
-		console.error("Erreur lors de la suppression de la taille d'affiche :", error);
+		console.error("Erreur lors de la suppression de la taille de poster :", error);
 		return createError({
 			statusCode: 500,
-			message: "Erreur lors de la suppression de la taille d'affiche",
+			message: "Erreur lors de la suppression de la taille de poster",
 		});
 	}
 });

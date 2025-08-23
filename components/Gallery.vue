@@ -57,7 +57,7 @@ const {
 	cleanup: cleanupAnimations,
 } = useGalleryAnimations();
 
-// Computed pour le prix minimum des affiches actives
+// Computed pour le prix minimum des posters actifs
 const minPosterPrice = computed(() => {
 	if (!posterSizes.value || posterSizes.value.length === 0) return null;
 	const activeSizes = posterSizes.value.filter((size) => size.isActive);
@@ -76,7 +76,7 @@ onMounted(async () => {
 		const response = await $fetch("/api/global-poster-sizes");
 		posterSizes.value = response || [];
 	} catch (error) {
-		console.error("Erreur lors de la récupération des tailles d'affiche :", error);
+		console.error("Erreur lors de la récupération des tailles de poster :", error);
 	}
 	
 	// Setup initial state
@@ -353,11 +353,11 @@ onBeforeUnmount(() => {
 									aria-hidden="true">
 									<div
 										:style="{
-											fontSize: `${cardSize * 0.28}px`,
-											lineHeight: `${cardSize * 0.28}px`,
+											fontSize: `${cardSize * 0.27}px`,
+											lineHeight: `${cardSize * 0.27}px`,
 										}"
 										class="-rotate-45 flex items-center justify-center text-center uppercase font-apercuBold text-white/50 origin-center">
-										Hors vente
+										Dispo poster
 									</div>
 								</div>
 							</div>
@@ -373,7 +373,9 @@ onBeforeUnmount(() => {
 										{{ painting.price + " €" }}
 									</span>
 									<span v-else-if="minPosterPrice !== null">
-										Affiche dès {{ minPosterPrice }} €
+										Poster
+										{{ posterSizes.length === 1 ? "à" : "dès" }}
+										{{ minPosterPrice }} €
 									</span>
 									<span v-else>
 										Hors vente

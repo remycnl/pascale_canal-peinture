@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 
 const props = defineProps({
 	painting: {
@@ -18,13 +18,13 @@ const props = defineProps({
 
 const emit = defineEmits(["open-contact"]);
 
-// Gestion de la sélection entre original et affiche
-const selectedFormat = ref('original');
+// Gestion de la sélection entre original et poster
+const selectedFormat = ref("original");
 const selectedPosterSize = ref(null);
 
 // Prix calculé selon le format sélectionné
 const currentPrice = computed(() => {
-	if (selectedFormat.value === 'original') {
+	if (selectedFormat.value === "original") {
 		return props.painting.price;
 	} else if (selectedPosterSize.value) {
 		return selectedPosterSize.value.price;
@@ -32,40 +32,58 @@ const currentPrice = computed(() => {
 	return props.painting.posterSizes?.[0]?.price || 0;
 });
 
-// Prix minimum pour les affiches
+// Prix minimum pour les posters
 const minPosterPrice = computed(() => {
 	if (!props.painting.posterSizes || props.painting.posterSizes.length === 0) {
 		return 0;
 	}
-	return Math.min(...props.painting.posterSizes.map(size => parseFloat(size.price)));
+	return Math.min(
+		...props.painting.posterSizes.map((size) => parseFloat(size.price))
+	);
 });
 
 // Dimensions calculées selon le format sélectionné
 const currentDimensions = computed(() => {
-	if (selectedFormat.value === 'original') {
+	if (selectedFormat.value === "original") {
 		return {
 			width: props.painting.width,
-			height: props.painting.height
+			height: props.painting.height,
 		};
 	} else if (selectedPosterSize.value) {
 		return {
 			width: selectedPosterSize.value.width,
-			height: selectedPosterSize.value.height
+			height: selectedPosterSize.value.height,
 		};
 	}
 	return {
 		width: props.painting.posterSizes?.[0]?.width || 0,
-		height: props.painting.posterSizes?.[0]?.height || 0
+		height: props.painting.posterSizes?.[0]?.height || 0,
 	};
 });
 
-// Initialiser la première taille d'affiche si disponible
+// Calculer les classes de grid selon le nombre de tailles
+const posterGridClasses = computed(() => {
+	const count = props.painting.posterSizes?.length || 0;
+	if (count === 2) {
+		return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2";
+	} else if (count >= 3) {
+		return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3";
+	}
+	return "grid-cols-1";
+});
+
+// Vérifier s'il faut afficher le sélecteur de tailles
+const shouldShowSizeSelector = computed(() => {
+	return props.painting.posterSizes && props.painting.posterSizes.length > 1;
+});
+
+// Initialiser la première taille de poster si disponible
 const initializePosterSize = () => {
 	if (props.painting.posterSizes && props.painting.posterSizes.length > 0) {
 		selectedPosterSize.value = props.painting.posterSizes[0];
-		// Si l'original n'est plus en vente, sélectionner automatiquement l'affiche
-		if (props.painting.state === 'OFF_SALE') {
-			selectedFormat.value = 'poster';
+		// Si l'original n'est plus en vente, sélectionner automatiquement le poster
+		if (props.painting.state === "OFF_SALE") {
+			selectedFormat.value = "poster";
 		}
 	}
 };
@@ -79,11 +97,12 @@ onMounted(() => {
 const handleContactClick = () => {
 	const contactData = {
 		format: selectedFormat.value,
-		...(selectedFormat.value === 'poster' && selectedPosterSize.value && {
-			posterSize: selectedPosterSize.value
-		})
+		...(selectedFormat.value === "poster" &&
+			selectedPosterSize.value && {
+				posterSize: selectedPosterSize.value,
+			}),
 	};
-	emit('open-contact', 'achat', contactData);
+	emit("open-contact", "achat", contactData);
 };
 </script>
 
@@ -92,9 +111,12 @@ const handleContactClick = () => {
 		<!-- Actions en haut -->
 		<div
 			class="-mt-7 lg:mt-0 lg:mb-8 right-0 justify-end text-end will-change-scroll flex flex-col lg:flex-row gap-4">
-			<!-- Afficher le bouton d'achat si l'original est en vente OU si des affiches sont disponibles -->
+			<!-- Afficher le bouton d'achat si l'original est en vente OU si des posters sont disponibles -->
 			<button
-				v-if="painting.state === 'FOR_SALE' || (painting.posterSizes && painting.posterSizes.length > 0)"
+				v-if="
+					painting.state === 'FOR_SALE' ||
+					(painting.posterSizes && painting.posterSizes.length > 0)
+				"
 				@click="handleContactClick"
 				class="bg-black text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
 				Contacter pour acheter
@@ -111,23 +133,24 @@ const handleContactClick = () => {
 				position="bottom-right" />
 		</div>
 
-		<!-- Sélection du format (Original ou Affiche) -->
+		<!-- Sélection du format (Original ou Poster) -->
 		<section class="mt-10 lg:mt-0">
-			<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black mb-6">
+			<h2
+				class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black mb-6">
 				Choisir le format
 			</h2>
-			
+
 			<!-- Sélecteur de format -->
 			<div class="space-y-2 mb-8">
 				<!-- Option Original (si en vente) -->
-				<div 
+				<div
 					v-if="painting.state === 'FOR_SALE'"
 					@click="selectedFormat = 'original'"
 					:class="[
 						'group relative overflow-hidden rounded-xl border cursor-pointer transition-all duration-200 ease-out h-fit',
-						selectedFormat === 'original' 
-							? 'border-black bg-gray-50' 
-							: 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+						selectedFormat === 'original'
+							? 'border-black bg-gray-50'
+							: 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50',
 					]">
 					<div class="p-4">
 						<div class="flex justify-between items-start">
@@ -135,22 +158,24 @@ const handleContactClick = () => {
 								<div class="flex items-center gap-3 mb-2">
 									<!-- Radio button custom -->
 									<div class="relative">
-										<div 
+										<div
 											:class="[
 												'w-4 h-4 rounded-full border transition-all duration-200',
-												selectedFormat === 'original' 
-													? 'border-black bg-black' 
-													: 'border-gray-300'
+												selectedFormat === 'original'
+													? 'border-black bg-black'
+													: 'border-gray-300',
 											]">
-											<div 
-												v-if="selectedFormat === 'original'" 
-												class="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-											</div>
+											<div
+												v-if="selectedFormat === 'original'"
+												class="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
 										</div>
 									</div>
 									<div class="flex items-center gap-2">
-										<h3 class="font-apercuMedium text-black">Tableau original</h3>
-										<span class="bg-yellow/70 text-black text-xs px-2 py-0.5 rounded-md font-apercuMedium">
+										<h3 class="font-apercuMedium text-black">
+											Tableau original
+										</h3>
+										<span
+											class="bg-yellow/70 text-black text-xs px-2 py-0.5 rounded-md font-apercuMedium">
 											Unique
 										</span>
 									</div>
@@ -168,15 +193,15 @@ const handleContactClick = () => {
 					</div>
 				</div>
 
-				<!-- Option Affiche (toujours disponible) -->
-				<div 
+				<!-- Option Poster (toujours disponible) -->
+				<div
 					v-if="painting.posterSizes && painting.posterSizes.length > 0"
 					@click="selectedFormat = 'poster'"
 					:class="[
 						'group relative overflow-hidden rounded-xl border cursor-pointer transition-all duration-200 ease-out h-fit',
-						selectedFormat === 'poster' 
-							? 'border-black bg-gray-50' 
-							: 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+						selectedFormat === 'poster'
+							? 'border-black bg-gray-50'
+							: 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50',
 					]">
 					<div class="p-4">
 						<div class="flex justify-between items-start">
@@ -184,63 +209,68 @@ const handleContactClick = () => {
 								<div class="flex items-center gap-3 mb-2">
 									<!-- Radio button custom -->
 									<div class="relative">
-										<div 
+										<div
 											:class="[
 												'w-4 h-4 rounded-full border transition-all duration-200',
-												selectedFormat === 'poster' 
-													? 'border-black bg-black' 
-													: 'border-gray-300'
+												selectedFormat === 'poster'
+													? 'border-black bg-black'
+													: 'border-gray-300',
 											]">
-											<div 
-												v-if="selectedFormat === 'poster'" 
-												class="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-											</div>
+											<div
+												v-if="selectedFormat === 'poster'"
+												class="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
 										</div>
 									</div>
 									<div class="flex items-center gap-2">
-										<h3 class="font-apercuMedium text-black">Affiche</h3>
+										<h3 class="font-apercuMedium text-black">Poster</h3>
 									</div>
 								</div>
 								<p class="text-gray-600 text-sm ml-7">
-									Reproduction fidèle sur papier d'art
+									Reproduction fidèle sur papier de haute qualité
 								</p>
-								
-								<!-- Sélection des tailles d'affiches avec scroll -->
-								<div 
-									v-if="selectedFormat === 'poster'" 
+
+								<!-- Sélection des tailles de poster (seulement si plus d'une taille) -->
+								<div
+									v-if="selectedFormat === 'poster' && shouldShowSizeSelector"
 									class="ml-7 mt-3 -mr-6">
-									<label class="text-sm font-apercuMedium text-black block mb-3">
+									<label
+										class="text-sm font-apercuMedium text-black block mb-3">
 										Taille :
 									</label>
 									<div>
-										<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-2">
-											<div 
-												v-for="(posterSize, index) in painting.posterSizes" 
+										<div :class="['grid gap-2', posterGridClasses]">
+											<div
+												v-for="(posterSize, index) in painting.posterSizes"
 												:key="posterSize.id"
 												@click.stop="selectedPosterSize = posterSize"
 												:style="{ animationDelay: `${index * 50}ms` }"
 												:class="[
 													'border rounded-lg p-3 cursor-pointer transition-all duration-150 text-sm animate-in fade-in-item',
-													selectedPosterSize?.id === posterSize.id 
-														? 'border-black bg-black text-white' 
-														: 'border-gray-200 hover:border-gray-300 bg-white'
+													selectedPosterSize?.id === posterSize.id
+														? 'border-black bg-black text-white'
+														: 'border-gray-200 hover:border-gray-300 bg-white',
 												]">
-												<div class="flex flex-row justify-between items-center gap-2">
+												<div
+													class="flex flex-row justify-between items-center gap-2">
 													<div class="flex items-center gap-2 flex-1 min-w-0">
 														<div class="min-w-0 flex-1">
-															<div class="font-apercuMedium truncate">{{ posterSize.name }}</div>
-															<div 
+															<div class="font-apercuMedium truncate">
+																{{ posterSize.name }}
+															</div>
+															<div
 																:class="[
 																	'text-xs',
-																	selectedPosterSize?.id === posterSize.id 
-																		? 'text-white/75' 
-																		: 'text-gray-500'
+																	selectedPosterSize?.id === posterSize.id
+																		? 'text-white/75'
+																		: 'text-gray-500',
 																]">
-																{{ posterSize.width }} × {{ posterSize.height }} cm
+																{{ posterSize.width }} ×
+																{{ posterSize.height }} cm
 															</div>
 														</div>
 													</div>
-													<span class="font-apercuBold text-sm whitespace-nowrap flex-shrink-0">
+													<span
+														class="font-apercuBold text-sm whitespace-nowrap flex-shrink-0">
 														{{ formatPrice(posterSize.price) }} €
 													</span>
 												</div>
@@ -250,11 +280,32 @@ const handleContactClick = () => {
 								</div>
 							</div>
 							<div class="text-right ml-4">
-								<div v-if="selectedFormat === 'poster' && selectedPosterSize" class="text-lg font-apercuBold text-black">
+								<!-- Si une seule taille de poster, afficher le prix directement -->
+								<div
+									v-if="
+										!shouldShowSizeSelector &&
+										painting.posterSizes?.length === 1
+									"
+									class="text-lg font-apercuBold text-black">
+									{{ formatPrice(painting.posterSizes[0].price) }} €
+								</div>
+								<!-- Si plusieurs tailles et poster sélectionné avec taille choisie -->
+								<div
+									v-else-if="
+										selectedFormat === 'poster' &&
+										selectedPosterSize &&
+										shouldShowSizeSelector
+									"
+									class="text-lg font-apercuBold text-black">
 									{{ formatPrice(currentPrice) }} €
 								</div>
-								<div v-else class="text-lg font-apercuBold text-black flex flex-col items-end">
-									<span class="text-[9px] uppercase text-gray-400 tracking-wide">À partir de</span>
+								<!-- Si plusieurs tailles mais pas de taille sélectionnée -->
+								<div
+									v-else-if="shouldShowSizeSelector"
+									class="text-lg font-apercuBold text-black flex flex-col items-end">
+									<span class="text-[9px] uppercase text-gray-400 tracking-wide"
+										>À partir de</span
+									>
 									<span>{{ formatPrice(minPosterPrice) }} €</span>
 								</div>
 							</div>
@@ -266,8 +317,7 @@ const handleContactClick = () => {
 
 		<!-- Détails de l'œuvre -->
 		<section>
-			<h2
-				class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
+			<h2 class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black">
 				Détails
 			</h2>
 			<ul class="mt-4 text-sm md:text-base lg:text-xl space-y-2">
@@ -275,8 +325,8 @@ const handleContactClick = () => {
 					<span
 						class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
 						Le tableau original n'est pas disponible à la vente et est présenté
-						uniquement à titre d'exposition. Cependant, vous pouvez acquérir une
-						affiche de cette œuvre ci-dessus. Si vous souhaitez acquérir une
+						uniquement à titre d'exposition. Cependant, vous pouvez acquérir un
+						poster de cette œuvre ci-dessus. Si vous souhaitez acquérir une
 						œuvre originale, vous avez la possibilité de
 						<NuxtLink
 							to="/commande-personnalisee"
@@ -303,7 +353,7 @@ const handleContactClick = () => {
 				</li>
 				<li v-else-if="selectedFormat === 'poster'">
 					<span class="font-apercuBold">Support:</span>
-					Papier d'art haute qualité
+					Papier de haute qualité mat
 				</li>
 				<li>
 					<span class="font-apercuBold">Date de création: </span>

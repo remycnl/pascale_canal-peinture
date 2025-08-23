@@ -8,10 +8,10 @@ export default defineEventHandler(async (event) => {
 
 		return { posterSizes };
 	} catch (error) {
-		console.error("Erreur lors de la récupération des tailles d'affiches :", error);
+		console.error("Erreur lors de la récupération des tailles de posters :", error);
 		return createError({
 			statusCode: 500,
-			message: "Erreur lors de la récupération des tailles d'affiches",
+			message: "Erreur lors de la récupération des tailles de posters.",
 		});
 	}
 });

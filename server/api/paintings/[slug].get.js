@@ -15,13 +15,13 @@ export default defineEventHandler(async (event) => {
 			});
 		}
 
-		// Récupérer les tailles d'affiches globales disponibles
+		// Récupérer les tailles de posters globales disponibles
 		const posterSizes = await prisma.globalPosterSize.findMany({
 			where: { isActive: true },
 			orderBy: { order: 'asc' }
 		});
 
-		// Ajouter les tailles d'affiches à la peinture
+		// Ajouter les tailles de posters à la peinture
 		const paintingWithPosters = {
 			...painting,
 			posterSizes

@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
 
 // Fonction pour générer le ticket HTML côté serveur
 async function generateTicketHtml(formData) {
-	// Récupérer les tailles d'affiches depuis la base de données
+	// Récupérer les tailles de posters depuis la base de données
 	let posterSizes = [];
 
 	try {
@@ -73,7 +73,7 @@ async function generateTicketHtml(formData) {
 		await prisma.$disconnect();
 	} catch (error) {
 		console.error(
-			"Erreur lors de la récupération des tailles d'affiches:",
+			"Erreur lors de la récupération des tailles de posters:",
 			error
 		);
 		posterSizes = [];
@@ -100,19 +100,19 @@ async function generateTicketHtml(formData) {
 					);
 
 					if (posterSize) {
-						formatType = `Affiche ${posterSize.name}`;
+						formatType = `Poster ${posterSize.name}`;
 						dimensions = `${posterSize.width}×${posterSize.height}cm`;
 						itemPrice = parseFloat(posterSize.price) || 0;
 					} else {
 						console.error(
-							`Taille d'affiche non trouvée pour l'ID: ${format.posterSizeId}`
+							`Taille de poster non trouvée pour l'ID: ${format.posterSizeId}`
 						);
-						formatType = "Affiche (taille non trouvée)";
+						formatType = "Poster (taille non trouvée)";
 						itemPrice = 0;
 					}
 				} else if (format.type === "poster" && !format.posterSizeId) {
 					console.error("Format poster sélectionné mais pas de posterSizeId");
-					formatType = "Affiche (taille non spécifiée)";
+					formatType = "Poster (taille non spécifiée)";
 					itemPrice = 0;
 				}
 			} else {

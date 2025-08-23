@@ -55,7 +55,7 @@ model Painting {
   height       Decimal // Hauteur en cm
   paintingType String // Technique de peinture (ex : huile, aquarelle, acrylique, etc)
   
-  // Les affiches sont toujours disponibles en utilisant GlobalPosterSize
+  // Les posters sont toujours disponibles en utilisant GlobalPosterSize
 }
 
 model PaintingTag {

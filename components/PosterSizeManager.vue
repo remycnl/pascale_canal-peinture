@@ -19,14 +19,14 @@ const sortedPosterSizes = computed(() => {
 	);
 });
 
-// Charger les tailles d'affiches
+// Charger les tailles de posters
 const loadPosterSizes = async () => {
 	try {
 		const response = await $fetch("/api/secret/global-poster-sizes");
 		posterSizes.value = response.posterSizes || [];
 	} catch (error) {
-		console.error("Erreur lors du chargement des tailles d'affiches:", error);
-		alert("Erreur lors du chargement des tailles d'affiches");
+		console.error("Erreur lors du chargement des tailles de posters:", error);
+		alert("Erreur lors du chargement des tailles de posters");
 	}
 };
 
@@ -68,10 +68,10 @@ const addPosterSize = async () => {
 		
 		// Recharger la liste
 		await loadPosterSizes();
-		alert("Taille d'affiche ajoutée avec succès");
+		alert("Taille de poster ajoutée avec succès");
 	} catch (error) {
-		console.error("Erreur lors de l'ajout de la taille d'affiche:", error);
-		alert("Erreur lors de l'ajout de la taille d'affiche");
+		console.error("Erreur lors de l'ajout de la taille de poster:", error);
+		alert("Erreur lors de l'ajout de la taille de poster");
 	} finally {
 		isLoading.value = false;
 	}
@@ -95,10 +95,10 @@ const savePosterSizes = async () => {
 			method: "PUT",
 			body: { posterSizes: cleanPosterSizes }
 		});
-		alert("Tailles d'affiches mises à jour avec succès");
+		alert("Tailles de posters mises à jour avec succès");
 	} catch (error) {
 		console.error("Erreur lors de la sauvegarde:", error);
-		alert("Erreur lors de la sauvegarde des tailles d'affiches");
+		alert("Erreur lors de la sauvegarde des tailles de posters");
 	} finally {
 		isLoading.value = false;
 	}
@@ -112,10 +112,10 @@ const deletePosterSize = async (posterSize) => {
 				method: "DELETE"
 			});
 			await loadPosterSizes();
-			alert("Taille d'affiche supprimée avec succès");
+			alert("Taille de poster supprimée avec succès");
 		} catch (error) {
 			console.error("Erreur lors de la suppression:", error);
-			alert("Erreur lors de la suppression de la taille d'affiche");
+			alert("Erreur lors de la suppression de la taille de poster");
 		}
 	}
 };
@@ -177,7 +177,7 @@ onMounted(() => {
 		<div class="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
 			<div class="bg-black text-white p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center">
 				<h2 class="text-2xl sm:text-3xl font-apercuBold mb-4 sm:mb-0">
-					Configuration des affiches
+					Configuration des posters
 				</h2>
 				<button
 					@click="showAddForm = !showAddForm"
@@ -188,7 +188,7 @@ onMounted(() => {
 			</div>
 			<div class="bg-white p-6">
 				<p class="text-sm text-gray-600 mb-6">
-					Ces tailles seront disponibles pour toutes les peintures en format affiche. Les affiches sont toujours disponibles, même si l'original n'est plus en vente.
+					Ces tailles seront disponibles pour toutes les peintures en format poster. Les posters sont toujours disponibles, même si l'original n'est plus en vente.
 				</p>
 
 				<!-- Formulaire d'ajout -->
@@ -220,7 +220,7 @@ onMounted(() => {
 
 				<!-- Liste des tailles existantes -->
 				<div v-if="sortedPosterSizes.length === 0" class="text-center py-16 text-gray-500">
-					Aucune taille d'affiche configurée
+					Aucune taille de poster configurée
 				</div>
 
 				<div v-else class="divide-y max-h-[70vh] overflow-y-auto divide-gray-200">

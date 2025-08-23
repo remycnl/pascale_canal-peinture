@@ -185,7 +185,7 @@
 								<span
 									v-if="preSelectedArtwork.state === 'OFF_SALE'"
 									class="absolute top-4 flex items-center right-4 bg-yellow/80 text-black text-xs px-2 py-1 rounded-full">
-									Affiche uniquement
+									Poster uniquement
 								</span>
 								<div class="p-4">
 									<h3 class="font-apercuBold text-xl mb-2 text-white">
@@ -245,7 +245,7 @@
 											<span
 												v-if="result.state === 'OFF_SALE'"
 												class="ml-2 flex items-center bg-yellow/80 text-black text-xs px-2 py-0.5 rounded-full">
-												Affiche uniquement
+												Poster uniquement
 											</span>
 										</div>
 									</div>
@@ -289,7 +289,7 @@
 										<span
 											v-if="artwork.state === 'OFF_SALE'"
 											class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-yellow/80 text-black text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5 flex items-center rounded-full">
-											<span>Affiche</span>
+											<span>Poster</span>
 										</span>
 									</div>
 									<p class="text-sm mt-2 text-white truncate">
@@ -387,7 +387,7 @@
 									<span
 										v-if="result.state === 'OFF_SALE'"
 										class="ml-2 flex items-center bg-yellow/80 text-black text-xs px-2 py-0.5 rounded-full">
-										Affiche uniquement
+										Poster uniquement
 									</span>
 								</div>
 							</div>
@@ -431,8 +431,8 @@
 								<span
 									v-if="artwork.state === 'OFF_SALE'"
 									class="absolute top-1 right-1 sm:top-2 sm:right-2 bg-yellow/80 text-black text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5 flex items-center rounded-full">
-									<span class="hidden lg:inline">Affiche uniquement</span>
-									<span class="lg:hidden">Affiche</span>
+									<span class="hidden lg:inline">Poster uniquement</span>
+									<span class="lg:hidden">Poster</span>
 								</span>
 							</div>
 							<p class="text-sm mt-2 text-white truncate">{{ artwork.name }}</p>
@@ -510,7 +510,7 @@
 									<span
 										v-if="artwork.state === 'OFF_SALE'"
 										class="inline-block w-fit px-2 py-1 text-xs bg-yellow/80 text-black rounded-full mt-1 sm:mt-0">
-										Affiche uniquement
+										Poster uniquement
 									</span>
 								</div>
 								<p class="text-white/70 text-sm">
@@ -539,22 +539,33 @@
 
 							<!-- Poster option -->
 							<div
-								class="p-3 rounded-lg border transition-all duration-300 cursor-pointer"
+								class="p-3 rounded-lg border transition-all duration-300"
 								:class="
-									selectedFormats[artwork.id]?.type === 'poster'
+									selectedFormats[artwork.id]?.type === 'poster' ||
+									(posterSizes.length === 1 && artwork.state === 'OFF_SALE')
 										? 'border-yellow bg-yellow/10'
-										: 'border-white/30 bg-white/5 hover:bg-white/10'
+										: 'border-white/30 bg-white/5 hover:bg-white/10 cursor-pointer'
 								"
 								@click="selectFormat(artwork.id, 'poster')">
-								<div class="text-white font-apercuMedium">Affiche</div>
-								<div class="text-white/70 text-sm">
-									Reproduction haute qualité
+								<div class="flex justify-between items-start">
+									<div class="flex-1">
+										<div class="text-white font-apercuMedium">Poster</div>
+										<div class="text-white/70 text-sm">
+											Reproduction haute qualité
+											<span v-if="posterSizes.length === 1">
+												- {{ posterSizes[0].price }} €</span
+											>
+										</div>
+									</div>
 								</div>
 							</div>
 
 							<!-- Poster size selection (when poster is selected) -->
 							<div
-								v-if="selectedFormats[artwork.id]?.type === 'poster'"
+								v-if="
+									selectedFormats[artwork.id]?.type === 'poster' &&
+									posterSizes.length > 1
+								"
 								class="ml-0 mt-4">
 								<h4
 									class="text-white font-apercuMedium text-sm mb-3 text-left lg:text-center">
@@ -567,7 +578,12 @@
 								</div>
 								<div
 									v-else
-									class="grid grid-cols-1 lg:grid-cols-3 gap-3 w-full">
+									:class="[
+										'grid gap-3 w-full',
+										posterSizes.length === 2
+											? 'grid-cols-1 lg:grid-cols-2'
+											: 'grid-cols-1 lg:grid-cols-3',
+									]">
 									<div
 										v-for="size in posterSizes"
 										:key="size.id"
@@ -642,13 +658,15 @@
 											selectedFormats[artwork.id]?.posterSizeId
 										"
 										class="text-white/70 text-sm">
-										Affiche
-										{{
-											posterSizes.find(
-												(size) =>
-													size.id === selectedFormats[artwork.id]?.posterSizeId
-											)?.name
-										}}
+										Poster
+										<template v-if="posterSizes.length > 1">
+											{{
+												posterSizes.find(
+													(size) =>
+														size.id === selectedFormats[artwork.id]?.posterSizeId
+												)?.name
+											}}
+										</template>
 										-
 										{{
 											posterSizes.find(
@@ -1071,7 +1089,9 @@ const isStepValid = computed(() => {
 						selectedFormats.value[artwork.id] &&
 						selectedFormats.value[artwork.id].type &&
 						(selectedFormats.value[artwork.id].type === "original" ||
-							selectedFormats.value[artwork.id].posterSizeId)
+							(selectedFormats.value[artwork.id].type === "poster" &&
+								(selectedFormats.value[artwork.id].posterSizeId ||
+									posterSizes.value.length === 1)))
 				);
 			}
 			return true;
@@ -1141,6 +1161,11 @@ const toggleArtworkSelection = (artwork) => {
 		selectedArtworks.value.push(artwork);
 		if (artwork.state === "OFF_SALE") {
 			selectedFormats.value[artwork.id] = { type: "poster" };
+			// Auto-sélectionner la taille unique si disponible
+			if (posterSizes.value.length === 1) {
+				selectedFormats.value[artwork.id].posterSizeId =
+					posterSizes.value[0].id;
+			}
 		} else {
 			selectedFormats.value[artwork.id] = { type: "original" };
 		}
@@ -1152,6 +1177,15 @@ const selectFormat = (artworkId, formatType, posterSizeId = null) => {
 		type: formatType,
 		posterSizeId: posterSizeId,
 	};
+
+	// Auto-sélectionner la taille unique si c'est un poster et qu'il n'y a qu'une seule taille
+	if (
+		formatType === "poster" &&
+		!posterSizeId &&
+		posterSizes.value.length === 1
+	) {
+		selectedFormats.value[artworkId].posterSizeId = posterSizes.value[0].id;
+	}
 };
 
 const getTotalPrice = () => {
@@ -1578,6 +1612,24 @@ watch(currentStep, (newStep) => {
 		});
 	}
 });
+
+watch(
+	posterSizes,
+	(newSizes) => {
+		if (newSizes.length === 1) {
+			// Auto-sélectionner la taille unique pour tous les artworks avec format poster
+			Object.keys(selectedFormats.value).forEach((artworkId) => {
+				if (
+					selectedFormats.value[artworkId].type === "poster" &&
+					!selectedFormats.value[artworkId].posterSizeId
+				) {
+					selectedFormats.value[artworkId].posterSizeId = newSizes[0].id;
+				}
+			});
+		}
+	},
+	{ deep: true }
+);
 
 onMounted(() => {
 	if (props.preSelectedArtworkId) {

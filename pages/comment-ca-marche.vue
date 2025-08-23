@@ -53,7 +53,7 @@ const standardSections = [
 		number: "03",
 		title: "Choisis ton format",
 		description: {
-			text: "Décide si tu souhaites acquérir l'œuvre originale (unique et disponible en un seul exemplaire) ou opter pour une affiche en sélectionnant parmi les formats disponibles proposés.",
+			text: "Décide si tu souhaites acquérir l'œuvre originale (unique et disponible en un seul exemplaire) ou opter pour un poster en sélectionnant parmi les formats disponibles proposés.",
 		},
 	},
 	{

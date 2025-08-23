@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
 
 			await Promise.all(updatePromises);
 
-			return { success: true, message: "Tailles d'affiches mises à jour avec succès" };
+			return { success: true, message: "Tailles de posters mises à jour avec succès" };
 		}
 
 		return createError({
@@ -53,10 +53,10 @@ export default defineEventHandler(async (event) => {
 		});
 
 	} catch (error) {
-		console.error("Erreur lors de la gestion des tailles d'affiches :", error);
+		console.error("Erreur lors de la gestion des tailles de posters :", error);
 		return createError({
 			statusCode: 500,
-			message: "Erreur lors de la gestion des tailles d'affiches",
+			message: "Erreur lors de la gestion des tailles de posters.",
 		});
 	}
 });
