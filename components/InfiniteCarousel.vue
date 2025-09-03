@@ -16,11 +16,11 @@ const props = defineProps({
 
 // Séparation en deux rangées
 const topRowPaintings = computed(() =>
-	props.paintings.slice(0, Math.ceil(props.paintings.length / 2))
+	props.paintings.slice(0, Math.ceil(props.paintings.length / 2)).filter(painting => painting.image)
 );
 
 const bottomRowPaintings = computed(() =>
-	props.paintings.slice(Math.ceil(props.paintings.length / 2))
+	props.paintings.slice(Math.ceil(props.paintings.length / 2)).filter(painting => painting.image)
 );
 
 // Références DOM
