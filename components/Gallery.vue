@@ -354,9 +354,9 @@ onBeforeUnmount(() => {
 									<div
 										:style="{
 											fontSize: `${cardSize * 0.27}px`,
-											lineHeight: `${cardSize * 0.27}px`,
+											lineHeight: `${cardSize * 0.25}px`,
 										}"
-										class="-rotate-45 flex items-center justify-center text-center uppercase font-apercuBold text-white/50 origin-center">
+										class="-rotate-45 -translate-x-3.5 -translate-y-4.5 flex items-center justify-center text-center uppercase font-apercuBold text-white/50 origin-center">
 										Dispo poster
 									</div>
 								</div>
