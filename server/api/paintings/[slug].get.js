@@ -15,11 +15,14 @@ export default defineEventHandler(async (event) => {
 			});
 		}
 
-		// Récupérer les tailles de posters globales disponibles
-		const posterSizes = await prisma.globalPosterSize.findMany({
-			where: { isActive: true },
-			orderBy: { order: 'asc' }
-		});
+		// Récupérer les tailles de posters globales disponibles seulement si posterAvailable est true
+		let posterSizes = [];
+		if (painting.posterAvailable) {
+			posterSizes = await prisma.globalPosterSize.findMany({
+				where: { isActive: true },
+				orderBy: { order: 'asc' }
+			});
+		}
 
 		// Ajouter les tailles de posters à la peinture
 		const paintingWithPosters = {

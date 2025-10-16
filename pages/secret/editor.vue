@@ -24,6 +24,7 @@ const selectedImage = ref(null);
 const selectedTags = ref([]);
 const slug = ref("");
 const state = ref("FOR_SALE");
+const posterAvailable = ref(true);
 const paintings = ref([]);
 const selectedPainting = ref(null);
 const isEditMode = ref(false);
@@ -139,6 +140,7 @@ const selectPaintingForEdit = (painting) => {
 			: [];
 	slug.value = painting.slug;
 	state.value = painting.state;
+	posterAvailable.value = painting.posterAvailable ?? true;
 	date.value = formatDate(new Date(painting.date));
 	isEditMode.value = true;
 	isSelectOpen.value = false;
@@ -181,6 +183,7 @@ const updatePainting = async () => {
 		formData.append("tags", JSON.stringify(selectedTags.value));
 		formData.append("slug", slug.value);
 		formData.append("state", state.value);
+		formData.append("posterAvailable", posterAvailable.value);
 		formData.append("date", date.value);
 
 		await $fetch(`/api/secret/painting/${selectedPainting.value.id}`, {
@@ -220,6 +223,7 @@ const submitPainting = async () => {
 			formData.append("tags", JSON.stringify(selectedTags.value));
 			formData.append("slug", slug.value);
 			formData.append("state", state.value);
+			formData.append("posterAvailable", posterAvailable.value);
 			formData.append("date", date.value);
 
 			await $fetch("/api/secret/add", {
@@ -253,6 +257,7 @@ const resetForm = () => {
 	selectedTags.value = [];
 	slug.value = "";
 	state.value = "FOR_SALE";
+	posterAvailable.value = true;
 	date.value = formatDate(new Date());
 	selectedPainting.value = null;
 	isEditMode.value = false;
@@ -493,6 +498,38 @@ useSeoMeta({
 										required />
 								</div>
 							</div>
+
+							<!-- Disponibilité poster -->
+							<div class="form-group">
+								<label class="label">Disponibilité poster</label>
+								<div class="flex items-center justify-between">
+									<div class="flex flex-col">
+										<span class="text-sm text-gray-300">
+											Autoriser la vente de posters pour ce tableau
+										</span>
+										<p class="text-xs text-gray-400 mt-1">
+											Si désactivé, seul le tableau original pourra être vendu (selon l'état)
+										</p>
+									</div>
+									<div class="flex items-center gap-2">
+										<span class="text-xs text-gray-400">
+											{{ posterAvailable ? 'Activé' : 'Désactivé' }}
+										</span>
+										<label
+											class="switch"
+											:title="
+												posterAvailable
+													? 'Posters activés - Cliquez pour désactiver'
+													: 'Posters désactivés - Cliquez pour activer'
+											">
+											<input
+												type="checkbox"
+												v-model="posterAvailable" />
+											<span class="slider"></span>
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 
 						<div class="flex gap-4 mt-8">
@@ -710,5 +747,57 @@ input:-webkit-autofill:active {
 		box-shadow: 0 0 0 1000px var(--color-white) inset !important;
 		-moz-text-fill-color: var(--color-black) !important;
 	}
+}
+
+/* Toggle Switch Styles */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 2.8em;
+	height: 1.4em;
+}
+
+.switch input {
+	display: none;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--color-black);
+	transition: 0.2s;
+	border-radius: 30px;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 1em;
+	width: 1em;
+	border-radius: 20px;
+	left: 0.2em;
+	bottom: 0.2em;
+	background-color: #aeaaae;
+	transition: 0.4s;
+}
+
+input:checked + .slider::before {
+	background-color: var(--color-yellow);
+	transform: translateX(1.4em);
+}
+
+input:checked + .slider {
+	background-color: #7c7541;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #7c7541;
 }
 </style>

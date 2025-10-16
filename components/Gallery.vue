@@ -356,8 +356,14 @@ onBeforeUnmount(() => {
 											fontSize: `${cardSize * 0.27}px`,
 											lineHeight: `${cardSize * 0.25}px`,
 										}"
-										class="-rotate-45 -translate-x-3.5 -translate-y-4.5 flex items-center justify-center text-center uppercase font-apercuBold text-white/50 origin-center">
-										Dispo poster
+										:class="[
+											'-rotate-45 flex items-center justify-center text-center uppercase font-apercuBold text-white/50 origin-center',
+											painting.posterAvailable !== false
+												? '-translate-x-3.5 -translate-y-4.5'
+												: '-translate-x-1.5'
+										]"
+									>
+										{{ painting.posterAvailable !== false ? 'Dispo poster' : 'Hors vente' }}
 									</div>
 								</div>
 							</div>
@@ -372,7 +378,7 @@ onBeforeUnmount(() => {
 									<span v-if="painting.state !== 'OFF_SALE'">
 										{{ painting.price + " €" }}
 									</span>
-									<span v-else-if="minPosterPrice !== null">
+									<span v-else-if="painting.posterAvailable !== false && minPosterPrice !== null">
 										Poster
 										{{ posterSizes.length === 1 ? "à" : "dès" }}
 										{{ minPosterPrice }} €

@@ -70,6 +70,7 @@ export default defineEventHandler(async (event) => {
 				paintingType: getFieldValue("paintingType"),
 				slug: getFieldValue("slug"),
 				state: getFieldValue("state"),
+				posterAvailable: getFieldValue("posterAvailable") === "true",
 				tags: {
 					create: tagArray.map((tag) => ({
 						tag: tag,

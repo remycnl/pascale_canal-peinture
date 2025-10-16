@@ -115,7 +115,7 @@ const handleContactClick = () => {
 			<button
 				v-if="
 					painting.state === 'FOR_SALE' ||
-					(painting.posterSizes && painting.posterSizes.length > 0)
+					(painting.posterAvailable && painting.posterSizes && painting.posterSizes.length > 0)
 				"
 				@click="handleContactClick"
 				class="bg-black text-white py-2 px-6 rounded-lg text-sm font-apercuBold shadow-md hover:bg-grayDark transition duration-200 text-center cursor-pointer">
@@ -193,9 +193,9 @@ const handleContactClick = () => {
 					</div>
 				</div>
 
-				<!-- Option Poster (toujours disponible) -->
+				<!-- Option Poster (disponible si posterAvailable est true) -->
 				<div
-					v-if="painting.posterSizes && painting.posterSizes.length > 0"
+					v-if="painting.posterAvailable && painting.posterSizes && painting.posterSizes.length > 0"
 					@click="selectedFormat = 'poster'"
 					:class="[
 						'group relative overflow-hidden rounded-xl border cursor-pointer transition-all duration-200 ease-out h-fit',
@@ -324,19 +324,35 @@ const handleContactClick = () => {
 				<li v-if="painting.state === 'OFF_SALE'">
 					<span
 						class="font-apercuLight text-xs md:text-sm lg:text-base text-[#B60071]">
-						Le tableau original n'est pas disponible à la vente et est présenté
-						uniquement à titre d'exposition. Cependant, vous pouvez acquérir un
-						poster de cette œuvre ci-dessus. Si vous souhaitez acquérir une
-						œuvre originale, vous avez la possibilité de
-						<NuxtLink
-							to="/commande-personnalisee"
-							class="text-[#B60071] underline">
-							commander une création personnalisée
-						</NuxtLink>
-						ou de
-						<NuxtLink to="/?forSale=true" class="text-[#B60071] underline">
-							découvrir les œuvres originales actuellement disponibles à l'achat </NuxtLink
-						>.
+						<template v-if="painting.posterAvailable !== false">
+							Le tableau original n'est pas disponible à la vente et est présenté
+							uniquement à titre d'exposition. Cependant, vous pouvez acquérir un
+							poster de cette œuvre ci-dessus. Si vous souhaitez acquérir une
+							œuvre originale, vous avez la possibilité de
+							<NuxtLink
+								to="/commande-personnalisee"
+								class="text-[#B60071] underline">
+								commander une création personnalisée
+							</NuxtLink>
+							ou de
+							<NuxtLink to="/?forSale=true" class="text-[#B60071] underline">
+								découvrir les œuvres originales actuellement disponibles à l'achat </NuxtLink
+							>.
+						</template>
+						<template v-else>
+							Cette œuvre n'est pas disponible à la vente et est présentée
+							uniquement à titre d'exposition. Si vous souhaitez acquérir une
+							œuvre originale, vous avez la possibilité de
+							<NuxtLink
+								to="/commande-personnalisee"
+								class="text-[#B60071] underline">
+								commander une création personnalisée
+							</NuxtLink>
+							ou de
+							<NuxtLink to="/?forSale=true" class="text-[#B60071] underline">
+								découvrir les œuvres originales actuellement disponibles à l'achat </NuxtLink
+							>.
+						</template>
 					</span>
 				</li>
 				<li v-if="painting.state === 'FOR_SALE'">

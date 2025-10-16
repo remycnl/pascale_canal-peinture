@@ -92,6 +92,9 @@ export default defineEventHandler(async (event) => {
 					getFieldValue("paintingType") || existingPainting.paintingType,
 				slug: getFieldValue("slug") || existingPainting.slug,
 				state: getFieldValue("state") || existingPainting.state,
+				posterAvailable: getFieldValue("posterAvailable") 
+					? getFieldValue("posterAvailable") === "true"
+					: existingPainting.posterAvailable,
 				date: getFieldValue("date")
 					? new Date(getFieldValue("date"))
 					: existingPainting.date,

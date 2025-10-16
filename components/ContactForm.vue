@@ -1007,6 +1007,23 @@ const otherArtworks = computed(() =>
 		: artworks.value
 );
 
+// Filtre les œuvres disponibles pour l'achat (exclut celles OFF_SALE sans posterAvailable)
+const availableArtworks = computed(() =>
+	artworks.value.filter((artwork) => {
+		// Si l'œuvre est en vente, elle est toujours disponible
+		if (artwork.state === "FOR_SALE") return true;
+		// Si l'œuvre est hors vente, elle n'est disponible que si les posters sont autorisés
+		if (artwork.state === "OFF_SALE") return artwork.posterAvailable === true;
+		return false;
+	})
+);
+
+const availableOtherArtworks = computed(() =>
+	preSelectedArtwork.value
+		? availableArtworks.value.filter((a) => a.id !== preSelectedArtwork.value.id)
+		: availableArtworks.value
+);
+
 const visibleSteps = computed(() => {
 	if (preSelectedArtwork.value) {
 		const otherSelectedArtworks = selectedArtworks.value.filter(
@@ -1158,6 +1175,12 @@ const toggleArtworkSelection = (artwork) => {
 		selectedArtworks.value.splice(index, 1);
 		delete selectedFormats.value[artwork.id];
 	} else {
+		// Vérifier si l'œuvre est disponible pour l'achat
+		if (artwork.state === "OFF_SALE" && artwork.posterAvailable !== true) {
+			console.warn("Cette œuvre n'est pas disponible pour l'achat");
+			return;
+		}
+		
 		selectedArtworks.value.push(artwork);
 		if (artwork.state === "OFF_SALE") {
 			selectedFormats.value[artwork.id] = { type: "poster" };
@@ -1499,7 +1522,7 @@ const searchArtworks = () => {
 		return;
 	}
 	const query = artworkSearchQuery.value.toLowerCase();
-	artworkSearchResults.value = artworks.value
+	artworkSearchResults.value = availableArtworks.value
 		.filter((artwork) => artwork.name.toLowerCase().includes(query))
 		.slice(0, 5);
 };
@@ -1529,20 +1552,20 @@ const filteredArtworks = computed(() => {
 	const startIndex = (currentPage.value - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
 	if (!artworkSearchQuery.value) {
-		return artworks.value.slice(startIndex, endIndex);
+		return availableArtworks.value.slice(startIndex, endIndex);
 	}
 	const query = artworkSearchQuery.value.toLowerCase();
-	return artworks.value
+	return availableArtworks.value
 		.filter((artwork) => artwork.name.toLowerCase().includes(query))
 		.slice(startIndex, endIndex);
 });
 
 const totalPages = computed(() => {
 	if (!artworkSearchQuery.value) {
-		return Math.ceil(artworks.value.length / itemsPerPage);
+		return Math.ceil(availableArtworks.value.length / itemsPerPage);
 	}
 	const query = artworkSearchQuery.value.toLowerCase();
-	const filteredCount = artworks.value.filter((artwork) =>
+	const filteredCount = availableArtworks.value.filter((artwork) =>
 		artwork.name.toLowerCase().includes(query)
 	).length;
 	return Math.ceil(filteredCount / itemsPerPage);
@@ -1551,10 +1574,10 @@ const totalPages = computed(() => {
 const otherFilteredArtworks = computed(() => {
 	const startIndex = (currentPage.value - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
-	let filteredArtworks = otherArtworks.value;
+	let filteredArtworks = availableOtherArtworks.value;
 	if (artworkSearchQuery.value) {
 		const query = artworkSearchQuery.value.toLowerCase();
-		filteredArtworks = otherArtworks.value.filter((artwork) =>
+		filteredArtworks = availableOtherArtworks.value.filter((artwork) =>
 			artwork.name.toLowerCase().includes(query)
 		);
 	}
@@ -1562,10 +1585,10 @@ const otherFilteredArtworks = computed(() => {
 });
 
 const totalPagesWithoutPreselected = computed(() => {
-	let filteredCount = otherArtworks.value.length;
+	let filteredCount = availableOtherArtworks.value.length;
 	if (artworkSearchQuery.value) {
 		const query = artworkSearchQuery.value.toLowerCase();
-		filteredCount = otherArtworks.value.filter((artwork) =>
+		filteredCount = availableOtherArtworks.value.filter((artwork) =>
 			artwork.name.toLowerCase().includes(query)
 		).length;
 	}

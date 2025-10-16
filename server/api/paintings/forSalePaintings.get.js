@@ -20,13 +20,31 @@ export default defineEventHandler(async (event) => {
       return paintings;
     }
 
-    const paintings = await prisma.$queryRaw`
-      SELECT * FROM "Painting" 
-      WHERE state = 'FOR_SALE' 
-      ${excludeId ? Prisma.sql`AND id <> ${excludeId}` : Prisma.sql``}
-      ORDER BY RANDOM() 
-      LIMIT ${limit}
-    `;
+    // Récupérer tous les IDs des peintures FOR_SALE (en excluant excludeId si fourni)
+    const paintingIds = await prisma.painting.findMany({
+      where: {
+        state: "FOR_SALE",
+        ...(excludeId && { NOT: { id: excludeId } }),
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    // Mélanger les IDs et prendre les premiers 'limit' éléments
+    const shuffledIds = paintingIds.sort(() => Math.random() - 0.5).slice(0, limit);
+    
+    // Récupérer les peintures complètes dans l'ordre original (par date)
+    const paintings = await prisma.painting.findMany({
+      where: {
+        id: {
+          in: shuffledIds.map(p => p.id),
+        },
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
 
     return paintings || [];
   } catch (error) {
