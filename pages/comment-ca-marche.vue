@@ -291,7 +291,13 @@ useSchemaOrg([
 			</article>
 		</section>
 		<section>
-			<Banner />
+			<Banner 
+				title="Prêt à découvrir ma collection ?"
+				description="Explorez ma galerie complète d'œuvres pour vous immerger dans mon univers artistique et trouver le tableau qui vous correspond."
+				button-text="Explorer la galerie"
+				button-text-mobile="Galerie"
+				target-route="/"
+				badge="Inspirez-vous" />
 		</section>
 	</main>
 </template>

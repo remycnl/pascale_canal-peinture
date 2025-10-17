@@ -86,7 +86,13 @@ const { data: personalizedPaintings } = await useFetch("/api/tagPaintings", {
 			</section>
 		</section>
 		<section>
-			<Banner />
+			<Banner 
+				title="Découvrez ma collection de tableaux"
+				description="Explorez ma collection complète d'œuvres pour vous immerger dans mon univers artistique."
+				button-text="Explorer la galerie"
+				button-text-mobile="Galerie"
+				target-route="/"
+				badge="Inspirez-vous" />
 		</section>
 	</main>
 </template>

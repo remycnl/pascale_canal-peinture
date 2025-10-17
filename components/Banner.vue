@@ -1,55 +1,37 @@
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
-
 const props = defineProps({
-	mode: {
+	title: {
 		type: String,
-		default: "auto",
-		validator: (value) => ["auto", "gallery", "custom"].includes(value),
+		required: true,
 	},
-});
-
-const currentRoute = computed(() => {
-	if (props.mode === "gallery") return "galerie";
-	if (props.mode === "custom") return "commande-personnalisee";
-
-	const routeName = route.name;
-	if (routeName === "commande-personnalisee" || routeName === "comment-ca-marche") return "commande-personnalisee";
-	return "galerie";
-});
-
-const title = computed(() => {
-	return currentRoute.value === "commande-personnalisee"
-		? "Découvrez ma collection de tableaux"
-		: "Immortalisez votre souvenir en tableau unique";
-});
-
-const description = computed(() => {
-	return currentRoute.value === "commande-personnalisee"
-		? "Explorez ma collection complète d'œuvres pour vous immerger dans mon univers artistique."
-		: "Transformez vos photographies en peintures uniques.\nUn souvenir éternel et à votre goût.";
-});
-
-const buttonText = computed(() => {
-	return currentRoute.value === "commande-personnalisee"
-		? "Explorer la galerie"
-		: "Commander votre tableau";
-});
-
-const targetRoute = computed(() => {
-	return currentRoute.value === "commande-personnalisee"
-		? "/"
-		: "/commande-personnalisee";
+	description: {
+		type: String,
+		required: true,
+	},
+	buttonText: {
+		type: String,
+		required: true,
+	},
+	buttonTextMobile: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	targetRoute: {
+		type: String,
+		required: true,
+	},
+	badge: {
+		type: String,
+		required: true,
+	},
 });
 </script>
 
 <template>
 	<section
 		aria-label="Banner"
-		class="relative text-start animate-float my-16 overflow-hidden rounded-2xl">
+		class="group relative text-start animate-float my-16 overflow-hidden rounded-2xl">
 		<div
 			class="absolute inset-0 bg-[#000000] opacity-95"
 			aria-hidden="true"></div>
@@ -74,18 +56,14 @@ const targetRoute = computed(() => {
 				<div class="inline-block">
 					<span
 						class="bg-yellow/20 text-yellow px-5 py-1.5 rounded-full text-xs font-apercuMedium tracking-wider uppercase backdrop-blur-sm">
-						{{
-							currentRoute === "commande-personnalisee"
-								? "Inspirez-vous"
-								: "Nouveauté"
-						}}
+						{{ badge }}
 					</span>
 				</div>
 
 				<h2 class="text-2xl md:text-3xl lg:text-4xl font-apercuBold text-white">
 					{{ title }}
 					<div
-						class="mt-2 h-1 w-16 bg-yellow/70 rounded-full"
+						class="mt-2 h-1 w-16 bg-yellow/70 rounded-full transition-all duration-500 ease-out group-hover:w-24"
 						aria-hidden="true"></div>
 				</h2>
 
@@ -99,16 +77,16 @@ const targetRoute = computed(() => {
 				<NuxtLink
 					:to="targetRoute"
 					:aria-label="buttonText"
-					class="group relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-apercuMedium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden cursor-pointer">
+					class="button-hover relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-apercuMedium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden cursor-pointer">
 					<span
-						class="absolute inset-0 w-0 bg-gradient-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out group-hover:w-full"
+						class="absolute inset-0 w-0 bg-gradient-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out"
 						aria-hidden="true"></span>
 					<span class="relative inline-flex items-center">
-						<span class="lg:hidden">{{ buttonText.split(" ")[0] }}</span>
+						<span class="lg:hidden">{{ buttonTextMobile || buttonText.split(" ")[0] }}</span>
 						<span class="hidden lg:inline">{{ buttonText }}</span>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1.5"
+							class="h-5 w-5 ml-2 transition-transform duration-300"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -143,9 +121,21 @@ const targetRoute = computed(() => {
 	}
 }
 
+.button-hover:hover span:first-child {
+	width: 100%;
+}
+
+.button-hover:hover svg {
+	transform: translateX(6px);
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.animate-float {
 		animation: none;
+	}
+	
+	.button-hover:hover svg {
+		transform: none;
 	}
 }
 </style>

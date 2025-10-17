@@ -186,7 +186,15 @@ useSchemaOrg([
 
 		<!-- End of gallery -->
 		<section>
-			<Banner class="mt-20 md:mt-30 lg:mt-40" />
+			<Banner 
+				class="mt-20 md:mt-30 lg:mt-40"
+				title="Immortalisez votre souvenir en tableau unique"
+				description="Transformez vos photographies en peintures uniques.
+Un souvenir éternel et à votre goût."
+				button-text="Commander votre tableau"
+				button-text-mobile="Commander"
+				target-route="/commande-personnalisee"
+				badge="Nouveauté" />
 		</section>
 	</main>
 </template>
