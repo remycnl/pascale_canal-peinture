@@ -154,7 +154,7 @@ onMounted(() => {
 								:aria-expanded="isInputFocused"
 								aria-autocomplete="list"
 								:aria-controls="suggestions.length > 0 ? 'search-results' : undefined"
-								class="w-full px-3 py-1.5 md:py-2 text-sm text-gray-200 bg-black rounded-full focus:outline-none" />
+								class="w-full px-3 py-1.5 md:py-2 text-sm text-gray-200 bg-black rounded-full focus:outline-none"/>
 						</form>
 						<div
 							v-if="suggestions.length > 0"

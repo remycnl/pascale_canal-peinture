@@ -5,6 +5,7 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
 	compatibilityDate: "2024-04-03",
 	devtools: { enabled: true },
+	ssr: true,
 	css: [
 		"@/assets/css/main.css",
 		"@/assets/css/scrollBar.css",
@@ -13,7 +14,6 @@ export default defineNuxtConfig({
 	],
 	modules: [
 		"@nuxt/image",
-		"@prisma/nuxt",
 		"@nuxtjs/sitemap",
 		"@nuxtjs/robots",
 		"nuxt-schema-org",
@@ -24,6 +24,12 @@ export default defineNuxtConfig({
 	],
 	app: {
 		head: {
+			meta: [
+				{
+					name: "viewport",
+					content: "width=device-width, initial-scale=1.0, user-scalable=no",
+				},
+			],
 			link: [
 				{
 					rel: "preconnect",
@@ -35,17 +41,13 @@ export default defineNuxtConfig({
 	},
 	vite: {
 		plugins: [tailwindcss()],
-		resolve: {
-			alias: {
-				".prisma/client/index-browser":
-					"./node_modules/.prisma/client/index-browser.js",
-			},
+		optimizeDeps: {
+			exclude: ["@prisma/client"],
 		},
 	},
 	nitro: {
 		preset: "vercel",
 		compressPublicAssets: true,
-		moduleSideEffects: ["@prisma/client"],
 		prerender: {
 			crawlLinks: true,
 			routes: ["/"],

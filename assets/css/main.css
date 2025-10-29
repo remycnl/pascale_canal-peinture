@@ -128,6 +128,7 @@ body {
 
 .input {
 	@apply w-full px-4 py-2 border bg-white border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow focus:border-yellow outline-none transition-all;
+	font-size: 16px;
 }
 
 button {
@@ -145,5 +146,25 @@ img {
 	}
 	50% {
 		transform: translateY(-10px);
+	}
+}
+
+/* Empêcher le zoom automatique sur mobile lors du focus des inputs */
+@media screen and (max-width: 1024px) {
+	input[type="text"],
+	input[type="email"], 
+	input[type="number"],
+	input[type="tel"],
+	input[type="password"],
+	input[type="search"],
+	input[type="url"],
+	textarea,
+	select {
+		font-size: 16px !important;
+		transform: translateZ(0);
+		-webkit-appearance: none;
+		appearance: none;
+		-webkit-user-select: text;
+		user-select: text;
 	}
 }
