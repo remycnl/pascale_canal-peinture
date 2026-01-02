@@ -134,7 +134,9 @@ const handleContactClick = () => {
 		</div>
 
 		<!-- Sélection du format (Original ou Poster) -->
-		<section class="mt-10 lg:mt-0">
+		<section
+			v-if="painting.state === 'FOR_SALE' || (painting.posterAvailable && painting.posterSizes && painting.posterSizes.length > 0)"
+			class="mt-10 lg:mt-0">
 			<h2
 				class="text-lg md:text-xl lg:text-3xl font-apercuBold text-black mb-6">
 				Choisir le format
