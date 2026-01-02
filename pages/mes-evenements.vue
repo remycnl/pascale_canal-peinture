@@ -317,7 +317,7 @@ useSchemaOrg([
 					<li
 						v-for="event in displayedEvents"
 						:key="event.id"
-						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden min-h-[320px]"
+						class="group relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl overflow-hidden min-h-80"
 						:class="{ 'bg-yellow': !event.imageUrl }">
 						<NuxtImg
 							v-if="event.imageUrl"
@@ -346,7 +346,7 @@ useSchemaOrg([
 							aria-label="Lieu">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								class="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-gray-700 flex-shrink-0"
+								class="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-gray-700 shrink-0"
 								viewBox="0 0 20 20"
 								fill="currentColor"
 								aria-hidden="true">

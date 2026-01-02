@@ -332,21 +332,23 @@ onBeforeUnmount(() => {
 							}`"
 							:class="[getImageClass(painting.id, index)]"
 							class="block transition-all duration-700">
-							<div class="overflow-hidden relative w-full">
-								<NuxtImg
-									v-if="observedItems && !observedItems.has(painting.id)"
-									:ref="(el) => observeImage(el, painting.id)"
-									:data-painting-id="painting.id"
-									:data-src="painting.image"
-									:src="painting.image"
-									:alt="`Peinture: ${painting.name}`"
-									:title="painting.name"
-									placeholder
-									loading="lazy"
-									quality="50"
-									@load="handleImageLoad(painting.id)"
-									@contextmenu.prevent
-									class="w-full rounded-sm aspect-square object-cover" />
+						<div class="overflow-hidden relative w-full aspect-square">
+							<NuxtImg
+								v-if="observedItems && !observedItems.has(painting.id)"
+								:ref="(el) => observeImage(el, painting.id)"
+								:data-painting-id="painting.id"
+								:data-src="painting.image"
+								:src="painting.image"
+								:alt="`Peinture: ${painting.name}`"
+								:title="painting.name"
+								width="500"
+								height="500"
+								placeholder
+								loading="lazy"
+								quality="50"
+								@load="handleImageLoad(painting.id)"
+								@contextmenu.prevent
+								class="w-full h-full rounded-sm object-cover absolute inset-0" />
 								<div
 									v-if="painting.state === 'OFF_SALE'"
 									class="absolute hidden lg:flex select-none inset-0 items-center justify-center scale-50 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-400"
@@ -374,7 +376,7 @@ onBeforeUnmount(() => {
 									{{ painting.name }}
 								</h2>
 								<div
-									class="text-sm md:text-base lg:text-lg whitespace-nowrap flex-shrink-0">
+									class="text-sm md:text-base lg:text-lg whitespace-nowrap shrink-0">
 									<span v-if="painting.state !== 'OFF_SALE'">
 										{{ painting.price + " €" }}
 									</span>
@@ -420,7 +422,7 @@ onBeforeUnmount(() => {
 							<div
 								class="text-base md:text-lg lg:text-xl font-apercuBold h-6 bg-black/20 rounded w-2/3 animate-pulse"></div>
 							<div
-								class="text-sm md:text-base lg:text-lg whitespace-nowrap flex-shrink-0 h-5 bg-black/20 rounded w-16 animate-pulse"></div>
+								class="text-sm md:text-base lg:text-lg whitespace-nowrap shrink-0 h-5 bg-black/20 rounded w-16 animate-pulse"></div>
 						</div>
 					</div>
 				</article>

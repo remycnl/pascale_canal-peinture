@@ -44,10 +44,10 @@ const props = defineProps({
 			aria-hidden="true"></div>
 
 		<div
-			class="absolute top-6 left-6 right-6 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent"
+			class="absolute top-6 left-6 right-6 h-px bg-linear-to-r from-transparent via-yellow/40 to-transparent"
 			aria-hidden="true"></div>
 		<div
-			class="absolute bottom-6 left-6 right-6 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent"
+			class="absolute bottom-6 left-6 right-6 h-px bg-linear-to-r from-transparent via-yellow/40 to-transparent"
 			aria-hidden="true"></div>
 
 		<div
@@ -79,7 +79,7 @@ const props = defineProps({
 					:aria-label="buttonText"
 					class="button-hover relative px-8 py-4 bg-transparent backdrop-blur-sm border border-yellow/40 hover:border-yellow text-yellow rounded-full font-apercuMedium transition-all active:scale-98 duration-200 ease-in-out overflow-hidden cursor-pointer">
 					<span
-						class="absolute inset-0 w-0 bg-gradient-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out"
+						class="absolute inset-0 w-0 bg-linear-to-r from-yellow/20 to-yellow/10 transition-all duration-500 ease-out"
 						aria-hidden="true"></span>
 					<span class="relative inline-flex items-center">
 						<span class="lg:hidden">{{ buttonTextMobile || buttonText.split(" ")[0] }}</span>

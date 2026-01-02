@@ -39,6 +39,25 @@ html {
 	scroll-behavior: smooth;
 }
 
+/* Prévenir les sauts de scroll lors du chargement des images */
+img,
+picture {
+	display: block;
+}
+
+/* Force les images à maintenir leurs dimensions pendant le chargement */
+img[loading="lazy"],
+img[data-src] {
+	content-visibility: auto;
+}
+
+/* Applique une hauteur minimale aux conteneurs d'images */
+.aspect-square,
+.aspect-video,
+.aspect-auto {
+	contain: layout;
+}
+
 @theme {
 	--color-black: #222222;
 	--color-white: #f8f8f8;

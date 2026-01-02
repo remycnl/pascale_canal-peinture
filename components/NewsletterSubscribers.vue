@@ -4,7 +4,7 @@
 		class="mt-20 md:mt-40 flex flex-col gap-y-10 md:gap-y-30 justify-center items-center">
 		<div class="w-full flex items-center mb-8">
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 			<div class="mx-2 sm:mx-4">
 				<NuxtImg
 					src="/img/logo.png"
@@ -14,7 +14,7 @@
 					class="w-16 sm:w-20 md:w-28 h-auto" />
 			</div>
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 		</div>
 		<div
 			class="w-full rounded-2xl bg-black/10 backdrop-blur-sm p-4 md:p-10 lg:p-20">
@@ -30,7 +30,7 @@
 					>
 					<select
 						v-model="filters.subscriptionType"
-						class="border rounded px-3 py-2 flex-grow">
+						class="border rounded px-3 py-2 grow">
 						<option value="">Tous les types</option>
 						<option value="NEW_ARTWORK">Nouvelles œuvres</option>
 						<option value="EVENTS">Événements</option>
@@ -42,7 +42,7 @@
 					<label class="block text-sm font-apercuMedium mb-1">Statut</label>
 					<select
 						v-model="filters.isActive"
-						class="border rounded px-3 py-2 flex-grow">
+						class="border rounded px-3 py-2 grow">
 						<option value="">Tous les statuts</option>
 						<option :value="true">Actifs</option>
 						<option :value="false">Désabonnés</option>
@@ -57,7 +57,7 @@
 						v-model="filters.search"
 						type="text"
 						placeholder="Rechercher..."
-						class="border rounded px-3 py-2 flex-grow" />
+						class="border rounded px-3 py-2 grow" />
 				</div>
 			</div>
 

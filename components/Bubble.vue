@@ -137,8 +137,8 @@ onMounted(() => {
 					class="w-auto ml-2 md:ml-0 h-6 md:h-7"
 					:class="{ hidden: isMobile && isInputFocused }" />
 				<div
-					class="relative flex justify-between items-center gap-x-2 flex-grow">
-					<div class="relative flex-grow">
+					class="relative flex justify-between items-center gap-x-2 grow">
+					<div class="relative grow">
 						<form role="search" @submit.prevent="navigateToTable">
 							<label for="painting-search" class="sr-only"
 								>Rechercher un tableau</label

@@ -169,7 +169,7 @@ const imageTransitionClasses = {
 				<!-- Loading placeholder -->
 				<div
 					v-if="!imageLoaded"
-					class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center"
+					class="absolute inset-0 bg-linear-to-r from-gray-200 to-gray-300 animate-pulse flex items-center justify-center"
 					aria-hidden="true">
 					<div class="w-16 h-16 text-gray-400">
 						<svg

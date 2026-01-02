@@ -209,7 +209,7 @@ const initializeTextareas = () => {
 		class="mt-20 md:mt-40 flex flex-col gap-y-10 md:gap-y-30 justify-center items-center">
 		<div class="w-full flex items-center mb-8">
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 			<div class="mx-2 sm:mx-4">
 				<NuxtImg
 					src="/img/logo.png"
@@ -219,7 +219,7 @@ const initializeTextareas = () => {
 					class="w-16 sm:w-20 md:w-28 h-auto" />
 			</div>
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 		</div>
 
 		<div
@@ -338,7 +338,7 @@ const initializeTextareas = () => {
 							<!-- Left side - Image preview -->
 							<div class="sm:w-1/4">
 								<div
-									class="relative rounded-xl overflow-hidden aspect-[4/3] bg-gray-100 shadow-md">
+									class="relative rounded-xl overflow-hidden aspect-4/3 bg-gray-100 shadow-md">
 									<NuxtImg
 										v-if="event.imageUrl"
 										:src="event.imageUrl"

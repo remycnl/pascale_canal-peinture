@@ -105,8 +105,10 @@ onMounted(() => {
 					:src="painting.image"
 					:alt="painting.title || 'Peinture de Pascale Canal'"
 					:title="painting.title"
+					width="400"
+					height="400"
 					@contextmenu.prevent
-					class="h-full w-full pointer-events-none select-none object-cover" />
+					class="h-full w-full pointer-events-none select-none object-cover absolute inset-0" />
 				<span class="sr-only">{{ painting.title || "Œuvre" }}</span>
 			</li>
 		</ul>
@@ -125,8 +127,10 @@ onMounted(() => {
 					:src="painting.image"
 					:alt="painting.title || 'Peinture de Pascale Canal'"
 					:title="painting.title"
+					width="400"
+					height="400"
 					@contextmenu.prevent
-					class="h-full w-full pointer-events-none select-none object-cover" />
+					class="h-full w-full pointer-events-none select-none object-cover absolute inset-0" />
 				<span class="sr-only">{{ painting.title || "Œuvre" }}</span>
 			</li>
 		</ul>
@@ -138,15 +142,15 @@ onMounted(() => {
 	mask-image: linear-gradient(
 		to right,
 		transparent,
-		white 20%,
-		white 80%,
+		white 10%,
+		white 90%,
 		transparent
 	);
 	-webkit-mask-image: linear-gradient(
 		to right,
 		transparent,
-		white 20%,
-		white 80%,
+		white 10%,
+		white 90%,
 		transparent
 	);
 }

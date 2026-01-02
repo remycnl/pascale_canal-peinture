@@ -495,7 +495,7 @@
 						class="backdrop-blur-md bg-white/10 rounded-xl p-4 border border-white/30 shadow-lg">
 						<!-- Artwork info -->
 						<div class="flex flex-col sm:flex-row gap-4 mb-4">
-							<div class="w-full sm:w-32 h-32 flex-shrink-0">
+							<div class="w-full sm:w-32 h-32 shrink-0">
 								<NuxtImg
 									:src="artwork.image"
 									:alt="artwork.name"
@@ -634,7 +634,7 @@
 						:key="artwork.id"
 						class="backdrop-blur-md bg-white/10 rounded-xl p-4 border border-white/30 shadow-lg">
 						<div class="flex flex-col sm:flex-row gap-4">
-							<div class="w-full sm:w-24 h-24 flex-shrink-0">
+							<div class="w-full sm:w-24 h-24 shrink-0">
 								<NuxtImg
 									:src="artwork.image"
 									:alt="artwork.name"
@@ -822,7 +822,7 @@
 				v-if="currentStep === getMaxStep()"
 				type="submit"
 				:disabled="submitting"
-				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-gradient-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 disabled:active:scale-100 active:scale-97 hover:shadow-xl hover:scale-102 transition-all duration-200 cursor-pointer">
+				class="ml-auto px-4 sm:px-6 py-2 backdrop-blur-md bg-linear-to-r from-yellow to-white text-black rounded-lg shadow-lg shadow-yellow/30 disabled:active:scale-100 active:scale-97 hover:shadow-xl hover:scale-102 transition-all duration-200 cursor-pointer">
 				{{ submitting ? "Envoi en cours..." : "Envoyer" }}
 			</button>
 		</div>

@@ -1,7 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "~/prisma/generated/client";
 
 const prismaClientSingleton = () => {
-	return new PrismaClient();
+	const pool = new PrismaPg({ connectionString: process.env.NEON_DATABASE_URL! });
+	return new PrismaClient({ adapter: pool });
 };
 
 declare const globalThis: {

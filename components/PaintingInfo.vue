@@ -270,7 +270,7 @@ const handleContactClick = () => {
 														</div>
 													</div>
 													<span
-														class="font-apercuBold text-sm whitespace-nowrap flex-shrink-0">
+														class="font-apercuBold text-sm whitespace-nowrap shrink-0">
 														{{ formatPrice(posterSize.price) }} €
 													</span>
 												</div>

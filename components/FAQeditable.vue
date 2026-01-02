@@ -102,7 +102,7 @@ const initializeTextareas = () => {
 		class="mt-20 md:mt-40 flex flex-col gap-y-10 md:gap-y-30 justify-center items-center">
 		<div class="w-full flex items-center mb-8">
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 			<div class="mx-2 sm:mx-4">
 				<NuxtImg
 					src="/img/logo.png"
@@ -112,7 +112,7 @@ const initializeTextareas = () => {
 					class="w-16 sm:w-20 md:w-28 h-auto" />
 			</div>
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 		</div>
 
 		<div
@@ -244,7 +244,7 @@ const initializeTextareas = () => {
 							v-model="faq.answer"
 							@change="updateFAQData(faq)"
 							@input="autoResize($event.target)"
-							class="w-full px-3 py-2 rounded-2xl text-gray-700 min-h-[80px] overflow-hidden resize-none"
+							class="w-full px-3 py-2 rounded-2xl text-gray-700 min-h-20 overflow-hidden resize-none"
 							placeholder="Saisissez votre réponse"></textarea>
 					</div>
 

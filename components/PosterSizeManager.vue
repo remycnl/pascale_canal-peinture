@@ -162,7 +162,7 @@ onMounted(() => {
 		class="mt-20 md:mt-40 flex flex-col gap-y-10 md:gap-y-30 justify-center items-center">
 		<div class="w-full flex items-center mb-8">
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 			<div class="mx-2 sm:mx-4">
 				<NuxtImg
 					src="/img/logo.png"
@@ -172,7 +172,7 @@ onMounted(() => {
 					class="w-16 sm:w-20 md:w-28 h-auto" />
 			</div>
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
 		</div>
 		<div class="w-full max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
 			<div class="bg-black text-white p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center">

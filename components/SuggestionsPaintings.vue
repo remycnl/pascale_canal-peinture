@@ -66,7 +66,7 @@ onUnmounted(() => {
 	<section aria-labelledby="suggestions-heading">
 		<div class="w-full flex items-center my-15 md:my-20 lg:my-30 2xl:my-40">
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"
 				aria-hidden="true"></div>
 			<div class="mx-2 sm:mx-4">
 				<NuxtImg
@@ -77,7 +77,7 @@ onUnmounted(() => {
 					class="w-10 sm:w-15 md:w-20 h-auto" />
 			</div>
 			<div
-				class="flex-grow h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent"
+				class="grow h-0.5 bg-linear-to-r from-transparent via-gray-300 to-transparent"
 				aria-hidden="true"></div>
 		</div>
 		<h2
@@ -118,17 +118,19 @@ onUnmounted(() => {
 					:to="`/${painting.slug}`"
 					:aria-label="`Découvrir ${painting.name} - ${painting.price}€`"
 					class="group relative block overflow-hidden rounded-xl md:rounded-2xl active:scale-98 transition-transform duration-200 cursor-pointer">
-					<div class="aspect-square overflow-hidden">
+					<div class="aspect-square overflow-hidden relative">
 						<NuxtImg
 							:src="painting.image"
 							:alt="painting.name"
 							:title="`${painting.name} - ${painting.price}€`"
+							width="400"
+							height="400"
 							quality="50"
 							loading="lazy"
 							@contextmenu.prevent
-							class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:filter group-hover:grayscale" />
+							class="w-full h-full object-cover absolute inset-0 transition-all duration-500 group-hover:scale-105 group-hover:filter group-hover:grayscale" />
 						<div
-							class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+							class="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
 							aria-hidden="true"></div>
 					</div>
 					<div

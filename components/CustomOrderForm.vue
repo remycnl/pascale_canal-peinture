@@ -403,7 +403,7 @@ const submitForm = async () => {
 					<ol class="space-y-6 md:space-y-8 text-lg md:text-2xl">
 						<li class="flex gap-4 md:gap-6">
 							<span
-								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose shrink-0"
 								aria-hidden="true"
 								>1</span
 							>
@@ -411,7 +411,7 @@ const submitForm = async () => {
 						</li>
 						<li class="flex gap-4 md:gap-6">
 							<span
-								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose shrink-0"
 								aria-hidden="true"
 								>2</span
 							>
@@ -422,7 +422,7 @@ const submitForm = async () => {
 						</li>
 						<li class="flex gap-4 md:gap-6">
 							<span
-								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose shrink-0"
 								aria-hidden="true"
 								>3</span
 							>
@@ -432,7 +432,7 @@ const submitForm = async () => {
 						</li>
 						<li class="flex gap-4 md:gap-6">
 							<span
-								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose flex-shrink-0"
+								class="inline-block bg-white/10 h-10 w-10 md:h-12 md:w-12 rounded-full text-center leading-loose shrink-0"
 								aria-hidden="true"
 								>4</span
 							>

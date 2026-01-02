@@ -36,7 +36,7 @@ onMounted(() => {
 
 <template>
 	<div
-		class="fixed inset-0 backdrop-blur-md w-screen h-screen z-[9999] flex items-start md:items-center justify-center">
+		class="fixed inset-0 backdrop-blur-md w-screen h-screen z-9999 flex items-start md:items-center justify-center">
 		<!-- Backdrop avec flou -->
 		<div class="absolute inset-0 bg-black/70" @click="emit('close')"></div>
 
@@ -97,9 +97,9 @@ onMounted(() => {
 				</span>
 			</p>
 
-			<div class="relative flex-grow overflow-auto">
+			<div class="relative grow overflow-auto">
 				<div
-					class="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"
+					class="sticky top-0 left-0 right-0 h-8 bg-linear-to-b from-black to-transparent z-10 pointer-events-none"
 					aria-hidden="true"></div>
 
 				<p class="mb-6 max-w-5xl text-gray-400 md:hidden">
@@ -122,7 +122,7 @@ onMounted(() => {
 					@form-loaded="emit('form-loaded')" />
 
 				<div
-					class="sticky bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"
+					class="sticky bottom-0 left-0 right-0 h-8 bg-linear-to-t from-black to-transparent pointer-events-none"
 					aria-hidden="true"></div>
 			</div>
 		</div>

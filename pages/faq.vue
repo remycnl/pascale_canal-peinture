@@ -168,7 +168,7 @@ useSchemaOrg([
 				<!-- Question Card - Design moderne avec glass effect -->
 				<div class="relative overflow-hidden bg-white border border-gray-200 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1">
 					<!-- Gradient subtil en background -->
-					<div class="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-gray-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute inset-0 bg-linear-to-br from-black/5 via-transparent to-gray-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 					
 					<button
 						@click="toggleFAQ(faq)"
@@ -178,7 +178,7 @@ useSchemaOrg([
 						
 						<!-- Question avec numérotation -->
 						<div class="flex items-start gap-4 w-full">
-							<span class="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-black text-white rounded-full flex items-center justify-center text-sm md:text-base font-apercuBold transition-all duration-300 group-hover:scale-110">
+							<span class="shrink-0 w-8 h-8 md:w-10 md:h-10 bg-black text-white rounded-full flex items-center justify-center text-sm md:text-base font-apercuBold transition-all duration-300 group-hover:scale-110">
 								{{ index + 1 }}
 							</span>
 							<h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl font-apercuBold text-gray-900 leading-tight" itemprop="name">
@@ -187,7 +187,7 @@ useSchemaOrg([
 						</div>
 						
 						<!-- Icône animée -->
-						<div class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gray-100 group-hover:bg-black group-hover:text-white transition-all duration-300 flex items-center justify-center">
+						<div class="shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gray-100 group-hover:bg-black group-hover:text-white transition-all duration-300 flex items-center justify-center">
 							<svg
 								:class="{ 'rotate-180': faq.isOpen }"
 								class="w-6 h-6 md:w-7 md:h-7 transition-all duration-300"
@@ -217,7 +217,7 @@ useSchemaOrg([
 					itemprop="acceptedAnswer"
 					itemscope
 					itemtype="https://schema.org/Answer">
-					<div class="bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 shadow-sm"
+					<div class="bg-linear-to-br from-gray-50 to-white border border-gray-100 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 shadow-sm"
 						 itemprop="text">
 						<div class="prose prose-xl max-w-none text-gray-700 leading-relaxed text-lg md:text-xl lg:text-2xl">
 							{{ faq.answer }}
@@ -308,7 +308,7 @@ useSchemaOrg([
 }
 
 /* Animation du gradient de texte */
-.bg-gradient-to-r {
+.bg-linear-to-r {
 	background-size: 200% 200%;
 	animation: gradientShift 3s ease infinite;
 }
