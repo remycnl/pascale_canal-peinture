@@ -3,12 +3,12 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "npx prisma generate && nuxt build",
+		"build": "pnpm prisma generate && nuxt build",
 		"dev": "nuxt dev",
-		"generate": "npx prisma generate && nuxt generate",
+		"generate": "pnpm prisma generate && nuxt generate",
 		"preview": "nuxt preview",
-		"postinstall": "npx prisma generate && nuxt prepare",
-		"clean": "rimraf .nuxt dist node_modules package-lock.json",
+		"postinstall": "pnpm prisma generate && nuxt prepare",
+		"clean": "rimraf .nuxt dist node_modules pnpm-lock.yaml",
 		"prisma:generate": "prisma generate",
 		"prisma:studio": "prisma studio",
 		"prisma:deploy": "prisma migrate deploy"
